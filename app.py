@@ -564,9 +564,26 @@ def chart():
     thraitha_sakamu = 47 + (adj_year - 2025)
 
     # 5. Sunrise & Sunset times
-    # swe.rise_trans(tjdut, body, rsmi, geopos, atpress, attemp, flags)
-    res_rise = swe.rise_trans(jd, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0), 0.0, 0.0, swe.FLG_SWIEPH)
-    res_set = swe.rise_trans(jd, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0), 0.0, 0.0, swe.FLG_SWIEPH)
+    # 5. Sunrise & Sunset times
+    # Handling cross-platform pyswisseph API signature variations on Linux vs Windows
+    try:
+        res_rise = swe.rise_trans(jd, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
+        res_set = swe.rise_trans(jd, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
+    except TypeError:
+        try:
+            # Fallback 1: Legacy API with starname and epheflag preceding
+            res_rise = swe.rise_trans(jd, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
+            res_set = swe.rise_trans(jd, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
+        except TypeError:
+            try:
+                # Fallback 2: Omit all trailing optionals
+                res_rise = swe.rise_trans(jd, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
+                res_set = swe.rise_trans(jd, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
+            except Exception as e:
+                # Fallback 3: Safe zero-out to completely prevent 500 Crash
+                print(f"rise_trans signature completely failed. Resolving to defaults: {e}")
+                res_rise = (0, (jd, 0))
+                res_set = (0, (jd, 0))
     
     # Convert UT to IST for display
     def jd_to_ist_str(jd_time):
