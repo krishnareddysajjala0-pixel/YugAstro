@@ -288,14 +288,17 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna=""):
         for planet, months in ANTHARA_MONTHS[maha_name]:
             anthara_end = add_months(anthara_start, months)
             
+            is_favorable = is_dasa_favorable(lagna, planet)
+            color = "#22c55e" if is_favorable else "#ef4444"
+            
             antharas.append({
                 "anthara": planet,
                 "start": anthara_start.strftime("%d-%m-%Y"),
                 "end": anthara_end.strftime("%d-%m-%Y"),
                 "months": months,
-                "color": PLANET_COLORS.get(planet, "#666666"),
+                "color": color,
                 "icon": PLANET_ICONS.get(planet, "•"),
-                "is_favorable": is_dasa_favorable(lagna, planet)
+                "is_favorable": is_favorable
             })
             anthara_start = anthara_end
     
@@ -865,12 +868,12 @@ def chart2():
         # Check if this is the birth dasa
         is_birth_dasa = (i == 0)
         
-        # Add color and icon to dasa
-        dasa_color = PLANET_COLORS.get(dasa_name, "#666666")
-        dasa_icon = PLANET_ICONS.get(dasa_name, "•")
-        
         # Determine favorability for full Mahadasa
         is_maha_favorable = is_dasa_favorable(lagna, dasa_name)
+        
+        # Add color and icon to dasa
+        dasa_color = "#22c55e" if is_maha_favorable else "#ef4444"
+        dasa_icon = PLANET_ICONS.get(dasa_name, "•")
         
         # Add this Mahadasha to list
         all_dasas.append({
