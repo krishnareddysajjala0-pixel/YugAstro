@@ -171,12 +171,12 @@ ANTHARA_MONTHS = {
 
 # ---------------- PLANET COLORS FOR VISUALIZATION ----------------
 PLANET_COLORS = {
-    "సూర్య": "#FFD700",  # Gold
-    "చంద్ర": "#F0F8FF",  # Alice Blue
-    "కుజ": "#FF4500",    # Orange Red
-    "బుధ": "#32CD32",    # Lime Green
+    "సూర్య": "#FFD700",  "సూర్యుడు": "#FFD700",  # Gold
+    "చంద్ర": "#F0F8FF",  "చంద్రుడు": "#F0F8FF",  # Alice Blue
+    "కుజ": "#FF4500",    "కుజుడు": "#FF4500",    # Orange Red
+    "బుధ": "#32CD32",    "బుధుడు": "#32CD32",    # Lime Green
     "గురు": "#FFA500",   # Orange
-    "శుక్ర": "#FF69B4",  # Hot Pink
+    "శుక్ర": "#FF69B4",  "శుక్రుడు": "#FF69B4",  # Hot Pink
     "శని": "#696969",    # Dim Gray
     "రాహు": "#8B4513",   # Saddle Brown
     "కేతు": "#2F4F4F",   # Dark Slate Gray
@@ -678,7 +678,18 @@ def chart():
         p_padam = int(p_nak_offset / PADAM_SIZE) + 1
         
         strength_pct = int(((longt % 30) / 30) * 100)
-        color = PLANET_COLORS.get(n, "#ffffff")
+        
+        # Check favorability using exact logic from birth chart
+        green_planets = ["సూర్యుడు", "భూమి", "కుజుడు", "గురు", "కేతు", "చంద్రుడు"]
+        # Favorable for Guru Lagnas, otherwise Sani Lagnas
+        positive_lagnas = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
+        
+        is_green = any(p in n for p in green_planets)
+        
+        if lagna in positive_lagnas:
+            color = "#22c55e" if is_green else "#ef4444"
+        else:
+            color = "#ef4444" if is_green else "#22c55e"
         
         planet_positions.append({
             "name": n,
