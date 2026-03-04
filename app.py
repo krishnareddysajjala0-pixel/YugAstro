@@ -586,37 +586,31 @@ def chart():
         utc_midnight.hour + utc_midnight.minute/60 + utc_midnight.second/3600
     )
 
-    # Handling cross-platform pyswisseph API signature variations on Linux vs Windows
-    try:
-        # Default with SWIEPH
-        res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
-        res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
-    except Exception:
-        try:
-            # Fallback 1: Try with Moshier ephemeris (no external files required)
-            res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_MOSEPH)
-            res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_MOSEPH)
-        except Exception:
-            try:
-                # Fallback 2: Omit all trailing optionals (older Linux pyswisseph signatures)
-                res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
-                res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
-            except Exception as e:
-                print(f"rise_trans final fallback failed: {e}")
-                res_rise = (0, (jd_midnight, 0))
-                res_set = (0, (jd_midnight, 0))
+    # 5. Sunrise & Sunset times
+    # Get local midnight to ensure sunrise/sunset are calculated for the birthday itself
+    local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
     
-    # Convert UT to Local Time for display
-    def jd_to_local_str(jd_time):
-        year, month, day, hour_float = swe.revjul(jd_time)
-        dt_ut = datetime.datetime(year, month, day, int(hour_float), int((hour_float % 1)*60))
-        ut_zone = pytz.timezone("UTC")
-        dt_ut = ut_zone.localize(dt_ut)
-        dt_local = dt_ut.astimezone(local_tz)
-        return dt_local.strftime("%I:%M %p")
-
-    suryodayam = jd_to_local_str(res_rise[1][0])
-    suryastamayam = jd_to_local_str(res_set[1][0])
+    # Using Astral for robust sunrise and sunset calculations instead of PySwisseph 
+    # to avoid errors on platforms where Ephemeris files are missing (like Render).
+    from astral import LocationInfo
+    from astral.sun import sun
+    
+    loc = LocationInfo("Local", "Region", timezone_str, lat, lon)
+    
+    try:
+        s = sun(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
+        res_riseUTC = s["sunrise"]
+        res_setUTC = s["sunset"]
+        
+        # Convert Astral's timezone-aware response directly to the requested format
+        suryodayam = res_riseUTC.strftime("%I:%M %p")
+        suryastamayam = res_setUTC.strftime("%I:%M %p")
+    except Exception as e:
+        print(f"Astral Sun Calculation Failed: {e}")
+        suryodayam = "06:00 AM"
+        suryastamayam = "06:00 PM"
+    
+    # Astral has already given us formatted 'suryodayam' and 'suryastamayam'
 
     # 6. Ayanam, Rutuvu, & Telugu Masam
     # Ayanam: Sun between 270 (Capricorn) and 90 (Cancer) is Uttarayana
