@@ -228,7 +228,7 @@ SANI_PARTY_LAGNAS = ["వృషభం", "మిథునం", "కన్య", "�
 # Favorable planets for each party
 # Note: Rahu & Ketu act depending on house, but standardly align with the party or act as neutral.
 # We map standard party friends for the "అనుకూలము (Favorable)" label
-GURU_PARTY_PLANETS = ["సూర్య", "చంద్ర", "కుజ", "గురు", "కేతు"] 
+GURU_PARTY_PLANETS = ["సూర్య", "చంద్ర", "కుజ", "గురు", "కేతు", "భూమి"] 
 SANI_PARTY_PLANETS = ["శని", "బుధ", "శుక్ర", "రాహు", "మిత్ర", "చిత్ర"]
 
 # ---------------- DASA HELPER FUNCTIONS ----------------
@@ -565,25 +565,33 @@ def chart():
 
     # 5. Sunrise & Sunset times
     # 5. Sunrise & Sunset times
+    # Get local midnight to ensure sunrise/sunset are calculated for the birthday itself
+    local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    utc_midnight = local_midnight.astimezone(pytz.utc)
+    jd_midnight = swe.julday(
+        utc_midnight.year, utc_midnight.month, utc_midnight.day,
+        utc_midnight.hour + utc_midnight.minute/60 + utc_midnight.second/3600
+    )
+
     # Handling cross-platform pyswisseph API signature variations on Linux vs Windows
     try:
-        res_rise = swe.rise_trans(jd, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
-        res_set = swe.rise_trans(jd, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
+        res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
+        res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
     except TypeError:
         try:
             # Fallback 1: Legacy API with starname and epheflag preceding
-            res_rise = swe.rise_trans(jd, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
-            res_set = swe.rise_trans(jd, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
+            res_rise = swe.rise_trans(jd_midnight, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
+            res_set = swe.rise_trans(jd_midnight, swe.SUN, "", swe.FLG_SWIEPH, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0)
         except TypeError:
             try:
                 # Fallback 2: Omit all trailing optionals
-                res_rise = swe.rise_trans(jd, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
-                res_set = swe.rise_trans(jd, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
+                res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
+                res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
             except Exception as e:
                 # Fallback 3: Safe zero-out to completely prevent 500 Crash
                 print(f"rise_trans signature completely failed. Resolving to defaults: {e}")
-                res_rise = (0, (jd, 0))
-                res_set = (0, (jd, 0))
+                res_rise = (0, (jd_midnight, 0))
+                res_set = (0, (jd_midnight, 0))
     
     # Convert UT to IST for display
     def jd_to_ist_str(jd_time):
