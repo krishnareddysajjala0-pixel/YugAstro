@@ -359,9 +359,19 @@ def chart():
     day_eng = datetime.datetime.strptime(dob, "%Y-%m-%d").strftime("%A")
     day_name = DAY_TELUGU.get(day_eng, day_eng)
 
-    # Time: IST → UTC
-    ist = pytz.timezone("Asia/Kolkata")
-    local_dt = ist.localize(
+    # Determine Timezone based on Latitude and Longitude
+    try:
+        from timezonefinder import TimezoneFinder
+        tf = TimezoneFinder()
+        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon)
+        if not timezone_str:
+            timezone_str = "Asia/Kolkata"
+    except ImportError:
+        timezone_str = "Asia/Kolkata"
+
+    # Time: Local Time → UTC
+    local_tz = pytz.timezone(timezone_str)
+    local_dt = local_tz.localize(
         datetime.datetime.strptime(dob+" "+tob,"%Y-%m-%d %H:%M")
     )
     utc_dt = local_dt.astimezone(pytz.utc)
@@ -593,17 +603,17 @@ def chart():
                 res_rise = (0, (jd_midnight, 0))
                 res_set = (0, (jd_midnight, 0))
     
-    # Convert UT to IST for display
-    def jd_to_ist_str(jd_time):
+    # Convert UT to Local Time for display
+    def jd_to_local_str(jd_time):
         year, month, day, hour_float = swe.revjul(jd_time)
         dt_ut = datetime.datetime(year, month, day, int(hour_float), int((hour_float % 1)*60))
         ut_zone = pytz.timezone("UTC")
         dt_ut = ut_zone.localize(dt_ut)
-        dt_ist = dt_ut.astimezone(pytz.timezone("Asia/Kolkata"))
-        return dt_ist.strftime("%I:%M %p")
+        dt_local = dt_ut.astimezone(local_tz)
+        return dt_local.strftime("%I:%M %p")
 
-    suryodayam = jd_to_ist_str(res_rise[1][0])
-    suryastamayam = jd_to_ist_str(res_set[1][0])
+    suryodayam = jd_to_local_str(res_rise[1][0])
+    suryastamayam = jd_to_local_str(res_set[1][0])
 
     # 6. Ayanam, Rutuvu, & Telugu Masam
     # Ayanam: Sun between 270 (Capricorn) and 90 (Cancer) is Uttarayana
@@ -652,7 +662,7 @@ def chart():
     def format_jd(jd_time):
         y, m_dt, d, h = swe.revjul(jd_time)
         dt_val = datetime.datetime(y, m_dt, d, int(h), int((h%1)*60))
-        dt_val = pytz.utc.localize(dt_val).astimezone(pytz.timezone('Asia/Kolkata'))
+        dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
         en_month = dt_val.strftime("%B").lower()
         te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
         return f"{te_month}-{d:02d}"
@@ -672,12 +682,18 @@ def chart():
         p_nak_offset = longt - (p_nak_idx * NAKSHATRA_SIZE)
         p_padam = int(p_nak_offset / PADAM_SIZE) + 1
         
+        strength_pct = int(((longt % 30) / 30) * 100)
+        is_favorable = is_dasa_favorable(lagna, n)
+        color = "#4ade80" if is_favorable else "#ff6b6b"
+        
         planet_positions.append({
             "name": n,
             "rasi": r,
             "degree": f"{d}°{m:02d}′",
             "nakshatra": p_nak_name,
-            "padam": p_padam
+            "padam": p_padam,
+            "strength": strength_pct,
+            "color": color
         })
 
 
@@ -689,6 +705,7 @@ def chart():
         'place': place,
         'lat': lat,
         'lon': lon,
+        'timezone_str': timezone_str,
         'day_name': day_name,
         'nakshatra': nakshatra,
         'padam': padam,
@@ -784,9 +801,10 @@ def chart2():
     padam = birth_info.get('padam', 1)
 
     # Parse birth datetime
-    ist = pytz.timezone("Asia/Kolkata")
+    timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
+    local_tz = pytz.timezone(timezone_str)
     try:
-        birth_dt = ist.localize(
+        birth_dt = local_tz.localize(
             datetime.datetime.strptime(dob + " " + tob, "%Y-%m-%d %H:%M")
         )
     except ValueError:

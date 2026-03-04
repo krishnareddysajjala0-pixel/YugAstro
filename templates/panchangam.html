@@ -441,15 +441,17 @@
                         <th>రాశి (Lagnam)</th>
                         <th>డిగ్రీలు</th>
                         <th>నక్షత్రం వివరాలు (Nakshatra)</th>
+                        <th>బలం (Strength)</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for p in planet_positions %}
                     <tr>
-                        <td class="planet-name-cell">{{ p.name }}</td>
+                        <td class="planet-name-cell" style="color: {{ p.color }};">{{ p.name }}</td>
                         <td>{{ p.rasi }}</td>
                         <td>{{ p.degree }}</td>
                         <td>{{ p.nakshatra }} ({{ p.padam }}వ పాదం)</td>
+                        <td style="color: {{ p.color }}; font-weight: bold;">{{ p.strength }}%</td>
                     </tr>
                     {% endfor %}
                 </tbody>
