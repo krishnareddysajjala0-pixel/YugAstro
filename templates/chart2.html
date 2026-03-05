@@ -1116,6 +1116,10 @@
                         </div>
                         <div class="maha-dasa-period">
                             {{ dasa.start }} నుండి {{ dasa.end }} వరకు
+                            <br>
+                            <span style="font-size: 13px; color: #a0a0ff;">
+                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
+                            </span>
                         </div>
                     </div>
                     <div class="maha-dasa-badges">
@@ -1184,9 +1188,16 @@
                                                 {% endif %}
                                             </div>
                                         </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">{{ a.start }}
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.start }}
+                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                                a.age_start }}</div>
                                         </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">{{ a.end }}</td>
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.end }}
+                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                                a.age_end }}</div>
+                                        </td>
                                         <td>
                                             <span class="status-badge {{ badge_class }}">
                                                 {{ status }}
@@ -1277,6 +1288,10 @@
         <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
             onclick="window.location.href='/panchangam'">
             <i class="fas fa-calendar-day"></i> పంచాంగం
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
+            onclick="window.location.href='/results'">
+            <i class="fas fa-chart-line"></i> ఫలితాలు
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);"
             onclick="goToCorrection()">

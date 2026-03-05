@@ -279,7 +279,7 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
     except:
         return False
 
-def calculate_anthara_periods(maha_name, start_date, end_date, lagna=""):
+def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):
     """Calculate anthara periods for a given Mahadasha"""
     antharas = []
     anthara_start = start_date
@@ -291,6 +291,22 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna=""):
             is_favorable = is_dasa_favorable(lagna, planet)
             color = "#22c55e" if is_favorable else "#ef4444"
             
+            
+            age_start_str = ""
+            age_end_str = ""
+            if birth_dt:
+                age_start_days = (anthara_start - birth_dt).days
+                if age_start_days >= 0:
+                    age_start_y = age_start_days // 365
+                    age_start_m = (age_start_days % 365) // 30
+                    age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+                
+                age_end_days = (anthara_end - birth_dt).days
+                if age_end_days >= 0:
+                    age_end_y = age_end_days // 365
+                    age_end_m = (age_end_days % 365) // 30
+                    age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
+
             antharas.append({
                 "anthara": planet,
                 "start": anthara_start.strftime("%d-%m-%Y"),
@@ -298,7 +314,9 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna=""):
                 "months": months,
                 "color": color,
                 "icon": PLANET_ICONS.get(planet, "•"),
-                "is_favorable": is_favorable
+                "is_favorable": is_favorable,
+                "age_start": age_start_str,
+                "age_end": age_end_str
             })
             anthara_start = anthara_end
     
@@ -886,7 +904,7 @@ def chart2():
         end_str = end_date.strftime("%d-%m-%Y")
         
         # Calculate Anthara dasas for this Mahadasha
-        antharas = calculate_anthara_periods(dasa_name, start_date, end_date, lagna)
+        antharas = calculate_anthara_periods(dasa_name, start_date, end_date, lagna, birth_dt.replace(tzinfo=None) if birth_dt else None)
         
         # Check if TODAY is within this dasa
         is_current_today = is_date_within_range(today_str, start_str, end_str)
@@ -901,6 +919,24 @@ def chart2():
         dasa_color = "#22c55e" if is_maha_favorable else "#ef4444"
         dasa_icon = PLANET_ICONS.get(dasa_name, "•")
         
+        
+        # Calculate Age
+        age_start_str = ""
+        age_end_str = ""
+        birth_no_tz = birth_dt.replace(tzinfo=None)
+        
+        age_start_days = (start_date - birth_no_tz).days
+        if age_start_days >= 0:
+            age_start_y = age_start_days // 365
+            age_start_m = (age_start_days % 365) // 30
+            age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+            
+        age_end_days = (end_date - birth_no_tz).days
+        if age_end_days >= 0:
+            age_end_y = age_end_days // 365
+            age_end_m = (age_end_days % 365) // 30
+            age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
+
         # Add this Mahadasha to list
         all_dasas.append({
             "maha": dasa_name,
@@ -912,7 +948,9 @@ def chart2():
             "is_birth_dasa": is_birth_dasa,
             "color": dasa_color,
             "icon": dasa_icon,
-            "is_favorable": is_maha_favorable
+            "is_favorable": is_maha_favorable,
+            "age_start": age_start_str,
+            "age_end": age_end_str
         })
         
         # If this is current dasa, store its info
