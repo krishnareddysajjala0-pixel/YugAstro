@@ -832,8 +832,10 @@
                     </div>
 
                     <!-- Reset Data Section -->
-                    <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center;">
-                        <button type="button" class="btn" onclick="resetUserData()" style="background: linear-gradient(135deg, #450a0a, #7f1d1d); color: #fecaca; min-width: 150px; font-size: 12px; opacity: 0.8;">
+                    <div
+                        style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center;">
+                        <button type="button" class="btn" onclick="resetUserData()"
+                            style="background: linear-gradient(135deg, #450a0a, #7f1d1d); color: #fecaca; min-width: 150px; font-size: 12px; opacity: 0.8;">
                             <i class="fas fa-trash-alt"></i> మొత్తం డేటాను రీసెట్ చేయండి
                         </button>
                         <p style="font-size: 11px; color: #94a3b8; margin-top: 8px;">(పాస్‌వర్డ్ అవసరం)</p>
@@ -845,21 +847,21 @@
     </div>
 
     <!-- Floating Bottom Action Bar -->
-    <div class="fixed-bottom-bar" id="action-bar">
+    <div class="fixed-bottom-bar" id="action-bar" style="z-index: 999999;">
         <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
-            onclick="window.location.href='/'">
+            onclick="navigateTo('/')">
             <i class="fas fa-home"></i> హోమ్
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
-            onclick="window.location.href='/go-to-birth-chart'">
+            onclick="navigateTo('/go-to-birth-chart')">
             <i class="fas fa-arrow-left"></i> కుండలికి
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
-            onclick="window.location.href='/go-to-dasha-chart'">
+            onclick="navigateTo('/go-to-dasha-chart')">
             <i class="fas fa-calendar-alt"></i> దశాచార
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
-            onclick="window.location.href='/panchangam'">
+            onclick="navigateTo('/panchangam')">
             <i class="fas fa-calendar-day"></i> పంచాంగం
         </button>
     </div>
@@ -1019,35 +1021,41 @@
         // Reset user data logic
         function resetUserData() {
             const password = prompt("డేటాను రీసెట్ చేయడానికి పాస్‌వర్డ్ నమోదు చేయండి:");
-            
+
             if (password === null) return; // Cancelled
-            
+
             if (password === "USHA") {
                 if (confirm("మీరు నిజంగా మొత్తం యూజర్ డేటాను తొలగించాలనుకుంటున్నారా? ఇది వెనక్కి తీసుకోలేము.")) {
                     const formData = new FormData();
                     formData.append('password', password);
-                    
+
                     fetch('/reset_user_data', {
                         method: 'POST',
                         body: formData
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            alert(data.message);
-                            window.location.href = '/';
-                        } else {
-                            alert('లోపం: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('సర్వర్ ఎర్రర్ సంభవించింది.');
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert(data.message);
+                                window.location.href = '/';
+                            } else {
+                                alert('లోపం: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('సర్వర్ ఎర్రర్ సంభవించింది.');
+                        });
                 }
             } else {
                 alert("తప్పు పాస్‌వర్డ్!");
             }
+        }
+
+        // Navigation helper
+        function navigateTo(url) {
+            console.log('Navigating to:', url);
+            window.location.href = url;
         }
 
         // Keyboard shortcuts
@@ -1059,7 +1067,7 @@
 
             // Escape to go back
             if (e.key === 'Escape') {
-                window.history.back();
+                window.location.href = '/go-to-birth-chart';
             }
         });
     </script>
