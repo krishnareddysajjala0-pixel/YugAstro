@@ -1687,31 +1687,31 @@ def manual_nakshatra():
     padam = int((elapsed_minutes / (24*60)) * 4) + 1
     padam = max(1, min(padam, 4))
     
-    # Store in session
-    session['birth_info'] = {
+    # Receive lat/lon
+    lat = request.form.get("lat")
+    lon = request.form.get("lon")
+    
+    # Store in session - Preserve existing data!
+    birth_info = session.get('birth_info', {})
+    birth_info.update({
         'name': name,
         'dob': dob,
         'tob': tob,
         'place': place,
-        'day_name': session.get('birth_info', {}).get('day_name', ''),
         'nakshatra': manual_nakshatra_name,
         'padam': padam,
         'nak_elapsed': nak_elapsed,
         'nak_remaining': nak_remaining,
         'nak_index': nak_index,
         'elapsed_h': manual_h,
-        'elapsed_m': manual_m,
-        'lagna': session.get('birth_info', {}).get('lagna', ''),
-        'lagna_deg': session.get('birth_info', {}).get('lagna_deg', ''),
-        'tithi_paksha': session.get('birth_info', {}).get('tithi_paksha', ''),
-        'tithi_name': session.get('birth_info', {}).get('tithi_name', ''),
-        'yoga_name': session.get('birth_info', {}).get('yoga_name', ''),
-        'karana_name': session.get('birth_info', {}).get('karana_name', ''),
-        'telugu_year': session.get('birth_info', {}).get('telugu_year', ''),
-        'suryodayam': session.get('birth_info', {}).get('suryodayam', ''),
-        'suryastamayam': session.get('birth_info', {}).get('suryastamayam', ''),
-        'planet_positions': session.get('birth_info', {}).get('planet_positions', [])
-    }
+        'elapsed_m': manual_m
+    })
+    
+    # If lat/lon provided, update them too
+    if lat: birth_info['lat'] = lat
+    if lon: birth_info['lon'] = lon
+    
+    session['birth_info'] = birth_info
     
     return render_template(
         "manual_correction.html",
@@ -1719,6 +1719,8 @@ def manual_nakshatra():
         tob=tob,
         name=name,
         place=place,
+        lat=lat or birth_info.get('lat', ''),
+        lon=lon or birth_info.get('lon', ''),
         auto_nakshatra=NAKSHATRAS_TELUGU[auto_nak_index] if auto_nak_index < len(NAKSHATRAS_TELUGU) else "",
         auto_elapsed_h=auto_elapsed_h,
         auto_elapsed_m=auto_elapsed_m,
