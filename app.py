@@ -1735,27 +1735,6 @@ def manual_nakshatra():
         all_nakshatras=NAKSHATRAS_TELUGU
     )
 
-@app.route("/reset_user_data", methods=["POST"])
-def reset_user_data():
-    """Reset the user_data.txt file if password is correct"""
-    password = request.form.get("password")
-    if password == "USHA":
-        try:
-            log_file = "user_data.txt"
-            # Truncate the file
-            with open(log_file, "w", encoding="utf-8") as f:
-                f.write("")
-            
-            # Git push to keep GitHub in sync
-            subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
-            subprocess.run(f'"{GIT_PATH}" commit -m "Reset user data log"', check=True, capture_output=True, text=True, shell=True)
-            subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True)
-            
-            return jsonify({"status": "success", "message": "Data reset successfully!"})
-        except Exception as e:
-            return jsonify({"status": "error", "message": str(e)})
-    else:
-        return jsonify({"status": "error", "message": "Invalid password!"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
