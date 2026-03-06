@@ -1627,29 +1627,39 @@ def check_birth_data():
 @app.route("/manual_nakshatra", methods=["POST"])
 def manual_nakshatra():
     """Route for manual nakshatra correction"""
-    # Get data from form
+    # Get basic info
     dob = request.form.get("dob", "")
     tob = request.form.get("tob", "")
     name = request.form.get("name", "")
     place = request.form.get("place", "")
     
     # Get auto-calculated values
-    auto_nak_index = int(request.form.get("nak_index", 0))
-    auto_elapsed_h = int(request.form.get("elapsed_h", 0))
-    auto_elapsed_m = int(request.form.get("elapsed_m", 0))
-    
-    # Get manual correction values
-    manual_nakshatra_name = request.form.get("manual_nakshatra", "")
-    manual_elapsed_h = request.form.get("manual_elapsed_h", "0")
-    manual_elapsed_m = request.form.get("manual_elapsed_m", "0")
-    
-    # Convert manual values
     try:
-        manual_h = int(manual_elapsed_h) if manual_elapsed_h else 0
-        manual_m = int(manual_elapsed_m) if manual_elapsed_m else 0
-    except:
-        manual_h = 0
-        manual_m = 0
+        auto_nak_index = int(request.form.get("nak_index", 0))
+        auto_elapsed_h = int(request.form.get("elapsed_h", 0))
+        auto_elapsed_m = int(request.form.get("elapsed_m", 0))
+    except (ValueError, TypeError):
+        auto_nak_index = 0
+        auto_elapsed_h = 0
+        auto_elapsed_m = 0
+    
+    # Get manual correction values - if not present, use auto values
+    manual_nakshatra_name = request.form.get("manual_nakshatra")
+    raw_manual_h = request.form.get("manual_elapsed_h")
+    raw_manual_m = request.form.get("manual_elapsed_m")
+    
+    # If this is the FIRST time entering (no manual values yet), pre-fill with auto values
+    if manual_nakshatra_name is None:
+        manual_nakshatra_name = NAKSHATRAS_TELUGU[auto_nak_index] if auto_nak_index < len(NAKSHATRAS_TELUGU) else ""
+        manual_h = auto_elapsed_h
+        manual_m = auto_elapsed_m
+    else:
+        try:
+            manual_h = int(raw_manual_h) if raw_manual_h else 0
+            manual_m = int(raw_manual_m) if raw_manual_m else 0
+        except:
+            manual_h = 0
+            manual_m = 0
     
     # Calculate remaining time (total 24 hours)
     manual_remain_h = 24 - manual_h
@@ -1667,7 +1677,6 @@ def manual_nakshatra():
     if manual_nakshatra_name in NAKSHATRAS_TELUGU:
         nak_index = NAKSHATRAS_TELUGU.index(manual_nakshatra_name)
     else:
-        # Fallback to auto-calculated
         nak_index = auto_nak_index
     
     # Calculate padam from elapsed time
@@ -1682,7 +1691,7 @@ def manual_nakshatra():
         'tob': tob,
         'place': place,
         'day_name': session.get('birth_info', {}).get('day_name', ''),
-        'nakshatra': manual_nakshatra_name or NAKSHATRAS_TELUGU[auto_nak_index],
+        'nakshatra': manual_nakshatra_name,
         'padam': padam,
         'nak_elapsed': nak_elapsed,
         'nak_remaining': nak_remaining,
@@ -1715,13 +1724,35 @@ def manual_nakshatra():
         manual_elapsed_m=manual_m,
         nak_elapsed=nak_elapsed,
         nak_remaining=nak_remaining,
-        nakshatra=manual_nakshatra_name or NAKSHATRAS_TELUGU[auto_nak_index],
+        nakshatra=manual_nakshatra_name,
         padam=padam,
         nak_index=nak_index,
         elapsed_h=manual_h,
         elapsed_m=manual_m,
         all_nakshatras=NAKSHATRAS_TELUGU
     )
+
+@app.route("/reset_user_data", methods=["POST"])
+def reset_user_data():
+    """Reset the user_data.txt file if password is correct"""
+    password = request.form.get("password")
+    if password == "USHA":
+        try:
+            log_file = "user_data.txt"
+            # Truncate the file
+            with open(log_file, "w", encoding="utf-8") as f:
+                f.write("")
+            
+            # Git push to keep GitHub in sync
+            subprocess.run(["git", "add", log_file], check=True, capture_output=True, text=True)
+            subprocess.run(["git", "commit", "-m", "Reset user data log"], check=True, capture_output=True, text=True)
+            subprocess.run(["git", "push"], check=True, capture_output=True, text=True)
+            
+            return jsonify({"status": "success", "message": "Data reset successfully!"})
+        except Exception as e:
+            return jsonify({"status": "error", "message": str(e)})
+    else:
+        return jsonify({"status": "error", "message": "Invalid password!"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
