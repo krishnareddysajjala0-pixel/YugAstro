@@ -38,7 +38,7 @@
     }
 
     [data-theme="light"] {
-      --bg-primary: radial-gradient(circle at 20% 30%, rgba(100, 150, 255, 0.1) 0%, transparent 50%), linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       --text-main: #1e293b;
       --text-muted: #475569;
       --card-bg: rgba(255, 255, 255, 0.85);
@@ -50,7 +50,7 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --card-bg: rgba(15, 23, 42, 0.8);
@@ -59,6 +59,42 @@
       --box-border-hover: rgba(255, 255, 255, 0.35);
       --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
       --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="sunset"] {
+      --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+      --text-main: #fff0f5;
+      --text-muted: #ffe4e1;
+      --card-bg: rgba(43, 11, 23, 0.85);
+      --card-border: rgba(255, 255, 255, 0.2);
+      --box-border: rgba(255, 255, 255, 0.25);
+      --box-border-hover: rgba(255, 255, 255, 0.45);
+      --header-bg: linear-gradient(45deg, #fceabb, #f8b500);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+
+    [data-theme="ocean"] {
+      --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
+      --text-main: #f0fdfa;
+      --text-muted: #ccfbf1;
+      --card-bg: rgba(9, 32, 63, 0.85);
+      --card-border: rgba(255, 255, 255, 0.2);
+      --box-border: rgba(255, 255, 255, 0.25);
+      --box-border-hover: rgba(255, 255, 255, 0.45);
+      --header-bg: linear-gradient(45deg, #4facfe, #00f2fe);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+
+    [data-theme="forest"] {
+      --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+      --text-main: #f0fdf4;
+      --text-muted: #dcfce7;
+      --card-bg: rgba(11, 56, 36, 0.85);
+      --card-border: rgba(255, 255, 255, 0.2);
+      --box-border: rgba(255, 255, 255, 0.25);
+      --box-border-hover: rgba(255, 255, 255, 0.45);
+      --header-bg: linear-gradient(45deg, #f9d423, #ff4e50);
+      --shadow-color: rgba(0, 0, 0, 0.6);
     }
 
     body {
@@ -737,6 +773,9 @@
       title="Cosmic Mode">✨</button>
     <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
     <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
+    <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
+    <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
+    <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
   </div>
 
   <!-- Header -->
@@ -908,25 +947,27 @@
         onclick="window.location.href='/'">
         <i class="fas fa-home"></i> హోమ్
       </button>
-      <button class="float-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);"
-        onclick="goToPlanetDetails()">
-        <i class="fas fa-book"></i> గ్రహ వివరాలు
-      </button>
+
       <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
         onclick="goToDasaChart()">
-        <i class="fas fa-calendar-alt"></i> దశాచార
-      </button>
-      <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
-        onclick="window.location.href='/panchangam'">
-        <i class="fas fa-calendar-day"></i> పంచాంగం
+        <i class="fas fa-calendar-alt"></i> దశాచారం
       </button>
       <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
         onclick="window.location.href='/results'">
         <i class="fas fa-chart-line"></i> ఫలితాలు
       </button>
+      <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
+        onclick="window.location.href='/panchangam'">
+        <i class="fas fa-calendar-day"></i> పంచాంగం
+      </button>
+
       <button class="float-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);"
         onclick="goToCorrection()">
         <i class="fas fa-edit"></i> నక్షత్ర సవరణ
+      </button>
+      <button class="float-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);"
+        onclick="goToPlanetDetails()">
+        <i class="fas fa-book"></i> గ్రహ ఫలితాలు
       </button>
       <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
         onclick="window.print()">

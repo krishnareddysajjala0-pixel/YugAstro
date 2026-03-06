@@ -19,6 +19,8 @@
         })();
     </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -26,58 +28,110 @@
         }
 
         :root {
-            --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            --text-main: #ffffff;
-            --text-muted: #a0a0ff;
-            --card-bg: rgba(25, 25, 35, 0.7);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --header-bg: linear-gradient(45deg, #ffffff, #a0a0ff);
-            --title-bg: linear-gradient(45deg, #ffd700, #ff6b6b);
-            --table-header-bg: linear-gradient(135deg, #667eea, #764ba2);
-            --table-row-bg: rgba(255, 255, 255, 0.03);
+            --bg-primary: radial-gradient(circle at 10% 20%, rgba(20, 25, 45, 1) 0%, rgba(10, 15, 30, 1) 90%);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --card-bg: rgba(25, 30, 45, 0.75);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --header-bg: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
+            --title-bg: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            --table-header-bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            --table-row-bg: rgba(255, 255, 255, 0.04);
             --table-row-alt-bg: rgba(255, 255, 255, 0.02);
-            --table-hover-bg: rgba(102, 126, 234, 0.1);
+            --table-hover-bg: rgba(255, 255, 255, 0.1);
+            --accent-glow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         [data-theme="light"] {
-            --bg-primary: radial-gradient(circle at 20% 30%, rgba(100, 150, 255, 0.1) 0%, transparent 50%), linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            --text-main: #1e293b;
-            --text-muted: #475569;
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --card-border: rgba(0, 0, 0, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --header-bg: linear-gradient(45deg, #1e3a8a, #3b82f6);
-            --title-bg: linear-gradient(45deg, #b45309, #dc2626);
-            --table-header-bg: linear-gradient(135deg, #3b82f6, #2563eb);
-            --table-row-bg: rgba(0, 0, 0, 0.03);
-            --table-row-alt-bg: rgba(0, 0, 0, 0.02);
-            --table-hover-bg: rgba(59, 130, 246, 0.1);
+            --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(0, 0, 0, 0.15);
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --header-bg: linear-gradient(135deg, #ea580c 0%, #ca8a04 100%);
+            --title-bg: linear-gradient(135deg, #0284c7 0%, #16a34a 100%);
+            --table-header-bg: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+            --table-row-bg: rgba(0, 0, 0, 0.02);
+            --table-row-alt-bg: rgba(255, 255, 255, 0.9);
+            --table-hover-bg: rgba(14, 165, 233, 0.15);
+            --accent-glow: 0 0 15px rgba(14, 165, 233, 0.3);
         }
 
         [data-theme="dark"] {
-            --bg-primary: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            --text-main: #f8fafc;
+            --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --card-bg: rgba(15, 23, 42, 0.85);
             --card-border: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.5);
-            --header-bg: linear-gradient(45deg, #ffffff, #c084fc);
-            --title-bg: linear-gradient(45deg, #fbbf24, #ef4444);
-            --table-header-bg: linear-gradient(135deg, #6d28d9, #4c1d95);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            --title-bg: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
+            --table-header-bg: linear-gradient(135deg, #2a0845 0%, #17002b 100%);
             --table-row-bg: rgba(255, 255, 255, 0.03);
+            --table-row-alt-bg: rgba(255, 255, 255, 0.01);
+            --table-hover-bg: rgba(142, 45, 226, 0.2);
+            --accent-glow: 0 0 15px rgba(142, 45, 226, 0.4);
+        }
+
+        [data-theme="sunset"] {
+            --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+            --text-main: #fff0f5;
+            --text-muted: #ffe4e1;
+            --card-bg: rgba(43, 11, 23, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            --title-bg: linear-gradient(135deg, #FFEFBA 0%, #FFFFFF 100%);
+            --table-header-bg: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
             --table-row-alt-bg: rgba(255, 255, 255, 0.02);
-            --table-hover-bg: rgba(168, 85, 247, 0.1);
+            --table-hover-bg: rgba(255, 177, 153, 0.2);
+            --accent-glow: 0 0 15px rgba(255, 177, 153, 0.4);
+        }
+
+        [data-theme="ocean"] {
+            --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
+            --text-main: #f0fdfa;
+            --text-muted: #ccfbf1;
+            --card-bg: rgba(9, 32, 63, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --title-bg: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            --table-header-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
+            --table-row-alt-bg: rgba(255, 255, 255, 0.02);
+            --table-hover-bg: rgba(79, 172, 254, 0.2);
+            --accent-glow: 0 0 15px rgba(79, 172, 254, 0.4);
+        }
+
+        [data-theme="forest"] {
+            --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+            --text-main: #f0fdf4;
+            --text-muted: #dcfce7;
+            --card-bg: rgba(11, 56, 36, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
+            --title-bg: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            --table-header-bg: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
+            --table-row-alt-bg: rgba(255, 255, 255, 0.02);
+            --table-hover-bg: rgba(212, 252, 121, 0.2);
+            --accent-glow: 0 0 15px rgba(212, 252, 121, 0.4);
         }
 
         body {
             background: var(--bg-primary);
             color: var(--text-main);
-            font-family: 'Segoe UI', 'Arial', sans-serif;
+            font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
             min-height: 100vh;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+            transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
         }
 
         /* Starry background */
@@ -128,13 +182,14 @@
 
         .header {
             text-align: center;
-            margin-bottom: 15px;
-            padding: 20px;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            margin-bottom: 25px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(25, 30, 45, 0.8), rgba(15, 20, 30, 0.9));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
             border: 1px solid var(--card-border);
-            box-shadow: 0 20px 40px var(--shadow-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -145,18 +200,28 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg,
-                    #ff6b6b,
-                    #ffd93d,
-                    #6bcf7f,
-                    #4d96ff,
-                    #9d4edd);
-            border-radius: 20px 20px 0 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B, #f12711, #f5af19, #8E2DE2, #4A00E0);
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .header h1 {
-            font-size: 38px;
+            font-size: 42px;
             background: var(--header-bg);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -164,13 +229,14 @@
             font-weight: 800;
             margin-bottom: 15px;
             letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
         }
 
         .header-subtitle {
             color: var(--text-muted);
             font-size: 20px;
-            opacity: 0.9;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         /* Floating Bottom Action Bar */
@@ -229,26 +295,29 @@
         /* Section Headers */
         .section-header {
             text-align: center;
-            margin: 20px 0 15px;
-            padding: 15px;
-            background: rgba(30, 30, 50, 0.7);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 30px 0 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(20, 20, 35, 0.9));
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
             position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .section-title {
-            font-size: 32px;
+            font-size: 34px;
             background: var(--title-bg);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 20px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
         }
 
         .section-icon {
@@ -279,10 +348,11 @@
         /* Tables */
         .table-container {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 25px;
             border: 1px solid var(--card-border);
             box-shadow: 0 20px 40px var(--shadow-color);
             overflow-x: auto;
@@ -291,53 +361,57 @@
         .data-table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0;
-            font-size: 14px;
+            border-spacing: 0 12px;
+            font-size: 15px;
             color: var(--text-main);
         }
 
         .data-table th {
-            background: var(--table-header-bg);
-            color: white;
-            padding: 18px 12px;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 10px 15px;
             text-align: center;
-            font-weight: 700;
-            font-size: 15px;
+            font-weight: 600;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            border: none;
-        }
-
-        .data-table th:first-child {
-            border-radius: 12px 0 0 12px;
-        }
-
-        .data-table th:last-child {
-            border-radius: 0 12px 12px 0;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid var(--card-border);
         }
 
         .data-table td {
-            padding: 16px 12px;
+            padding: 18px 15px;
             text-align: center;
+            background: var(--table-row-bg);
+            border-top: 1px solid var(--card-border);
             border-bottom: 1px solid var(--card-border);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
 
+        .data-table td:first-child {
+            border-left: 1px solid var(--card-border);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .data-table td:last-child {
+            border-right: 1px solid var(--card-border);
+            border-radius: 0 16px 16px 0;
+        }
+
         .data-table tbody tr {
-            transition: all 0.3s ease;
-            background: var(--table-row-bg);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
         }
 
         .data-table tbody tr:hover {
-            background: var(--table-hover-bg);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow-color);
+            transform: translateY(-4px) scale(1.01);
+            filter: drop-shadow(var(--accent-glow));
+            z-index: 10;
         }
 
-        .data-table tbody tr:nth-child(even) {
-            background: var(--table-row-alt-bg);
+        .data-table tbody tr:hover td {
+            background: var(--table-hover-bg);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Planet Name Cells */
@@ -444,9 +518,9 @@
         .gender-cell,
         .caste-cell {
             font-weight: 600;
-            padding: 12px 8px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 10px;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
         }
 
         .direction-cell {
@@ -454,10 +528,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            color: #00d2ff;
         }
 
         .direction-icon {
             font-size: 16px;
+            filter: drop-shadow(0 0 5px #00d2ff);
         }
 
         /* Disease List */
@@ -470,40 +546,46 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            background: rgba(255, 99, 132, 0.05);
+            border-left: 3px solid #ff6b6b;
+            border-radius: 0 8px 8px 0;
+            padding: 10px;
         }
 
         .disease-list li {
-            padding: 5px 0;
-            color: #ff6b6b;
+            padding: 4px 0;
+            color: #ff9999;
             font-size: 13px;
             position: relative;
-            padding-left: 15px;
+            padding-left: 18px;
+            line-height: 1.4;
         }
 
         .disease-list li::before {
-            content: '•';
+            content: '🦠';
+            font-size: 10px;
             position: absolute;
             left: 0;
-            color: #ff6b6b;
+            top: 6px;
         }
 
         /* Gender Colors */
         .gender-cell.male {
-            background: rgba(56, 189, 248, 0.2);
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #00e5ff;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+            font-weight: 700;
         }
 
         .gender-cell.female {
-            background: rgba(236, 72, 153, 0.2);
-            color: #ec4899;
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            color: #ff7eb3;
+            text-shadow: 0 0 10px rgba(255, 126, 179, 0.4);
+            font-weight: 700;
         }
 
         .gender-cell.neutral {
-            background: rgba(139, 92, 246, 0.2);
-            color: #8b5cf6;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #b388ff;
+            text-shadow: 0 0 10px rgba(179, 136, 255, 0.4);
+            font-weight: 700;
         }
 
         /* Table-specific styling */
@@ -705,6 +787,9 @@
             title="Cosmic Mode">✨</button>
         <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
         <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
+        <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
+        <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
+        <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
     </div>
 
     <style>
@@ -1281,6 +1366,10 @@
         <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
             onclick="window.location.href='/panchangam'">
             <i class="fas fa-calendar-day"></i> పంచాంగం
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
+            onclick="window.location.href='/results'">
+            <i class="fas fa-chart-line"></i> ఫలితాలు
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">

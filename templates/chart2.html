@@ -41,7 +41,7 @@
         }
 
         [data-theme="light"] {
-            --bg-primary: radial-gradient(circle at 20% 30%, rgba(100, 150, 255, 0.1) 0%, transparent 50%), linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             --text-main: #1e293b;
             --text-muted: #475569;
             --card-bg: rgba(255, 255, 255, 0.92);
@@ -52,7 +52,7 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --card-bg: rgba(15, 23, 42, 0.85);
@@ -60,6 +60,39 @@
             --shadow-color: rgba(0, 0, 0, 0.7);
             --header-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 50%, rgba(2, 6, 23, 0.9) 100%);
             --dasa-card-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.9));
+        }
+
+        [data-theme="sunset"] {
+            --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+            --text-main: #fff0f5;
+            --text-muted: #ffe4e1;
+            --card-bg: rgba(43, 11, 23, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, rgba(252, 234, 187, 0.9) 0%, rgba(248, 181, 0, 0.9) 100%);
+            --dasa-card-bg: linear-gradient(135deg, rgba(43, 11, 23, 0.9), rgba(20, 5, 10, 0.9));
+        }
+
+        [data-theme="ocean"] {
+            --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
+            --text-main: #f0fdfa;
+            --text-muted: #ccfbf1;
+            --card-bg: rgba(9, 32, 63, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, rgba(79, 172, 254, 0.9) 0%, rgba(0, 242, 254, 0.9) 100%);
+            --dasa-card-bg: linear-gradient(135deg, rgba(9, 32, 63, 0.9), rgba(4, 15, 30, 0.9));
+        }
+
+        [data-theme="forest"] {
+            --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+            --text-main: #f0fdf4;
+            --text-muted: #dcfce7;
+            --card-bg: rgba(11, 56, 36, 0.85);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, rgba(249, 212, 35, 0.9) 0%, rgba(255, 78, 80, 0.9) 100%);
+            --dasa-card-bg: linear-gradient(135deg, rgba(11, 56, 36, 0.9), rgba(5, 25, 15, 0.9));
         }
 
         body {
@@ -1020,6 +1053,9 @@
             title="Cosmic Mode">✨</button>
         <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
         <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
+        <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
+        <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
+        <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
     </div>
 
     <div class="glow-container animate-fade">
@@ -1071,7 +1107,14 @@
                 <span class="highlight text-unfavorable" style="font-size: 20px;">{{ maha }}</span></span> - <span
                     class="unfavorable">ప్రతికూలము</span> |
                 {% endif %}
+                <br>
                 <span class="highlight" style="color: #ffd700;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
+                {% if maha_age_start and maha_age_end %}
+                <br>
+                <span style="font-size: 14px; color: #a0a0ff;">
+                    (వయసు: {{ maha_age_start }} నుండి {{ maha_age_end }} వరకు)
+                </span>
+                {% endif %}
             </div>
 
             <div class="progress-container" style="margin: 0px auto; max-width: 800px;">
@@ -1281,21 +1324,22 @@
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);" onclick="goToChart()">
             <i class="fas fa-arrow-left"></i> కుండలికి
         </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);"
-            onclick="goToPlanetDetails()">
-            <i class="fas fa-book"></i> గ్రహ వివరాలు
+
+        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
+            onclick="window.location.href='/results'">
+            <i class="fas fa-chart-line"></i> ఫలితాలు
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #e11d48, #be123c);"
             onclick="window.location.href='/panchangam'">
             <i class="fas fa-calendar-day"></i> పంచాంగం
         </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
-            onclick="window.location.href='/results'">
-            <i class="fas fa-chart-line"></i> ఫలితాలు
-        </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);"
             onclick="goToCorrection()">
             <i class="fas fa-edit"></i> నక్షత్ర సవరణ
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);"
+            onclick="goToPlanetDetails()">
+            <i class="fas fa-book"></i> గ్రహ ఫలితాలు
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
