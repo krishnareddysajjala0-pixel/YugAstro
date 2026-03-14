@@ -325,7 +325,7 @@ def log_user_to_github(name, dob, tob, place):
                 print("GITHUB_TOKEN not found. Direct GitHub storage is disabled.")
                 return
 
-            repo = "krishnareddysajjala0-pixel/YugAstro"
+            repo = "krishnareddysajjala0-pixel/Timeastro"
             path = "user_data.txt"
             url = f"https://api.github.com/repos/{repo}/contents/{path}"
             headers = {
