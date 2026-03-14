@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-import swisseph as swe
-import datetime
-import pytz
-import os
-import threading
 import subprocess
+import requests
+import base64
+import json
+
 
 # Git path for Windows environment stability
 GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.6\resources\app\git\cmd\git.exe'
@@ -287,15 +285,15 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
 
 # ---------------- GITHUB LOGGING HELPER ----------------
 def log_user_to_github(name, dob, tob, place):
-    """Log user data to user_data.txt and push to GitHub."""
+    """Log user data to user_data.txt using GitHub API or local file."""
     try:
         basedir = os.path.dirname(os.path.abspath(__file__))
         log_file = os.path.join(basedir, "user_data.txt")
         serial_no = 1
         
-        # 1. Read last serial number (Synchronous)
-        if os.path.exists(log_file):
-            try:
+        # 1. Local Write (Always attempt as local backup)
+        try:
+            if os.path.exists(log_file):
                 with open(log_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
                     if lines:
@@ -304,45 +302,78 @@ def log_user_to_github(name, dob, tob, place):
                             try:
                                 serial_no = int(last_line.split(". ")[0]) + 1
                             except Exception: pass
-            except Exception as e:
-                print(f"Read error: {e}")
+            
+            timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
+            log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+            
+            with open(log_file, "a", encoding="utf-8") as f:
+                f.write(log_entry)
+            print(f"Data stored locally for: {name}")
+        except Exception as e:
+            print(f"Local file write error: {e}")
 
-        # 2. Prepare entry
-        timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-        log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
-        
-        # 3. Append to file (Synchronous)
-        with open(log_file, "a", encoding="utf-8") as f:
-            f.write(log_entry)
-        print(f"Data stored locally for: {name}")
+        # 2. GitHub API Sync (For Render support)
+        def github_api_sync(entry_name, entry_text):
+            token = os.environ.get("GITHUB_TOKEN")
+            if not token:
+                print("GITHUB_TOKEN not found. Direct GitHub storage is disabled.")
+                return
 
-        # 4. Background Git Sync
-        def background_git_sync(entry_name, absolute_log_path, repo_dir):
+            repo = "krishnareddysajjala0-pixel/YugAstro"
+            path = "user_data.txt"
+            url = f"https://api.github.com/repos/{repo}/contents/{path}"
+            headers = {
+                "Authorization": f"token {token}",
+                "Accept": "application/vnd.github.v3+json"
+            }
+
             try:
-                # Fallback to simple 'git' if full path fails
-                git_cmds = [GIT_PATH, "git"]
-                success = False
-                for git_exe in git_cmds:
-                    try:
-                        subprocess.run(f'"{git_exe}" add "{absolute_log_path}"', check=True, capture_output=True, shell=True, cwd=repo_dir)
-                        subprocess.run(f'"{git_exe}" commit -m "Log user data: {entry_name}"', check=True, capture_output=True, shell=True, cwd=repo_dir)
-                        subprocess.run(f'"{git_exe}" push', check=True, capture_output=True, shell=True, cwd=repo_dir)
-                        print(f"Successfully pushed {entry_name} to GitHub using {git_exe}")
-                        success = True
-                        break
-                    except Exception:
-                        continue
-                if not success:
-                    print("Git push failed, but local data was saved.")
+                # Get current file content and SHA
+                res = requests.get(url, headers=headers)
+                if res.status_code == 200:
+                    file_data = res.json()
+                    current_content_b64 = file_data.get("content", "")
+                    current_content = base64.b64decode(current_content_b64).decode("utf-8")
+                    sha = file_data.get("sha")
+                    
+                    # Determine new serial number for remote file
+                    lines = current_content.splitlines()
+                    remote_serial = 1
+                    if lines:
+                        last_line = lines[-1].strip()
+                        if last_line and ". " in last_line:
+                            try:
+                                remote_serial = int(last_line.split(". ")[0]) + 1
+                            except: pass
+                    
+                    remote_timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
+                    new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+                    new_content = current_content + (new_entry if current_content.endswith("\n") else "\n" + new_entry)
+                    
+                    # Update file
+                    update_data = {
+                        "message": f"Log user data: {entry_name} (API)",
+                        "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
+                        "sha": sha
+                    }
+                    put_res = requests.put(url, headers=headers, data=json.dumps(update_data))
+                    if put_res.status_code in [200, 201]:
+                        print(f"Successfully stored {entry_name} to GitHub via API.")
+                    else:
+                        print(f"GitHub API update failed: {put_res.text}")
+                else:
+                    print(f"Could not fetch user_data.txt from GitHub API: {res.text}")
             except Exception as e:
-                print(f"Background sync error: {e}")
+                print(f"GitHub API storage error: {e}")
 
-        thread = threading.Thread(target=background_git_sync, args=(name, log_file, basedir))
+        # Use the same generic log entry for consistency if possible
+        thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
         thread.daemon = True
         thread.start()
         
     except Exception as e:
         print(f"Critical logging error: {e}")
+
 
 def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):
     """Calculate anthara periods for a given Mahadasha"""
