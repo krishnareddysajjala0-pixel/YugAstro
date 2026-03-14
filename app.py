@@ -287,15 +287,15 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
 
 # ---------------- GITHUB LOGGING HELPER ----------------
 def log_user_to_github(name, dob, tob, place):
-    """Log user data to user_data.txt and push to GitHub in the background."""
-    def background_task(n, d, t, p):
-        try:
-            basedir = os.path.dirname(os.path.abspath(__file__))
-            log_file = os.path.join(basedir, "user_data.txt")
-            serial_no = 1
-            
-            # Read the last serial number if the file exists
-            if os.path.exists(log_file):
+    """Log user data to user_data.txt and push to GitHub."""
+    try:
+        basedir = os.path.dirname(os.path.abspath(__file__))
+        log_file = os.path.join(basedir, "user_data.txt")
+        serial_no = 1
+        
+        # 1. Read last serial number (Synchronous)
+        if os.path.exists(log_file):
+            try:
                 with open(log_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
                     if lines:
@@ -303,35 +303,46 @@ def log_user_to_github(name, dob, tob, place):
                         if last_line and ". " in last_line:
                             try:
                                 serial_no = int(last_line.split(". ")[0]) + 1
-                            except ValueError:
-                                pass
-                                
-            timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-            log_entry = f"{serial_no}. [{timestamp}] Name: {n}, DOB: {d}, TOB: {t}, Place: {p}\n"
-            
-            # Append to file
-            with open(log_file, "a", encoding="utf-8") as f:
-                f.write(log_entry)
-                
-            # Git add, commit, and push
+                            except Exception: pass
+            except Exception as e:
+                print(f"Read error: {e}")
+
+        # 2. Prepare entry
+        timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
+        log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+        
+        # 3. Append to file (Synchronous)
+        with open(log_file, "a", encoding="utf-8") as f:
+            f.write(log_entry)
+        print(f"Data stored locally for: {name}")
+
+        # 4. Background Git Sync
+        def background_git_sync(entry_name, absolute_log_path, repo_dir):
             try:
-                # Add the absolute path to git command
-                res_add = subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
-                res_commit = subprocess.run(f'"{GIT_PATH}" commit -m "Log new user data for {n}"', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
-                res_push = subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
-                print(f"Successfully logged to Github. Push output: {res_push.stdout}")
-            except subprocess.CalledProcessError as e:
-                print(f"Git subprocess error. Code: {e.returncode}")
-                print(f"Git stdout: {e.stdout}")
-                print(f"Git stderr: {e.stderr}")
-            
-        except Exception as e:
-            print(f"Error logging to Github: {e}")
-            
-    # Start thread so it doesn't block the response
-    thread = threading.Thread(target=background_task, args=(name, dob, tob, place))
-    thread.daemon = True
-    thread.start()
+                # Fallback to simple 'git' if full path fails
+                git_cmds = [GIT_PATH, "git"]
+                success = False
+                for git_exe in git_cmds:
+                    try:
+                        subprocess.run(f'"{git_exe}" add "{absolute_log_path}"', check=True, capture_output=True, shell=True, cwd=repo_dir)
+                        subprocess.run(f'"{git_exe}" commit -m "Log user data: {entry_name}"', check=True, capture_output=True, shell=True, cwd=repo_dir)
+                        subprocess.run(f'"{git_exe}" push', check=True, capture_output=True, shell=True, cwd=repo_dir)
+                        print(f"Successfully pushed {entry_name} to GitHub using {git_exe}")
+                        success = True
+                        break
+                    except Exception:
+                        continue
+                if not success:
+                    print("Git push failed, but local data was saved.")
+            except Exception as e:
+                print(f"Background sync error: {e}")
+
+        thread = threading.Thread(target=background_git_sync, args=(name, log_file, basedir))
+        thread.daemon = True
+        thread.start()
+        
+    except Exception as e:
+        print(f"Critical logging error: {e}")
 
 def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):
     """Calculate anthara periods for a given Mahadasha"""
