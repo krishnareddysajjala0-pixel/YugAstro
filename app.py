@@ -675,29 +675,7 @@ def chart():
     else:
         karana_name = "N/A"
 
-    # 4. Telugu Year (Samvatsara) approximation
-    # 0 = Prabhava starts roughly near Kaliyuga 0 or offset 1987 CE
-    # A standard quick approximation from gregorian year. Note Chaitra month starts the year.
-    try:
-        dt = datetime.datetime.strptime(dob + " " + tob, "%Y-%m-%d %H:%M")
-    except Exception:
-        dt = datetime.datetime.now()
-        
-    year = dt.year
-    month = dt.month
-    # Approximate leap: if month < 4 (before April/Chaitra), mostly previous year
-    adj_year = year - 1 if month < 4 else year
-    # Offset based on known cycle starting year (1987 was Prabhava)
-    year_index = (adj_year - 1987) % 60
-    telugu_year = TELUGU_YEARS[year_index]
-    
-    # 1987 (Prabhava, index 0) = Kaliyuga 5088. Using the exact cycle multiplier ties it perfectly.
-    cycles_since_1987 = (adj_year - 1987) // 60
-    kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
-    
-    # Thraitha Sakamu mapping: 2025 (Viswavasu) = 47.
-    # Therefore, adj_year - 2025 gives the offset from 47.
-    thraitha_sakamu = 47 + (adj_year - 2025)
+    # Telugu Year is calculated later after Telugu Masam is determined.
 
     # 5. Sunrise & Sunset times
     # 5. Sunrise & Sunset times
@@ -788,6 +766,35 @@ def chart():
         return f"{te_month}-{d:02d}"
 
     telugu_masam = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+
+    # 4. Telugu Year (Samvatsara) accurate calculation
+    try:
+        dt = datetime.datetime.strptime(dob + " " + tob, "%Y-%m-%d %H:%M")
+    except Exception:
+        dt = datetime.datetime.now()
+        
+    year = dt.year
+    month = dt.month
+    
+    # Chaitra usually starts in March/April. 
+    # If the Gregorian month is before July and Masam is Pushya(9), Magha(10), or Phalguna(11),
+    # it implies Chaitra hasn't started for this Gregorian year yet.
+    if month <= 6 and masam_index >= 9:
+        adj_year = year - 1
+    else:
+        adj_year = year
+        
+    # Offset based on known cycle starting year (1987 was Prabhava)
+    year_index = (adj_year - 1987) % 60
+    telugu_year = TELUGU_YEARS[year_index]
+    
+    # 1987 (Prabhava, index 0) = Kaliyuga 5088. Using the exact cycle multiplier ties it perfectly.
+    cycles_since_1987 = (adj_year - 1987) // 60
+    kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
+    
+    # Thraitha Sakamu mapping: 2025 (Viswavasu) = 47.
+    # Therefore, adj_year - 2025 gives the offset from 47.
+    thraitha_sakamu = 47 + (adj_year - 2025)
 
     # 7. Extract Planetary Positions
     planet_positions = []

@@ -870,7 +870,40 @@
       100% { transform: translateX(-100%); }
     }
     @media print {
-      .scrolling-footer { display: none !important; }
+      .scrolling-footer,
+      .theme-switcher,
+      .fixed-bottom-bar,
+      #action-bar,
+      .float-btn,
+      .print-hide { display: none !important; }
+
+      * { text-shadow: none !important; }
+      
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      .card-container, .planet-card, .info-box {
+        background: #fff !important;
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+      }
+
+      .planet-name, .om-title, .page-title {
+        color: #d2691e !important;
+        -webkit-text-fill-color: #d2691e !important;
+      }
+
+      .party-badge {
+        color: #000080 !important;
+        border: 1px solid #000080 !important;
+        background: transparent !important;
+      }
+
+      .detail-value { color: #b22222 !important; }
+      .detail-label, th { color: #000080 !important; }
+      td, .status-badge { color: #000 !important; }
     }
   </style>
 </head>

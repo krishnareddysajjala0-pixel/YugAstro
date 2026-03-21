@@ -785,14 +785,71 @@
             /* Hide buttons when printing */
             .print-button,
             .nav-buttons,
-            .scrolling-footer {
+            .scrolling-footer,
+            .theme-switcher,
+            .fixed-bottom-bar,
+            #action-bar,
+            .float-btn,
+            .print-hide {
                 display: none !important;
+            }
+
+            .maha-dasa-card {
+                page-break-before: always;
+                break-before: page;
+                page-break-inside: avoid;
+            }
+            
+            .maha-dasa-card:first-of-type {
+                page-break-before: auto;
+                break-before: auto;
             }
 
             .glow-container {
                 box-shadow: none !important;
-                border: 1px solid #ddd !important;
+                border: 1px solid #000 !important;
+                background: #fff !important;
             }
+
+            * {
+                text-shadow: none !important;
+            }
+
+            .maha-dasa-number, .current-badge, .past-badge, .future-badge, .birth-badge {
+                color: #00008b !important; /* Dark Blue instead of white */
+                border: 1px solid #00008b !important;
+                background: transparent !important;
+            }
+
+            .anthara-table {
+                background: #fff !important;
+            }
+
+            .anthara-table th, .anthara-table td {
+                color: #000 !important;
+                border: 1px solid #ccc !important;
+            }
+
+            .anthara-table .planet-cell {
+                color: #b22222 !important; /* Bright Firebrick */
+            }
+
+            .current-dasa-box, .nakshatra-box {
+                background: #fff !important;
+                border: 2px solid #000 !important;
+            }
+
+            .current-dasa-box *, .nakshatra-box * {
+                color: #000 !important;
+            }
+
+            .current-dasa-title, .party-name {
+                color: #d2691e !important; 
+            }
+
+            .time-value { color: #b22222 !important; }
+            .summary-value { color: #006400 !important; }
+            .cosmic-header h1 { color: #d2691e !important; }
         }
 
         /* Scrolling Footer */
