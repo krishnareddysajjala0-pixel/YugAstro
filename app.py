@@ -1798,17 +1798,25 @@ def manual_nakshatra():
 def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=False):
     from astral import LocationInfo
     from astral.sun import sun
+    try:
+        from astral.moon import moonrise, moonset
+    except ImportError:
+        moonrise = moonset = None
     import datetime
     import pytz
     
     sun_lon = swe.calc_ut(jd, swe.SUN, PLANET_FLAGS)[0][0]
     moon_lon = swe.calc_ut(jd, swe.MOON, PLANET_FLAGS)[0][0]
     
-    # 1. Tithi
+    def get_am_pm_str(dt):
+        time_str = dt.strftime("%I:%M")
+        ampm = "ఉ" if dt.hour < 12 else ("మ" if dt.hour < 16 else ("సా" if dt.hour < 20 else "రా"))
+        exact_ampm = "ఏ ఎం" if dt.hour < 12 else "పీ ఎం"
+        return f"{time_str} {exact_ampm}"
+        
     diff = (moon_lon - sun_lon) % 360
     tithi_index = int(diff / 12)
-    tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
-    tithi_type = "తెల్లని" if tithi_index < 15 else "నల్లని"
+    tithi_paksha = "శుక్ల పక్షములు" if tithi_index < 15 else "కృష్ణ పక్షములు"
     
     if tithi_index < 15:
         tt_name = TITHIS_TELUGU[tithi_index]
@@ -1818,46 +1826,55 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     tithi_end_str = ""
     nak_end_str = ""
     
-    if calc_end_times:
-        rem_deg = ((tithi_index + 1) * 12) - diff
-        if rem_deg < 0: rem_deg += 360
-        hours_rem = rem_deg / 0.5079
-        
-        nak_rem_deg = ((int(moon_lon / NAKSHATRA_SIZE) + 1) * NAKSHATRA_SIZE) - moon_lon
-        if nak_rem_deg < 0: nak_rem_deg += 360
-        nak_hours_rem = nak_rem_deg / 0.549
-        
-        def add_hours(dt, hrs):
-            h = int(hrs)
-            m = int((hrs - h) * 60)
-            target = dt + datetime.timedelta(hours=h, minutes=m)
-            # Ensure it outputs cleanly "రాత్రి 8:30" format roughly
-            time_str = target.strftime("%I:%M")
-            ampm = "ఉ" if target.hour < 12 else ("మ" if target.hour < 16 else ("సా" if target.hour < 20 else "రా"))
-            return f"{ampm} {time_str}"
-            
-        y, m, d, h = swe.revjul(jd)
-        jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
-        
-        tithi_end_str = add_hours(jd_dt, hours_rem)
-        nak_end_str = add_hours(jd_dt, nak_hours_rem)
-
-    # Nakshatra
+    # Accurate End times mapping approximation
+    rem_deg = ((tithi_index + 1) * 12) - diff
+    if rem_deg < 0: rem_deg += 360
+    hours_rem = rem_deg / 0.5079
+    
     nak_index = int(moon_lon / NAKSHATRA_SIZE)
     nakshatra = NAKSHATRAS_TELUGU[nak_index]
+    
+    nak_rem_deg = ((int(moon_lon / NAKSHATRA_SIZE) + 1) * NAKSHATRA_SIZE) - moon_lon
+    if nak_rem_deg < 0: nak_rem_deg += 360
+    nak_hours_rem = nak_rem_deg / 0.549
+    
+    y, m, d, h = swe.revjul(jd)
+    jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
+    
+    target_tithi = jd_dt + datetime.timedelta(hours=int(hours_rem), minutes=int((hours_rem%1)*60))
+    tithi_end_str = get_am_pm_str(target_tithi)
+    calendar_tithi_end = f"{'ఉ' if target_tithi.hour < 12 else ('మ' if target_tithi.hour < 16 else ('సా' if target_tithi.hour < 20 else 'రా'))} {target_tithi.strftime('%I:%M')}"
+    target_nak = jd_dt + datetime.timedelta(hours=int(nak_hours_rem), minutes=int((nak_hours_rem%1)*60))
+    nak_end_str = get_am_pm_str(target_nak)
+    calendar_nak_end = f"{'ఉ' if target_nak.hour < 12 else ('మ' if target_nak.hour < 16 else ('సా' if target_nak.hour < 20 else 'రా'))} {target_nak.strftime('%I:%M')}"
     
     # Yoga
     yoga_index = int(((sun_lon + moon_lon) % 360) / NAKSHATRA_SIZE)
     yoga_name = YOGAS_TELUGU[yoga_index]
     
-    # Karana
-    karana_idx = int(diff / 6) + 1
-    if karana_idx == 1: karana_name = "కింస్తుఘ్న"
-    elif 2 <= karana_idx <= 57: karana_name = KARANAS_MOVABLE[(karana_idx - 2) % 7]
-    elif karana_idx == 58: karana_name = "శకుని"
-    elif karana_idx == 59: karana_name = "చతుష్పాద"
-    elif karana_idx == 60: karana_name = "నాగ"
-    else: karana_name = "N/A"
+    # Karana 1 & 2
+    karana1_idx = int(diff / 6) + 1
+    karana2_idx = int((diff + 6) / 6) + 1
+    
+    def get_karana_name(idx):
+        if idx == 1: return "కింస్తుఘ్న"
+        elif 2 <= idx <= 57: return KARANAS_MOVABLE[(idx - 2) % 7]
+        elif idx == 58: return "శకుని"
+        elif idx == 59: return "చతుష్పాద"
+        elif idx == 60: return "నాగ"
+        return "N/A"
+        
+    karana1_name = get_karana_name(karana1_idx)
+    karana2_name = get_karana_name(karana2_idx)
+    
+    karana1_hours = (6 - (diff % 6)) / 0.5079
+    k1_dt = jd_dt + datetime.timedelta(hours=int(karana1_hours), minutes=int((karana1_hours%1)*60))
+    karana1_end_str = get_am_pm_str(k1_dt)
+    karana2_end_str = tithi_end_str # 2nd Karana ends with Tithi
+    
+    # Rasi
+    surya_rasi = RASI_TELUGU[int(sun_lon / 30)]
+    chandra_rasi = RASI_TELUGU[int(moon_lon / 30)]
     
     # Ayanam & Rutuvu
     ayanam = "ఉత్తరాయణం" if (sun_lon >= 270 or sun_lon < 90) else "దక్షిణాయణం"
@@ -1869,36 +1886,107 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
     year = local_midnight.year
-    month = local_midnight.month
-    adj_year = year - 1 if (month <= 6 and masam_index >= 9) else year
+    month_cal = local_midnight.month
+    adj_year = year - 1 if (month_cal <= 6 and masam_index >= 9) else year
     year_index = (adj_year - 1987) % 60
     telugu_year = TELUGU_YEARS[year_index]
+    saka_year = adj_year - 78
     
-    suryodayam = "06:00 AM"
-    suryastamayam = "06:00 PM"
+    # Weekday mapping
+    telugu_weekdays = ["సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము", "ఆదివారము"]
+    wd_index = local_midnight.weekday()
+    vara_name = telugu_weekdays[wd_index]
+    
+    suryodayam = "06:00 ఏ ఎం"
+    suryastamayam = "06:00 పీ ఎం"
+    moonrise_str = "N/A"
+    moonset_str = "N/A"
+    
+    rahu_kalam = "N/A"
+    gulika_kalam = "N/A"
+    yama_gandam = "N/A"
+    abhijit = "N/A"
+    durmuhurtams = []
+    
     try:
         loc = LocationInfo("Local", "Region", local_tz.zone, lat or 17.3850, lon or 78.4867)
         s = sun(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
-        suryodayam = s["sunrise"].strftime("%I:%M %p")
-        suryastamayam = s["sunset"].strftime("%I:%M %p")
+        sunrise_dt = s["sunrise"].astimezone(local_tz)
+        sunset_dt = s["sunset"].astimezone(local_tz)
+        suryodayam = get_am_pm_str(sunrise_dt)
+        suryastamayam = get_am_pm_str(sunset_dt)
+        
+        if moonrise:
+            mr = moonrise(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
+            if mr: moonrise_str = get_am_pm_str(mr)
+            ms = moonset(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
+            if ms: moonset_str = get_am_pm_str(ms)
+            
+        daylight_secs = (sunset_dt - sunrise_dt).total_seconds()
+        part_secs = daylight_secs / 8.0
+        muhurta_secs = daylight_secs / 15.0
+        
+        # 0=Mon, ..., 6=Sun
+        rahu_parts = [2, 7, 5, 6, 4, 3, 8]
+        yama_parts = [4, 3, 2, 1, 7, 6, 5]
+        guli_parts = [6, 5, 4, 3, 2, 1, 7]
+        
+        def get_period(parts_arr):
+            part = parts_arr[wd_index]
+            start_dt = sunrise_dt + datetime.timedelta(seconds=part_secs * (part - 1))
+            end_dt = start_dt + datetime.timedelta(seconds=part_secs)
+            return f"{get_am_pm_str(start_dt)} నుండి {get_am_pm_str(end_dt)} వరకు"
+            
+        rahu_kalam = get_period(rahu_parts)
+        yama_gandam = get_period(yama_parts)
+        gulika_kalam = get_period(guli_parts)
+        
+        # Abhijit is 8th Muhurta (index 7)
+        abhi_start = sunrise_dt + datetime.timedelta(seconds=muhurta_secs * 7)
+        abhi_end = abhi_start + datetime.timedelta(seconds=muhurta_secs)
+        abhijit = f"{get_am_pm_str(abhi_start)} నుండి {get_am_pm_str(abhi_end)} వరకు"
+        
+        # Durmuhurtam logic approximation based on weekday
+        dur_indices = {0: [8, 11], 1: [3, 15], 2: [7], 3: [2, 3], 4: [3, 8], 5: [2], 6: [13]}
+        for d_idx in dur_indices[wd_index]:
+            d_start = sunrise_dt + datetime.timedelta(seconds=muhurta_secs * d_idx)
+            d_end = d_start + datetime.timedelta(seconds=muhurta_secs)
+            durmuhurtams.append(f"{get_am_pm_str(d_start)} నుండి {get_am_pm_str(d_end)} వరకు")
+            
     except Exception:
         pass
         
     return {
-        "tithi_num": f"{tithi_index%15 + 1}వ తిథి",
-        "tithi_desc": f"{tithi_type} {tt_name}",
-        "tithi_full": f"{tithi_paksha} {tt_name}",
+        "tithi_num": f"{(tithi_index%15) + 1}వ తిథి",
+        "tithi_full": tt_name,
         "tithi_end": tithi_end_str,
         "nakshatra": nakshatra,
         "nak_end": nak_end_str,
+        "calendar_tithi_end": calendar_tithi_end,
+        "calendar_nak_end": calendar_nak_end,
         "yoga": yoga_name,
-        "karana": karana_name,
+        "karana1": karana1_name,
+        "karana1_end": karana1_end_str,
+        "karana2": karana2_name,
+        "karana2_end": karana2_end_str,
         "ayanam": ayanam,
         "rutuvu": rutuvu,
         "masam": telugu_masam_name,
-        "year": telugu_year,
+        "year_name": telugu_year,
+        "saka_year": saka_year,
+        "paksha": tithi_paksha,
+        "vara": vara_name,
+        "surya_rasi": surya_rasi,
+        "chandra_rasi": chandra_rasi,
         "sunrise": suryodayam,
-        "sunset": suryastamayam
+        "sunset": suryastamayam,
+        "moonrise": moonrise_str,
+        "moonset": moonset_str,
+        "rahu": rahu_kalam,
+        "yama": yama_gandam,
+        "gulika": gulika_kalam,
+        "abhijit": abhijit,
+        "durmuhurtams": durmuhurtams
     }
 
 @app.route("/daily_panchangam", methods=["GET", "POST"])
