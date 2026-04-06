@@ -215,9 +215,9 @@
                 <div class="cal-cell">
                     <div class="tithi-text">
                         <span>{{ day_data.tithi_num }}</span>
-                        <span class="tithi-sub">{{ day_data.tithi_desc }}</span>
+                        <span class="tithi-sub">{{ day_data.tithi_full }}</span>
                     </div>
-                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">ఉ.స: {{ day_data.tithi_end }}</div>
+                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">ఉ.స: {{ day_data.calendar_tithi_end }}</div>
                     
                     <div class="date-section">
                         <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
@@ -226,7 +226,7 @@
                     
                     <div class="nak-info" style="font-size: 11px; margin-top: 5px; color: #1565c0; font-weight: bold;">
                         {{ day_data.nakshatra }}
-                        <span style="font-size: 10px; color: #777; display: block; font-weight: normal;">ఉ.స: {{ day_data.nak_end }}</span>
+                        <span style="font-size: 10px; color: #777; display: block; font-weight: normal;">ఉ.స: {{ day_data.calendar_nak_end }}</span>
                     </div>
 
                     <div class="sun-times">
