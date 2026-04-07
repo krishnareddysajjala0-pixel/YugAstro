@@ -1440,34 +1440,11 @@
         <div class="dasa-section">
             <div class="section-title">📊 దశా చక్రం సారాంశం</div>
 
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <div class="summary-label">ప్రస్తుత దశ</div>
-                    <div class="summary-value" style="color: {{ current_dasa_color }};">
-                        {{ current_dasa_icon }} {{ maha }}
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-label">మొత్తం దశలు</div>
-                    <div class="summary-value" style="color: #4d96ff;">
-                        {{ all_dasas|length }}
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-label">మొత్తం వ్యవధి</div>
-                    <div class="summary-value" style="color: #6bcf7f;">
-                        {{ total_cycle_years }} సం.
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-label">ప్రస్తుత సంవత్సరం</div>
-                    <div class="summary-value" style="color: #ffd93d;">
-                        {{ current_year }}
-                    </div>
-                </div>
+            <div class="summary-line" style="display: flex; justify-content: space-around; flex-wrap: wrap; background: rgba(50, 50, 100, 0.4); padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; font-size: 15px;">
+                <div><span style="color: #a0a0ff;">ప్రస్తుత దశ:</span> <span style="color: {{ current_dasa_color }}; font-weight: bold;">{{ current_dasa_icon }} {{ maha }}</span></div>
+                <div><span style="color: #a0a0ff;">మొత్తం దశలు:</span> <span style="color: #4d96ff; font-weight: bold;">{{ all_dasas|length }}</span></div>
+                <div><span style="color: #a0a0ff;">మొత్తం వ్యవధి:</span> <span style="color: #6bcf7f; font-weight: bold;">{{ total_cycle_years }} సం.</span></div>
+                <div><span style="color: #a0a0ff;">ప్రస్తుత సంవత్సరం:</span> <span style="color: #ffd93d; font-weight: bold;">{{ current_year }}</span></div>
             </div>
         </div>
 
