@@ -17,16 +17,17 @@
             background: #ab1f22; /* Dark red */
             color: yellow;
             text-align: center;
-            padding: 10px;
-            font-size: 18px;
+            padding: 8px;
+            font-size: 15px;
             font-weight: bold;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 4px;
         }
         
-        .header-top span { margin: 2px 10px; }
+        .header-branding { font-size: 14px; border-bottom: 1px solid rgba(255,255,0,0.3); padding-bottom: 4px; }
+        .header-masam { font-size: 18px; color: yellow; }
+        .header-pakshams { font-size: 13px; color: #fff; font-weight: normal; }
 
         .search-bar { background: rgba(0,0,0,0.5); padding: 10px; text-align: center; }
         .search-bar form { display: inline-flex; gap: 8px; align-items: center; }
@@ -39,7 +40,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 10px auto;
-            background: #ddd;
+            background: #ccc;
             gap: 1px;
             border: 1px solid #ccc;
         }
@@ -63,16 +64,19 @@
         .day-6 { color: #424242; } /* Sat */
 
         .cal-cell {
-            background: white;
-            min-height: 90px;
-            color: black;
+            min-height: 95px;
             padding: 4px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             overflow: hidden;
+            transition: all 0.2s ease;
         }
+
+        /* Paksham Based Colors */
+        .shukla-box { background: white !important; color: black !important; }
+        .krishna-box { background: #1a1a1a !important; color: #e2e8f0 !important; }
 
         .date-number {
             position: absolute;
@@ -80,49 +84,63 @@
             right: 4px;
             font-size: 18px;
             font-weight: 900;
-            color: blue;
             z-index: 2;
         }
-        .date-number.sunday { color: red; }
+        .shukla-box .date-number { color: blue; }
+        .krishna-box .date-number { color: #60a5fa; }
+        .date-number.sunday { color: red !important; }
+
+        .moon-icon {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            font-size: 14px;
+            z-index: 2;
+        }
 
         .tithi-text {
-            color: red;
             font-weight: bold;
             font-size: 11px;
             line-height: 1.2;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
             padding-right: 25px; /* Stay clear of date */
         }
-        .tithi-time { color: blue; font-size: 9px; margin-bottom: 2px; }
+        .shukla-box .tithi-text { color: red; }
+        .krishna-box .tithi-text { color: #fca5a5; }
 
-        .nakshatra-text { font-size: 10px; color: #333; font-weight: 600; margin-top: 2px; }
+        .tithi-time { font-size: 9px; margin-bottom: 2px; }
+        .shukla-box .tithi-time { color: blue; }
+        .krishna-box .tithi-time { color: #93c5fd; }
+
+        .nakshatra-text { font-size: 10px; font-weight: 600; margin-top: 1px; }
+        .shukla-box .nakshatra-text { color: #333; }
+        .krishna-box .nakshatra-text { color: #cbd5e1; }
+
         .nakshatra-time { font-size: 9px; color: #777; }
 
         .sun-times {
             font-size: 8px;
-            color: #888;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0,0,0,0.1);
             margin-top: auto;
             padding-top: 2px;
             display: flex;
             justify-content: space-between;
         }
+        .krishna-box .sun-times { border-top-color: rgba(255,255,255,0.1); color: #94a3b8; }
 
-        .festival-cell { background: #f0fff4 !important; }
+        .shukla-box.festival-cell { background: #f0fff4 !important; }
+        .krishna-box.festival-cell { background: #064e3b !important; }
+
         .festival-name-tag {
             font-size: 9px;
-            color: #16a34a;
             font-weight: bold;
             margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        .pournami-cell { background: #f8fafc !important; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
-        .amavasya-cell { background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; }
-
-        .empty-cell { background: #fafafa !important; }
+        .shukla-box .festival-name-tag { color: #16a34a; }
+        .krishna-box .festival-name-tag { color: #4ade80; }
 
         .mana-pandugalu-container {
             grid-column: span 7;
@@ -151,22 +169,32 @@
         .nav-item i { font-size: 18px; }
 
         @media (max-width: 600px) {
+            .header-branding { font-size: 11px; }
+            .header-masam { font-size: 15px; }
+            .header-pakshams { font-size: 10px; }
             .calendar-container { gap: 1px; }
-            .cal-cell { min-height: 80px; padding: 2px; }
+            .cal-cell { min-height: 85px; padding: 2px; }
             .date-number { font-size: 15px; top: 1px; right: 2px; }
             .day-header { font-size: 10px; padding: 5px 1px; }
             .tithi-text { font-size: 9px; padding-right: 18px; }
             .nakshatra-text { font-size: 8px; }
             .sun-times { font-size: 7px; flex-direction: column; }
             .festival-name-tag { font-size: 8px; }
+            .moon-icon { font-size: 11px; top: 1px; left: 2px; }
         }
     </style>
 </head>
 <body>
     <div class="header-top">
-        <span>{{ year }}</span>
-        <span>{{ start_dt_str }} - {{ end_dt_str }}</span>
-        <span>{{ telugu_masam }}</span>
+        <div class="header-branding">
+            {{ year_name }} నామ సంవత్సరం ({{ year_index }}), కలియుగ సంవత్సరం-{{ kaliyuga_year }}, త్రైత శకము-{{ thraitha_sakamu }}
+        </div>
+        <div class="header-masam">
+            {{ telugu_masam }} మాసము | {{ year }} {{ start_dt_str }} - {{ end_dt_str }}
+        </div>
+        <div class="header-pakshams">
+            శుక్ల పక్షం: {{ shukla_range }} | కృష్ణ పక్షం: {{ krishna_range }}
+        </div>
     </div>
 
     <div class="search-bar">
@@ -188,18 +216,24 @@
             {% for wd in range(7) %}
                 {% set day_data = days_data[wd][week_idx] %}
                 {% if day_data %}
-                <div class="cal-cell {% if day_data.is_festival %}festival-cell{% endif %} {% if day_data.is_pournami %}pournami-cell{% endif %} {% if day_data.is_amavasya %}amavasya-cell{% endif %}">
+                <div class="cal-cell {% if day_data.is_shukla %}shukla-box{% else %}krishna-box{% endif %} {% if day_data.is_festival %}festival-cell{% endif %}">
                     <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
                     
+                    {% if day_data.is_pournami %}
+                    <div class="moon-icon">🌕</div>
+                    {% elif day_data.is_amavasya %}
+                    <div class="moon-icon">🌑</div>
+                    {% endif %}
+
                     <div class="tithi-text">{{ day_data.tithi_full }}</div>
-                    <div class="tithi-time text-muted">{{ day_data.calendar_tithi_end }}</div>
+                    <div class="tithi-time">{{ day_data.calendar_tithi_end }}</div>
                     
                     <div class="nakshatra-text">{{ day_data.nakshatra }}</div>
-                    <div class="nakshatra-time text-muted">{{ day_data.calendar_nak_end }}</div>
+                    <div class="nakshatra-time">{{ day_data.calendar_nak_end }}</div>
                     
                     <div class="sun-times">
-                        <span>ఉ {{ day_data.sunrise.split(' ')[0] }}</span>
-                        <span>సా {{ day_data.sunset.split(' ')[0] }}</span>
+                        <span>సు ఉ {{ day_data.sunrise.split(' ')[0] }}</span>
+                        <span>సు సా {{ day_data.sunset.split(' ')[0] }}</span>
                     </div>
                     
                     {% if day_data.is_festival %}
@@ -207,7 +241,7 @@
                     {% endif %}
                 </div>
                 {% else %}
-                <div class="cal-cell empty-cell"></div>
+                <div class="cal-cell empty-cell" style="background: rgba(0,0,0,0.05);"></div>
                 {% endif %}
             {% endfor %}
         {% endfor %}

@@ -2000,6 +2000,36 @@ def calendar_view():
     y2, m2_dt, d2, h2 = swe.revjul(jd_end)
     end_dt = datetime.datetime(y2, m2_dt, d2).date()
     
+    # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
+    adj_year = date_obj.year
+    year_index = (adj_year - 1987) % 60
+    year_name = TELUGU_YEARS[year_index]
+    cycles_since_1987 = (adj_year - 1987) // 60
+    kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
+    thraitha_sakamu = 47 + (adj_year - 2025)
+
+    # Calculate Paksham Ranges
+    def find_tithi_jd(jd_guess, target_diff):
+        jd_val = jd_guess
+        for _ in range(10):
+            res_m = swe.calc_ut(jd_val, swe.MOON, PLANET_FLAGS)
+            res_s = swe.calc_ut(jd_val, swe.SUN, PLANET_FLAGS)
+            m = res_m[0][0]; s = res_s[0][0]
+            df = (m - s - target_diff) % 360
+            if df > 180: df -= 360
+            jd_val -= df / 12.190749
+            if abs(df) < 0.0001: break
+        return jd_val
+
+    jd_purnima = find_tithi_jd(jd_start + 14.5, 180)
+    y3, m3, d3, h3 = swe.revjul(jd_purnima)
+    purnima_dt = datetime.date(int(y3), int(m3), int(d3))
+    
+    EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+    shukla_range = f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month-1]} - {purnima_dt.day} {EN_MONTHS_TELUGU[purnima_dt.month-1]}"
+    krishna_start_dt = purnima_dt + datetime.timedelta(days=1)
+    krishna_range = f"{krishna_start_dt.day} {EN_MONTHS_TELUGU[krishna_start_dt.month-1]} - {end_dt.day} {EN_MONTHS_TELUGU[end_dt.month-1]}"
+
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
     rasi_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (rasi_idx + 1) % 12
@@ -2047,7 +2077,6 @@ def calendar_view():
     
     # We organize by 6 possible weeks for each of 7 days
     days_data = {i: [None]*6 for i in range(7)}
-    EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
     
     first_wd = (start_dt.weekday() + 1) % 7 # 0 = Sun
     
@@ -2066,7 +2095,7 @@ def calendar_view():
         # Check for festival
         f_name = ""
         pks = 0 if "శుక్ల" in panch["paksha"] else 1
-        # Extract tithi name (removing suffix like '1వ తిథి' if any, or just use naming from panch)
+        # Extract tithi name
         t_name = panch["tithi_full"]
         m_name = panch["masam"]
         
@@ -2095,6 +2124,7 @@ def calendar_view():
             "sunset": panch["sunset"],
             "is_festival": bool(f_name),
             "fest_name": f_name,
+            "is_shukla": "శుక్ల" in panch["paksha"],
             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
             "is_amavasya": "అమావాస్య" in panch["tithi_full"]
         }
@@ -2105,7 +2135,13 @@ def calendar_view():
         festivals=festivals_list,
         days_data=days_data,
         year=date_obj.year,
+        year_name=year_name,
+        year_index=year_index + 1,
+        kaliyuga_year=kaliyuga_year,
+        thraitha_sakamu=thraitha_sakamu,
         telugu_masam=telugu_masam_name,
+        shukla_range=shukla_range,
+        krishna_range=krishna_range,
         start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",
         end_dt_str=f"{end_dt.day} {EN_MONTHS_TELUGU[end_dt.month - 1]}"
     )
