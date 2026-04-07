@@ -1264,6 +1264,11 @@
       hideLoading();
     }, 5000);
 
+    // Hide loading screen when page is cached/returned to
+    window.addEventListener('pageshow', function (event) {
+        hideLoading();
+    });
+
     // Set default date and time (24-hour format)
     const now = new Date();
     const year = now.getFullYear();

@@ -2105,8 +2105,10 @@ def calendar_view():
             "tithi_num": panch["tithi_num"],
             "tithi_full": panch["tithi_full"],
             "tithi_end": panch["tithi_end"],
+            "calendar_tithi_end": panch.get("calendar_tithi_end", ""),
             "nakshatra": panch["nakshatra"],
             "nak_end": panch["nak_end"],
+            "calendar_nak_end": panch.get("calendar_nak_end", ""),
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"]
         }

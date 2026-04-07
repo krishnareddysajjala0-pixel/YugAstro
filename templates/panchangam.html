@@ -497,6 +497,17 @@
             100% { transform: translateX(-100%); }
         }
 
+        /* Rasi Chart Grid */
+        .chart-container { max-width: 500px; margin: 30px auto 10px; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 20px; border: 1px solid var(--card-border); }
+        .chart { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); gap: 5px; width: 100%; aspect-ratio: 1; margin: 0 auto; }
+        .box { position: relative; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.03); }
+        .lagna { border: 2px solid gold; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .house-no { position: absolute; top: 3px; right: 3px; background: rgba(0, 0, 0, 0.5); width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #a0a0ff; }
+        .rasi-name { position: absolute; bottom: 3px; background: rgba(0, 0, 0, 0.5); padding: 2px 6px; border-radius: 8px; font-size: 10px; color: #f8fafc; }
+        .center { grid-column: 2 / 4; grid-row: 2 / 4; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; font-size: 14px; font-weight: bold; background: rgba(0, 0, 0, 0.1); color: #ffd700; text-align: center; }
+
+
+
         @media (max-width: 768px) {
             .panchangam-table th {
                 width: 40%;
@@ -715,6 +726,29 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <h2 class="section-title">
+                <i class="fas fa-th-large section-icon"></i> కుండలి (Kundali Grid)
+            </h2>
+
+            {% macro empty_box(rasi) %}
+                {% set hno = houses.get(rasi, "") if houses else "" %}
+                <div class="box {% if lagna==rasi %}lagna{% endif %}">
+                    {% if hno %}<span class="house-no">{{ hno }}</span>{% endif %}
+                    <span class="rasi-name">{{ rasi }}</span>
+                    {% if lagna==rasi %}<div style="color: gold; text-align: center; font-weight: bold; font-size: 11px; margin-bottom: 12px;">లగ్నం</div>{% endif %}
+                </div>
+            {% endmacro %}
+
+            <div class="chart-container">
+                <div class="chart">
+                    {{ empty_box("మీనం") }} {{ empty_box("మేషం") }} {{ empty_box("వృషభం") }} {{ empty_box("మిథునం") }}
+                    {{ empty_box("కుంభం") }} <div class="center">జాఫతకము<br><span style="font-size:10px;color:#a0a0ff;margin-top:5px;font-weight:normal;">(గ్రహాలు లేకుండా)</span></div> {{ empty_box("కర్కాటకం") }}
+                    {{ empty_box("మకరం") }} {{ empty_box("సింహం") }}
+                    {{ empty_box("ధనస్సు") }} {{ empty_box("వృశ్చికం") }} {{ empty_box("తులా") }} {{ empty_box("కన్య") }}
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -769,6 +803,7 @@
                 }
             });
         });
+    </script>
     <div class="scrolling-footer">
         <div class="scrolling-footer-text">
             ఏవైనా సలహాలు మరియు మార్పుల కోసం 9700836368 ని సంప్రదించండి.
