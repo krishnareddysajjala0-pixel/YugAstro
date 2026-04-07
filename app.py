@@ -704,12 +704,12 @@ def chart():
         res_setUTC = s["sunset"]
         
         # Convert Astral's timezone-aware response directly to the requested format
-        suryodayam = res_riseUTC.strftime("%I:%M %p")
-        suryastamayam = res_setUTC.strftime("%I:%M %p")
+        suryodayam = res_riseUTC.strftime("%I:%M") + (" ఉ:" if res_riseUTC.hour < 12 else " సా:")
+        suryastamayam = res_setUTC.strftime("%I:%M") + (" ఉ:" if res_setUTC.hour < 12 else " సా:")
     except Exception as e:
         print(f"Astral Sun Calculation Failed: {e}")
-        suryodayam = "06:00 AM"
-        suryastamayam = "06:00 PM"
+        suryodayam = "06:00 ఉ:"
+        suryastamayam = "06:00 సా:"
     
     # Astral has already given us formatted 'suryodayam' and 'suryastamayam'
 
@@ -1811,7 +1811,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     def get_am_pm_str(dt):
         time_str = dt.strftime("%I:%M")
         ampm = "ఉ" if dt.hour < 12 else ("మ" if dt.hour < 16 else ("సా" if dt.hour < 20 else "రా"))
-        exact_ampm = "ఏ ఎం" if dt.hour < 12 else "పీ ఎం"
+        exact_ampm = "ఉ:" if dt.hour < 12 else "సా:"
         return f"{time_str} {exact_ampm}"
         
     diff = (moon_lon - sun_lon) % 360
@@ -1897,8 +1897,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     wd_index = local_midnight.weekday()
     vara_name = telugu_weekdays[wd_index]
     
-    suryodayam = "06:00 ఏ ఎం"
-    suryastamayam = "06:00 పీ ఎం"
+    suryodayam = "06:00 ఉ:"
+    suryastamayam = "06:00 సా:"
     moonrise_str = "N/A"
     moonset_str = "N/A"
     
@@ -2103,7 +2103,7 @@ def calendar_view():
             "date": current_dt.day,
             "month_te": EN_MONTHS_TELUGU[current_dt.month - 1],
             "tithi_num": panch["tithi_num"],
-            "tithi_desc": panch["tithi_desc"],
+            "tithi_full": panch["tithi_full"],
             "tithi_end": panch["tithi_end"],
             "nakshatra": panch["nakshatra"],
             "nak_end": panch["nak_end"],
