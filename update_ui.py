@@ -137,7 +137,7 @@ loading_css_js = """
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-text { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
 </style>
-<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">గణన చేస్తోంది...</div></div>
+<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</div></div>
 <script>
 function showLoading() { document.getElementById('loading').style.display = 'flex'; }
 function hideLoading() { document.getElementById('loading').style.display = 'none'; }

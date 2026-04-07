@@ -215,7 +215,7 @@
 <body>
     <div id="loading-overlay">
         <div class="loader-astro"></div>
-        <p style="font-size: 20px; font-weight: bold;">గణన చేస్తోంది...</p>
+        <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
     </div>
 <style>
 .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,41,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; backdrop-filter: blur(5px); }
@@ -223,7 +223,7 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-text { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
 </style>
-<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">గణన చేస్తోంది...</div></div>
+<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</div></div>
 <script>
 function showLoading() { document.getElementById('loading').style.display = 'flex'; }
 function hideLoading() { document.getElementById('loading').style.display = 'none'; }
