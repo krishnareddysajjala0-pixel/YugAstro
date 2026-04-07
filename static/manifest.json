@@ -1,11 +1,11 @@
 {
-  "name": "Telugu Astrology",
-  "short_name": "Astrology",
-  "description": "Telugu Astrology Chart and Dasha Calculator",
+  "name": "YugAstro",
+  "short_name": "YugAstro",
+  "description": "Telugu Astrology Chart, Panchangam, and Calendar",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1A1A1D",
-  "theme_color": "#FFD700",
+  "background_color": "#0f0c29",
+  "theme_color": "#ab1f22",
   "icons": [
     {
       "src": "/static/icons/icon-192x192.png",
