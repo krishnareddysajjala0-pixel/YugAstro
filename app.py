@@ -1891,6 +1891,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     year_index = (adj_year - 1987) % 60
     telugu_year = TELUGU_YEARS[year_index]
     saka_year = adj_year - 78
+    kaliyuga_year = 5126 + (adj_year - 2025)
+    thraitha_sakamu = 47 + (adj_year - 2025)
     
     # Weekday mapping
     telugu_weekdays = ["సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము", "ఆదివారము"]
@@ -1973,7 +1975,10 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "rutuvu": rutuvu,
         "masam": telugu_masam_name,
         "year_name": telugu_year,
+        "year_index": year_index,
         "saka_year": saka_year,
+        "kaliyuga_year": kaliyuga_year,
+        "thraitha_sakamu": thraitha_sakamu,
         "paksha": tithi_paksha,
         "vara": vara_name,
         "surya_rasi": surya_rasi,
