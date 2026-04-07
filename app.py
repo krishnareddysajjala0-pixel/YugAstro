@@ -2077,7 +2077,9 @@ def calendar_view():
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"],
             "is_festival": bool(f_name),
-            "fest_name": f_name
+            "fest_name": f_name,
+            "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
+            "is_amavasya": "అమావాస్య" in panch["tithi_full"]
         }
         
     return render_template(

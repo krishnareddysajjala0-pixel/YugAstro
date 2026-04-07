@@ -173,13 +173,12 @@
             .month-text { font-size: 12px; }
         }
         .festival-cell {
-            background: rgba(255, 215, 0, 0.15) !important;
-            border: 1px solid rgba(255, 215, 0, 0.5) !important;
-            position: relative;
+            background: rgba(34, 197, 94, 0.1) !important;
+            border: 1px solid rgba(34, 197, 94, 0.4) !important;
         }
         .festival-name-tag {
             font-size: 10px;
-            color: #facc15;
+            color: #16a34a;
             font-weight: bold;
             display: block;
             margin-top: 4px;
@@ -188,11 +187,33 @@
             white-space: nowrap;
         }
         .mana-pandugalu-header {
-            color: #facc15;
-            font-size: 15px;
+            color: #16a34a;
+            font-size: 16px;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
-            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(22, 163, 74, 0.2);
+            margin-bottom: 8px;
+            text-decoration: underline;
+        }
+        .festival-item-list {
+            color: #16a34a;
+            font-size: 11px;
+            text-align: left;
+            width: 100%;
+            padding-left: 5px;
+        }
+        .pournami-cell {
+            box-shadow: inset 0 0 15px rgba(192, 192, 192, 0.4);
+            border: 2px solid silver !important;
+        }
+        .amavasya-cell {
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+            border: 2px solid #333 !important;
+            background: rgba(0,0,0,0.05);
+        }
+        .empty-cell {
+            background: white !important;
+            color: black !important;
+            border: 1px solid #ddd !important;
         }
     </style>
 </head>
@@ -277,7 +298,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 {% for week_idx in range(6) %}
                 {% set day_data = days_data[wd][week_idx] %}
                 {% if day_data %}
-                <div class="cal-cell {% if day_data.is_festival %}festival-cell{% endif %}">
+                <div class="cal-cell {% if day_data.is_festival %}festival-cell{% endif %} {% if day_data.is_pournami %}pournami-cell{% endif %} {% if day_data.is_amavasya %}amavasya-cell{% endif %}">
                     <div class="tithi-text">
                         <span style="font-size:14px;">{{ day_data.tithi_full }}</span>
                     </div>
@@ -301,15 +322,17 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     {% endif %}
                 </div>
                 {% else %}
-                <div class="cal-cell empty-cell" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: rgba(255, 215, 0, 0.8); font-size: 12px; background: rgba(0,0,0,0.3); padding: 5px;">
+                <div class="cal-cell empty-cell" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 8px; overflow-y: auto;">
                     {% if ns.fest_idx == 0 %}
                         <div class="mana-pandugalu-header">మన పండుగలు</div>
+                        <div style="width: 100%;">
+                        {% for f in festivals %}
+                            <div class="festival-item-list">
+                                <b>{{ f.day }}</b>: {{ f.name }}
+                            </div>
+                        {% endfor %}
+                        </div>
                         {% set ns.fest_idx = 1 %}
-                    {% elif (ns.fest_idx - 1) < festivals|length %}
-                        {% set f = festivals[ns.fest_idx - 1] %}
-                        <div style="font-weight: bold; color: #facc15;">{{ f.day }}</div>
-                        <div style="font-size: 11px;">{{ f.name }}</div>
-                        {% set ns.fest_idx = ns.fest_idx + 1 %}
                     {% endif %}
                 </div>
                 {% endif %}
