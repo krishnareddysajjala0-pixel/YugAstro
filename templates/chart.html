@@ -845,6 +845,35 @@
         min-height: 100px;
         padding: 8px;
         font-size: 11px;
+        line-height: 1.2;
+      }
+
+      .box span {
+        display: inline-block;
+        max-width: 85%; /* Prevents overlap with house number on right */
+        word-break: break-word;
+      }
+
+      .box-condensed {
+        font-size: 10px !important;
+      }
+
+      .box-condensed span {
+        line-height: 1.1;
+      }
+
+      .house-no {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        top: 4px;
+        right: 4px;
+      }
+
+      .karma-label {
+        font-size: 8px;
+        margin-bottom: 4px;
+        padding: 1px 3px;
       }
 
       .center {
@@ -1068,8 +1097,13 @@
     {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
     {% macro box(rasi) %}
     {% set hno = houses[rasi] %}
-    <div class="box {{ house_bg_class(hno) }} {% if lagna==rasi %}lagna{% endif %}">
+    {% set lines = chart[rasi].split('<br>') %}
+    {% set items_count = namespace(count=0) %}
+    {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
+    
+    <div class="box {{ house_bg_class(hno) }} {% if lagna==rasi %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
       <span class="house-no">{{ hno }}</span>
+
       
       {% if hno in [1,5,9] %}
         <div class="karma-label">punyam</div>
