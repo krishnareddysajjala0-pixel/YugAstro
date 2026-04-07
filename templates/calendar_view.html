@@ -175,6 +175,19 @@
     </style>
 </head>
 <body>
+<style>
+.loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,41,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; backdrop-filter: blur(5px); }
+.spinner { width: 50px; height: 50px; border: 5px solid rgba(255, 215, 0, 0.3); border-top-color: #ffd700; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+</style>
+<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">గణన చేస్తోంది...</div></div>
+<script>
+function showLoading() { document.getElementById('loading').style.display = 'flex'; }
+function hideLoading() { document.getElementById('loading').style.display = 'none'; }
+window.addEventListener('pageshow', function (e) { hideLoading(); });
+</script>
+
 <!-- APP GLOW BORDER -->
 <style>
 .app-glow-frame {
@@ -211,7 +224,7 @@
     </div>
 
     <div class="search-bar">
-        <form action="/calendar_view" method="POST">
+        <form action="/calendar_view" method="POST" onsubmit="showLoading()">
             <input type="date" name="calendar_date" value="{{ input_date }}" required>
             <button type="submit"><i class="fas fa-search"></i> వీక్షించు</button>
         </form>
@@ -242,24 +255,21 @@
                 {% if day_data %}
                 <div class="cal-cell">
                     <div class="tithi-text">
-                        <span>{{ day_data.tithi_num }}</span>
-                        <span class="tithi-sub">{{ day_data.tithi_full }}</span>
+                        <span style="font-size:14px;">{{ day_data.tithi_full }}</span>
                     </div>
-                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">ఉ.స: {{ day_data.calendar_tithi_end }}</div>
+                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">{{ day_data.calendar_tithi_end }} వరకు</div>
                     
                     <div class="date-section">
-                        <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
+                        <div class="date-number">{{ day_data.date }}</div>
                         <div class="month-text">{{ day_data.month_te }}</div>
                     </div>
                     
-                    <div class="nak-info" style="font-size: 11px; margin-top: 5px; color: #1565c0; font-weight: bold;">
-                        {{ day_data.nakshatra }}
-                        <span style="font-size: 10px; color: #777; display: block; font-weight: normal;">ఉ.స: {{ day_data.calendar_nak_end }}</span>
-                    </div>
-
-                    <div class="sun-times">
-                        <span>ఉ {{ day_data.sunrise.split(' ')[0] }}</span>
-                        <span>సా {{ day_data.sunset.split(' ')[0] }}</span>
+                    <div class="nakshatra-text" style="font-size:12px; margin-top:2px;">{{ day_data.nakshatra }}</div>
+                    <div class="nakshatra-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">{{ day_data.calendar_nak_end }} వరకు</div>
+                    
+                    <div class="sun-times" style="font-size: 9px; color: #888; margin-top: 5px;">
+                        <div>సూర్యోదయం ఉ {{ day_data.sunrise.split(' ')[0] }}</div>
+                        <div>సూర్యాస్తమయం సా {{ day_data.sunset.split(' ')[0] }}</div>
                     </div>
                 </div>
                 {% else %}

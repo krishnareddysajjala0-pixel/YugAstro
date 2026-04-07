@@ -2023,7 +2023,66 @@ def daily_panchangam():
     jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600)
     local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
     
+    
     panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True)
+    
+    try:
+        from app import chart
+        # The logic is deeply embedded in chart(). We only want the array parts.
+        # It's better to just re-implement the short calculation here:
+        import swisseph as swe
+        
+        PLANETS = {
+            "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
+            "బుధ": swe.MERCURY, "గురు": swe.JUPITER, "శుక్ర": swe.VENUS, "శని": swe.SATURN
+        }
+        RASI_TELUGU = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
+        
+        chart_data_temp = {r:[] for r in RASI_TELUGU}
+        base_pos = {}
+        for name_p, pid in PLANETS.items():
+            lonp = swe.calc_ut(jd, pid, 2|256)[0][0]
+            base_pos[name_p] = lonp
+            r = RASI_TELUGU[int(lonp/30)]
+            d = int(lonp%30); m = int(((lonp%30)-d)*60)
+            chart_data_temp[r].append((lonp%30, f"<b>{name_p}</b> <small>{d}°{m:02d}′</small>"))
+            
+        rahu = base_pos.get("రాహు", 0)
+        ketu = (rahu + 180) % 360
+        r = RASI_TELUGU[int(ketu/30)]
+        d = int(ketu%30); m = int(((ketu%30)-d)*60)
+        chart_data_temp[r].append((ketu%30, f"<b>కేతు</b> <small>{d}°{m:02d}′</small>"))
+        base_pos["కేతు"] = ketu
+        
+        der = {"భూమి": (base_pos.get("సూర్యుడు", 0)+180)%360, "చిత్ర": (rahu+3.3333)%360, "మిత్ర": (ketu+3.3333)%360}
+        for n, lonp in der.items():
+            r = RASI_TELUGU[int(lonp/30)]
+            d = int(lonp%30); m = int(((lonp%30)-d)*60)
+            chart_data_temp[r].append((lonp%30, f"<b>{n}</b> <small>{d}°{m:02d}′</small>"))
+            
+        # hands
+        for n, base in base_pos.items():
+            hl = (base + 180)%360
+            r = RASI_TELUGU[int(hl/30)]
+            d = int(hl%30); min_val = int(((hl%30)-d)*60)
+            chart_data_temp[r].append((hl%30, f"<span class='hand'><span style='font-size: 0.7em;'>👉</span> {n} <small>{d}°{min_val:02d}′</small></span>"))
+            
+        hus, ascmc = swe.houses(jd, lat, lon)
+        lagna_lon = (ascmc[0] - swe.get_ayanamsa_ut(jd)) % 360
+        lagna = RASI_TELUGU[int(lagna_lon/30)]
+        lagna_deg = int(lagna_lon%30); lagna_min = int(((lagna_lon%30)-lagna_deg)*60)
+        chart_data_temp[lagna].append((lagna_lon%30, f"<b>లగ్నం</b> <small>{lagna_deg}°{lagna_min:02d}′</small>"))
+        
+        chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
+        rsi_idx = RASI_TELUGU.index(lagna)
+        rasi_houses = {RASI_TELUGU[(rsi_idx + i) % 12]: i+1 for i in range(12)}
+        
+        panch_data['chart'] = chart_data
+        panch_data['houses'] = rasi_houses
+        panch_data['lagna'] = lagna
+    except Exception as e:
+        print("Error computing chart for daily panchangam", e)
+
     
     return render_template(
         "daily_panchangam.html",
