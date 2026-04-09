@@ -1154,13 +1154,18 @@
             100% { transform: translateX(-100%); }
         }
         @media print {
-            * {
+            *, *::before, *::after {
                 box-shadow: none !important;
                 text-shadow: none !important;
                 background: transparent !important;
                 color: #000 !important;
                 backdrop-filter: none !important;
                 filter: none !important;
+                animation: none !important;
+                transition: none !important;
+            }
+            body::before, body::after, .progress-bar::before, .progress-fill::after, .cosmic-header::before, .nakshatra-box::before, .current-dasa-box::before {
+                display: none !important;
             }
             body {
                 background: #fff !important;

@@ -656,9 +656,17 @@
 
     /* ===== PRINT ===== */
     @media print {
-      * {
+      *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        animation: none !important;
+        backdrop-filter: none !important;
+      }
+      
+      body::before, body::after, .background-overlay, .cosmic-bg {
+        display: none !important;
       }
       body {
         background: #fff !important;
@@ -683,9 +691,7 @@
         border: none !important;
       }
 
-      * {
-        text-shadow: none !important;
-      }
+
       
       .center {
         border: 2px solid #000 !important;
