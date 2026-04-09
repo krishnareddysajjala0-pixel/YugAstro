@@ -667,14 +667,15 @@
         margin: 0 !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
         align-items: center !important;
-        height: 100vh !important;
+        height: auto !important;
+        min-height: 100vh !important;
       }
 
       .header {
         color: #000 !important;
-        margin-bottom: 30px !important;
+        margin-bottom: 10px !important;
         width: 100% !important;
         text-align: center !important;
       }
@@ -754,11 +755,13 @@
       .fixed-bottom-bar,
       #action-bar,
       .float-btn,
-      .print-hide {
+      .print-hide,
+      #transit-btn,
+      #transit-loading {
         display: none !important;
       }
 
-      .chart-container {
+      .chart-container, #transit-container {
         page-break-inside: avoid;
         break-inside: avoid;
         padding: 0 !important;
@@ -768,7 +771,7 @@
         box-shadow: none !important;
         border: none !important;
         transform: scale(0.95);
-        transform-origin: center center;
+        transform-origin: top center;
       }
 
       .chart {
@@ -777,9 +780,10 @@
       }
 
       .box {
+        background: #ffffff !important;
         border: 1px solid #000 !important;
         padding: 4px !important;
-        min-height: 110px !important;
+        min-height: 100px !important;
         font-size: 11px !important;
       }
 
