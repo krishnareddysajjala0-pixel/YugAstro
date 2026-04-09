@@ -1714,29 +1714,7 @@
             // });
         }
 
-        // Handle print
-        window.onbeforeprint = function () {
-            // Expand all cards for printing
-            document.querySelectorAll('.maha-dasa-card').forEach(card => {
-                card.classList.add('expanded');
-            });
 
-            document.querySelectorAll('.maha-dasa-card.current').forEach(card => {
-                card.style.boxShadow = 'inset 0 0 0 2px #4CAF50';
-                card.style.animation = 'none';
-            });
-
-            // Hide interactive elements
-            document.querySelectorAll('.print-button, .nav-buttons, .chart-form, .maha-accordion-toggle').forEach(el => {
-                el.style.display = 'none';
-            });
-        };
-
-        window.onafterprint = function () {
-            document.querySelectorAll('.print-button, .nav-buttons, .chart-form').forEach(el => {
-                el.style.display = 'flex';
-            });
-        };
 
         // Initialize tooltips
         function initializeTooltips() {
