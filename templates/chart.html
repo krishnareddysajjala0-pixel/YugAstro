@@ -1428,10 +1428,7 @@
         onclick="window.print()">
         <i class="fas fa-file-pdf"></i> ప్రింట్
       </button>
-      <button class="float-btn print-hide" style="background: linear-gradient(135deg, #2196F3, #1565C0);"
-        onclick="shareChart()">
-        <i class="fas fa-share-alt"></i> షేర్
-      </button>
+
     </div>
 
     <script>
@@ -1546,27 +1543,7 @@
       };
 
 
-      function shareChart() {
-        const shareData = {
-          title: '{{ name }} - తెలుగు జ్యోతిష్య చక్రం',
-          text: '{{ name }} యొక్క జ్యోతిష్య చక్రం వివరాలు చూడండి.',
-          url: window.location.href
-        };
 
-        if (navigator.share) {
-          navigator.share(shareData)
-            .then(() => console.log('Shared successfully'))
-            .catch(err => console.log('Error sharing:', err));
-        } else {
-          navigator.clipboard.writeText(window.location.href)
-            .then(() => {
-              alert('లింక్ క్లిప్‌బోర్డ్‌కు కాపీ అయ్యింది!');
-            })
-            .catch(err => {
-              console.error('Could not copy text: ', err);
-            });
-        }
-      }
 
       function goToPlanetDetails() {
         window.location.href = '/chart3';
