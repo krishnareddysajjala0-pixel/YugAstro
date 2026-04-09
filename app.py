@@ -1807,12 +1807,21 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         
     diff = (moon_lon - sun_lon) % 360
     tithi_index = int(diff / 12)
-    tithi_paksha = "శుక్ల పక్షములు" if tithi_index < 15 else "కృష్ణ పక్షములు"
+    tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
     
     if tithi_index < 15:
         tt_name = TITHIS_TELUGU[tithi_index]
     else:
         tt_name = TITHIS_KRISHNA_TELUGU[tithi_index - 15]
+        
+    tithi_offset = diff - (tithi_index * 12)
+    t_elapsed_h = int((tithi_offset / 12) * 24)
+    t_elapsed_m = int((((tithi_offset / 12) * 24) % 1) * 60)
+    t_rem = 12 - tithi_offset
+    t_remain_h = int((t_rem / 12) * 24)
+    t_remain_m = int((((t_rem / 12) * 24) % 1) * 60)
+    tithi_elapsed_str = f"గడిచిన సమయం: {t_elapsed_h}గం {t_elapsed_m}ని"
+    tithi_remaining_str = f"మిగిలిన సమయం: {t_remain_h}గం {t_remain_m}ని"
         
     tithi_end_str = ""
     nak_end_str = ""
@@ -1824,6 +1833,17 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     
     nak_index = int(moon_lon / NAKSHATRA_SIZE)
     nakshatra = NAKSHATRAS_TELUGU[nak_index]
+    
+    nak_offset = moon_lon - (nak_index * NAKSHATRA_SIZE)
+    padam = int(nak_offset / PADAM_SIZE) + 1
+    
+    nak_elapsed_h = int((nak_offset / NAKSHATRA_SIZE) * 24)
+    nak_elapsed_m = int((((nak_offset / NAKSHATRA_SIZE) * 24) % 1) * 60)
+    nak_rem = NAKSHATRA_SIZE - nak_offset
+    nak_remain_h = int((nak_rem / NAKSHATRA_SIZE) * 24)
+    nak_remain_m = int((((nak_rem / NAKSHATRA_SIZE) * 24) % 1) * 60)
+    nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
+    nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
     
     nak_rem_deg = ((int(moon_lon / NAKSHATRA_SIZE) + 1) * NAKSHATRA_SIZE) - moon_lon
     if nak_rem_deg < 0: nak_rem_deg += 360
@@ -1875,6 +1895,39 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     rasi_idx = int((sun_lon % 360) / 30)
     masam_index = (rasi_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
+    
+    # Calculate exact month name mapping based on Amavasya boundaries
+    def find_amavasya(jd_guess):
+        jd_val = jd_guess
+        for _ in range(10):
+            m = swe.calc_ut(jd_val, swe.MOON)[0][0]
+            s = swe.calc_ut(jd_val, swe.SUN)[0][0]
+            df = (m - s) % 360
+            if df > 180: df -= 360
+            jd_val -= df / 12.190749
+            if abs(df) < 0.0001: break
+        return jd_val
+
+    days_since = diff / 12.190749
+    days_to = (360 - diff) / 12.190749
+    jd_start = find_amavasya(jd - days_since)
+    jd_end = find_amavasya(jd + days_to)
+    
+    EN_TO_TELUGU_MONTHS = {
+        "january": "జనవరి", "february": "ఫిబ్రవరి", "march": "మార్చి",
+        "april": "ఏప్రిల్", "may": "మే", "june": "జూన్",
+        "july": "జూలై", "august": "ఆగస్టు", "september": "సెప్టెంబర్",
+        "october": "అక్టోబర్", "november": "నవంబర్", "december": "డిసెంబర్"
+    }
+    def format_jd(jd_time):
+        y_a, m_dt_a, d_a, h_a = swe.revjul(jd_time)
+        dt_val = datetime.datetime(y_a, m_dt_a, d_a, int(h_a), int((h_a%1)*60))
+        dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
+        en_month = dt_val.strftime("%B").lower()
+        te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
+        return f"{te_month}-{d_a:02d}"
+
+    telugu_masam_full = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
     
     year = local_midnight.year
     month_cal = local_midnight.month
@@ -1953,8 +2006,13 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "tithi_num": f"{(tithi_index%15) + 1}వ తిథి",
         "tithi_full": tt_name,
         "tithi_end": tithi_end_str,
+        "tithi_elapsed_str": tithi_elapsed_str,
+        "tithi_remaining_str": tithi_remaining_str,
         "nakshatra": nakshatra,
+        "nak_padam": f"{padam}వ పాదం",
         "nak_end": nak_end_str,
+        "nak_elapsed_str": nak_elapsed_str,
+        "nak_remaining_str": nak_remaining_str,
         "calendar_tithi_end": calendar_tithi_end,
         "calendar_nak_end": calendar_nak_end,
         "yoga": yoga_name,
@@ -1965,6 +2023,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "ayanam": ayanam,
         "rutuvu": rutuvu,
         "masam": telugu_masam_name,
+        "masam_full": telugu_masam_full,
         "year_name": telugu_year,
         "year_index": year_index,
         "saka_year": saka_year,
@@ -2074,6 +2133,10 @@ def daily_panchangam():
         lagna_lon = (ascmc[0] - ayanamsa) % 360
         lagna = RASI_TELUGU[int(lagna_lon / 30)]
         chart_data_temp[lagna].append((lagna_lon % 30, get_p_info("లగ్నం", lagna_lon)))
+        
+        lagna_deg = int(lagna_lon % 30)
+        lagna_min = int(((lagna_lon % 30) - lagna_deg) * 60)
+        panch_data['lagna_full'] = f"{lagna} ({lagna_deg}°{lagna_min:02d}′ వద్ద)"
         
         chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
         rsi_idx = RASI_TELUGU.index(lagna)

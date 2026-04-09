@@ -276,6 +276,19 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                         <div class="result-value">
                             {{ panch.year_name }} నామ సంవత్సరం ({{ panch.year_index + 1 }}), కలియుగ సంవత్సరం-{{ panch.kaliyuga_year }}, త్రైత శకము-{{ panch.thraitha_sakamu }}
                         </div>
+                        <div class="result-value" style="font-size: 15px; margin-top: 5px; color: #e2e8f0;">
+                            తెలుగు మాసం: {{ panch.masam_full }} <br>
+                            వారము: {{ panch.vara }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lagnam -->
+                <div class="result-item" style="grid-column: 1 / -1; background: rgba(52, 211, 153, 0.1); border-color: #34d399;">
+                    <div class="result-icon"><i class="fas fa-arrow-up" style="color: #34d399;"></i></div>
+                    <div>
+                        <div class="result-label">లగ్నం (Lagnam)</div>
+                        <div class="result-value">{{ panch.lagna_full }}</div>
                     </div>
                 </div>
 
@@ -305,7 +318,9 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     <div>
                         <div class="result-label">తిథులు (Tithi)</div>
                         <div class="result-value">{{ panch.tithi_full }}</div>
-                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">{{ panch.tithi_end }} వరకు</div>
+                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">{{ panch.tithi_elapsed_str }}</div>
+                        <div style="font-size: 12px; color: #facc15;">{{ panch.tithi_remaining_str }}</div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">{{ panch.tithi_end }} వరకు</div>
                     </div>
                 </div>
                 
@@ -314,8 +329,10 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     <div class="result-icon"><i class="fas fa-star" style="color: #818cf8;"></i></div>
                     <div>
                         <div class="result-label">నక్షత్రములు (Nakshatra)</div>
-                        <div class="result-value">{{ panch.nakshatra }}</div>
-                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">{{ panch.nak_end }} వరకు</div>
+                        <div class="result-value">{{ panch.nakshatra }} ({{ panch.nak_padam }})</div>
+                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">{{ panch.nak_elapsed_str }}</div>
+                        <div style="font-size: 12px; color: #facc15;">{{ panch.nak_remaining_str }}</div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">{{ panch.nak_end }} వరకు</div>
                     </div>
                 </div>
 
