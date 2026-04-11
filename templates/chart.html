@@ -392,14 +392,14 @@
       transform: translateY(-50%);
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      font-size: 10px;
+      font-size: 4px; /* Reduced to ~30% of planet text size */
       line-height: 1.1;
       color: rgba(255, 255, 255, 0.85);
       font-weight: 700;
       background: rgba(0, 0, 0, 0.3);
-      padding: 8px 3px;
-      border-radius: 5px;
-      letter-spacing: 1px;
+      padding: 4px 2px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 5;
     }
@@ -1128,20 +1128,44 @@
     @media print {
       .scrolling-footer { display: none !important; }
     }
+
+    /* Rainbow glow animation */
+    @keyframes nav-rainbow {
+      0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+      20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+      40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+      60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+      80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+      100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+    }
+
+    /* Apply rainbow glow to requested buttons */
+    .nav-home i, .theme-toggle-btn, .header-toggle-btn {
+      animation: nav-rainbow 3s linear infinite !important;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Theme Switcher -->
-  <div class="theme-switcher" id="themeSwitcher">
-    <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Themes" style="outline:none;">🎨</button>
-    <div class="theme-options">
-      <button class="theme-btn active" data-theme-btn="default" onclick="setTheme('default')" title="Cosmic Mode">✨</button>
-      <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
-      <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
-      <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
-      <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
-      <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
+  <!-- Right Side Controls (Vertical Stack) -->
+  <div style="position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; z-index: 10000;">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="themeSwitcher" style="position: static; margin-bottom: 0;">
+      <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Themes" style="outline:none;">🎨</button>
+      <div class="theme-options">
+        <button class="theme-btn active" data-theme-btn="default" onclick="setTheme('default')" title="Cosmic Mode">✨</button>
+        <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
+        <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
+        <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
+        <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
+        <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
+      </div>
+    </div>
+
+    <!-- Chart Toggle Buttons Stacked Vertically -->
+    <div class="toggle-container" style="flex-direction: column; margin-right: 0; gap: 10px;">
+      <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects" style="width: 40px; height: 40px; font-size: 20px;">👆</button>
+      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma" style="width: 50px; height: 40px; border-radius: 20px; font-size: 14px; font-weight: bold;">కర్మ</button>
     </div>
   </div>
   <script>
@@ -1218,10 +1242,6 @@
   <!-- Header -->
   <div class="header">
     <div class="om-title">
-      <div class="toggle-container">
-        <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
-        <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">పీ</button>
-      </div>
       🕉️ ఓం శ్రీ గురవే నమః 🕉️
     </div>
     <div class="page-title"><img src="/static/images/emblem.png" class="title-emblem"
@@ -1414,7 +1434,7 @@
     <!-- Transit Button and Container -->
     <div style="text-align: center; margin: 20px 0;">
       <button onclick="fetchTransitChart()" id="transit-btn" style="background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4); display: inline-flex; align-items: center; gap: 8px;">
-        <i class="fas fa-satellite"></i> ఈ రోజు గ్రహ స్థితి
+        <i class="fas fa-satellite" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i> ఈ రోజు గ్రహ స్థితి
       </button>
       <div id="transit-loading" style="display: none; color: #ffd700; margin-top: 15px; font-size: 14px;">
         <i class="fas fa-spinner fa-spin"></i> జనరేట్ చేస్తోంది...

@@ -1376,8 +1376,8 @@
     .nav-item i { font-size: 20px; transition: all 0.3s ease; }
     .nav-item:hover { color: #fff; }
 
-    /* Always glow for Panchangam and Calendar */
-    .nav-panch i, .nav-cal i { animation: nav-rainbow 3s linear infinite; }
+    /* Always glow for Home, Panchangam and Calendar */
+    .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
 
     @keyframes nav-rainbow {
         0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
@@ -1416,7 +1416,7 @@
       <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
   </div>
   <div class="fixed-bottom-bar-nav">
-      <a href="/" class="nav-item active">
+      <a href="/" class="nav-item active nav-home">
           <i class="fas fa-home"></i>
           <span>హోమ్</span>
       </a>

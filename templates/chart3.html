@@ -685,6 +685,21 @@
             100% { transform: translateX(-100%); }
         }
 
+        /* Rainbow glow animation */
+        @keyframes nav-rainbow {
+            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        }
+
+        /* Apply rainbow glow */
+        .theme-toggle-btn, .nav-home i {
+            animation: nav-rainbow 3s linear infinite !important;
+        }
+
         /* ===== PRINT ===== */
         /* ===== PRINT OPTIMIZATIONS ===== */
         @media print {
@@ -1424,7 +1439,7 @@
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
-        <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
+        <button class="nav-item nav-home float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
             onclick="window.location.href='/'">
             <i class="fas fa-home"></i> హోమ్
         </button>

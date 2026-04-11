@@ -125,8 +125,8 @@
             transition: all 0.3s ease;
         }
         .nav-item i { font-size: 20px; transition: all 0.3s ease; }
-        /* Always glow for Panchangam and Calendar */
-        .nav-panch i, .nav-cal i { animation: nav-rainbow 3s linear infinite; }
+        /* Always glow for Home, Panchangam and Calendar */
+        .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
         
         .nav-item:hover { color: #fff; }
         .nav-item span { color: #ffd700; font-weight: 600; }
@@ -471,7 +471,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
 
     <!-- Fixed Bottom Bar -->
     <div class="fixed-bottom-bar-nav">
-        <a href="/" class="nav-item">
+        <a href="/" class="nav-item nav-home">
             <i class="fas fa-home"></i>
             <span>హోమ్</span>
         </a>
