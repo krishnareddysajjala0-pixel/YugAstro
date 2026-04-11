@@ -1162,8 +1162,8 @@
       </div>
     </div>
 
-    <!-- Chart Toggle Buttons Stacked Vertically -->
-    <div class="toggle-container" style="flex-direction: column; margin-right: 0; gap: 10px;">
+    <!-- Chart Toggle Buttons Side-by-Side on Desktop/Mobile -->
+    <div class="toggle-container" id="chart-toggles" style="display: flex; gap: 10px;">
       <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects" style="width: 40px; height: 40px; font-size: 20px;">👆</button>
       <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma" style="width: 50px; height: 40px; border-radius: 20px; font-size: 14px; font-weight: bold;">కర్మ</button>
     </div>
@@ -1236,11 +1236,17 @@
         margin-right: 8px;
         gap: 5px;
       }
-      /* Shift top buttons to the left on mobile */
+      /* Restored to top-right and horizontal on mobile */
       #top-button-stack {
-        right: auto !important;
-        left: 20px !important;
-        align-items: flex-start !important;
+        right: 20px !important;
+        left: auto !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        gap: 15px !important;
+      }
+      #chart-toggles {
+        flex-direction: row !important;
+        gap: 10px !important;
       }
     }
   </style>
