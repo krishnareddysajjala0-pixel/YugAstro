@@ -1228,25 +1228,31 @@
     }
     @media (max-width: 768px) {
       .header-toggle-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
       }
       .toggle-container {
-        margin-right: 8px;
-        gap: 5px;
+        margin-right: 0;
+        gap: 4px;
       }
-      /* Restored to top-right and horizontal on mobile */
+      /* Moved to top-left and compact for mobile */
       #top-button-stack {
-        right: 20px !important;
-        left: auto !important;
-        flex-direction: row-reverse !important;
+        right: auto !important;
+        left: 10px !important;
+        flex-direction: row !important;
         align-items: center !important;
-        gap: 15px !important;
+        gap: 6px !important;
+        top: 10px !important;
+      }
+      .theme-toggle-btn {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 14px !important;
       }
       #chart-toggles {
         flex-direction: row !important;
-        gap: 10px !important;
+        gap: 6px !important;
       }
     }
   </style>
