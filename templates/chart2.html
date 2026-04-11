@@ -753,113 +753,287 @@
             border-left: 4px solid #f44336;
         }
 
-        /* Print optimizations */
+        /* ===== PRINT / PDF OPTIMIZATIONS ===== */
+        /* Single unified @media print block — ensures each Mahadasa
+           (header + all Antharadasa rows) occupies exactly one A4 page */
         @media print {
-            /* ===== PRINT ===== */
-            * {
+            @page {
+                size: A4 portrait;
+                margin: 8mm 10mm 8mm 10mm;
+            }
+
+            /* Reset all decorative effects */
+            *, *::before, *::after {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+                backdrop-filter: none !important;
+                filter: none !important;
+                animation: none !important;
+                transition: none !important;
             }
+
+            /* Remove animated pseudo-elements */
+            body::before, body::after,
+            .progress-bar::before, .progress-fill::after,
+            .cosmic-header::before, .nakshatra-box::before,
+            .current-dasa-box::before {
+                display: none !important;
+            }
+
             body {
                 background: #fff !important;
                 color: #000 !important;
                 padding: 0 !important;
-                font-size: 10px;
-            }
-            .cosmic-header,
-            .current-dasa-box,
-            .nakshatra-box {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                margin: 0 !important;
+                font-size: 9pt !important;
+                font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
             }
 
-            .current-dasa-box {
-                page-break-inside: avoid;
-            }
-
-            .anthara-table {
-                page-break-inside: avoid;
-            }
-
-            /* Hide buttons when printing */
-            .print-button,
-            .nav-buttons,
-            .scrolling-footer,
-            .theme-switcher,
-            .fixed-bottom-bar,
-            #action-bar,
-            .float-btn,
-            .print-hide {
+            /* ── Hide all navigation / UI chrome ── */
+            .print-button, .nav-buttons, .scrolling-footer,
+            .theme-switcher, .fixed-bottom-bar, #action-bar,
+            .float-btn, .print-hide, .maha-accordion-toggle,
+            #transit-btn, #transit-loading, .dasa-section .section-title {
                 display: none !important;
+            }
+
+            /* ── Glow container: remove decorative chrome ── */
+            .glow-container {
+                background: #fff !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+
+            /* ── Cosmic header (name / birth details) ── */
+            .cosmic-header {
+                background: #f5f5f5 !important;
+                border: 1px solid #333 !important;
+                border-radius: 4px !important;
+                padding: 8px 10px !important;
+                margin-bottom: 6px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .cosmic-header * { color: #000 !important; }
+            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 10pt !important; }
+            .person-name { font-size: 12pt !important; font-weight: bold !important; color: #000080 !important; }
+            .info-row { display: flex; flex-wrap: wrap; gap: 6px; font-size: 8pt !important; }
+
+            /* ── Nakshatra box ── */
+            .nakshatra-box {
+                background: #f9f9f9 !important;
+                border: 1px solid #333 !important;
+                padding: 4px 8px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .nakshatra-box * { color: #000 !important; }
+            .nakshatra-name { font-size: 9pt !important; }
+            .time-label { color: #555 !important; }
+            .time-value { color: #b22222 !important; font-weight: bold !important; }
+
+            /* ── Current Dasa box ── */
+            .current-dasa-box {
+                background: #f9f9f9 !important;
+                border: 2px solid #333 !important;
+                padding: 6px 8px !important;
+                margin-bottom: 6px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                font-size: 9pt !important;
+            }
+            .current-dasa-box * { color: #000 !important; }
+            .current-dasa-title { color: #d2691e !important; }
+            .highlight.text-favorable { color: #006400 !important; }
+            .highlight.text-unfavorable { color: #b22222 !important; }
+            .progress-container { display: none !important; }
+
+            /* ── Print Summary Table (show it) ── */
+            .print-summary-section {
+                display: block !important;
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+            .print-summary-section table { font-size: 8pt !important; width: 100% !important; }
+            .print-summary-section th, .print-summary-section td {
+                border: 1px solid #333 !important;
+                padding: 4px 6px !important;
+                color: #000 !important;
+            }
+
+            /* ────────────────────────────────────────────
+               CORE FIX: Each Mahadasa card on its own page
+            ─────────────────────────────────────────────*/
+            .dasa-section {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             .maha-dasa-card {
-                page-break-inside: avoid;
-                border: 1px solid #000 !important;
+                /* Force every card onto a fresh page */
+                page-break-before: always !important;
+                break-before: page !important;
+                /* Prevent the card itself from splitting across pages */
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+
                 background: #fff !important;
-                margin-bottom: 20px !important;
-                padding: 10px !important;
-                break-inside: avoid;
-            }
-            
-            .anthara-wrapper {
-                max-height: none !important;
-                opacity: 1 !important;
-                display: block !important;
-                margin-top: 10px !important;
-                visibility: visible !important;
+                border: 2px solid #333 !important;
+                border-radius: 4px !important;
+                padding: 8px 10px !important;
+                margin: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            .maha-accordion-toggle {
-                display: none !important;
+            /* First card — no page break before it (header is before) */
+            .maha-dasa-card:first-of-type {
+                page-break-before: auto !important;
+                break-before: auto !important;
             }
 
-            .glow-container {
-                box-shadow: none !important;
-                border: 1px solid #000 !important;
-                background: #fff !important;
-                padding: 10px !important;
+            /* Mahadasa header row */
+            .maha-dasa-header {
+                display: flex !important;
+                align-items: flex-start !important;
+                gap: 8px !important;
+                margin-bottom: 6px !important;
+                flex-wrap: wrap !important;
             }
 
-            * {
-                text-shadow: none !important;
-            }
-
-            .maha-dasa-number, .current-badge, .past-badge, .future-badge, .birth-badge {
-                color: #00008b !important; /* Dark Blue instead of white */
-                border: 1px solid #00008b !important;
+            .maha-dasa-number {
                 background: transparent !important;
+                border: 1px solid #333 !important;
+                color: #000080 !important;
+                padding: 3px 7px !important;
+                border-radius: 10px !important;
+                font-size: 8pt !important;
+                font-weight: bold !important;
+                min-width: 24px !important;
+            }
+
+            .maha-dasa-name {
+                font-size: 10pt !important;
+                font-weight: bold !important;
+                color: #000 !important;
+                margin-bottom: 2px !important;
+            }
+
+            .maha-dasa-period {
+                font-size: 8pt !important;
+                color: #8B4513 !important;
+                font-weight: 600 !important;
+            }
+
+            .maha-dasa-badges {
+                display: flex !important;
+                gap: 4px !important;
+                margin-top: 2px !important;
+            }
+
+            .status-badge {
+                font-size: 7pt !important;
+                padding: 2px 6px !important;
+                border-radius: 8px !important;
+            }
+            .current-badge { border: 1px solid #006400 !important; color: #006400 !important; background: transparent !important; }
+            .past-badge    { border: 1px solid #555 !important;    color: #555 !important;    background: transparent !important; }
+            .future-badge  { border: 1px solid #000080 !important; color: #000080 !important; background: transparent !important; }
+            .birth-badge   { border: 1px solid #8B4513 !important; color: #8B4513 !important; background: transparent !important; }
+
+            .text-favorable   { color: #006400 !important; }
+            .text-unfavorable { color: #b22222 !important; }
+            .favorable   { color: #006400 !important; font-size: 7pt !important; }
+            .unfavorable { color: #b22222 !important; font-size: 7pt !important; }
+
+            /* ── Anthara wrapper: show collapsed drawers ── */
+            .anthara-wrapper {
+                display: block !important;
+                max-height: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                margin-top: 6px !important;
+            }
+
+            /* ── Anthara container & table ── */
+            .anthara-container {
+                background: #fafafa !important;
+                border: 1px solid #ccc !important;
+                border-radius: 4px !important;
+                padding: 6px 8px !important;
             }
 
             .anthara-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 8pt !important;
                 background: #fff !important;
+                /* Allow table to break across page if single mahadasa overflows one A4 */
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
 
-            .anthara-table th, .anthara-table td {
+            .anthara-table th {
+                background: #e8e8e8 !important;
+                color: #000 !important;
+                border: 1px solid #999 !important;
+                padding: 4px 6px !important;
+                font-size: 7pt !important;
+                text-align: left !important;
+            }
+
+            .anthara-table td {
                 color: #000 !important;
                 border: 1px solid #ccc !important;
+                padding: 3px 5px !important;
+                vertical-align: middle !important;
+            }
+
+            .anthara-table tr.current td {
+                background: #e6ffe6 !important;
             }
 
             .anthara-table .planet-cell {
-                color: #b22222 !important; /* Bright Firebrick */
+                display: flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                color: #8B0000 !important;
+                font-weight: bold !important;
+                font-size: 8pt !important;
             }
 
-            .current-dasa-box, .nakshatra-box {
-                background: #fff !important;
-                border: 2px solid #000 !important;
+            .table-icon {
+                width: 18px !important;
+                height: 18px !important;
+                font-size: 11px !important;
+                border-radius: 50% !important;
+                border: 1px solid #555 !important;
+                background: transparent !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
-            .current-dasa-box *, .nakshatra-box * {
-                color: #000 !important;
+            /* Date cells in anthara table */
+            .anthara-table td:nth-child(2),
+            .anthara-table td:nth-child(3) {
+                color: #8B4513 !important;
+                font-size: 8pt !important;
+                font-weight: bold !important;
+                white-space: nowrap;
             }
 
-            .current-dasa-title, .party-name {
-                color: #d2691e !important; 
+            /* Antharadasa age sub-line */
+            .anthara-table td div {
+                font-size: 7pt !important;
+                color: #555 !important;
+                font-weight: normal !important;
             }
-
-            .time-value { color: #b22222 !important; }
-            .summary-value { color: #006400 !important; }
-            .cosmic-header h1 { color: #d2691e !important; }
         }
 
         /* Scrolling Footer */
@@ -1153,66 +1327,11 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
-        @media print {
-            *, *::before, *::after {
-                box-shadow: none !important;
-                text-shadow: none !important;
-                background: transparent !important;
-                color: #000 !important;
-                backdrop-filter: none !important;
-                filter: none !important;
-                animation: none !important;
-                transition: none !important;
-            }
-            body::before, body::after, .progress-bar::before, .progress-fill::after, .cosmic-header::before, .nakshatra-box::before, .current-dasa-box::before {
-                display: none !important;
-            }
-            body {
-                background: #fff !important;
-            }
-            .scrolling-footer { display: none !important; }
-            #transit-btn, #transit-loading, .fixed-bottom-bar, .theme-switcher, .print-hide, .maha-accordion-toggle { display: none !important; }
-            
-            .box {
-                background: #ffffff !important;
-                border: 1px solid #000 !important;
-                padding: 4px !important;
-            }
-            .chart-container, #transit-container {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-            
-            .print-summary-section { 
-                display: block !important; 
-                page-break-before: always; 
-            }
-            
-            .dasa-section .section-title {
-                display: none !important;
-            }
-            
-            .maha-dasa-card {
-                 page-break-inside: avoid;
-                 margin-bottom: 20px !important;
-                 border: 1px solid #000 !important;
-                 padding: 5px !important;
-            }
-            
-            .anthara-wrapper {
-                display: block !important;
-                max-height: none !important;
-                opacity: 1 !important;
-            }
-
-            .maha-dasa-number, .table-icon {
-                border: 1px solid #000 !important;
-                color: #000 !important;
-            }
-        }
+        /* NOTE: All @media print and @page rules are now consolidated
+           in the single block above (around line 756). */
         @page {
             size: A4 portrait;
-            margin: 10mm;
+            margin: 8mm 10mm 8mm 10mm;
         }
             /* Mobile Responsive adjustments */
             @media (max-width: 768px) {
