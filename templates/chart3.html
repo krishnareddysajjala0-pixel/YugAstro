@@ -136,31 +136,7 @@
             transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
         }
 
-        /* Starry background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-                radial-gradient(2px 2px at 40% 70%, #fff, transparent),
-                radial-gradient(3px 3px at 60% 20%, #fff, transparent),
-                radial-gradient(2px 2px at 80% 50%, #fff, transparent),
-                radial-gradient(3px 3px at 10% 80%, #fff, transparent),
-                radial-gradient(2px 2px at 90% 10%, #fff, transparent),
-                radial-gradient(3px 3px at 30% 40%, #fff, transparent);
-            background-size: 200px 200px;
-            z-index: -1;
-            animation: stars 20s linear infinite;
-        }
-
-        @keyframes stars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-200px); }
-        }
+        /* Starry background removed as per request for only text */
 
         .container {
             max-width: 1400px;
@@ -321,8 +297,7 @@
         }
 
         .section-icon {
-            font-size: 36px;
-            animation: float 3s ease-in-out infinite;
+            display: none !important;
         }
 
         @keyframes float {
@@ -359,11 +334,12 @@
         }
 
         .data-table {
-            width: 100%;
+            width: auto !important;
+            min-width: 100% !important;
             border-collapse: collapse;
             font-size: 14px;
             color: var(--text-main);
-            table-layout: auto;
+            table-layout: auto !important;
         }
 
         .data-table th {
@@ -503,6 +479,8 @@
             padding: 8px 4px;
             color: var(--text-main);
             letter-spacing: 0.5px;
+            width: 1% !important;
+            white-space: nowrap !important;
         }
 
         .direction-cell {
@@ -542,11 +520,7 @@
         }
 
         .disease-list li::before {
-            content: '🦠';
-            font-size: 10px;
-            position: absolute;
-            left: 0;
-            top: 6px;
+            display: none !important;
         }
 
         /* Gender Colors */
@@ -580,12 +554,19 @@
         /* Responsive Fixes for Transposed Tables */
         /* Responsive Fixes for Transposed Tables */
         .data-table th, .data-table td {
-            min-width: unset;
+            min-width: unset !important;
             word-wrap: break-word;
             text-align: center;
             box-sizing: border-box;
             background-clip: padding-box;
             padding: 8px 6px;
+            width: 1% !important;
+            white-space: nowrap !important;
+        }
+        
+        .data-table .disease-cell {
+            width: auto !important;
+            white-space: normal !important;
         }
 
         .data-table th:first-child, 
@@ -1100,7 +1081,7 @@
 
         <!-- Header -->
         <div class="header">
-            <h1 style="font-size: 24px; margin-bottom: 8px;">ద్వాదశ గ్రహముల ఫలితాలు ☀️ ☽ ♂ ♃ ♄ ♀ ☿ ♇</h1>
+            <h1 style="font-size: 24px; margin-bottom: 8px;">ద్వాదశ గ్రహముల ఫలితాలు</h1>
             <div class="header-subtitle">
                 గ్రహాల సంపూర్ణ లక్షణాలు మరియు ప్రభావాలు
             </div>
@@ -1142,9 +1123,7 @@
                 <!-- Guru Varga Section -->
                 <div class="section-header" id="guru-section">
                     <h2 class="section-title">
-                        <span class="section-icon">🌿</span>
                         1. గురువర్గ గ్రహాలు
-                        <span class="section-icon">🌿</span>
                     </h2>
                     <div class="section-subtitle">గురువు నాయకత్వం వహించే గ్రహాలు మరియు వాటి ఫలితాలు</div>
                 </div>
@@ -1177,12 +1156,12 @@
                             <!-- రంగు -->
                             <tr>
                                 <td style="font-weight: bold; color: var(--text-muted);">రంగు</td>
-                                <td><div class="color-display" style="background: #FFD700; margin: auto;">🎨</div><div class="color-name">పసుపు</div></td>
-                                <td><div class="color-display" style="background: #D2691E; margin: auto;">🎨</div><div class="color-name">గోధుమ</div></td>
-                                <td><div class="color-display" style="background: #FFFFFF; color: #333; margin: auto;">🎨</div><div class="color-name">తెలుపు</div></td>
-                                <td><div class="color-display" style="background: #FF0000; margin: auto;">🎨</div><div class="color-name">ఎరుపు</div></td>
-                                <td><div class="color-display" style="background: linear-gradient(45deg, #FF0000, #0000FF); margin: auto;">🎨</div><div class="color-name">మిశ్రమ</div></td>
-                                <td><div class="color-display" style="background: #000080; margin: auto;">🎨</div><div class="color-name">నీలం</div></td>
+                                <td>పసుపు</td>
+                                <td>గోధుమ</td>
+                                <td>తెలుపు</td>
+                                <td>ఎరుపు</td>
+                                <td>మిశ్రమ</td>
+                                <td>నీలం</td>
                             </tr>
                             <!-- రత్నం -->
                             <tr>
@@ -1217,12 +1196,12 @@
                             <!-- దిశ -->
                             <tr>
                                 <td style="font-weight: bold; color: var(--text-muted);">దిశ</td>
-                                <td class="direction-cell">↗️ ఈశాన్యం</td>
-                                <td class="direction-cell">➡️ తూర్పు</td>
-                                <td class="direction-cell">↖️ వాయువ్యం</td>
-                                <td class="direction-cell">⬇️ దక్షిణం</td>
-                                <td class="direction-cell">⬆️ పైకి</td>
-                                <td class="direction-cell">⬇️ క్రిందికి</td>
+                                <td class="direction-cell">ఈశాన్యం</td>
+                                <td class="direction-cell">తూర్పు</td>
+                                <td class="direction-cell">వాయువ్యం</td>
+                                <td class="direction-cell">దక్షిణం</td>
+                                <td class="direction-cell">పైకి</td>
+                                <td class="direction-cell">క్రిందికి</td>
                             </tr>
                             <!-- దినం -->
                             <tr>
@@ -1285,9 +1264,7 @@
                 <!-- Shani Varga Section -->
                 <div class="section-header" id="shani-section">
                     <h2 class="section-title">
-                        <span class="section-icon">🪐</span>
                         2. శనివర్గ గ్రహాలు
-                        <span class="section-icon">🪐</span>
                     </h2>
                     <div class="section-subtitle">శని నాయకత్వం వహించే గ్రహాలు మరియు వాటి ఫలితాలు</div>
                 </div>
@@ -1320,12 +1297,12 @@
                             <!-- రంగు -->
                             <tr>
                                 <td style="font-weight: bold; color: var(--text-muted);">రంగు</td>
-                                <td><div class="color-display" style="background: #000000; margin: auto;">🎨</div><div class="color-name">నలుపు</div></td>
-                                <td><div class="color-display" style="background: #8B4513; margin: auto;">🎨</div><div class="color-name">వక్క రంగు</div></td>
-                                <td><div class="color-display" style="background: #FFFACD; color: #333; margin: auto;">🎨</div><div class="color-name">లేత పసుపు</div></td>
-                                <td><div class="color-display" style="background: #008000; margin: auto;">🎨</div><div class="color-name">ఆకుపచ్చ</div></td>
-                                <td><div class="color-display" style="background: #FFFFFF; color: #333; margin: auto;">🎨</div><div class="color-name">తెలుపు</div></td>
-                                <td><div class="color-display" style="background: #708090; margin: auto;">🎨</div><div class="color-name">సిమెంటు</div></td>
+                                <td>నలుపు</td>
+                                <td>వక్క రంగు</td>
+                                <td>లేత పసుపు</td>
+                                <td>ఆకుపచ్చ</td>
+                                <td>తెలుపు</td>
+                                <td>సిమెంటు</td>
                             </tr>
                             <!-- రత్నం -->
                             <tr>
@@ -1360,12 +1337,12 @@
                             <!-- దిశ -->
                             <tr>
                                 <td style="font-weight: bold; color: var(--text-muted);">దిశ</td>
-                                <td class="direction-cell">⬅️ పడమర</td>
-                                <td class="direction-cell">⬆️ పైకి</td>
-                                <td class="direction-cell">⬇️ క్రిందికి</td>
-                                <td class="direction-cell">⬆️ ఉత్తరం</td>
-                                <td class="direction-cell">↘️ ఆగ్నేయం</td>
-                                <td class="direction-cell">↙️ నైరుతి</td>
+                                <td class="direction-cell">పడమర</td>
+                                <td class="direction-cell">పైకి</td>
+                                <td class="direction-cell">క్రిందికి</td>
+                                <td class="direction-cell">ఉత్తరం</td>
+                                <td class="direction-cell">ఆగ్నేయం</td>
+                                <td class="direction-cell">నైరుతి</td>
                             </tr>
                             <!-- దినం -->
                             <tr>
@@ -1440,23 +1417,23 @@
     <div class="fixed-bottom-bar" id="action-bar">
         <button class="nav-item nav-home float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
             onclick="window.location.href='/'">
-            <i class="fas fa-home"></i> హో
+            హో
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
             onclick="goToBirthChart()">
-            <i class="fas fa-arrow-left"></i> కు
+            కు
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
             onclick="goToDashaChart()">
-            <i class="fas fa-calendar-alt"></i> ద
+            ద
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
             onclick="window.location.href='/results'">
-            <i class="fas fa-chart-line"></i> ఫ
+            ఫ
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
-            <i class="fas fa-file-pdf"></i> ప్రి
+            ప్రి
         </button>
     </div>
 
