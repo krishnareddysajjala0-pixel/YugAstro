@@ -112,7 +112,7 @@
       /* space for fixed bottom bar and footer */
     }
 
-    /* Starry background */
+    /* Rainbow numbers background */
     body::before {
       content: '';
       position: fixed;
@@ -120,22 +120,20 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background:
-        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-        radial-gradient(2px 2px at 40% 70%, #fff, transparent),
-        radial-gradient(3px 3px at 60% 20%, #fff, transparent),
-        radial-gradient(2px 2px at 80% 50%, #fff, transparent),
-        radial-gradient(3px 3px at 10% 80%, #fff, transparent),
-        radial-gradient(2px 2px at 90% 10%, #fff, transparent),
-        radial-gradient(3px 3px at 30% 40%, #fff, transparent);
+      background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
       background-size: 200px 200px;
       z-index: -1;
-      animation: stars 20s linear infinite;
+      animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
     }
 
-    @keyframes stars {
+    @keyframes float-up {
       from { transform: translateY(0); }
       to { transform: translateY(-200px); }
+    }
+
+    @keyframes rainbow-scroll {
+      from { filter: hue-rotate(0deg); }
+      to { filter: hue-rotate(360deg); }
     }
 
     /* Header */
