@@ -2211,15 +2211,23 @@ def daily_panchangam():
                 if rasi_b != current_rasi_idx:
                     # Boundary is between jd_a and jd_b - binary search
                     lo, hi = (jd_a, jd_b) if direction > 0 else (jd_b, jd_a)
-                    for _ in range(30):  # ~30 iterations = second precision
+                    for _ in range(30):  # ~30 iterations = precision of seconds
                         mid = (lo + hi) / 2
                         lon_mid = get_any_planet_lon(mid, name, pid)
                         rasi_mid = int(lon_mid / 30) % 12
-                        if rasi_mid == current_rasi_idx:
-                            lo = mid
+                        
+                        if direction > 0:
+                            if rasi_mid == current_rasi_idx:
+                                lo = mid
+                            else:
+                                hi = mid
                         else:
-                            hi = mid
-                    return hi if direction > 0 else lo
+                            if rasi_mid == current_rasi_idx:
+                                hi = mid
+                            else:
+                                lo = mid
+                                
+                    return hi
                 jd_a = jd_b
             return None  # Couldn't find boundary within max_days
 
