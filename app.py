@@ -2162,6 +2162,109 @@ def daily_panchangam():
     except Exception as e:
         print("Error computing chart for daily panchangam:", e)
 
+    # ── Planet Transit Table: Entry/Exit dates for each planet's current rasi ──
+    try:
+        def get_planet_lon(jd_val, planet_id):
+            """Get sidereal longitude for a planet at given JD"""
+            return swe.calc_ut(jd_val, planet_id, PLANET_FLAGS)[0][0]
+
+        def get_derived_lon(jd_val, ptype):
+            """Get longitude for derived planets"""
+            if ptype == "కేతు":
+                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                return (rahu + 180) % 360
+            elif ptype == "భూమి":
+                sun = get_planet_lon(jd_val, swe.SUN)
+                return (sun + 180) % 360
+            elif ptype == "చిత్ర":
+                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                return (rahu + 3.3333) % 360
+            elif ptype == "మిత్ర":
+                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                ketu = (rahu + 180) % 360
+                return (ketu + 3.3333) % 360
+
+        def get_any_planet_lon(jd_val, name, pid):
+            """Unified longitude getter for any planet"""
+            if name in ("కేతు", "భూమి", "చిత్ర", "మిత్ర"):
+                return get_derived_lon(jd_val, name)
+            return get_planet_lon(jd_val, pid)
+
+        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, direction, max_days=800):
+            """Binary search to find when planet enters/exits current rasi.
+               direction: +1 for exit (forward), -1 for entry (backward)
+            """
+            # Coarse step to find approximate boundary
+            step_days = {
+                "చంద్రుడు": 0.5, "సూర్యుడు": 3, "భూమి": 3,
+                "బుధుడు": 2, "శుక్రుడు": 3, "కుజుడు": 5,
+                "గురు": 15, "శని": 30,
+                "రాహు": 15, "కేతు": 15, "చిత్ర": 15, "మిత్ర": 15
+            }
+            step = step_days.get(name, 5)
+            
+            jd_a = jd_start
+            for _ in range(int(max_days / step) + 2):
+                jd_b = jd_a + direction * step
+                lon_b = get_any_planet_lon(jd_b, name, pid)
+                rasi_b = int(lon_b / 30) % 12
+                if rasi_b != current_rasi_idx:
+                    # Boundary is between jd_a and jd_b - binary search
+                    lo, hi = (jd_a, jd_b) if direction > 0 else (jd_b, jd_a)
+                    for _ in range(30):  # ~30 iterations = second precision
+                        mid = (lo + hi) / 2
+                        lon_mid = get_any_planet_lon(mid, name, pid)
+                        rasi_mid = int(lon_mid / 30) % 12
+                        if rasi_mid == current_rasi_idx:
+                            lo = mid
+                        else:
+                            hi = mid
+                    return hi if direction > 0 else lo
+                jd_a = jd_b
+            return None  # Couldn't find boundary within max_days
+
+        def jd_to_date_str(jd_val):
+            """Convert JD to Telugu-formatted date string"""
+            y, m, d, h = swe.revjul(jd_val)
+            dt_val = datetime.datetime(int(y), int(m), int(d), int(h), int((h % 1) * 60))
+            dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
+            te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
+                         "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+            return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year}"
+
+        # All 12 planets
+        ALL_PLANETS_TRANSIT = [
+            ("సూర్యుడు", swe.SUN), ("చంద్రుడు", swe.MOON), ("కుజుడు", swe.MARS),
+            ("బుధుడు", swe.MERCURY), ("గురు", swe.JUPITER), ("శుక్రుడు", swe.VENUS),
+            ("శని", swe.SATURN), ("రాహు", swe.MEAN_NODE),
+            ("కేతు", None), ("భూమి", None), ("చిత్ర", None), ("మిత్ర", None)
+        ]
+
+        transit_table = []
+        for p_name, p_id in ALL_PLANETS_TRANSIT:
+            lon_now = get_any_planet_lon(jd, p_name, p_id)
+            rasi_idx = int(lon_now / 30) % 12
+            rasi_name = RASI_TELUGU[rasi_idx]
+
+            # Find entry (backward) and exit (forward)
+            jd_exit = find_rasi_boundary(jd, p_name, p_id, rasi_idx, +1)
+            jd_entry = find_rasi_boundary(jd, p_name, p_id, rasi_idx, -1)
+
+            entry_str = jd_to_date_str(jd_entry) if jd_entry else "—"
+            exit_str = jd_to_date_str(jd_exit) if jd_exit else "—"
+
+            transit_table.append({
+                "name": p_name,
+                "rasi": rasi_name,
+                "entry": entry_str,
+                "exit": exit_str
+            })
+
+        panch_data['transit_table'] = transit_table
+    except Exception as e:
+        print("Error computing transit table:", e)
+        panch_data['transit_table'] = []
+
     
     return render_template(
         "daily_panchangam.html",
