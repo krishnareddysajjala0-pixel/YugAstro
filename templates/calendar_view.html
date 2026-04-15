@@ -50,13 +50,36 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
+        /* 6-second rainbow animation for header text */
+        @keyframes rainbow-text-6s {
+            0%   { color: #ff0000; text-shadow: 0 0 8px rgba(255,0,0,0.5); }
+            16%  { color: #ff8800; text-shadow: 0 0 8px rgba(255,136,0,0.5); }
+            33%  { color: #eeee00; text-shadow: 0 0 8px rgba(238,238,0,0.5); }
+            50%  { color: #00dd44; text-shadow: 0 0 8px rgba(0,221,68,0.5); }
+            66%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.5); }
+            83%  { color: #cc44ff; text-shadow: 0 0 8px rgba(204,68,255,0.5); }
+            100% { color: #ff0000; text-shadow: 0 0 8px rgba(255,0,0,0.5); }
+        }
+
         .header-branding { 
             font-size: 14px; 
             border-bottom: 1px solid rgba(255, 215, 0, 0.3); 
-            padding-bottom: 6px; 
+            padding-bottom: 6px;
+            animation: rainbow-text-6s 6s linear infinite;
         }
-        .header-masam { font-size: 20px; color: #ffd700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .header-pakshams { font-size: 13px; color: #fff; font-weight: normal; opacity: 0.9; }
+        .header-masam { 
+            font-size: 20px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            animation: rainbow-text-6s 6s linear infinite;
+            animation-delay: -2s;
+        }
+        .header-pakshams { 
+            font-size: 13px; 
+            font-weight: normal; 
+            opacity: 0.95;
+            animation: rainbow-text-6s 6s linear infinite;
+            animation-delay: -4s;
+        }
 
         .search-bar { background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .search-bar form { display: inline-flex; gap: 10px; align-items: center; }
@@ -126,16 +149,70 @@
 
         .date-number {
             position: absolute;
-            top: 4px;
-            right: 8px;
-            font-size: 22px;
+            top: 2px;
+            right: 6px;
+            font-size: 20px;
             font-weight: 900;
             z-index: 2;
             opacity: 0.9;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            line-height: 1;
+        }
+        .date-number .eng-month {
+            font-size: 8px;
+            font-weight: 600;
+            opacity: 0.75;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.1;
         }
         .shukla-box .date-number { color: #2563eb; }
         .krishna-box .date-number { color: #60a5fa; }
         .date-number.sunday { color: #ef4444 !important; text-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+
+        /* TODAY Rainbow highlight */
+        .today-cell {
+            animation: today-rainbow-border 1s linear infinite !important;
+            z-index: 5;
+        }
+        @keyframes today-rainbow-border {
+            0%   { box-shadow: 0 0 0 3px #ff0000, inset 0 0 12px rgba(255,0,0,0.15); }
+            14%  { box-shadow: 0 0 0 3px #ff7700, inset 0 0 12px rgba(255,119,0,0.15); }
+            28%  { box-shadow: 0 0 0 3px #ffff00, inset 0 0 12px rgba(255,255,0,0.15); }
+            42%  { box-shadow: 0 0 0 3px #00cc00, inset 0 0 12px rgba(0,204,0,0.15); }
+            57%  { box-shadow: 0 0 0 3px #0055ff, inset 0 0 12px rgba(0,85,255,0.15); }
+            71%  { box-shadow: 0 0 0 3px #8800ff, inset 0 0 12px rgba(136,0,255,0.15); }
+            85%  { box-shadow: 0 0 0 3px #ff00cc, inset 0 0 12px rgba(255,0,204,0.15); }
+            100% { box-shadow: 0 0 0 3px #ff0000, inset 0 0 12px rgba(255,0,0,0.15); }
+        }
+        .today-cell .date-number {
+            animation: today-num-rainbow 1s linear infinite;
+        }
+        @keyframes today-num-rainbow {
+            0%   { color: #ff0000; }
+            16%  { color: #ff7700; }
+            33%  { color: #cccc00; }
+            50%  { color: #00bb00; }
+            66%  { color: #0055ff; }
+            83%  { color: #8800ff; }
+            100% { color: #ff0000; }
+        }
+
+        /* Purnami / Amavasya styles */
+        .purnami-cell {
+            border: 3px solid #00cc44 !important;
+            box-shadow: 0 0 10px rgba(0,204,68,0.35);
+        }
+        .amavasya-cell {
+            border: 3px solid #00cc44 !important;
+            box-shadow: 0 0 10px rgba(0,204,68,0.35);
+        }
+        .pournami-name, .amavasya-name {
+            color: #ff2222 !important;
+            font-weight: 900 !important;
+        }
 
         .tithi-text {
             font-weight: 800;
@@ -186,12 +263,12 @@
             font-weight: 900;
             margin-top: 4px;
             padding: 2px 4px;
-            background: rgba(255, 215, 0, 0.15);
+            background: rgba(0, 200, 80, 0.12);
             border-radius: 4px;
-            color: #d97706 !important;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            color: #00cc44 !important;
+            text-shadow: 0 0 5px rgba(0,204,68,0.4);
         }
-        .krishna-box .festival-name-tag { color: #fbbf24 !important; background: rgba(251, 191, 36, 0.1); }
+        .krishna-box .festival-name-tag { color: #00ee55 !important; background: rgba(0, 200, 80, 0.1); }
 
         .mana-pandugalu-container {
             grid-column: span 7;
@@ -298,10 +375,13 @@
             {% for wd in range(7) %}
                 {% set day_data = days_data[wd][week_idx] %}
                 {% if day_data %}
-                <div class="cal-cell {% if day_data.is_shukla %}shukla-box{% else %}krishna-box{% endif %} {% if day_data.is_festival %}festival-cell{% endif %}">
-                    <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
+                <div class="cal-cell {% if day_data.is_shukla %}shukla-box{% else %}krishna-box{% endif %} {% if day_data.is_festival %}festival-cell{% endif %} {% if day_data.is_pournami %}purnami-cell{% elif day_data.is_amavasya %}amavasya-cell{% endif %} {% if day_data.is_today %}today-cell{% endif %}">
+                    <div class="date-number {% if wd == 0 %}sunday{% endif %}">
+                        {{ day_data.date }}
+                        <span class="eng-month">{{ day_data.month_en }}</span>
+                    </div>
                     
-                    <div class="tithi-text">
+                    <div class="tithi-text {% if day_data.is_pournami or day_data.is_amavasya %}pournami-name{% endif %}">
                         {{ day_data.tithi_full }}
                         {% if day_data.is_pournami %} 🌕 {% elif day_data.is_amavasya %} 🌑 {% endif %}
                     </div>
