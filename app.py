@@ -2190,11 +2190,33 @@ def daily_panchangam():
                 return get_derived_lon(jd_val, name)
             return get_planet_lon(jd_val, pid)
 
-        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, direction, max_days=800):
+        # Planets that are always retrograde (move backward in longitude)
+        ALWAYS_RETROGRADE = {"రాహు", "కేతు", "చిత్ర", "మిత్ర"}
+
+        def is_planet_retrograde(jd_val, name, pid):
+            """Check if planet is retrograde at given JD (negative speed = retrograde)"""
+            if name in ALWAYS_RETROGRADE:
+                return True
+            if pid is None:
+                return False
+            speed = swe.calc_ut(jd_val, pid, PLANET_FLAGS)[0][3]
+            return speed < 0
+
+        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, find_exit, max_days=800):
             """Binary search to find when planet enters/exits current rasi.
-               direction: +1 for exit (forward), -1 for entry (backward)
+               find_exit=True  -> look for next rasi change (exit)
+               find_exit=False -> look for previous rasi change (entry)
             """
-            # Coarse step to find approximate boundary
+            # Determine actual motion direction at jd_start
+            retro = is_planet_retrograde(jd_start, name, pid)
+
+            # For exit: search forward in time if prograde, backward if retrograde
+            # For entry: search backward in time if prograde, forward if retrograde
+            if find_exit:
+                direction = -1 if retro else +1
+            else:
+                direction = +1 if retro else -1
+
             step_days = {
                 "చంద్రుడు": 0.5, "సూర్యుడు": 3, "భూమి": 3,
                 "బుధుడు": 2, "శుక్రుడు": 3, "కుజుడు": 5,
@@ -2202,43 +2224,45 @@ def daily_panchangam():
                 "రాహు": 15, "కేతు": 15, "చిత్ర": 15, "మిత్ర": 15
             }
             step = step_days.get(name, 5)
-            
+
             jd_a = jd_start
             for _ in range(int(max_days / step) + 2):
                 jd_b = jd_a + direction * step
                 lon_b = get_any_planet_lon(jd_b, name, pid)
                 rasi_b = int(lon_b / 30) % 12
                 if rasi_b != current_rasi_idx:
-                    # Boundary is between jd_a and jd_b - binary search
-                    lo, hi = (jd_a, jd_b) if direction > 0 else (jd_b, jd_a)
-                    for _ in range(30):  # ~30 iterations = precision of seconds
+                    # Boundary is between jd_a and jd_b — binary search
+                    lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
+                    for _ in range(35):  # ~35 iterations => sub-minute precision
                         mid = (lo + hi) / 2
                         lon_mid = get_any_planet_lon(mid, name, pid)
                         rasi_mid = int(lon_mid / 30) % 12
-                        
-                        if direction > 0:
-                            if rasi_mid == current_rasi_idx:
+                        # The boundary: lo side is same rasi, hi side differs
+                        if rasi_mid == current_rasi_idx:
+                            if direction > 0:
                                 lo = mid
                             else:
                                 hi = mid
                         else:
-                            if rasi_mid == current_rasi_idx:
+                            if direction > 0:
                                 hi = mid
                             else:
                                 lo = mid
-                                
-                    return hi
+                    # Return the point just at the boundary transition
+                    return hi if direction > 0 else lo
                 jd_a = jd_b
             return None  # Couldn't find boundary within max_days
 
         def jd_to_date_str(jd_val):
-            """Convert JD to Telugu-formatted date string"""
+            """Convert JD to Telugu-formatted date + time string"""
             y, m, d, h = swe.revjul(jd_val)
             dt_val = datetime.datetime(int(y), int(m), int(d), int(h), int((h % 1) * 60))
             dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
             te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
                          "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
-            return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year}"
+            ampm = "ఉ" if dt_val.hour < 12 else "సా"
+            time_str = dt_val.strftime("%I:%M").lstrip("0") or "12:00"
+            return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year} ({ampm}: {time_str})"
 
         # All 12 planets
         ALL_PLANETS_TRANSIT = [
@@ -2254,9 +2278,9 @@ def daily_panchangam():
             rasi_idx = int(lon_now / 30) % 12
             rasi_name = RASI_TELUGU[rasi_idx]
 
-            # Find entry (backward) and exit (forward)
-            jd_exit = find_rasi_boundary(jd, p_name, p_id, rasi_idx, +1)
-            jd_entry = find_rasi_boundary(jd, p_name, p_id, rasi_idx, -1)
+            # Find entry (when planet entered this rasi) and exit (when it leaves)
+            jd_exit = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=True)
+            jd_entry = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=False)
 
             entry_str = jd_to_date_str(jd_entry) if jd_entry else "—"
             exit_str = jd_to_date_str(jd_exit) if jd_exit else "—"
