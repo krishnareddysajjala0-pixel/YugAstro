@@ -478,25 +478,7 @@ def get_planet_icon(planet_name):
 def index():
     return render_template("index.html")
 
-@app.route("/chart", methods=["POST"])
-def chart():
-    name = request.form.get("name","")
-    dob = request.form.get("dob","")
-    tob = request.form.get("tob","")
-    place = request.form.get("place","")
-
-    lat = request.form.get("lat")
-    lon = request.form.get("lon")
-
-    if not lat or not lon:
-        return "❌ Please select place from suggestion list"
-
-    lat = float(lat)
-    lon = float(lon)
-    
-    # Log User query to GitHub
-    log_user_to_github(name, dob, tob, place)
-
+def get_kundali_data(name, dob, tob, place, lat, lon):
     # Day name
     day_eng = datetime.datetime.strptime(dob, "%Y-%m-%d").strftime("%A")
     day_name = DAY_TELUGU.get(day_eng, day_eng)
@@ -883,8 +865,8 @@ def chart():
             })
 
 
-    # Store birth info in session for other pages
-    session['birth_info'] = {
+
+    return {
         'name': name,
         'dob': dob,
         'tob': tob,
@@ -916,29 +898,72 @@ def chart():
         'ayanam': ayanam,
         'rutuvu': rutuvu,
         'telugu_masam': telugu_masam,
-        'planet_positions': planet_positions
+        'planet_positions': planet_positions,
+        'chart': chart_data,
+        'houses': houses_map,
+        'all_nakshatras': NAKSHATRAS_TELUGU
     }
 
-    return render_template(
-        "chart.html",
-        chart=chart_data,
-        lagna=lagna,
-        lagna_deg=lagna_degree_str,
-        houses=houses_map,
-        name=name,
-        dob=dob,
-        tob=tob,
-        place=place,
-        day_name=day_name,
-        nakshatra=nakshatra,
-        padam=padam,
-        nak_elapsed=f"{elapsed_h}గం {elapsed_m}ని",
-        nak_remaining=f"{remain_h}గం {remain_m}ని",
-        nak_index=nak_index,
-        elapsed_h=elapsed_h,
-        elapsed_m=elapsed_m,
-        all_nakshatras=NAKSHATRAS_TELUGU
-    )
+@app.route("/chart", methods=["POST"])
+def chart():
+    name = request.form.get("name","")
+    dob = request.form.get("dob","")
+    tob = request.form.get("tob","")
+    place = request.form.get("place","")
+
+    lat = request.form.get("lat")
+    lon = request.form.get("lon")
+
+    if not lat or not lon:
+        return "❌ Please select place from suggestion list"
+
+    lat = float(lat)
+    lon = float(lon)
+    
+    # Log User query to GitHub
+    log_user_to_github(name, dob, tob, place)
+
+    # Log User query to GitHub
+    log_user_to_github(name, dob, tob, place)
+
+    data = get_kundali_data(name, dob, tob, place, lat, lon)
+
+    # Store birth info in session for other pages
+    session['birth_info'] = data
+
+    return render_template("chart.html", **data)
+
+@app.route("/compare_kundali")
+def compare_kundali():
+    return render_template("compare_form.html")
+
+@app.route("/compare_results", methods=["POST"])
+def compare_results():
+    name1 = request.form.get("name1","")
+    dob1 = request.form.get("dob1","")
+    tob1 = request.form.get("tob1","")
+    place1 = request.form.get("place1","")
+    lat1 = request.form.get("lat1")
+    lon1 = request.form.get("lon1")
+
+    name2 = request.form.get("name2","")
+    dob2 = request.form.get("dob2","")
+    tob2 = request.form.get("tob2","")
+    place2 = request.form.get("place2","")
+    lat2 = request.form.get("lat2")
+    lon2 = request.form.get("lon2")
+
+    if not lat1 or not lon1 or not lat2 or not lon2:
+        return "❌ Please select place from suggestion list for both entries"
+
+    data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
+    data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
+
+    log_user_to_github(name1 + " (Compare 1)", dob1, tob1, place1)
+    log_user_to_github(name2 + " (Compare 2)", dob2, tob2, place2)
+
+    return render_template("compare_results.html", p1=data1, p2=data2)
+
 
 @app.route("/transit_chart", methods=["POST"])
 def transit_chart():
@@ -1055,11 +1080,7 @@ def transit_chart():
         tob=local_dt.strftime("%H:%M:%S")
     )
 
-@app.route("/chart2", methods=["GET", "POST"])
-def chart2():
-    # Get birth info from session
-    birth_info = session.get('birth_info', {})
-    # Extract values
+def get_dasha_info(birth_info):
     dob = birth_info.get('dob', '')
     tob = birth_info.get('tob', '')
     name = birth_info.get('name', '')
@@ -1239,46 +1260,77 @@ def chart2():
     current_dasa_color = PLANET_COLORS.get(current_maha_name, "#FFD700")
     current_dasa_icon = PLANET_ICONS.get(current_maha_name, "☉")
 
+   
+    return {
+        "maha": current_maha_name,
+        "maha_start": current_maha_start,
+        "maha_end": current_maha_end,
+        "maha_age_start": current_maha_age_start,
+        "maha_age_end": current_maha_age_end,
+        "total_years": current_maha_years,
+        "completed_years": round(elapsed_years_current, 2),
+        "remaining_years": round(remaining_years_current, 2),
+        "current_dasa_color": current_dasa_color,
+        "current_dasa_icon": current_dasa_icon,
+        "current_dasa_favorable": current_dasa_favorable,
+        "all_dasas": all_dasas,
+        "total_cycle_years": total_years_covered,
+    }
+
+@app.route("/chart2", methods=["GET", "POST"])
+def chart2():
+    birth_info = session.get('birth_info', {})
+    
+    dob = birth_info.get('dob', '')
+    tob = birth_info.get('tob', '')
+    name = birth_info.get('name', '')
+    place = birth_info.get('place', '')
+    day_name = birth_info.get('day_name', '')
+    nakshatra = birth_info.get('nakshatra', '')
+    padam = birth_info.get('padam', 1)
+    nak_elapsed = birth_info.get('nak_elapsed', '0గం 0ని')
+    nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
+
+    if not dob:
+        return "❌ No birth info found"
+
+    dasha_data = get_dasha_info(birth_info)
+
     return render_template(
         "chart2.html",
-        # Compact header info
-        name=name,
-        dob=dob,
-        tob=tob,
-        place=place,
-        day_name=day_name,
-        
-        # Nakshatra info
-        nakshatra=nakshatra,
-        padam=padam,
-        nak_elapsed=nak_elapsed,
-        nak_remaining=nak_remaining,
-        
-        # Current dasa info
-        maha=current_maha_name,
-        maha_start=current_maha_start,
-        maha_end=current_maha_end,
-        maha_age_start=current_maha_age_start,
-        maha_age_end=current_maha_age_end,
-        total_years=current_maha_years,
-        completed_years=round(elapsed_years_current, 2),
-        remaining_years=round(remaining_years_current, 2),
-        current_dasa_color=current_dasa_color,
-        current_dasa_icon=current_dasa_icon,
-        current_dasa_favorable=current_dasa_favorable,
-        
-        # Full cycle info
-        all_dasas=all_dasas,
-        total_cycle_years=total_years_covered,
-        
-        # Planet colors and icons
+        name=name, dob=dob, tob=tob, place=place, day_name=day_name,
+        nakshatra=nakshatra, padam=padam, nak_elapsed=nak_elapsed, nak_remaining=nak_remaining,
+        **dasha_data,
         planet_colors=PLANET_COLORS,
-        planet_icons=PLANET_ICONS,
-        
-        # Other
-        now_date=today_str,
-        current_year=current_year
     )
+
+
+@app.route("/compare_dasha", methods=["POST"])
+def compare_dasha():
+    name1 = request.form.get("name1","")
+    dob1 = request.form.get("dob1","")
+    tob1 = request.form.get("tob1","")
+    place1 = request.form.get("place1","")
+    lat1 = request.form.get("lat1")
+    lon1 = request.form.get("lon1")
+
+    name2 = request.form.get("name2","")
+    dob2 = request.form.get("dob2","")
+    tob2 = request.form.get("tob2","")
+    place2 = request.form.get("place2","")
+    lat2 = request.form.get("lat2")
+    lon2 = request.form.get("lon2")
+
+    if not lat1 or not lon1 or not lat2 or not lon2:
+        return "❌ Please select place from suggestion list for both entries"
+
+    data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
+    data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
+    
+    dasha1 = get_dasha_info(data1)
+    dasha2 = get_dasha_info(data2)
+
+    return render_template("compare_dasha.html", p1=data1, p2=data2, dasha1=dasha1, dasha2=dasha2, planet_colors=PLANET_COLORS)
 
 @app.route("/chart3")
 def chart3():
