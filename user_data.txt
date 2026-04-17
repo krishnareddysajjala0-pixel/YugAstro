@@ -338,3 +338,4 @@
 337. [16-Apr-2026 23:07:25] Name: Reddy mounika , DOB: 2000-09-26, TOB: 21:15, Place: Guntur, గుంటూరు, Andhra Pradesh, 522001, India
 338. [17-Apr-2026 00:07:23] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: Kadapa, Andhra Pradesh, India
 339. [17-Apr-2026 01:21:36] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: Kadapa, Andhra Pradesh, India
+340. [17-Apr-2026 03:06:24] Name: Pranay Kumar, DOB: 1998-06-20, TOB: 05:00, Place: Andhra Pradesh, India
