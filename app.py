@@ -2555,5 +2555,69 @@ def calendar_view():
         end_dt_str=f"{end_dt.day} {EN_MONTHS_TELUGU[end_dt.month - 1]}"
     )
 
+@app.route("/my_prediction")
+def my_prediction():
+    """Predictive engine based on Thraitha Siddhantam logic grouping arrays"""
+    birth_info = session.get('birth_info', {})
+    if not birth_info:
+        return redirect(url_for('index'))
+        
+    lagna = birth_info.get('lagna', '')
+    planet_positions = birth_info.get('planet_positions', [])
+    current_maha_name = session.get('current_dasa', 'Unknown')
+    
+    group_a_lagnas = ["మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు", "మీనం"]
+    guru_party = ["గురు", "సూర్యుడు", "చంద్రుడు", "కుజుడు", "భూమి", "కేతు"]
+    sani_party = ["శని", "మిత్ర", "చిత్ర", "బుధుడు", "శుక్రుడు", "రాహు"]
+    
+    RASI_ORDER = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
+    
+    try:
+        lagna_idx = RASI_ORDER.index(lagna)
+    except ValueError:
+        lagna_idx = 0
+        
+    party_name = "గురు వర్గం" if lagna in group_a_lagnas else "శని వర్గం"
+    
+    def is_friend(p_name):
+        is_guru_p = any(gp in p_name for gp in guru_party)
+        is_sani_p = any(sp in p_name for sp in sani_party)
+        if party_name == "గురు వర్గం": return is_guru_p
+        else: return is_sani_p
+        
+    house_meanings = {
+        1: "తనువు (ఆరోగ్యం, దేహం)", 2: "ధన, కుటుంబ స్థానం", 3: "సోదరులు, ధైర్యం",
+        4: "తల్లి, సుఖం, ఇల్లు, వాహనాలు", 5: "సంతాన, విద్యా స్థానం", 6: "శత్రు, రోగ, రుణ స్థానం",
+        7: "కళత్ర స్థానం (వివాహం, భాగస్వామ్యం)", 8: "స్వల్ప ఆయుష్షు, మరణ భయం", 9: "భాగ్య, పితృ స్థానం",
+        10: "ఉద్యోగ, కీర్తి, కర్మ స్థానం", 11: "లాభ, ఆదాయ స్థానం", 12: "వ్యయ, మోక్ష స్థానం"
+    }
+
+    bhava_preds = []
+    for i in range(12):
+        house_num = i + 1
+        house_rasi = RASI_ORDER[(lagna_idx + i) % 12]
+        occ_planets = [p for p in planet_positions if p['rasi'] == house_rasi and not p.get('is_hand')]
+        house_name = house_meanings.get(house_num, "")
+        
+        if not occ_planets:
+            bhava_preds.append({"house": house_num, "name": house_name, "text": ["ఈ భావంలో గ్రహాలు లేవు. తటస్థ (Normal) ఫలితం ఉంటుంది."]})
+        else:
+            p_texts = []
+            for p in occ_planets:
+                p_name = p['name']
+                friendly = is_friend(p_name)
+                status = "శుభ కారకుడు (మిత్రుడు)" if friendly else "పాప కారకుడు (శత్రువు)"
+                result = "సత్ఫలితాలు ఇస్తాడు" if friendly else "నష్టాలు లేదా ఆటంకాలు కలిగిస్తాడు"
+                p_texts.append(f"ఈ ఇంట్లో '{p_name}' ఉన్నాడు. మీ లగ్న పక్షానికి ఇతను - {status}. కాబట్టి ఇతను మీకు {result}.")
+            bhava_preds.append({"house": house_num, "name": house_name, "text": p_texts})
+            
+    dasha_friendly = is_friend(current_maha_name)
+    if dasha_friendly:
+        dasha_text = f"ప్రస్తుతం నడుస్తున్నది '{current_maha_name}' మహాదశ. ఇతను మీకు మిత్రుడు కాబట్టి ఈ దశ అంతా సమృద్ధిగా పుణ్యకర్మ ప్రసరిస్తుంది."
+    else:
+        dasha_text = f"ప్రస్తుతం నడుస్తున్నది '{current_maha_name}' మహాదశ. ఇతను మీకు శత్రువు కాబట్టి ముఖ్య నిర్ణయాల్లో పాపకర్మను చూపిస్తోంది, జాగ్రత్త వహించాలి."
+        
+    return render_template("my_prediction.html", lagna=lagna, party=party_name, bhava_preds=bhava_preds, dasha_text=dasha_text, current_maha=current_maha_name, name=birth_info.get('name', 'User'))
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)

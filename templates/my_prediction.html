@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Prediction - YugAstro</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #ffe8d6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #b30000; font-size: 24px; border-bottom: 2px solid #b30000; padding-bottom: 10px; }
+        .header-info { text-align: center; margin: 20px 0; font-size: 18px; }
+        .party-badge { display: inline-block; background: #28a745; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .dasha-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .house-box { border: 1px solid #ddd; margin-bottom: 15px; border-radius: 8px; overflow: hidden; }
+        .house-title { background: #f8f9fa; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #ddd; color: #b30000; }
+        .house-body { padding: 15px; background: #fffaf0;}
+        .house-body p { margin: 5px 0; color: #444; line-height: 1.5; }
+        .btn-back { display: block; width: 200px; margin: 30px auto 0; text-align: center; background: #b30000; color: white; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-back:hover { background: #8a0000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>నా పూర్తి భవిష్యత్తు (త్రైత అల్గారిథమ్)</h1>
+        
+        <div class="header-info">
+            <p>జాతక చక్ర నిర్ధారణ: <b>{{ name }}</b></p>
+            <p>జన్మ లగ్నం: <b>{{ lagna }}</b></p>
+            <div class="party-badge">మీ వర్గం: {{ party }}</div>
+            <p style="font-size: 14px; color: #666; margin-top: 5px;">(మీ స్వంత వర్గానికి చెందిన గ్రహాలే మీకు యోగం ఇస్తాయి)</p>
+        </div>
+
+        <div class="dasha-box">
+            <h3 style="margin-top:0; color:#856404;">తాత్కాలిక దశా ఫలితం</h3>
+            <p style="margin-bottom:0; font-size: 16px; font-weight: bold;">{{ dasha_text }}</p>
+        </div>
+
+        <h2 style="color: #b30000; font-size: 20px; margin-top: 30px;">12 స్థానాల (భావాల) స్వభావ ఫలితాలు</h2>
+        
+        {% for pred in bhava_preds %}
+        <div class="house-box">
+            <div class="house-title">
+                {{ pred.house }}వ ఇల్లు: {{ pred.name }}
+            </div>
+            <div class="house-body">
+                {% for txt in pred.text %}
+                <p>&#10148; {{ txt }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        
+        <a href="/go-to-birth-chart" class="btn-back">కుండలి వెనక్కి వెళ్ళండి</a>
+    </div>
+</body>
+</html>
