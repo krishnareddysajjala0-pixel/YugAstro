@@ -481,7 +481,7 @@ def log_user_to_github(name, dob, tob, place):
                 print("GITHUB_TOKEN not found. Direct GitHub storage is disabled.")
                 return
 
-            repo = "krishnareddysajjala0-pixel/Timeastro"
+            repo = "krishnareddysajjala0-pixel/YugAstro"
             path = "user_data.txt"
             url = f"https://api.github.com/repos/{repo}/contents/{path}"
             headers = {
@@ -540,13 +540,13 @@ def log_user_to_github(name, dob, tob, place):
                 print(f"Local Git push failed: {e}")
 
         # Start both sync methods in background
-        # api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        # api_thread.daemon = True
-        # api_thread.start()
+        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
+        api_thread.daemon = True
+        api_thread.start()
         
-        # git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        # git_thread.daemon = True
-        # git_thread.start()
+        git_thread = threading.Thread(target=local_git_sync, args=(name,))
+        git_thread.daemon = True
+        git_thread.start()
         
     except Exception as e:
         print(f"Critical logging error: {e}")
