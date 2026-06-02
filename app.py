@@ -539,16 +539,15 @@ def log_user_to_github(name, dob, tob, place):
             except Exception as e:
                 print(f"Local Git push failed: {e}")
 
-        # Start both sync methods in background
-        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        api_thread.daemon = True
-        api_thread.start()
+        # 2. GitHub API Sync (Run synchronously for Vercel/Render serverless reliability)
+        github_api_sync(name, log_entry)
         
+        # 3. Local Git Sync (Run in background thread since it is local only)
         git_thread = threading.Thread(target=local_git_sync, args=(name,))
         git_thread.daemon = True
         git_thread.start()
         
-        # 4. Telegram Notification
+        # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
         send_telegram_notification(name, dob, tob, place)
         
     except Exception as e:
@@ -578,19 +577,17 @@ def send_telegram_notification(name, dob, tob, place):
             "parse_mode": "Markdown"
         }
         
-        def send_thread():
-            try:
-                res = requests.post(url, json=payload, timeout=10)
-                if res.status_code == 200:
-                    print("Telegram notification sent successfully!")
-                else:
-                    print(f"Telegram notification failed: {res.text}")
-            except Exception as thread_e:
-                print(f"Telegram API thread error: {thread_e}")
-                
-        threading.Thread(target=send_thread, daemon=True).start()
+        try:
+            res = requests.post(url, json=payload, timeout=10)
+            if res.status_code == 200:
+                print("Telegram notification sent successfully!")
+            else:
+                print(f"Telegram notification failed: {res.text}")
+        except Exception as api_e:
+            print(f"Telegram API error: {api_e}")
+            
     except Exception as e:
-        print(f"Failed to start Telegram notification thread: {e}")
+        print(f"Failed to send Telegram notification: {e}")
 
 
 def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):
