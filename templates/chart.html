@@ -355,17 +355,7 @@
       border-radius: 12px;
       transition: all 0.3s ease;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
     }
-
-    .planets-content {
-      width: 100%;
-    }
-
-
 
     .box:hover {
       transform: translateY(-3px);
@@ -757,11 +747,12 @@
       .om-title {
         -webkit-text-fill-color: #d2691e !important;
         color: #d2691e !important;
+        font-size: 33px !important;
       }
 
       .page-title {
         color: #d2691e !important;
-        font-size: 15px !important;
+        font-size: 17.7px !important;
         margin-bottom: 2px !important;
       }
       
@@ -769,6 +760,7 @@
         -webkit-text-fill-color: #000080 !important;
         color: #000080 !important;
         background: none !important;
+        font-size: 26px !important;
       }
       
       .house-no {
@@ -779,7 +771,7 @@
         right: 2px !important;
         width: 18px !important;
         height: 18px !important;
-        font-size: 9px !important;
+        font-size: 10.6px !important;
       }
       
       .lagna-name {
@@ -788,7 +780,7 @@
         border: none !important;
         bottom: 2px !important;
         right: 2px !important;
-        font-size: 10px !important;
+        font-size: 11.8px !important;
         padding: 2px 6px !important;
       }
       
@@ -800,13 +792,14 @@
         color: #b22222 !important;
       }
       
-      .time-value { color: #d2691e !important; }
-      .time-label { color: #000080 !important; }
+      .time-value { color: #d2691e !important; font-size: 16.5px !important; }
+      .time-label { color: #000080 !important; font-size: 13px !important; }
       
       .party-badge {
         background: #fff !important;
         color: #000 !important;
         border: 2px solid #000 !important;
+        font-size: 16.5px !important;
       }
 
       .action-buttons,
@@ -827,9 +820,27 @@
         display: none !important;
       }
 
-      .chart-container, #transit-container {
-        page-break-inside: avoid;
-        break-inside: avoid;
+      #print-wrapper {
+        width: 1024px !important;
+        min-width: 1024px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+
+      body.transit-loaded #print-wrapper {
+        zoom: 0.75 !important; /* Scale wrapper to fit both charts stacked vertically on a single page */
+      }
+
+      .chart-container {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
         padding: 0 !important;
         margin: 0 auto 5px auto !important;
         width: 100% !important;
@@ -838,9 +849,22 @@
         border: none !important;
       }
 
-      /* If transit chart is present, scale down the content to fit on a single page */
-      body:has(#transit-container .chart-container) {
-        zoom: 0.65 !important;
+      #transit-container {
+        display: none !important;
+      }
+
+      body.transit-loaded #transit-container {
+        display: block !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        padding: 0 !important;
+        margin: 0 auto 5px auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
       }
 
       .chart {
@@ -851,36 +875,47 @@
       .box {
         background: #ffffff !important;
         border: 1px solid #000 !important;
-        padding: 4px 6px !important;
-        min-height: 80px !important;
-        font-size: 13px !important;
-        line-height: 1.2 !important;
+        padding: 1px !important;
+        min-height: 65px !important;
+        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
+        line-height: 1.1 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        align-items: flex-start !important;
+        align-items: center !important; /* Center alignment */
+        text-align: center !important;
       }
 
-      .box b, .box .hand {
-        font-size: 17.5px !important;
-      }
-
-      .box small, .box .hand small {
-        font-size: 12px !important;
-        font-weight: normal !important;
-        opacity: 0.85 !important;
+      .box br {
+        display: none !important;
       }
 
       .center {
-        padding: 8px !important;
+        padding: 6px !important;
+        font-size: 17px !important; /* Increased by 20% (was 14.2px) */
         border: 1px solid #000 !important;
       }
       
       .center table {
-        font-size: 18px !important;
-        line-height: 1.3 !important;
+        font-size: 14.9px !important; /* Increased by 20% (was 12.4px) */
+        border-spacing: 0 1px !important; /* More compact spacing for print layout */
       }
 
+      #transit-container .header {
+        margin-top: 90px !important; /* Generous spacing between birth chart and transit chart */
+        padding-top: 20px !important;
+        border-top: 1px dashed #000 !important;
+      }
+
+      #transit-container .header div {
+        margin-bottom: 2px !important;
+        font-size: 13px !important;
+        color: #000 !important;
+      }
+
+      .hand {
+        font-size: 17px !important; /* Same size as planet names (17px) */
+      }
 
       .pos {
         color: #006400 !important;
@@ -897,7 +932,7 @@
       
       .karma-label {
         color: #000 !important;
-        font-size: 6.5px !important;
+        font-size: 7.7px !important;
         background: none !important;
         border: 1px solid #ccc !important;
         right: 2px !important;
@@ -909,7 +944,7 @@
 
     @page {
       size: A4 portrait;
-      margin: 5mm;
+      margin: 2mm !important;
     }
 
     /* Scrolling Footer */
@@ -1371,6 +1406,7 @@
     }
   </style>
 
+  <div id="print-wrapper">
   <!-- Header -->
   <div class="header">
     <div class="om-title">
@@ -1451,22 +1487,22 @@
         <div class="karma-label">పుణ్యం + పాపం</div>
       {% endif %}
 
-      <div class="planets-content">
-        {# Display all content from chart data #}
-        {% for line in chart[box_lagna].split('<br>') %}
-        {% if "లగ్నం" in line %}
-        {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
-        <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
-          {{ line | safe }}
-        </div>
-        {% elif line.strip() %}
-        {# Other planets #}
-        <span class="{{ get_color(line, lagna) }}">
-          {{ line | safe }}
-        </span><br>
-        {% endif %}
-        {% endfor %}
+
+
+      {# Display all content from chart data #}
+      {% for line in chart[box_lagna].split('<br>') %}
+      {% if "లగ్నం" in line %}
+      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
+      <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
+        {{ line | safe }}
       </div>
+      {% elif line.strip() %}
+      {# Other planets #}
+      <span class="{{ get_color(line, lagna) }}">
+        {{ line | safe }}
+      </span><br>
+      {% endif %}
+      {% endfor %}
 
       <span class="lagna-name">{{ box_lagna }}</span>
     </div>
@@ -1532,11 +1568,11 @@
                 <td style="color: #ffd700;">ముగింపు:</td>
                 <td style="color: #fca5a5; font-weight: bold;">{{ nak_end }} వరకు</td>
               </tr>
-              <tr class="print-hide">
+              <tr>
                 <td style="color: #ffd700;">గడిచిన సమయం:</td>
                 <td style="color: var(--text-main);">{{ nak_elapsed }}</td>
               </tr>
-              <tr class="print-hide">
+              <tr>
                 <td style="color: #ffd700;">మిగిలిన సమయం:</td>
                 <td style="color: var(--text-main);">{{ nak_remaining }}</td>
               </tr>
@@ -1568,6 +1604,7 @@
     </div>
     
     <div id="transit-container"></div>
+  </div>
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
@@ -1793,6 +1830,8 @@
             const globalOverlay = document.getElementById('loading-overlay');
             if (globalOverlay) globalOverlay.style.display = 'none';
             container.innerHTML = html;
+            container.classList.add('loaded');
+            document.body.classList.add('transit-loaded');
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
           })
           .catch(error => {

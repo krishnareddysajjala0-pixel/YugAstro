@@ -481,7 +481,7 @@ def log_user_to_github(name, dob, tob, place):
                 print("GITHUB_TOKEN not found. Direct GitHub storage is disabled.")
                 return
 
-            repo = "krishnareddysajjala0-pixel/YugAstro"
+            repo = "krishnareddysajjala0-pixel/Timeastro"
             path = "user_data.txt"
             url = f"https://api.github.com/repos/{repo}/contents/{path}"
             headers = {
@@ -564,7 +564,7 @@ def send_telegram_notification(name, dob, tob, place):
 
     try:
         message = (
-            f"🌟 *New User Query on YugAstro!*\n\n"
+            f"🌟 *New User Query on Timeastro!*\n\n"
             f"👤 *Name:* {name}\n"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"
@@ -2591,6 +2591,7 @@ def daily_panchangam():
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
     input_date = request.form.get("calendar_date")
+    view_type = request.form.get("view_type", "telugu")
     if not input_date:
         input_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
@@ -2632,6 +2633,12 @@ def calendar_view():
     
     y2, m2_dt, d2, h2 = swe.revjul(jd_end)
     end_dt = datetime.datetime(y2, m2_dt, d2).date()
+    
+    if view_type == "english":
+        import calendar as py_calendar
+        start_dt = datetime.date(date_obj.year, date_obj.month, 1)
+        last_day = py_calendar.monthrange(date_obj.year, date_obj.month)[1]
+        end_dt = datetime.date(date_obj.year, date_obj.month, last_day)
     
     # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
     adj_year = date_obj.year
@@ -2767,6 +2774,7 @@ def calendar_view():
     return render_template(
         "calendar_view.html",
         input_date=input_date,
+        view_type=view_type,
         festivals=festivals_list,
         days_data=days_data,
         year=date_obj.year,
@@ -2774,7 +2782,7 @@ def calendar_view():
         year_index=year_index + 1,
         kaliyuga_year=kaliyuga_year,
         thraitha_sakamu=thraitha_sakamu,
-        telugu_masam=telugu_masam_name,
+        telugu_masam=telugu_masam_name if view_type == "telugu" else f"{EN_MONTHS_TELUGU[date_obj.month - 1]} ({telugu_masam_name})",
         shukla_range=shukla_range,
         krishna_range=krishna_range,
         start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",
