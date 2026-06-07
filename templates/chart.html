@@ -838,6 +838,11 @@
         border: none !important;
       }
 
+      /* If transit chart is present, scale down the content to fit on a single page */
+      body:has(#transit-container .chart-container) {
+        zoom: 0.65 !important;
+      }
+
       .chart {
         gap: 1px !important;
         width: 100% !important;
