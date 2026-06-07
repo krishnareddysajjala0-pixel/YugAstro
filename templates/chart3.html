@@ -715,6 +715,20 @@
         /* ===== PRINT ===== */
         /* ===== PRINT OPTIMIZATIONS ===== */
         @media print {
+            /* ===== Override ALL theme CSS variables to print-safe values =====
+               Without this, dark/cosmic themes keep --text-main:#ffffff which
+               makes cell text invisible (white-on-white) in the PDF. */
+            :root, [data-theme] {
+                --bg-primary: #ffffff !important;
+                --text-main: #000000 !important;
+                --text-muted: #333333 !important;
+                --card-bg: #ffffff !important;
+                --card-border: #000000 !important;
+                --table-row-bg: #ffffff !important;
+                --table-row-alt-bg: #f8fafc !important;
+                --table-header-bg: #f1f5f9 !important;
+            }
+
             @page {
                 size: A4 portrait;
                 margin: 4mm 3mm;
@@ -733,7 +747,7 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-size: 10pt !important; /* All non-heading text is exactly 10pt */
+                font-size: 15.2pt !important;
                 opacity: 1 !important;
             }
 
@@ -757,7 +771,7 @@
             }
 
             .header h1 {
-                font-size: 15pt !important; /* Heading */
+                font-size: 22.8pt !important;
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #000 !important;
@@ -765,7 +779,7 @@
             }
 
             .header-subtitle {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important;
                 color: #555 !important;
             }
 
@@ -780,7 +794,7 @@
             }
 
             .party-info-box p {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important;
                 line-height: 1.25 !important;
                 margin: 0 !important;
                 color: #000 !important;
@@ -788,7 +802,7 @@
             }
 
             .party-info-box strong {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important;
                 color: #000 !important;
                 text-shadow: none !important;
             }
@@ -807,7 +821,7 @@
             }
 
             .section-title {
-                font-size: 12.5pt !important; /* Heading */
+                font-size: 19.1pt !important;
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #0f172a !important;
@@ -815,7 +829,7 @@
             }
 
             .section-subtitle {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important;
                 color: #475569 !important;
             }
 
@@ -831,22 +845,24 @@
             }
 
             .data-table {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important;
                 width: 100% !important;
-                border: 1.5px solid #cbd5e1 !important;
-                table-layout: fixed !important; /* Force strict column widths */
+                border: 2px solid #000000 !important;
+                border-collapse: collapse !important;
+                table-layout: fixed !important;
+                color: #000000 !important; /* Force black — overrides white from dark themes */
             }
 
             .data-table th {
                 background-color: #f1f5f9 !important;
-                color: #0f172a !important;
+                color: #000000 !important;
                 font-weight: 700 !important;
-                border: 1px solid #cbd5e1 !important;
-                font-size: 10pt !important; /* All non-heading text same size */
+                border: 1.5px solid #000000 !important;
+                font-size: 15.2pt !important; /* th — 15.2pt */
                 padding: 4px 2px !important;
                 text-align: center !important;
                 vertical-align: middle !important;
-                width: 15% !important; /* Equal widths for all 6 planets */
+                width: 15% !important;
                 white-space: normal !important;
                 word-wrap: break-word !important;
                 -webkit-print-color-adjust: exact !important;
@@ -855,14 +871,15 @@
 
             .data-table td {
                 padding: 3px 2px !important;
-                border: 1px solid #cbd5e1 !important;
+                border: 1.5px solid #000000 !important;
                 line-height: 1.25 !important;
                 vertical-align: middle !important;
-                width: 15% !important; /* Equal widths for all 6 planets */
-                white-space: normal !important; /* Allow normal wrapping to reduce width */
+                width: 15% !important;
+                white-space: normal !important;
                 word-wrap: break-word !important;
                 word-break: break-word !important;
                 text-align: center !important;
+                color: #000000 !important; /* Force black — overrides white from dark themes */
             }
 
             .data-table tbody tr:nth-child(even) td {
@@ -881,13 +898,13 @@
             .data-table td:first-child {
                 position: static !important;
                 background: #f1f5f9 !important;
-                width: 10% !important; /* Narrow width for labels column */
-                white-space: nowrap !important; /* Keep first column text on one line */
+                width: 10% !important;
+                white-space: nowrap !important;
                 font-weight: bold !important;
-                color: #1e3a8a !important;
+                color: #000000 !important;
                 text-align: left !important;
                 padding-left: 4px !important;
-                border-right: 2px solid #cbd5e1 !important;
+                border-right: 2px solid #000000 !important;
                 box-shadow: none !important;
             }
 
@@ -995,7 +1012,7 @@
             }
 
             .disease-list li {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important; /* disease list — 15.2pt */
                 padding: 1px 0 !important;
                 color: #991b1b !important;
                 list-style-type: none !important;
@@ -1012,7 +1029,7 @@
             }
 
             .disclaimer {
-                font-size: 10pt !important; /* All non-heading text same size */
+                font-size: 15.2pt !important; /* disclaimer — 15.2pt */
                 padding: 4px !important;
                 margin-top: 2px !important;
                 background: #fef2f2 !important;
