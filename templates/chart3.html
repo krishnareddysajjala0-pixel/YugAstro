@@ -733,7 +733,7 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-size: 9.2pt !important; /* Increased by 15% (was 8pt) */
+                font-size: 10pt !important; /* All non-heading text is exactly 10pt */
                 opacity: 1 !important;
             }
 
@@ -745,7 +745,7 @@
                 min-width: unset !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.66 !important; /* Scale container to fit everything on a single A4 page with larger font sizes */
+                zoom: 0.58 !important; /* Scale container to fit everything perfectly on a single A4 page */
             }
 
             .header {
@@ -757,7 +757,7 @@
             }
 
             .header h1 {
-                font-size: 15pt !important; /* Increased by 15% (was 13pt) */
+                font-size: 15pt !important; /* Heading */
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #000 !important;
@@ -765,7 +765,7 @@
             }
 
             .header-subtitle {
-                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 color: #555 !important;
             }
 
@@ -780,7 +780,7 @@
             }
 
             .party-info-box p {
-                font-size: 9.2pt !important; /* Increased by 15% (was 8pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 line-height: 1.25 !important;
                 margin: 0 !important;
                 color: #000 !important;
@@ -788,7 +788,7 @@
             }
 
             .party-info-box strong {
-                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 color: #000 !important;
                 text-shadow: none !important;
             }
@@ -807,7 +807,7 @@
             }
 
             .section-title {
-                font-size: 11.5pt !important; /* Increased by 15% (was 10pt) */
+                font-size: 12.5pt !important; /* Heading */
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #0f172a !important;
@@ -815,7 +815,7 @@
             }
 
             .section-subtitle {
-                font-size: 8.6pt !important; /* Increased by 15% (was 7.5pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 color: #475569 !important;
             }
 
@@ -831,21 +831,24 @@
             }
 
             .data-table {
-                font-size: 8.6pt !important; /* Increased by 15% (was 7.5pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 width: 100% !important;
-                border: 1px solid #cbd5e1 !important;
-                table-layout: auto !important;
+                border: 1.5px solid #cbd5e1 !important;
+                table-layout: fixed !important; /* Force strict column widths */
             }
 
             .data-table th {
-                background-color: #f1f5f9 !important; /* Light slate gray background (no white text issue) */
-                color: #0f172a !important; /* Dark slate gray text (not white, so it is fully visible) */
+                background-color: #f1f5f9 !important;
+                color: #0f172a !important;
                 font-weight: 700 !important;
                 border: 1px solid #cbd5e1 !important;
-                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
-                padding: 4px 3px !important;
+                font-size: 10pt !important; /* All non-heading text same size */
+                padding: 4px 2px !important;
                 text-align: center !important;
                 vertical-align: middle !important;
+                width: 15% !important; /* Equal widths for all 6 planets */
+                white-space: normal !important;
+                word-wrap: break-word !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -853,12 +856,12 @@
             .data-table td {
                 padding: 3px 2px !important;
                 border: 1px solid #cbd5e1 !important;
-                line-height: 1.2 !important;
-                word-break: normal !important;
-                word-wrap: normal !important;
+                line-height: 1.25 !important;
                 vertical-align: middle !important;
-                width: auto !important;
-                white-space: nowrap !important; /* Reduce width up to text needed space only */
+                width: 15% !important; /* Equal widths for all 6 planets */
+                white-space: normal !important; /* Allow normal wrapping to reduce width */
+                word-wrap: break-word !important;
+                word-break: break-word !important;
                 text-align: center !important;
             }
 
@@ -874,13 +877,14 @@
                 print-color-adjust: exact !important;
             }
 
+            .data-table th:first-child,
             .data-table td:first-child {
                 position: static !important;
                 background: #f1f5f9 !important;
-                width: auto !important;
+                width: 10% !important; /* Narrow width for labels column */
                 white-space: nowrap !important; /* Keep first column text on one line */
                 font-weight: bold !important;
-                color: #1e3a8a !important; /* Nice dark blue for labels */
+                color: #1e3a8a !important;
                 text-align: left !important;
                 padding-left: 4px !important;
                 border-right: 2px solid #cbd5e1 !important;
@@ -889,97 +893,98 @@
 
             /* Planet-specific bold colors in print */
             .guru-planet {
-                color: #b45309 !important; /* Golden/Brownish */
+                color: #b45309 !important;
                 border-left: 3px solid #eab308 !important;
                 font-weight: bold !important;
             }
             .surya-planet {
-                color: #c2410c !important; /* Orange/Red */
+                color: #c2410c !important;
                 border-left: 3px solid #ea580c !important;
                 font-weight: bold !important;
             }
             .chandra-planet {
-                color: #475569 !important; /* Slate Gray */
+                color: #475569 !important;
                 border-left: 3px solid #64748b !important;
                 font-weight: bold !important;
             }
             .kuja-planet {
-                color: #b91c1c !important; /* Mars Red */
+                color: #b91c1c !important;
                 border-left: 3px solid #ef4444 !important;
                 font-weight: bold !important;
             }
             .ketu-planet {
-                color: #6d28d9 !important; /* Purple */
+                color: #6d28d9 !important;
                 border-left: 3px solid #8b5cf6 !important;
                 font-weight: bold !important;
             }
             .bhoomi-planet {
-                color: #0369a1 !important; /* Earth Blue */
+                color: #0369a1 !important;
                 border-left: 3px solid #0284c7 !important;
                 font-weight: bold !important;
             }
             .shani-planet {
-                color: #1e293b !important; /* Charcoal Gray */
+                color: #1e293b !important;
                 border-left: 3px solid #334155 !important;
                 font-weight: bold !important;
             }
             .mitra-planet {
-                color: #713f12 !important; /* Brown */
+                color: #713f12 !important;
                 border-left: 3px solid #a16207 !important;
                 font-weight: bold !important;
             }
             .chitra-planet {
-                color: #db2777 !important; /* Pink */
+                color: #db2777 !important;
                 border-left: 3px solid #f472b6 !important;
                 font-weight: bold !important;
             }
             .budha-planet {
-                color: #047857 !important; /* Green */
+                color: #047857 !important;
                 border-left: 3px solid #10b981 !important;
                 font-weight: bold !important;
             }
             .shukra-planet {
-                color: #be185d !important; /* Rose */
+                color: #be185d !important;
                 border-left: 3px solid #ec4899 !important;
                 font-weight: bold !important;
             }
             .rahu-planet {
-                color: #334155 !important; /* Slate */
+                color: #334155 !important;
                 border-left: 3px solid #475569 !important;
                 font-weight: bold !important;
             }
 
             /* Gender Specific bold colors in print */
             .gender-cell.male {
-                color: #0284c7 !important; /* Sky Blue */
+                color: #0284c7 !important;
                 font-weight: bold !important;
             }
             .gender-cell.female {
-                color: #db2777 !important; /* Rose Pink */
+                color: #db2777 !important;
                 font-weight: bold !important;
             }
             .gender-cell.neutral {
-                color: #7c3aed !important; /* Violet */
+                color: #7c3aed !important;
                 font-weight: bold !important;
             }
 
             /* Direction Colors in print */
             .direction-cell {
-                color: #0369a1 !important; /* Deep Cyan */
+                color: #0369a1 !important;
                 font-weight: bold !important;
             }
 
             /* Gemstones in print */
             .gemstone-cell {
-                color: #15803d !important; /* Emerald green */
+                color: #15803d !important;
                 font-weight: bold !important;
             }
 
             /* Diseases Cell layout */
             .disease-cell {
-                width: auto !important;
-                white-space: normal !important; /* Disease column wraps to fit A4 width */
+                width: 15% !important;
+                white-space: normal !important;
                 text-align: left !important;
+                vertical-align: top !important;
             }
 
             .disease-list {
@@ -990,10 +995,13 @@
             }
 
             .disease-list li {
-                font-size: 8pt !important; /* Increased by 15% (was 7pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 padding: 1px 0 !important;
-                color: #991b1b !important; /* Crimson Red for diseases */
+                color: #991b1b !important;
                 list-style-type: none !important;
+                word-wrap: break-word !important;
+                word-break: break-word !important;
+                white-space: normal !important;
             }
 
             /* Footer & Disclaimer */
@@ -1004,7 +1012,7 @@
             }
 
             .disclaimer {
-                font-size: 7.5pt !important; /* Increased by 15% (was 6.5pt) */
+                font-size: 10pt !important; /* All non-heading text same size */
                 padding: 4px !important;
                 margin-top: 2px !important;
                 background: #fef2f2 !important;
