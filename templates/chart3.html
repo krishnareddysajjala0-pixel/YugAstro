@@ -733,7 +733,7 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-size: 8pt !important;
+                font-size: 9.2pt !important; /* Increased by 15% (was 8pt) */
                 opacity: 1 !important;
             }
 
@@ -745,7 +745,7 @@
                 min-width: unset !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.73 !important; /* Scale container to fit everything on a single A4 page */
+                zoom: 0.66 !important; /* Scale container to fit everything on a single A4 page with larger font sizes */
             }
 
             .header {
@@ -757,7 +757,7 @@
             }
 
             .header h1 {
-                font-size: 13pt !important;
+                font-size: 15pt !important; /* Increased by 15% (was 13pt) */
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #000 !important;
@@ -765,7 +765,7 @@
             }
 
             .header-subtitle {
-                font-size: 8.5pt !important;
+                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
                 color: #555 !important;
             }
 
@@ -780,7 +780,7 @@
             }
 
             .party-info-box p {
-                font-size: 8pt !important;
+                font-size: 9.2pt !important; /* Increased by 15% (was 8pt) */
                 line-height: 1.25 !important;
                 margin: 0 !important;
                 color: #000 !important;
@@ -788,7 +788,7 @@
             }
 
             .party-info-box strong {
-                font-size: 8.5pt !important;
+                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
                 color: #000 !important;
                 text-shadow: none !important;
             }
@@ -807,7 +807,7 @@
             }
 
             .section-title {
-                font-size: 10pt !important;
+                font-size: 11.5pt !important; /* Increased by 15% (was 10pt) */
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #0f172a !important;
@@ -815,7 +815,7 @@
             }
 
             .section-subtitle {
-                font-size: 7.5pt !important;
+                font-size: 8.6pt !important; /* Increased by 15% (was 7.5pt) */
                 color: #475569 !important;
             }
 
@@ -831,18 +831,18 @@
             }
 
             .data-table {
-                font-size: 7.5pt !important;
+                font-size: 8.6pt !important; /* Increased by 15% (was 7.5pt) */
                 width: 100% !important;
                 border: 1px solid #cbd5e1 !important;
                 table-layout: auto !important;
             }
 
             .data-table th {
-                background-color: #1e3a8a !important;
-                color: #ffffff !important;
+                background-color: #f1f5f9 !important; /* Light slate gray background (no white text issue) */
+                color: #0f172a !important; /* Dark slate gray text (not white, so it is fully visible) */
                 font-weight: 700 !important;
                 border: 1px solid #cbd5e1 !important;
-                font-size: 8.5pt !important;
+                font-size: 9.8pt !important; /* Increased by 15% (was 8.5pt) */
                 padding: 4px 3px !important;
                 text-align: center !important;
                 vertical-align: middle !important;
@@ -855,10 +855,10 @@
                 border: 1px solid #cbd5e1 !important;
                 line-height: 1.2 !important;
                 word-break: normal !important;
-                word-wrap: break-word !important;
+                word-wrap: normal !important;
                 vertical-align: middle !important;
-                width: auto !important; /* Dynamic width */
-                white-space: normal !important; /* Allow normal wrapping */
+                width: auto !important;
+                white-space: nowrap !important; /* Reduce width up to text needed space only */
                 text-align: center !important;
             }
 
@@ -977,7 +977,8 @@
 
             /* Diseases Cell layout */
             .disease-cell {
-                min-width: 120px !important;
+                width: auto !important;
+                white-space: normal !important; /* Disease column wraps to fit A4 width */
                 text-align: left !important;
             }
 
@@ -989,7 +990,7 @@
             }
 
             .disease-list li {
-                font-size: 7pt !important;
+                font-size: 8pt !important; /* Increased by 15% (was 7pt) */
                 padding: 1px 0 !important;
                 color: #991b1b !important; /* Crimson Red for diseases */
                 list-style-type: none !important;
@@ -1003,26 +1004,13 @@
             }
 
             .disclaimer {
-                font-size: 6.5pt !important;
+                font-size: 7.5pt !important; /* Increased by 15% (was 6.5pt) */
                 padding: 4px !important;
                 margin-top: 2px !important;
                 background: #fef2f2 !important;
                 border: 1px solid #fee2e2 !important;
                 border-left: 3px solid #ef4444 !important;
                 color: #991b1b !important;
-            }
-
-            .party-info-box {
-                background: #f8fafc !important;
-                border: 1px solid #e2e8f0 !important;
-                color: #334155 !important;
-                box-shadow: none !important;
-                padding: 6px !important;
-            }
-
-            .party-info-box p, .party-info-box strong {
-                color: #0f172a !important;
-                text-shadow: none !important;
             }
 
             .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
