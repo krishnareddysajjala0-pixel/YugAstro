@@ -837,11 +837,17 @@
         min-width: 1024px !important;
         margin: 0 auto !important;
         padding: 0 !important;
-        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
+        zoom: 0.78 !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
+      }
+
+      /* When mahadasha is being printed alongside transit, shrink print-wrapper */
+      body.transit-loaded[data-print-mode="kundali-and-dasha"] #print-wrapper {
+        page-break-after: auto !important;
+        break-after: auto !important;
       }
 
       body.transit-loaded #print-wrapper {
@@ -880,40 +886,44 @@
       }
 
       /* ===== MAHADASHA PRINT SECTION ===== */
-      /* Hidden by default and in kundali-only mode */
+      /* Always hidden on screen; only shown during print via data-print-mode */
       #mahadasha-print-section {
         display: none !important;
       }
 
-      /* Show when kundali-and-dasha mode, no transit: same page */
+      /* kundali-and-dasha, NO transit: show on same page after kundali */
       body[data-print-mode="kundali-and-dasha"] #mahadasha-print-section {
         display: block !important;
         page-break-before: avoid !important;
         break-before: avoid !important;
-        margin-top: 10px !important;
+        margin: 12px auto 0 auto !important;
         width: 100% !important;
+        text-align: center !important;
       }
 
-      /* Show when kundali-and-dasha mode, with transit: force new page */
+      /* kundali-and-dasha, WITH transit: force mahadasha to a new page */
       body.transit-loaded[data-print-mode="kundali-and-dasha"] #mahadasha-print-section {
         display: block !important;
         page-break-before: always !important;
         break-before: page !important;
-        margin-top: 0 !important;
+        margin: 0 auto !important;
         width: 100% !important;
+        text-align: center !important;
+        padding-top: 10px !important;
       }
 
       .maha-print-title {
         text-align: center;
         font-size: 13pt;
         font-weight: bold;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         color: #000 !important;
         font-family: 'Noto Sans Telugu', sans-serif;
       }
 
       .maha-print-table {
-        width: 100%;
+        width: 80%;           /* not 100% so it looks centered */
+        margin: 0 auto;       /* center the table */
         border-collapse: collapse;
         font-size: 9.5pt;
         color: #000 !important;
@@ -1701,42 +1711,55 @@
     
     <div id="transit-container"></div>
 
-    <!-- PRINT ONLY: Mahadasha Summary Table (hidden on screen, shown via data-print-mode attr) -->
-    {% if all_dasas is defined and all_dasas %}
-    <div id="mahadasha-print-section">
-      <div class="maha-print-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
-      <table class="maha-print-table">
-        <thead>
-          <tr>
-            <th>క్ర.సం</th>
-            <th>మహాదశ</th>
-            <th>ఫలితం</th>
-            <th>సంవత్సరాలు</th>
-            <th>ప్రారంభం</th>
-            <th>ముగింపు</th>
-            <th>వయసు</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for dasa in all_dasas %}
-          <tr{% if dasa.is_current %} class="maha-current-row"{% endif %}>
-            <td>{{ loop.index }}</td>
-            <td>{{ dasa.icon }} {{ dasa.maha }}</td>
-            <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">
-              {% if dasa.is_favorable %}అనుకూలము{% else %}ప్రతికూలము{% endif %}
-            </td>
-            <td>{{ dasa.years }}</td>
-            <td>{{ dasa.start }}</td>
-            <td>{{ dasa.end }}</td>
-            <td>{{ dasa.age_start }} - {{ dasa.age_end }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <!-- Toggle button for transit chart (shown after transit loads) -->
+    <div id="transit-toggle-bar" class="print-hide" style="display:none; text-align:center; margin: 8px 0;">
+      <button id="transit-toggle-btn" onclick="toggleTransitChart()"
+        style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#000; border:none;
+               padding:8px 20px; border-radius:8px; font-size:14px; font-weight:700;
+               cursor:pointer; font-family:'Noto Sans Telugu',sans-serif;
+               box-shadow:0 3px 10px rgba(245,158,11,0.4); display:inline-flex;
+               align-items:center; gap:8px;">
+        <i class="fas fa-eye-slash" id="transit-toggle-icon"></i>
+        <span id="transit-toggle-text">ఈ రోజు కుండలి దాచు</span>
+      </button>
     </div>
-    {% endif %}
 
+  </div><!-- end #print-wrapper -->
+
+  <!-- PRINT ONLY: Mahadasha Summary Table – OUTSIDE #print-wrapper to avoid page-break conflicts -->
+  {% if all_dasas is defined and all_dasas %}
+  <div id="mahadasha-print-section">
+    <div class="maha-print-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+    <table class="maha-print-table">
+      <thead>
+        <tr>
+          <th>క్ర.సం</th>
+          <th>మహాదశ</th>
+          <th>ఫలితం</th>
+          <th>సంవత్సరాలు</th>
+          <th>ప్రారంభం</th>
+          <th>ముగింపు</th>
+          <th>వయసు</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dasa in all_dasas %}
+        <tr{% if dasa.is_current %} class="maha-current-row"{% endif %}>
+          <td>{{ loop.index }}</td>
+          <td>{{ dasa.icon }} {{ dasa.maha }}</td>
+          <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">
+            {% if dasa.is_favorable %}అనుకూలము{% else %}ప్రతికూలము{% endif %}
+          </td>
+          <td>{{ dasa.years }}</td>
+          <td>{{ dasa.start }}</td>
+          <td>{{ dasa.end }}</td>
+          <td>{{ dasa.age_start }} - {{ dasa.age_end }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+  {% endif %}
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
@@ -2037,6 +2060,9 @@
             container.innerHTML = html;
             container.classList.add('loaded');
             document.body.classList.add('transit-loaded');
+            // Show the hide/show toggle button
+            const toggleBar = document.getElementById('transit-toggle-bar');
+            if (toggleBar) toggleBar.style.display = 'block';
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
           })
           .catch(error => {
@@ -2056,7 +2082,6 @@
           box.style.boxShadow = 'none';
           box.style.transform = 'none';
         });
-
         document.querySelectorAll('.hand').forEach(hand => {
           hand.style.border = '1px solid #666';
         });
@@ -2066,6 +2091,25 @@
         // Clean up print mode attribute after printing
         document.body.removeAttribute('data-print-mode');
       };
+
+      // ===== TRANSIT TOGGLE =====
+      function toggleTransitChart() {
+        const container = document.getElementById('transit-container');
+        const icon = document.getElementById('transit-toggle-icon');
+        const text = document.getElementById('transit-toggle-text');
+        const isHidden = container.style.display === 'none';
+        if (isHidden) {
+          container.style.display = 'block';
+          document.body.classList.add('transit-loaded');
+          icon.className = 'fas fa-eye-slash';
+          text.textContent = 'ఈ రోజు కుండలి దాచు';
+        } else {
+          container.style.display = 'none';
+          document.body.classList.remove('transit-loaded');
+          icon.className = 'fas fa-eye';
+          text.textContent = 'ఈ రోజు కుండలి చూపు';
+        }
+      }
 
       // ===== PRINT OPTIONS MODAL =====
       function openPrintOptions() {
