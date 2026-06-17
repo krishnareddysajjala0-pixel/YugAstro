@@ -2129,8 +2129,7 @@
       // ===== PRINT THEME RESET (most reliable cross-browser approach) =====
       // Temporarily remove data-theme so the default light CSS applies during print
       window.onbeforeprint = function () {
-        // 1. Save and remove theme so browser prints in light mode
-        window._printSavedTheme = document.documentElement.getAttribute('data-theme');
+        // 1. Remove data-theme so browser prints in light mode
         document.documentElement.removeAttribute('data-theme');
 
         // 2. Force white background on all key elements
@@ -2153,22 +2152,33 @@
       };
 
       window.onafterprint = function() {
-        // Restore original theme after print dialog closes
-        if (window._printSavedTheme) {
-          document.documentElement.setAttribute('data-theme', window._printSavedTheme);
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-        }
+        // Restore original theme from localStorage preferred theme
+        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        setTheme(savedTheme);
+
         // Restore body styles
         document.body.style.background = '';
         document.body.style.color = '';
+
         // Restore box styles
         document.querySelectorAll('.box').forEach(box => {
+          box.style.boxShadow = '';
+          box.style.transform = '';
           box.style.background = '';
           box.style.color = '';
         });
+
+        // Restore hand styles
+        document.querySelectorAll('.hand').forEach(hand => {
+          hand.style.border = '';
+        });
+
         // Clean up print mode attribute
         document.body.removeAttribute('data-print-mode');
+
+        // Clean up loading overlay display
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = '';
       };
 
       // ===== TRANSIT TOGGLE =====
