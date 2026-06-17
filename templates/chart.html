@@ -945,9 +945,9 @@
 
       .maha-print-title {
         text-align: center;
-        font-size: 13pt;
+        font-size: 26pt;
         font-weight: bold;
-        margin-bottom: 8px;
+        margin-bottom: 16px;
         color: #000 !important;
         font-family: 'Noto Sans Telugu', sans-serif;
       }
@@ -956,7 +956,7 @@
         width: 80%;           /* not 100% so it looks centered */
         margin: 0 auto;       /* center the table */
         border-collapse: collapse;
-        font-size: 9.5pt;
+        font-size: 19pt;
         color: #000 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -967,16 +967,16 @@
         background-color: #e2e8f0 !important;
         color: #000 !important;
         font-weight: bold;
-        border: 1px solid #000 !important;
-        padding: 4px 5px !important;
+        border: 2px solid #000 !important;
+        padding: 8px 10px !important;
         text-align: center;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
 
       .maha-print-table td {
-        border: 1px solid #000 !important;
-        padding: 3px 5px !important;
+        border: 2px solid #000 !important;
+        padding: 6px 10px !important;
         text-align: center;
         color: #000 !important;
       }
@@ -2384,7 +2384,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
                 var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
+                if (btn.id === 'print-options-btn' || oc.indexOf('print') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;
                 btn.addEventListener('click', function() {
                     showGananaLoader();
