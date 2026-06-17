@@ -1154,7 +1154,10 @@ def chart():
     # Store birth info in session for other pages
     session['birth_info'] = data
 
-    return render_template("chart.html", **data)
+    # Calculate dasha data for the print Mahadasha table
+    dasha_data = get_dasha_info(data)
+
+    return render_template("chart.html", **data, **dasha_data)
 
 @app.route("/compare_kundali")
 def compare_kundali():
