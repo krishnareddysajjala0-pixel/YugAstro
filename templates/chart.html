@@ -857,7 +857,9 @@
       .print-hide,
       #transit-btn,
       #transit-loading,
-      .toggle-container {
+      .toggle-container,
+      #loading-overlay,
+      #print-options-modal {
         display: none !important;
       }
 
@@ -2124,19 +2126,48 @@
         }
       }
 
-      // Print optimization
+      // ===== PRINT THEME RESET (most reliable cross-browser approach) =====
+      // Temporarily remove data-theme so the default light CSS applies during print
       window.onbeforeprint = function () {
+        // 1. Save and remove theme so browser prints in light mode
+        window._printSavedTheme = document.documentElement.getAttribute('data-theme');
+        document.documentElement.removeAttribute('data-theme');
+
+        // 2. Force white background on all key elements
+        document.body.style.background = '#ffffff';
+        document.body.style.color = '#000000';
+
+        // 3. Box shadow/transform cleanup
         document.querySelectorAll('.box').forEach(box => {
           box.style.boxShadow = 'none';
           box.style.transform = 'none';
+          box.style.background = '#ffffff';
+          box.style.color = '#000000';
         });
         document.querySelectorAll('.hand').forEach(hand => {
           hand.style.border = '1px solid #666';
         });
+        // 4. Make sure loading overlay is hidden
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'none';
       };
 
       window.onafterprint = function() {
-        // Clean up print mode attribute after printing
+        // Restore original theme after print dialog closes
+        if (window._printSavedTheme) {
+          document.documentElement.setAttribute('data-theme', window._printSavedTheme);
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+        // Restore body styles
+        document.body.style.background = '';
+        document.body.style.color = '';
+        // Restore box styles
+        document.querySelectorAll('.box').forEach(box => {
+          box.style.background = '';
+          box.style.color = '';
+        });
+        // Clean up print mode attribute
         document.body.removeAttribute('data-print-mode');
       };
 
@@ -2197,8 +2228,12 @@
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);
         closePrintOptions();
-        // Small delay so the attribute is applied before print dialog opens
-        setTimeout(() => { window.print(); }, 80);
+
+        // Explicitly trigger onbeforeprint logic (Chrome doesn't always fire it with setTimeout)
+        window.onbeforeprint();
+
+        // Delay so DOM updates are applied before print dialog opens
+        setTimeout(() => { window.print(); }, 150);
       }
 
       // Close modal on overlay click
