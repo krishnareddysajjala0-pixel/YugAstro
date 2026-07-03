@@ -1602,7 +1602,83 @@ def chart3():
     current_year = datetime.datetime.now().year
     birth_info = session.get('birth_info', {})
     lagna = birth_info.get('lagna', '')
-    return render_template("chart3.html", current_year=current_year, lagna=lagna)
+
+    native_party = ""
+    friends = []
+    enemies = []
+
+    if birth_info:
+        planet_positions = birth_info.get('planet_positions', [])
+        
+        # Load dynamic constants and rules from JSON files
+        ASTRO_CONSTANTS = load_rules('astro_constants.json')
+        GURU_PARTY_LAGNAS = ASTRO_CONSTANTS.get('GURU_PARTY_LAGNAS', [])
+        GURU_PARTY_PLANETS = ASTRO_CONSTANTS.get('GURU_PARTY_PLANETS', [])
+        BITTER_ENEMIES = ASTRO_CONSTANTS.get('BITTER_ENEMIES', {})
+        PLANET_RULERSHIPS = ASTRO_CONSTANTS.get('PLANET_RULERSHIPS', {})
+        OWN_HOUSE_RULES = ASTRO_CONSTANTS.get('OWN_HOUSE_RULES', {})
+        
+        native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
+        
+        # Process planets
+        results_data = []
+        for p in planet_positions:
+            p_name = p['name']
+            p_lagna = p['lagna']
+            
+            # is_friend?
+            is_green = any(gp in p_name for gp in GURU_PARTY_PLANETS)
+            is_friend = (is_green == (native_party == "గురు వర్గము"))
+            
+            # is_own_house?
+            own_house = "N/A"
+            is_own_house = False
+            for rule_name, rule_house in OWN_HOUSE_RULES.items():
+                if rule_name in p_name:
+                    own_house = rule_house
+                    is_own_house = (p_lagna == rule_house)
+                    break
+            
+            # bitter_enemy?
+            bitter_enemy = None
+            for be_key, be_val in BITTER_ENEMIES.items():
+                if be_key in p_name:
+                    bitter_enemy = be_val
+                    break
+
+            # detailed Rulership
+            rulership = "N/A"
+            for r_name, r_text in PLANET_RULERSHIPS.items():
+                if r_name in p_name:
+                    rulership = r_text
+                    break
+
+            results_data.append({
+                "name": p_name,
+                "current_lagna": p_lagna,
+                "own_house": own_house,
+                "is_own_house": is_own_house,
+                "is_friend": is_friend,
+                "bitter_enemy": bitter_enemy,
+                "color": p.get('color', '#ffffff'),
+                "degree": p.get('degree', ''),
+                "strength": p.get('strength', 0),
+                "nakshatra": p.get('nakshatra', ''),
+                "padam": p.get('padam', ''),
+                "rulership": rulership,
+                "is_hand": p.get('is_hand', False)
+            })
+
+        # Group into Friends and Enemies (Main planets only for the summary cards)
+        friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
+        enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
+
+    return render_template("chart3.html", 
+                           current_year=current_year, 
+                           lagna=lagna,
+                           native_party=native_party,
+                           friends=friends,
+                           enemies=enemies)
 
 @app.route("/go-to-birth-chart")
 def go_to_birth_chart():
