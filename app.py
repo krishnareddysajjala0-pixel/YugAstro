@@ -140,6 +140,49 @@ def load_rules(filename):
         print(f"Error loading {filename}: {e}")
         return {}
 
+def load_localized_constants():
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    filename = 'astro_constants.json'
+    if lang != 'te':
+        base, ext = os.path.splitext(filename)
+        localized_filename = f"{base}_{lang}{ext}"
+        path = os.path.join(os.path.dirname(__file__), localized_filename)
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading localized {localized_filename}: {e}")
+    path = os.path.join(os.path.dirname(__file__), filename)
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading {filename}: {e}")
+        return {}
+
+def format_lord_placement(lord_house_num, lord_planet, p_house, lang):
+    translated_planet = tr(lord_planet, lang)
+    if lang == 'en':
+        ordinals = {1: '1st', 2: '2nd', 3: '3rd', 4: '4th', 5: '5th', 6: '6th',
+                    7: '7th', 8: '8th', 9: '9th', 10: '10th', 11: '11th', 12: '12th'}
+        ord_lord = ordinals.get(int(lord_house_num), f"{lord_house_num}th")
+        ord_house = ordinals.get(int(p_house), f"{p_house}th")
+        return f"{ord_lord} Lord ({translated_planet}) in {ord_house} House:"
+    elif lang == 'hi':
+        return f"{lord_house_num}वें घर का स्वामी ({translated_planet}) {p_house}वें स्थान पर होने के कारण:"
+    elif lang == 'kn':
+        return f"{lord_house_num}ನೇ ಮನೆ ಅಧಿಪತಿ ({translated_planet}) {p_house}ನೇ ಸ್ಥಾನದಲ್ಲಿರುವುದರಿಂದ:"
+    elif lang == 'ml':
+        return f"{lord_house_num}-ാം ഭാവനാഥൻ ({translated_planet}) {p_house}-ാം ഭാവത്തിൽ നില്ക്കുന്നതിനാൽ:"
+    elif lang == 'or':
+        return f"{lord_house_num}ମ ଭାବ ଅଧିପତି ({translated_planet}) {p_house}ମ ଭାବରେ ରହିଥିବାରୁ:"
+    elif lang == 'ta':
+        return f"{lord_house_num}வது வீட்டின் அதிபதி ({translated_planet}) {p_house}வது இடத்தில் இருப்பதால்:"
+    return f"{lord_house_num}వ స్థానాధిపతి ({translated_planet}) {p_house}వ స్థానములో ఉన్నందున:"
+
 
 
 # Git path for Windows environment stability
@@ -279,7 +322,7 @@ TELUGU_YEARS = [
 def get_am_pm_str(dt):
     """Formats a datetime object into a Telugu AM/PM string (ఉ:/సా:)"""
     time_str = dt.strftime("%I:%M")
-    ampm = "ఉ: " if dt.hour < 12 else "సా: "
+    ampm = tr("ఉ: ") if dt.hour < 12 else tr("సా: ")
     return f"{ampm}{time_str}"
 
 # ---------------- Panchangam Data ----------------
@@ -1109,12 +1152,12 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         res_setUTC = s["sunset"]
         
         # Convert Astral's timezone-aware response directly to the requested format
-        suryodayam = ("ఉ: " if res_riseUTC.hour < 12 else "సా: ") + res_riseUTC.strftime("%I:%M")
-        suryastamayam = ("ఉ: " if res_setUTC.hour < 12 else "సా: ") + res_setUTC.strftime("%I:%M")
+        suryodayam = (tr("ఉ: ") if res_riseUTC.hour < 12 else tr("సా: ")) + res_riseUTC.strftime("%I:%M")
+        suryastamayam = (tr("ఉ: ") if res_setUTC.hour < 12 else tr("సా: ")) + res_setUTC.strftime("%I:%M")
     except Exception as e:
         print(f"Astral Sun Calculation Failed: {e}")
-        suryodayam = "ఉ: 06:00"
-        suryastamayam = "సా: 06:00"
+        suryodayam = tr("ఉ: ") + "06:00"
+        suryastamayam = tr("సా: ") + "06:00"
     
     # Astral has already given us formatted 'suryodayam' and 'suryastamayam'
 
@@ -1167,10 +1210,10 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         dt_val = datetime.datetime(y, m_dt, d, int(h), int((h%1)*60))
         dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
         en_month = dt_val.strftime("%B").lower()
-        te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
+        te_month = tr(EN_TO_TELUGU_MONTHS.get(en_month, en_month))
         return f"{te_month}-{d:02d}"
 
-    telugu_masam = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+    telugu_masam = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
 
     # 4. Telugu Year (Samvatsara) accurate calculation
     try:
@@ -1567,12 +1610,12 @@ def get_dasha_info(birth_info):
     # Calculate elapsed and remaining time in birth rasi (Dasha segment) for display
     dasa_elapsed_h = int(elapsed_duration_days * 24)
     dasa_elapsed_m = int(((elapsed_duration_days * 24) % 1) * 60)
-    dasa_elapsed_str = f"{dasa_elapsed_h}గం {dasa_elapsed_m}ని"
+    dasa_elapsed_str = f"{dasa_elapsed_h}{tr('గం')} {dasa_elapsed_m}{tr('ని')}"
     
     dasa_remain_days = jd_e - jd_birth
     dasa_remain_h = int(dasa_remain_days * 24)
     dasa_remain_m = int(((dasa_remain_days * 24) % 1) * 60)
-    dasa_remain_str = f"{dasa_remain_h}గం {dasa_remain_m}ని"
+    dasa_remain_str = f"{dasa_remain_h}{tr('గం')} {dasa_remain_m}{tr('ని')}"
     
     birth_dasa_years = DASA_YEARS.get(birth_dasa, 10)
     elapsed_years_in_birth_dasa = birth_dasa_years * fraction
@@ -1847,7 +1890,7 @@ def chart3():
         GURU_PARTY_LAGNAS = ASTRO_CONSTANTS.get('GURU_PARTY_LAGNAS', [])
         GURU_PARTY_PLANETS = ASTRO_CONSTANTS.get('GURU_PARTY_PLANETS', [])
         BITTER_ENEMIES = ASTRO_CONSTANTS.get('BITTER_ENEMIES', {})
-        PLANET_RULERSHIPS = ASTRO_CONSTANTS.get('PLANET_RULERSHIPS', {})
+        PLANET_RULERSHIPS = load_localized_constants().get('PLANET_RULERSHIPS', {})
         OWN_HOUSE_RULES = ASTRO_CONSTANTS.get('OWN_HOUSE_RULES', {})
         
         native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
@@ -1969,7 +2012,7 @@ def results():
     GURU_PARTY_LAGNAS = ASTRO_CONSTANTS.get('GURU_PARTY_LAGNAS', [])
     GURU_PARTY_PLANETS = ASTRO_CONSTANTS.get('GURU_PARTY_PLANETS', [])
     BITTER_ENEMIES = ASTRO_CONSTANTS.get('BITTER_ENEMIES', {})
-    PLANET_RULERSHIPS = ASTRO_CONSTANTS.get('PLANET_RULERSHIPS', {})
+    PLANET_RULERSHIPS = load_localized_constants().get('PLANET_RULERSHIPS', {})
     OWN_HOUSE_RULES = ASTRO_CONSTANTS.get('OWN_HOUSE_RULES', {})
     
     BHAVA_LORD_RULES = load_rules('bhava_lord_rules.json')
@@ -2079,8 +2122,10 @@ def results():
                                 p_color = p['color']
                                 break
                         
+                        lang = session.get('lang', 'te') if has_request_context() else 'te'
+                        header_text = format_lord_placement(lord_house_num, lord_planet, p_house, lang)
                         placed_rules_map[p_house].append(
-                            f"<br><br><span style='color: {p_color};'><strong>{lord_house_num}వ స్థానాధిపతి (<span class='rainbow-planet'>{lord_planet}</span>) {p_house}వ స్థానములో ఉన్నందున:</strong> {rule_text}</span>"
+                            f"<br><br><span style='color: {p_color};'><strong>{header_text}</strong> {rule_text}</span>"
                         )
 
     bhava_report = []
@@ -2372,8 +2417,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     t_remain_h = int(t_remain_days * 24)
     t_remain_m = int(((t_remain_days * 24) % 1) * 60)
     
-    tithi_elapsed_str = f"గడిచిన సమయం: {t_elapsed_h}గం {t_elapsed_m}ని"
-    tithi_remaining_str = f"మిగిలిన సమయం: {t_remain_h}గం {t_remain_m}ని"
+    tithi_elapsed_str = f"{tr('గడిచిన సమయం')}: {t_elapsed_h}{tr('గం')} {t_elapsed_m}{tr('ని')}"
+    tithi_remaining_str = f"{tr('మిగిలిన సమయం')}: {t_remain_h}{tr('గం')} {t_remain_m}{tr('ని')}"
     
     y, m, d, h = swe.revjul(jd)
     jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
@@ -2390,16 +2435,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     tithi_end_str = get_am_pm_str(target_tithi_end)
     
     if target_tithi_start.date() < calc_date:
-        tithi_start_str = f"నిన్న {tithi_start_str}"
+        tithi_start_str = f"{tr('నిన్న')} {tithi_start_str}"
     elif target_tithi_start.date() > calc_date:
-        tithi_start_str = f"రేపు {tithi_start_str}"
+        tithi_start_str = f"{tr('రేపు')} {tithi_start_str}"
         
     if target_tithi_end.date() > calc_date:
-        tithi_end_str = f"రేపు {tithi_end_str}"
+        tithi_end_str = f"{tr('రేపు')} {tithi_end_str}"
     elif target_tithi_end.date() < calc_date:
-        tithi_end_str = f"నిన్న {tithi_end_str}"
+        tithi_end_str = f"{tr('నిన్న')} {tithi_end_str}"
         
-    calendar_tithi_end = f"{'ఉ: ' if target_tithi_end.hour < 12 else 'సా: '}{target_tithi_end.strftime('%I:%M')}"
+    calendar_tithi_end = f"{tr('ఉ: ') if target_tithi_end.hour < 12 else tr('సా: ')}{target_tithi_end.strftime('%I:%M')}"
     
     # Nakshatra exact tracking
     nak_index = int(moon_lon / NAKSHATRA_SIZE)
@@ -2416,8 +2461,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     remain_days = jd_end - jd
     nak_remain_h = int(remain_days * 24)
     nak_remain_m = int(((remain_days * 24) % 1) * 60)
-    nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
-    nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
+    nak_elapsed_str = f"{tr('గడిచిన సమయం')}: {nak_elapsed_h}{tr('గం')} {nak_elapsed_m}{tr('ని')}"
+    nak_remaining_str = f"{tr('మిగిలిన సమయం')}: {nak_remain_h}{tr('గం')} {nak_remain_m}{tr('ని')}"
     
     # Calculate nak_end directly from exact jd_end
     ye, me, de, he = swe.revjul(jd_end)
@@ -2432,16 +2477,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     # Add Ninna (Yesterday) / Repu (Tomorrow) indicators
     calc_date = jd_dt.date()
     if target_nak_start.date() < calc_date:
-        nak_start_str = f"నిన్న {nak_start_str}"
+        nak_start_str = f"{tr('నిన్న')} {nak_start_str}"
     elif target_nak_start.date() > calc_date:
-        nak_start_str = f"రేపు {nak_start_str}"
+        nak_start_str = f"{tr('రేపు')} {nak_start_str}"
         
     if target_nak.date() > calc_date:
-        nak_end_str = f"రేపు {nak_end_str}"
+        nak_end_str = f"{tr('రేపు')} {nak_end_str}"
     elif target_nak.date() < calc_date:
-        nak_end_str = f"నిన్న {nak_end_str}"
+        nak_end_str = f"{tr('నిన్న')} {nak_end_str}"
 
-    calendar_nak_end = f"{'ఉ: ' if target_nak.hour < 12 else 'సా: '}{target_nak.strftime('%I:%M')}"
+    calendar_nak_end = f"{tr('ఉ: ') if target_nak.hour < 12 else tr('సా: ')}{target_nak.strftime('%I:%M')}"
     
     # Yoga
     yoga_index = int(((sun_lon + moon_lon) % 360) / NAKSHATRA_SIZE)
@@ -2508,16 +2553,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         dt_val = datetime.datetime(y_a, m_dt_a, d_a, int(h_a), int((h_a%1)*60))
         dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
         en_month = dt_val.strftime("%B").lower()
-        te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
+        te_month = tr(EN_TO_TELUGU_MONTHS.get(en_month, en_month))
         return f"{te_month}-{d_a:02d}"
 
-    telugu_masam_full = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+    telugu_masam_full = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
     
     year = local_midnight.year
     month_cal = local_midnight.month
     adj_year = year - 1 if (month_cal <= 6 and masam_index >= 9) else year
     year_index = (adj_year - 1987) % 60
-    telugu_year = TELUGU_YEARS[year_index]
+    telugu_year = tr(TELUGU_YEARS[year_index])
     saka_year = adj_year - 78
     kaliyuga_year = 5126 + (adj_year - 2025)
     thraitha_sakamu = 47 + (adj_year - 2025)
@@ -2525,7 +2570,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     # Weekday mapping
     telugu_weekdays = ["సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము", "ఆదివారము"]
     wd_index = local_midnight.weekday()
-    vara_name = telugu_weekdays[wd_index]
+    vara_name = tr(telugu_weekdays[wd_index])
     
     suryodayam = "ఉ: 06:00"
     suryastamayam = "సా: 06:00"
@@ -2581,7 +2626,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         for d_idx in dur_indices[wd_index]:
             d_start = sunrise_dt + datetime.timedelta(seconds=muhurta_secs * d_idx)
             d_end = d_start + datetime.timedelta(seconds=muhurta_secs)
-            durmuhurtams.append(f"{get_am_pm_str(d_start)} నుండి {get_am_pm_str(d_end)} వరకు")
+            durmuhurtams.append(f"{get_am_pm_str(d_start)} {tr('నుండి')} {get_am_pm_str(d_end)} {tr('వరకు')}")
             
     except Exception:
         pass
@@ -2737,7 +2782,7 @@ def daily_panchangam():
         
         lagna_deg = int(lagna_lon % 30)
         lagna_min = int(((lagna_lon % 30) - lagna_deg) * 60)
-        panch_data['lagna_full'] = f"{lagna} ({lagna_deg}°{lagna_min:02d}′ వద్ద)"
+        panch_data['lagna_full'] = f"{tr(lagna)} ({lagna_deg}°{lagna_min:02d}′ {tr('వద్ద')})"
         
         chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
         rsi_idx = LAGNA_NAMES_TELUGU.index(lagna)
@@ -2851,9 +2896,9 @@ def daily_panchangam():
             dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
             te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
                          "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
-            ampm = "ఉ" if dt_val.hour < 12 else "సా"
+            ampm = tr("ఉ: ") if dt_val.hour < 12 else tr("సా: ")
             time_str = dt_val.strftime("%I:%M:%S").lstrip("0") or "12:00:00"
-            return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year} ({ampm}: {time_str})"
+            return f"{dt_val.day} {tr(te_months[dt_val.month - 1])} {dt_val.year} ({ampm}{time_str})"
 
         # All 12 planets
         ALL_PLANETS_TRANSIT = [
@@ -2867,7 +2912,7 @@ def daily_panchangam():
         for p_name, p_id in ALL_PLANETS_TRANSIT:
             lon_now = get_any_planet_lon(jd, p_name, p_id)
             lagna_idx = int(lon_now / 30) % 12
-            lagna_name = LAGNA_NAMES_TELUGU[lagna_idx]
+            lagna_name = tr(LAGNA_NAMES_TELUGU[lagna_idx])
 
             # Find both rasi boundaries (one in each temporal direction)
             jd_bound1 = find_lagna_boundary(jd, p_name, p_id, lagna_idx, find_exit=True)
@@ -2954,7 +2999,7 @@ def calendar_view():
     # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
     adj_year = date_obj.year
     year_index = (adj_year - 1987) % 60
-    year_name = TELUGU_YEARS[year_index]
+    year_name = tr(TELUGU_YEARS[year_index])
     cycles_since_1987 = (adj_year - 1987) // 60
     kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
     thraitha_sakamu = 47 + (adj_year - 2025)
@@ -2977,14 +3022,17 @@ def calendar_view():
     purnima_dt = datetime.date(int(y3), int(m3), int(d3))
     
     EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
-    shukla_range = f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month-1]} - {purnima_dt.day} {EN_MONTHS_TELUGU[purnima_dt.month-1]}"
+    def tr_month(te_month):
+        return tr(te_month)
+    shukla_range = f"{start_dt.day} {tr_month(EN_MONTHS_TELUGU[start_dt.month-1])} - {purnima_dt.day} {tr_month(EN_MONTHS_TELUGU[purnima_dt.month-1])}"
     krishna_start_dt = purnima_dt + datetime.timedelta(days=1)
-    krishna_range = f"{krishna_start_dt.day} {EN_MONTHS_TELUGU[krishna_start_dt.month-1]} - {end_dt.day} {EN_MONTHS_TELUGU[end_dt.month-1]}"
+    krishna_range = f"{krishna_start_dt.day} {tr_month(EN_MONTHS_TELUGU[krishna_start_dt.month-1])} - {end_dt.day} {tr_month(EN_MONTHS_TELUGU[end_dt.month-1])}"
 
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
     lagna_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
+    translated_masam_name = tr(telugu_masam_name)
     
     # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
     # Paksham: 0 for Shukla, 1 for Krishna
@@ -3060,7 +3108,7 @@ def calendar_view():
             f_name = DATE_FESTS.get(d_key, "")
             
         if f_name:
-            festivals_list.append({"day": current_dt.day, "name": f_name})
+            festivals_list.append({"day": current_dt.day, "name": tr(f_name)})
             
         days_data[wd][week_idx] = {
             "date": current_dt.day,
@@ -3075,7 +3123,7 @@ def calendar_view():
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"],
             "is_festival": bool(f_name),
-            "fest_name": f_name,
+            "fest_name": tr(f_name) if f_name else "",
             "is_shukla": "శుక్ల" in panch["paksha"],
             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
             "is_amavasya": "అమావాస్య" in panch["tithi_full"],
@@ -3093,11 +3141,11 @@ def calendar_view():
         year_index=year_index + 1,
         kaliyuga_year=kaliyuga_year,
         thraitha_sakamu=thraitha_sakamu,
-        telugu_masam=telugu_masam_name if view_type == "telugu" else f"{EN_MONTHS_TELUGU[date_obj.month - 1]} ({telugu_masam_name})",
+        telugu_masam=translated_masam_name if view_type == "telugu" else f"{tr(EN_MONTHS_TELUGU[date_obj.month - 1])} ({translated_masam_name})",
         shukla_range=shukla_range,
         krishna_range=krishna_range,
-        start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",
-        end_dt_str=f"{end_dt.day} {EN_MONTHS_TELUGU[end_dt.month - 1]}"
+        start_dt_str=f"{start_dt.day} {tr(EN_MONTHS_TELUGU[start_dt.month - 1])}",
+        end_dt_str=f"{end_dt.day} {tr(EN_MONTHS_TELUGU[end_dt.month - 1])}"
     )
 
 if __name__ == "__main__":

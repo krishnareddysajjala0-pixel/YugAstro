@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>జ్యోతిష్య ఫలితాలు - {{ name }}</title>
+    <title>{{ _('జ్యోతిష్య ఫలితాలు') }} - {{ name }}</title>
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
     <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
@@ -999,8 +999,7 @@
         <div class="disclaimer-box">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
-                <strong>{{ _('గమనిక:') }}</strong> ఈ ఫలితాలు కేవలం విద్యా ప్రయోజనాల కోసం మాత్రమే. ఈ ఫలితాలు ఇంకా ధృవీకరించబడలేదు
-                మరియు ఇవి పరిశోధనలో ఉన్నాయి. పరిశోధన పూర్తి అయిన తర్వాత పూర్తి ఫలితాలు ప్రదర్శించబడతాయి.
+                <strong>{{ _('గమనిక:') }}</strong> {{ _('ఈ ఫలితాలు కేవలం విద్యా ప్రయోజనాల కోసం మాత్రమే. ఈ ఫలితాలు ఇంకా ధృవీకరించబడలేదు మరియు ఇవి పరిశోధనలో ఉన్నాయి. పరిశోధన పూర్తి అయిన తర్వాత పూర్తి ఫలితాలు ప్రదర్శించబడతాయి.') }}
             </div>
         </div>
         <div class="glow-container">
@@ -1031,11 +1030,11 @@
                     <div class="bhava-section-label">{{ _('కార్యములు / విషయములు') }}</div>
                     <div class="bhava-content">{{ b.meaning }}</div>
 
-                    <div class="bhava-section-label">గ్రహ {{ _('స్థితి') }}:
+                    <div class="bhava-section-label">{{ _('గ్రహ స్థితి:') }}
                         {% if b.planets %}
                         {% for p in b.planets %}
                         <span class="p-tag" style="color: {{ p.color }}; border-color: {{ p.color }}44;">
-                            {% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% బలము
+                            {% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% {{ _('బలము') }}
                         </span>
                         {% endfor %}
                         {% else %}

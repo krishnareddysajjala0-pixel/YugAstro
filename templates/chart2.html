@@ -1692,7 +1692,7 @@
                 <div class="info-item">
                     <span class="info-icon">✦</span>
                     <strong class="info-label">{{ _('నక్షత్రం:') }}</strong>
-                    <span>{{ nakshatra }} ({{ padam }} పాదం)</span>
+                    <span>{{ nakshatra }} ({{ padam }} {{ _('పాదం') }})</span>
                 </div>
             </div>
 
@@ -1703,7 +1703,7 @@
         <div class="current-dasa-box" style="padding: 10px;">
             <div class="current-dasa-inline" style="margin-bottom: 8px; font-size: 16px;">
                 <span class="planet-icon" style="font-size: 20px;">{{ current_dasa_icon }}</span>
-                <span>ప్రస్తుత {{ _('మహాదశ') }}:
+                <span>{{ _('ప్రస్తుత') }} {{ _('మహాదశ') }}:
                     {% if current_dasa_favorable %}
                     <span class="highlight text-favorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
                     class="favorable">{{ _('అనుకూలము') }}</span> |
@@ -1712,11 +1712,11 @@
                     class="unfavorable">{{ _('ప్రతికూలము') }}</span> |
                 {% endif %}
                 <br>
-                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
+                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} {{ _('నుండి') }} {{ maha_end }} {{ _('వరకు') }}</span>
                 {% if maha_age_start and maha_age_end %}
                 <br>
                 <span style="font-size: 14px; color: #a0a0ff;">
-                    ({{ _('వయసు') }}: {{ maha_age_start }} నుండి {{ maha_age_end }} వరకు)
+                    ({{ _('వయసు') }}: {{ maha_age_start }} {{ _('నుండి') }} {{ maha_age_end }} {{ _('వరకు') }})
                 </span>
                 {% endif %}
             </div>
@@ -1728,10 +1728,10 @@
                     </div>
                 </div>
                 <div class="progress-stats" style="font-size: 14px; justify-content: space-around;">
-                    <span>గతమైనది: {{ "%.2f"|format(completed_years) }} సం.</span>
-                    <span>మిగిలినది: {{ "%.2f"|format(remaining_years) }} సం.</span>
+                    <span>{{ _('గతమైనది') }}: {{ "%.2f"|format(completed_years) }} {{ _('సం') }}.</span>
+                    <span>{{ _('మిగిలినది') }}: {{ "%.2f"|format(remaining_years) }} {{ _('సం') }}.</span>
                     <span style="color: #4CAF50; font-weight: bold;">{{ ((completed_years / total_years * 100) if
-                        total_years > 0 else 0)|round(1) }}% పూర్తైంది</span>
+                        total_years > 0 else 0)|round(1) }}% {{ _('పూర్తైంది') }}</span>
                 </div>
             </div>
         </div>
@@ -1740,7 +1740,7 @@
 
         <!-- PRINT ONLY: Maha Dasa Summary -->
         <div class="print-summary-section" style="display: none;">
-            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
             <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
                 <thead>
                     <tr>
@@ -1773,7 +1773,7 @@
 
         <!-- Complete Dasa Details -->
         <div class="dasa-section">
-            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+            <div class="section-title">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
 
             {% for dasa in all_dasas %}
             <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
@@ -1795,10 +1795,10 @@
                             {% endif %}
                         </div>
                         <div class="maha-dasa-period">
-                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
+                            {{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }} {{ _('వరకు') }}
                             <br>
                             <span style="font-size: 13px; color: #a0a0ff;">
-                                ({{ _('వయసు') }}: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
+                                ({{ _('వయసు') }}: {{ dasa.age_start }} {{ _('నుండి') }} {{ dasa.age_end }} {{ _('వరకు') }})
                             </span>
                         </div>
                     </div>
@@ -1851,7 +1851,7 @@
                                         set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
                                         badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
                                         set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
-                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
+                                        status='భవిష్యత్తు' %} {% set badge_class='future-badge' %} {% else %} {% set
                                         status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
                                         class="{% if badge_class == 'current-badge' %}current{% endif %}">
                                         <td>
@@ -1884,7 +1884,7 @@
                                         </td>
                                         <td>
                                             <span class="status-badge {{ badge_class }}">
-                                                {{ status }}
+                                                {{ _(status) }}
                                             </span>
                                         </td>
                                         </tr>

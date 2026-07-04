@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 <head>
     <meta charset="UTF-8">
@@ -634,13 +634,13 @@
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15; flex-direction: column; text-align: center; gap: 10px;">
                     <div class="result-icon"><i class="fas fa-calendar-alt" style="font-size: 24px;"></i></div>
                     <div>
-                        <div class="result-label" style="font-size: 18px;">{{ _('ఇందు క్యాలెండర్ వివరాలు') }} <br> <span class="rainbow-text-glow">త్రైత శకము-{{ panch.thraitha_sakamu }}</span></div>
+                        <div class="result-label" style="font-size: 18px;">{{ _('ఇందు క్యాలెండర్ వివరాలు') }} <br> <span class="rainbow-text-glow">{{ _('త్రైత శకము') }}-{{ panch.thraitha_sakamu }}</span></div>
                         <div class="result-value" style="font-weight: bold; font-size: 17px; margin-top: 5px;">
-                            {{ panch.year_name }} నామ సంవత్సరం ({{ panch.year_index + 1 }}), కలియుగ సంవత్సరం-{{ panch.kaliyuga_year }}
+                            {{ panch.year_name }} {{ _('నామ సంవత్సరం') }} ({{ panch.year_index + 1 }}), {{ _('కలియుగ సంవత్సరం') }}-{{ panch.kaliyuga_year }}
                         </div>
                         <div class="result-value" style="font-size: 16px; margin-top: 8px; color: #e2e8f0; font-weight: bold;">
-                            తెలుగు మాసం: {{ panch.masam_full }} <br>
-                            వారము: {{ panch.vara }}
+                            {{ _('తెలుగు మాసం') }}: {{ panch.masam_full }} <br>
+                            {{ _('వారము') }}: {{ panch.vara }}
                         </div>
                     </div>
                 </div>
@@ -681,7 +681,7 @@
                         <div class="result-label">{{ _('తిథి (Tithi)') }}</div>
                         <div class="result-value">{{ panch.tithi_full }}</div>
                         <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">{{ _('మొదలు:') }} {{ panch.tithi_start }}</div>
-                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.tithi_end }} వరకు</div>
+                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.tithi_end }} {{ _('వరకు') }}</div>
                         <div style="font-size: 13px; color: #facc15; margin-top: 4px; font-weight: 600;">{{ panch.tithi_elapsed_str }}</div>
                         <div style="font-size: 13px; color: #facc15; font-weight: 600;">{{ panch.tithi_remaining_str }}</div>
                     </div>
@@ -694,7 +694,7 @@
                         <div class="result-label">{{ _('నక్షత్రం (Nakshatra)') }}</div>
                         <div class="result-value">{{ panch.nakshatra }} ({{ panch.nak_padam }})</div>
                         <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">{{ _('మొదలు:') }} {{ panch.nak_start }}</div>
-                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.nak_end }} వరకు</div>
+                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.nak_end }} {{ _('వరకు') }}</div>
                         <div style="font-size: 13px; color: #facc15; margin-top: 4px; font-weight: 600;">{{ panch.nak_elapsed_str }}</div>
                         <div style="font-size: 13px; color: #facc15; font-weight: 600;">{{ panch.nak_remaining_str }}</div>
                     </div>
@@ -733,10 +733,10 @@
                     <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> {{ _('లగ్న కుండలి') }}</h2>
                     {% macro full_box(lagna, panch) %}
                         {% set hno = panch.houses.get(lagna, "") if panch.houses else "" %}
-                        <div class="box-c {% if panch.lagna==lagna %}lagna-c{% endif %}">
+                        <div class="box-c {% if panch.lagna == _(lagna) %}lagna-c{% endif %}">
                             {% if hno %}<span class="house-no-c">{{ hno }}</span>{% endif %}
                             <div style="text-align: center; line-height: 1.4;">{{ panch.chart[lagna] | safe }}</div>
-                            <span class="lagna-name-c">{{ lagna }}</span>
+                            <span class="lagna-name-c">{{ _(lagna) }}</span>
                         </div>
                     {% endmacro %}
                     <div class="chart-c">

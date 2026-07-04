@@ -561,13 +561,13 @@
     </div>
     <div class="header-top">
         <div class="header-branding">
-            {{ year_name }} నామ సంవత్సరం ({{ year_index }}), కలియుగ సంవత్సరం-{{ kaliyuga_year }}, త్రైత శకము-{{ thraitha_sakamu }}
+            {{ year_name }} {{ _('నామ సంవత్సరం') }} ({{ year_index }}), {{ _('కలియుగ సంవత్సరం') }}-{{ kaliyuga_year }}, {{ _('త్రైత శకము') }}-{{ thraitha_sakamu }}
         </div>
         <div class="header-masam">
-            {{ telugu_masam }} మాసము | {{ year }} {{ start_dt_str }} - {{ end_dt_str }}
+            {{ telugu_masam }} {{ _('మాసం') }} | {{ year }} {{ start_dt_str }} - {{ end_dt_str }}
         </div>
         <div class="header-pakshams">
-            శుక్ల పక్షం: {{ shukla_range }} | కృష్ణ పక్షం: {{ krishna_range }}
+            {{ _('శుక్ల పక్షం') }}: {{ shukla_range }} | {{ _('కృష్ణ పక్షం') }}: {{ krishna_range }}
         </div>
     </div>
 
@@ -588,7 +588,7 @@
 
     <div class="calendar-container">
         <!-- Weekday Headers -->
-        {% set days_names = ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"] %}
+        {% set days_names = [ _("ఆది."), _("సోమ."), _("మంగళ."), _("బుధ."), _("గురు."), _("శుక్ర."), _("శని.") ] %}
         {% for wd in range(7) %}
         <div class="day-header day-{{ wd }}">{{ days_names[wd] }}</div>
         {% endfor %}

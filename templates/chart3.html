@@ -1753,21 +1753,12 @@
             {% if is_guru_party %}
             <p
                 style="font-size: 22px; line-height: 1.8; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 0 8px rgba(255,255,255,0.3); letter-spacing: 0.5px;">
-                {{ _('మీరు') }} <strong style="color: #00ff00; font-size: 26px; text-shadow: 0 0 10px #00ff00;">గురు
-                    పార్టీకి</strong> సంబందించిన వారు కావున
-                మీకు {{ _('గురు పార్టీ') }} కి సంబందించిన {{ _('గ్రహము') }}లు {{ _('మిత్ర') }}ులు మరియు ఆ {{ _('గ్రహము') }}ల చేత పుణ్య {{ _('కర్మ') }} అమలు జరుగుతుంది.
-                <strong style="color: #ff3333; font-size: 26px; text-shadow: 0 0 10px #ff3333;">{{ _('శని పార్టీ') }}</strong>
-                {{ _('గ్రహము') }}లు
-                మీకు {{ _('శత్రువు') }}లు మరియు ఆ {{ _('గ్రహము') }}ల చేత పాప {{ _('కర్మ') }} అమలు జరుగుతుంది.
+                {{ _('మీరు గురు పార్టీకి సంబంధించిన వారు కావున మీకు గురు పార్టీకి సంబంధించిన గ్రహములు మిత్రులు మరియు ఆ గ్రహముల చేత పుణ్య కర్మ అమలు జరుగుతుంది. శని పార్టీ గ్రహములు మీకు శత్రువులు మరియు ఆ గ్రహముల చేత పాప కర్మ అమలు జరుగుతుంది.') }}
             </p>
             {% else %}
             <p
                 style="font-size: 22px; line-height: 1.8; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 0 8px rgba(255,255,255,0.3); letter-spacing: 0.5px;">
-                {{ _('మీరు') }} <strong style="color: #00ff00; font-size: 26px; text-shadow: 0 0 10px #00ff00;">{{ _('శని') }}
-                    పార్టీకి</strong> సంబందించిన వారు కావున
-                మీకు {{ _('శని పార్టీ') }} కి సంబందించిన {{ _('గ్రహము') }}లు {{ _('మిత్ర') }}ులు మరియు ఆ {{ _('గ్రహము') }}ల చేత పుణ్య {{ _('కర్మ') }} అమలు జరుగుతుంది.
-                <strong style="color: #ff3333; font-size: 26px; text-shadow: 0 0 10px #ff3333;">{{ _('గురు పార్టీ') }}</strong>
-                {{ _('గ్రహములు మీకు శత్రువులు మరియు ఆ గ్రహముల చేత పాప కర్మ అమలు జరుగుతుంది.') }}
+                {{ _('మీరు శని పార్టీకి సంబంధించిన వారు కావున మీకు శని పార్టీకి సంబంధించిన గ్రహములు మిత్రులు మరియు ఆ గ్రహముల చేత పుణ్య కర్మ అమలు జరుగుతుంది. గురు పార్టీ గ్రహములు మీకు శత్రువులు మరియు ఆ గ్రహముల చేత పాప కర్మ అమలు జరుగుతుంది.') }}
             </p>
             {% endif %}
         </div>
@@ -2063,7 +2054,7 @@
         <!-- Friends/Enemies/Party section moved from results page -->
         {% if native_party %}
         <div class="party-info {{ 'guru-bg' if native_party == 'గురు వర్గము' else 'shani-bg' }}">
-            <div class="party-badge">{{ _('మీరు') }} {{ native_party }} వ్యక్తి</div>
+            <div class="party-badge">{% if native_party == 'గురు వర్గము' %}{{ _('గురు వర్గ వ్యక్తి') }}{% else %}{{ _('శని వర్గ వ్యక్తి') }}{% endif %}</div>
             <div style="font-size: 14px; margin-top: 5px; opacity: 0.9;">{{ _('మీ లగ్నం:') }} <strong>{{ lagna }}</strong></div>
         </div>
         {% endif %}
@@ -2100,14 +2091,14 @@
                 <div class="card-footer">
                     <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
                         {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> స్వంత ఇంట్లో ఉన్నది.
+                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
                         {% else %}
-                        <i class="fas fa-info-circle"></i> ఇతర లగ్నములో ఉన్నది.
+                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
                         {% endif %}
                     </div>
                     {% if r.bitter_enemy %}
                     <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> బద్ధ{{ _('శత్రువు') }}: {{ r.bitter_enemy }}
+                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
                     </div>
                     {% endif %}
                 </div>
@@ -2151,14 +2142,14 @@
                 <div class="card-footer">
                     <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
                         {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> స్వంత ఇంట్లో ఉన్నది.
+                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
                         {% else %}
-                        <i class="fas fa-info-circle"></i> ఇతర లగ్నములో ఉన్నది.
+                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
                         {% endif %}
                     </div>
                     {% if r.bitter_enemy %}
                     <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> బద్ధ{{ _('శత్రువు') }}: {{ r.bitter_enemy }}
+                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
                     </div>
                     {% endif %}
                 </div>
@@ -2174,8 +2165,7 @@
             </p>
 
             <div class="disclaimer">
-                <strong>{{ _('గమనిక:') }}</strong> ఈ వివరాలు జ్యోతిష్య గ్రంథాల ఆధారంగా సేకరించబడ్డాయి.
-                ఖచ్చితమైన వివరాల కోసం నిపుణులను సంప్రదించండి. <button class="print-hide" onclick="window.location.href='/results'" style="padding: 1px 5px; font-size: 10px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 3px; cursor: pointer; margin-left: 5px; vertical-align: middle;">R</button>
+                <strong>{{ _('గమనిక:') }}</strong> {{ _('ఈ వివరాలు జ్యోతిష్య గ్రంథాల ఆధారంగా సేకరించబడ్డాయి. ఖచ్చితమైన వివరాల కోసం నిపుణులను సంప్రదించండి.') }} <button class="print-hide" onclick="window.location.href='/results'" style="padding: 1px 5px; font-size: 10px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 3px; cursor: pointer; margin-left: 5px; vertical-align: middle;">R</button>
             </div>
         </div>
         </div> <!-- Close Page 3 print-page-container -->
@@ -2294,7 +2284,7 @@
             const currentYear = new Date().getFullYear();
             const footerText = document.querySelector('.footer p');
             if (footerText) {
-                footerText.innerHTML = `© ${currentYear} తెలుగు జ్యోతిష్య విశ్లేషణ - {{ _('ద్వాదశ గ్రహముల ఫలితాలు') }}`;
+                footerText.innerHTML = `© ${currentYear} {{ _('తెలుగు జ్యోతిష్య విశ్లేషణ') }} - {{ _('ద్వాదశ గ్రహముల ఫలితాలు') }}`;
             }
 
             // Add floating button tooltips
