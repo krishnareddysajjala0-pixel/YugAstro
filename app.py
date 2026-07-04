@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context
 import swisseph as swe
 import datetime
 import pytz
@@ -8,8 +8,130 @@ import subprocess
 import requests
 import base64
 import json
+import re
+
+# Cache loaded translation dictionaries
+TRANSLATIONS_CACHE = {}
+
+def get_translations_dict(lang):
+    if lang == 'te':
+        return {}
+    if lang not in TRANSLATIONS_CACHE:
+        path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    TRANSLATIONS_CACHE[lang] = json.load(f)
+            except Exception as e:
+                print(f"Error loading vocabulary {lang}: {e}")
+                TRANSLATIONS_CACHE[lang] = {}
+        else:
+            TRANSLATIONS_CACHE[lang] = {}
+    return TRANSLATIONS_CACHE[lang]
+
+def tr(text, lang=None):
+    if not text:
+        return text
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang', 'te')
+    if lang == 'te':
+        return text
+        
+    mapping = get_translations_dict(lang)
+    if text in mapping:
+        return mapping[text]
+        
+    # Suffix matching
+    tithi_match = re.match(r'^(\d+)వ తిథి$', text)
+    if tithi_match:
+        num = tithi_match.group(1)
+        suffix = mapping.get("వ తిథి", " Tithi")
+        return f"{num}{suffix}"
+        
+    padam_match = re.match(r'^(\d+)వ పాదం$', text)
+    if padam_match:
+        num = padam_match.group(1)
+        suffix = mapping.get("వ పాదం", " Pada")
+        return f"{num}{suffix}"
+        
+    # Handle combined times
+    if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
+        translated_text = text
+        for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
+            if te_word in translated_text:
+                translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
+        return translated_text
+        
+    return text
+
+def translate_html_string(html_str, lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang', 'te')
+    if lang == 'te':
+        return html_str
+        
+    def repl(match):
+        text = match.group(2)
+        if text.strip():
+            return f"{match.group(1)}{tr(text, lang)}{match.group(3)}"
+        return match.group(0)
+    return re.sub(r'(>)([^<]+)(<)', repl, html_str)
+
+def translate_data(val, lang):
+    if lang == 'te' or not val:
+        return val
+    
+    if isinstance(val, str):
+        if "<span" in val or "<br" in val or "<b>" in val:
+            return translate_html_string(val, lang)
+        return tr(val, lang)
+    elif isinstance(val, list):
+        return [translate_data(item, lang) for item in val]
+    elif isinstance(val, dict):
+        return {k: translate_data(v, lang) for k, v in val.items()}
+    return val
+
+def render_template(template_name_or_list, **context):
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    if lang != 'te':
+        translated_context = {}
+        for k, v in context.items():
+            translated_context[k] = translate_data(v, lang)
+        translated_context['current_lang'] = lang
+        return flask_render_template(template_name_or_list, **translated_context)
+    context['current_lang'] = 'te'
+    return flask_render_template(template_name_or_list, **context)
 
 def load_rules(filename):
+    if filename == 'astro_constants.json':
+        path = os.path.join(os.path.dirname(__file__), filename)
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading {filename}: {e}")
+            return {}
+
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    if lang != 'te':
+        base, ext = os.path.splitext(filename)
+        localized_filename = f"{base}_{lang}{ext}"
+        path = os.path.join(os.path.dirname(__file__), localized_filename)
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading localized {localized_filename}: {e}")
+                
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
@@ -25,6 +147,55 @@ GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.8\resources\app\
 
 app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
+
+@app.context_processor
+def inject_translation():
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    
+    mapping = get_translations_dict(lang)
+    
+    def translate_text(text):
+        if not text or lang == 'te':
+            return text
+        if text == 'భాష':
+            return {
+                'en': 'Language',
+                'kn': 'ಭಾಷೆ',
+                'hi': 'भाषा',
+                'ta': 'மொழி',
+                'ml': 'ഭാഷ',
+                'or': 'ଭାଷା'
+            }.get(lang, 'Language')
+        if isinstance(text, str):
+            if text in mapping:
+                return mapping[text]
+            
+            # Suffix matching
+            import re
+            tithi_match = re.match(r'^(\d+)వ తిథి$', text)
+            if tithi_match:
+                num = tithi_match.group(1)
+                suffix = mapping.get("వ తిథి", " Tithi")
+                return f"{num}{suffix}"
+                
+            padam_match = re.match(r'^(\d+)వ పాదం$', text)
+            if padam_match:
+                num = padam_match.group(1)
+                suffix = mapping.get("వ పాదం", " Pada")
+                return f"{num}{suffix}"
+                
+            # Handle combined times
+            if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
+                translated_text = text
+                for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
+                    if te_word in translated_text:
+                        translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
+                return translated_text
+                
+        return text
+    return dict(_=translate_text, current_lang=lang)
 
 # ---------------- Swiss Ephemeris ----------------
 # swe.set_ephe_path(".")  # Removed to allow Render to use default pyswisseph bundled files
@@ -675,6 +846,12 @@ def get_planet_icon(planet_name):
 def index():
     return render_template("index.html")
 
+@app.route("/set_lang/<lang>")
+def set_lang(lang):
+    if lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
+        session['lang'] = lang
+    return redirect(request.referrer or url_for('index'))
+
 def get_kundali_data(name, dob, tob, place, lat, lon):
     # Ensure standard Lahiri Ayanamsa is used for all calculations
     swe.set_sid_mode(swe.SIDM_LAHIRI)
@@ -1130,18 +1307,31 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'nak_index': nak_index
     }
 
-@app.route("/chart", methods=["POST"])
+@app.route("/chart", methods=["GET", "POST"])
 def chart():
-    name = request.form.get("name","")
-    dob = request.form.get("dob","")
-    tob = request.form.get("tob","")
-    place = request.form.get("place","")
+    if request.method == "POST":
+        name = request.form.get("name","")
+        dob = request.form.get("dob","")
+        tob = request.form.get("tob","")
+        place = request.form.get("place","")
+        lat = request.form.get("lat")
+        lon = request.form.get("lon")
+        
+        session['chart_form'] = {
+            'name': name, 'dob': dob, 'tob': tob, 'place': place,
+            'lat': lat, 'lon': lon
+        }
+    else:
+        form_data = session.get('chart_form', {})
+        name = form_data.get('name', '')
+        dob = form_data.get('dob', '')
+        tob = form_data.get('tob', '')
+        place = form_data.get('place', '')
+        lat = form_data.get('lat')
+        lon = form_data.get('lon')
 
-    lat = request.form.get("lat")
-    lon = request.form.get("lon")
-
-    if not lat or not lon:
-        return "❌ Please select place from suggestion list"
+    if not name or not dob or not lat or not lon:
+        return redirect(url_for('index'))
 
     lat = float(lat)
     lon = float(lon)
@@ -1163,24 +1353,45 @@ def chart():
 def compare_kundali():
     return render_template("compare_form.html")
 
-@app.route("/compare_results", methods=["POST"])
+@app.route("/compare_results", methods=["GET", "POST"])
 def compare_results():
-    name1 = request.form.get("name1","")
-    dob1 = request.form.get("dob1","")
-    tob1 = request.form.get("tob1","")
-    place1 = request.form.get("place1","")
-    lat1 = request.form.get("lat1")
-    lon1 = request.form.get("lon1")
+    if request.method == "POST":
+        name1 = request.form.get("name1","")
+        dob1 = request.form.get("dob1","")
+        tob1 = request.form.get("tob1","")
+        place1 = request.form.get("place1","")
+        lat1 = request.form.get("lat1")
+        lon1 = request.form.get("lon1")
 
-    name2 = request.form.get("name2","")
-    dob2 = request.form.get("dob2","")
-    tob2 = request.form.get("tob2","")
-    place2 = request.form.get("place2","")
-    lat2 = request.form.get("lat2")
-    lon2 = request.form.get("lon2")
+        name2 = request.form.get("name2","")
+        dob2 = request.form.get("dob2","")
+        tob2 = request.form.get("tob2","")
+        place2 = request.form.get("place2","")
+        lat2 = request.form.get("lat2")
+        lon2 = request.form.get("lon2")
+        
+        session['compare_form'] = {
+            'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2
+        }
+    else:
+        form_data = session.get('compare_form', {})
+        name1 = form_data.get('name1', '')
+        dob1 = form_data.get('dob1', '')
+        tob1 = form_data.get('tob1', '')
+        place1 = form_data.get('place1', '')
+        lat1 = form_data.get('lat1')
+        lon1 = form_data.get('lon1')
+        
+        name2 = form_data.get('name2', '')
+        dob2 = form_data.get('dob2', '')
+        tob2 = form_data.get('tob2', '')
+        place2 = form_data.get('place2', '')
+        lat2 = form_data.get('lat2')
+        lon2 = form_data.get('lon2')
 
-    if not lat1 or not lon1 or not lat2 or not lon2:
-        return "❌ Please select place from suggestion list for both entries"
+    if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
+        return redirect(url_for('compare_kundali'))
 
     data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
     data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
@@ -1561,24 +1772,45 @@ def chart2():
     )
 
 
-@app.route("/compare_dasha", methods=["POST"])
+@app.route("/compare_dasha", methods=["GET", "POST"])
 def compare_dasha():
-    name1 = request.form.get("name1","")
-    dob1 = request.form.get("dob1","")
-    tob1 = request.form.get("tob1","")
-    place1 = request.form.get("place1","")
-    lat1 = request.form.get("lat1")
-    lon1 = request.form.get("lon1")
+    if request.method == "POST":
+        name1 = request.form.get("name1","")
+        dob1 = request.form.get("dob1","")
+        tob1 = request.form.get("tob1","")
+        place1 = request.form.get("place1","")
+        lat1 = request.form.get("lat1")
+        lon1 = request.form.get("lon1")
 
-    name2 = request.form.get("name2","")
-    dob2 = request.form.get("dob2","")
-    tob2 = request.form.get("tob2","")
-    place2 = request.form.get("place2","")
-    lat2 = request.form.get("lat2")
-    lon2 = request.form.get("lon2")
+        name2 = request.form.get("name2","")
+        dob2 = request.form.get("dob2","")
+        tob2 = request.form.get("tob2","")
+        place2 = request.form.get("place2","")
+        lat2 = request.form.get("lat2")
+        lon2 = request.form.get("lon2")
+        
+        session['dasha_form'] = {
+            'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2
+        }
+    else:
+        form_data = session.get('dasha_form', {})
+        name1 = form_data.get('name1', '')
+        dob1 = form_data.get('dob1', '')
+        tob1 = form_data.get('tob1', '')
+        place1 = form_data.get('place1', '')
+        lat1 = form_data.get('lat1')
+        lon1 = form_data.get('lon1')
+        
+        name2 = form_data.get('name2', '')
+        dob2 = form_data.get('dob2', '')
+        tob2 = form_data.get('tob2', '')
+        place2 = form_data.get('place2', '')
+        lat2 = form_data.get('lat2')
+        lon2 = form_data.get('lon2')
 
-    if not lat1 or not lon1 or not lat2 or not lon2:
-        return "❌ Please select place from suggestion list for both entries"
+    if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
+        return redirect(url_for('compare_kundali'))
 
     data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
     data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
@@ -2067,7 +2299,7 @@ def results():
             "meaning": bhava_data["meaning"],
             "planets": p_info,
             "interpretation": interpretation,
-            "special_notes": special_notes,
+            "special_notes": [translate_html_string(note) for note in special_notes],
             "state": state
         })
 
