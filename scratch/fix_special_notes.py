@@ -1,7 +1,7 @@
 import re
 import os
 
-path = r'c:\Users\gnana\.gemini\antigravity\scratch\astroexp\app.py'
+path = r'c:\Users\gnana\.gemini\antigravity\scratch\YugAstro\app.py'
 if not os.path.exists(path):
     print(f"File not found: {path}")
     exit(1)

@@ -715,7 +715,7 @@ def log_user_to_github(name, dob, tob, place):
                 print("GITHUB_TOKEN not found. Direct GitHub storage is disabled.")
                 return
 
-            repo = "krishnareddysajjala0-pixel/Timeastro"
+            repo = "krishnareddysajjala0-pixel/YugAstro"
             path = "user_data.txt"
             url = f"https://api.github.com/repos/{repo}/contents/{path}"
             headers = {
@@ -798,7 +798,7 @@ def send_telegram_notification(name, dob, tob, place):
 
     try:
         message = (
-            f"🌟 *New User Query on Timeastro!*\n\n"
+            f"🌟 *New User Query on YugAstro!*\n\n"
             f"👤 *Name:* {name}\n"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"

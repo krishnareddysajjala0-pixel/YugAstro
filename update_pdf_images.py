@@ -1,7 +1,7 @@
 import json
 
 # Update bhava_lord_rules.json
-json_file = "c:/Users/gnana/.gemini/antigravity/scratch/astroexp/bhava_lord_rules.json"
+json_file = "c:/Users/gnana/.gemini/antigravity/scratch/YugAstro/bhava_lord_rules.json"
 with open(json_file, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
@@ -249,7 +249,7 @@ with open(json_file, 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 
 # Update detailed_bhava_meanings.json
-meanings_file = "c:/Users/gnana/.gemini/antigravity/scratch/astroexp/detailed_bhava_meanings.json"
+meanings_file = "c:/Users/gnana/.gemini/antigravity/scratch/YugAstro/detailed_bhava_meanings.json"
 with open(meanings_file, 'r', encoding='utf-8') as f:
     meanings = json.load(f)
 
