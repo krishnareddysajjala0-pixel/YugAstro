@@ -74,11 +74,10 @@
         /* Redundant but kept for compatibility */
     }
 
-    [data-theme="dark"] {
-      --bg-primary: radial-gradient(circle at center, #0f172a 0%, #02    [data-theme="sunset"] {
+    [data-theme="sunset"] {
       --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
       --text-main: #ffffff;
-      --text-muted: #c7d2fe;
+      --text-muted: #fca5a5;
       --label-text: #ffffff;
       --house-no-text: #ffffff;
       --card-bg: rgba(69, 10, 10, 0.85);
@@ -87,6 +86,10 @@
       --box-border-hover: rgba(255, 255, 255, 0.5);
       --header-bg: linear-gradient(45deg, #fbbf24, #f97316);
       --shadow-color: rgba(0, 0, 0, 0.7);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(69, 10, 10, 0.7);
+      --house-no-bg: rgba(255, 255, 255, 0.12);
     }
     /* ✨ Obsidian Gold — Luxury midnight with rich gold */
     [data-theme="luxury"] {
@@ -325,15 +328,6 @@
 
     /* Force white text for mantra in dark modes */
     [data-theme="cosmic"] .om-title,
-    [data-theme="dark"] .om-title,
-    [data-theme="sunset"]     .page-title {
-      font-size: 36px;
-      color: var(--text-main);
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
-      margin-bottom: 1.5em;
-    }
-
     /* Action buttons */
     .action-buttons {
       position: fixed;
@@ -836,16 +830,6 @@
       :root,
       [data-theme],
       [data-theme="cosmic"],
-      [data-theme="dark"],
-      [data-theme="sunset"],
-      *, *::before, *::after {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
-        animation: none !important;
-        backdrop-filter: none !important;
-      }
       
       body::before, body::after, .background-overlay, .cosmic-bg {
         display: none !important;
