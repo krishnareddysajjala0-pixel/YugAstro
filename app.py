@@ -702,7 +702,7 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
         return False
 
 # ---------------- GITHUB LOGGING HELPER ----------------
-def log_user_to_github(name, dob, tob, place):
+def log_user_to_github(name, dob, tob, place, mobile=None, req_telegram="no"):
     """Log user data to user_data.txt using GitHub API or local file."""
     try:
         basedir = os.path.dirname(os.path.abspath(__file__))
@@ -724,7 +724,7 @@ def log_user_to_github(name, dob, tob, place):
                                 pass
             
             timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-            log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+            log_entry = f"{serial_no}. [{timestamp}] Name: {name}, Mobile: {mobile if mobile else 'N/A'}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
             
             with open(log_file, "a", encoding="utf-8") as f:
                 f.write(log_entry)
@@ -779,7 +779,7 @@ def log_user_to_github(name, dob, tob, place):
                         final_serial[0] = remote_serial
                         
                         remote_timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-                        new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+                        new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, Mobile: {mobile if mobile else 'N/A'}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
                         new_content = current_content + (new_entry if current_content.endswith("\n") else "\n" + new_entry)
                         
                         # Update file
@@ -825,13 +825,13 @@ def log_user_to_github(name, dob, tob, place):
         git_thread.start()
         
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
+        send_telegram_notification(name, dob, tob, place, mobile, req_telegram, serial_no=final_serial[0])
         
     except Exception as e:
         print(f"Critical logging error: {e}")
 
 
-def send_telegram_notification(name, dob, tob, place, serial_no=None):
+def send_telegram_notification(name, dob, tob, place, mobile=None, req_telegram="no", serial_no=None):
     """Send user details to Telegram Bot channel/chat."""
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -866,7 +866,9 @@ def send_telegram_notification(name, dob, tob, place, serial_no=None):
             f"👤 *Name:* {name}\n"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"
-            f"📍 *Place:* {place}"
+            f"📍 *Place:* {place}\n"
+            f"📱 *Mobile:* {mobile if mobile else 'N/A'}\n"
+            f"📩 *Telegram PDF Req:* {'✅ Yes' if req_telegram == 'yes' else '❌ No'}"
         )
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         payload = {
@@ -1449,10 +1451,14 @@ def chart():
         place = request.form.get("place","")
         lat = request.form.get("lat")
         lon = request.form.get("lon")
+        mobile_num = request.form.get("mobile", "")
+        country_code = request.form.get("countryCode", "+91")
+        mobile = f"{country_code} {mobile_num}" if mobile_num else ""
+        req_telegram = request.form.get("req_telegram", "no")
         
         session['chart_form'] = {
             'name': name, 'dob': dob, 'tob': tob, 'place': place,
-            'lat': lat, 'lon': lon
+            'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
         }
     else:
         form_data = session.get('chart_form', {})
@@ -1462,6 +1468,8 @@ def chart():
         place = form_data.get('place', '')
         lat = form_data.get('lat')
         lon = form_data.get('lon')
+        mobile = form_data.get('mobile', '')
+        req_telegram = form_data.get('req_telegram', 'no')
 
     if not name or not dob or not lat or not lon:
         return redirect(url_for('index'))
@@ -1470,7 +1478,7 @@ def chart():
     lon = float(lon)
     
     # Log User query to GitHub
-    log_user_to_github(name, dob, tob, place)
+    log_user_to_github(name, dob, tob, place, mobile, req_telegram)
 
     data = get_kundali_data(name, dob, tob, place, lat, lon)
 
