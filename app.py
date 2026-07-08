@@ -2184,6 +2184,10 @@ def full_report():
             setTimeout(function() {{ window.print(); }}, 1000);
         }};
         
+        // iOS Safari Fallback: If print doesn't open automatically, tapping anywhere triggers it
+        document.body.addEventListener('click', function() {{ window.print(); }});
+        document.body.addEventListener('touchstart', function() {{ window.print(); }});
+        
         window.onafterprint = function() {{
             window.location.href = '/chart';
         }};
