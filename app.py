@@ -2114,7 +2114,7 @@ def full_report():
     html3 = get_html_str(chart3())
     html4 = get_html_str(results())
 
-    def extract(html):
+    def extract(html, index):
         s = re.search(r'<style.*?>(.*?)</style>', html, re.DOTALL)
         style = s.group(1) if s else ""
         b = re.search(r'<body.*?>(.*)</body>', html, re.DOTALL)
@@ -2126,12 +2126,18 @@ def full_report():
         body = re.sub(r'<div class="controls print-hide">.*?</div>', '', body, flags=re.DOTALL)
         body = re.sub(r'<button.*?>.*?</button>', '', body, flags=re.DOTALL) # remove all buttons to be safe
         body = re.sub(r'<script.*?>.*?</script>', '', body, flags=re.DOTALL)
+
+        # Isolate .container class to prevent zoom conflicts across pages
+        container_id = f"report-container-{index}"
+        body = body.replace('class="container"', f'class="container" id="{container_id}"')
+        style = re.sub(r'\.container\b', f'#{container_id}', style)
+
         return style, body
 
-    s1, b1 = extract(html1)
-    s2, b2 = extract(html2)
-    s3, b3 = extract(html3)
-    s4, b4 = extract(html4)
+    s1, b1 = extract(html1, 1)
+    s2, b2 = extract(html2, 2)
+    s3, b3 = extract(html3, 3)
+    s4, b4 = extract(html4, 4)
 
     full_html = f"""<!DOCTYPE html>
 <html lang="te">
