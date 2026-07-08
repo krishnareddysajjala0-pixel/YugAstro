@@ -826,11 +826,15 @@
 
     /* ===== PRINT ===== */
     @media print {
+      .pdf-person-name { color: #000 !important; font-weight: 900 !important; }
       /* ===== Force ALL themes to print-safe light colors =====
          Without this, dark/cosmic themes keep white text → invisible in PDF */
       :root,
       [data-theme],
-      [data-theme="cosmic"],
+      [data-theme="cosmic"] {
+        color: #000 !important;
+        background: #fff !important;
+      }
       
       body::before, body::after, .background-overlay, .cosmic-bg {
         display: none !important;
@@ -1046,6 +1050,7 @@
         margin: 0 auto;       /* center the table */
         border-collapse: collapse;
         font-size: 14pt;
+        font-weight: bold !important;
         color: #000 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -1070,46 +1075,23 @@
         color: #000 !important;
       }
 
-      .maha-print-table tbody tr:nth-child(even) td {
-        background-color: #f8fafc !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+      .maha-print-table tbody tr td {
+        background-color: transparent !important;
       }
 
-      .maha-favorable {
-        color: #006400 !important;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      .maha-unfavorable {
-        color: #b22222 !important;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      /* Planet name column: green for favorable, red for unfavorable (Guru/Shani party) */
-      .maha-planet-favorable {
-        color: #006400 !important;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      .maha-planet-unfavorable {
-        color: #b22222 !important;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      .maha-current-row td {
+      .maha-print-table tbody tr.maha-current-row td {
         background-color: #fef9c3 !important;
         font-weight: bold;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+      }
+
+      .maha-row-favorable td {
+        color: #006400 !important;
+      }
+
+      .maha-row-unfavorable td {
+        color: #b22222 !important;
       }
 
       .chart {
@@ -1161,10 +1143,16 @@
 
       .hand {
         font-size: 22.7px !important; /* Same size as planet names (22.7px) */
+        background: transparent !important;
+        border: 1px solid #333 !important; /* Restore oval circle line */
+        border-radius: 12px !important;
       }
 
       .pos {
         color: #006400 !important;
+        background-color: #dcfce7 !important;
+        padding: 0 4px !important;
+        border-radius: 4px !important;
       }
 
       .neg {
@@ -1898,7 +1886,7 @@
               </tr>
               <tr>
                 <td style="color: #ffd700;">{{ _('పేరు:') }}</td>
-                <td style="color: var(--text-main);">{{ name }}</td>
+                <td class="pdf-person-name" style="color: var(--text-main);">{{ name }}</td>
               </tr>
               <tr>
                 <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
@@ -2005,7 +1993,7 @@
       </thead>
       <tbody>
         {% for dasa in all_dasas %}
-        <tr{% if dasa.is_current %} class="maha-current-row"{% endif %}>
+        <tr class="{% if dasa.is_current %}maha-current-row {% endif %}{{ 'maha-row-favorable' if dasa.is_favorable else 'maha-row-unfavorable' }}">
           <td>{{ loop.index }}</td>
           <td class="{{ 'maha-planet-favorable' if dasa.is_favorable else 'maha-planet-unfavorable' }}">{{ dasa.icon }} {{ dasa.maha }}</td>
           <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">

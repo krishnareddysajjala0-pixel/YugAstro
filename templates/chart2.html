@@ -915,7 +915,7 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 2mm !important;
+                margin: 10mm 6mm 6mm 6mm !important;
             }
 
             /* Reset all decorative effects */
@@ -957,7 +957,7 @@
                 min-width: 840px !important;
                 margin: 0 auto !important;
                 padding: 0 !important;
-                zoom: 0.92 !important;
+                zoom: 1.02 !important;
             }
 
             /* ── Hide all navigation / UI chrome ── */
@@ -978,7 +978,7 @@
 
             /* ── Cosmic header (name / birth details) ── */
             .cosmic-header {
-                background: #f5f5f5 !important;
+                background: transparent !important;
                 border: 1px solid #333 !important;
                 border-radius: 4px !important;
                 padding: 10px 12px !important;
@@ -987,17 +987,21 @@
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-            .cosmic-header * { color: #000 !important; }
+            .cosmic-header * { color: #000 !important; font-weight: bold !important; text-shadow: none !important; }
             .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 15.5pt !important; }
-            .person-name { font-size: 17.5pt !important; font-weight: bold !important; color: #000080 !important; }
+            .person-name { font-size: 20pt !important; font-weight: 900 !important; color: #000 !important; text-shadow: none !important; }
             .info-row {
                 display: inline-flex !important;
                 flex-direction: column !important;
                 align-items: flex-start !important;
                 gap: 5px !important;
                 font-size: 11pt !important;
+                font-weight: bold !important;
                 margin: 10px auto 0 auto !important;
                 text-align: left !important;
+            }
+            .info-item, .info-item span, .info-item strong {
+                font-weight: bold !important;
             }
             .info-item {
                 display: flex !important;
@@ -1015,18 +1019,25 @@
 
             /* ── Nakshatra box ── */
             .nakshatra-box {
-                background: #f9f9f9 !important;
+                background: transparent !important;
                 border: 1px solid #333 !important;
                 padding: 6px 10px !important;
                 margin: 0 auto 15px auto !important;
                 width: 80% !important;
+                text-align: center !important;
+                font-size: 11.5pt !important;
+                font-weight: bold !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-            .nakshatra-box * { color: #000 !important; }
-            .nakshatra-name { font-size: 13pt !important; }
-            .time-label { color: #555 !important; font-size: 11pt !important; }
-            .time-value { color: #b22222 !important; font-weight: bold !important; font-size: 13pt !important; }
+            .nakshatra-box, .nakshatra-box span, .nakshatra-box div {
+                font-weight: bold !important;
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+            .nakshatra-name { font-size: 13pt !important; font-weight: bold !important; }
+            .time-label { color: #000 !important; font-size: 11pt !important; font-weight: bold !important; }
+            .time-value { color: #000 !important; font-weight: bold !important; font-size: 13pt !important; }
 
             /* ── Current Dasa box ── */
             .current-dasa-box {
@@ -1037,12 +1048,13 @@
                 width: 80% !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
-                font-size: 11pt !important;
+                font-size: 11.5pt !important;
+                font-weight: bold !important;
             }
-            .current-dasa-box * { color: #000 !important; }
-            .current-dasa-title { color: #d2691e !important; font-size: 16pt !important; }
-            .highlight.text-favorable { color: #006400 !important; }
-            .highlight.text-unfavorable { color: #b22222 !important; }
+            .current-dasa-box, .current-dasa-box * { color: #000 !important; font-weight: bold !important; }
+            .current-dasa-title { color: #d2691e !important; font-weight: bold !important; font-size: 16pt !important; }
+            .highlight.text-favorable { color: #006400 !important; font-weight: bold !important; }
+            .highlight.text-unfavorable { color: #b22222 !important; font-weight: bold !important; }
             .progress-container { display: none !important; }
 
             /* ── Print Summary Table (show it, keep on page 1 — no forced break) ── */
@@ -1062,7 +1074,21 @@
             .print-summary-section th, .print-summary-section td {
                 border: 1px solid #333 !important;
                 padding: 5px 8px !important;
+                font-weight: bold !important;
+                background-color: transparent !important;
+            }
+            .print-summary-section th {
                 color: #000 !important;
+                background-color: #e2e8f0 !important;
+            }
+            .print-summary-section tr.maha-row-favorable td {
+                color: #006400 !important;
+            }
+            .print-summary-section tr.maha-row-unfavorable td {
+                color: #b22222 !important;
+            }
+            .print-summary-section tr.maha-current-row td {
+                background-color: #fef9c3 !important;
             }
             .print-summary-section div[style*="font-size: 20px"] {
                 font-size: 14pt !important;
@@ -1941,10 +1967,10 @@
                 </thead>
                 <tbody>
                     {% for dasa in all_dasas %}
-                    <tr>
-                        <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold;">{{ loop.index }}</td>
+                    <tr class="{% if dasa.is_current %}maha-current-row {% endif %}{{ 'maha-row-favorable' if dasa.is_favorable else 'maha-row-unfavorable' }}">
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ loop.index }}</td>
                         <td style="border: 1px solid #000; padding: 10px;">{{ dasa.icon }} {{ dasa.maha }}</td>
-                        <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold; color: {% if dasa.is_favorable %}#006400{% else %}#b22222{% endif %};">
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center;">
                             {% if dasa.is_favorable %}{{ _('అనుకూలము') }}{% else %}{{ _('ప్రతికూలము') }}{% endif %}
                         </td>
                         <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ dasa.years }}</td>
@@ -2530,7 +2556,7 @@
             });
             
             const opt = {
-                margin:       [8, 4, 8, 4],
+                margin:       [10, 6, 6, 6],
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },

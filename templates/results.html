@@ -885,28 +885,44 @@
 
         /* ===== PRINT ===== */
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 5mm !important;
+            }
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            body {
-                background: #fff !important;
-                color: #000 !important;
+            html, body {
+                background: #ffffff !important;
+                color: #000000 !important;
                 padding: 0 !important;
+            }
+            body::before, body::after, .glow-container::before, .glow-container::after {
+                display: none !important;
             }
             .no-print {
                 display: none !important;
             }
             .container {
                 padding: 0 !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 width: 100% !important;
                 max-width: none !important;
+                zoom: 0.70 !important;
             }
             .glow-container {
                 box-shadow: none !important;
                 border: none !important;
                 padding: 0 !important;
+                background: transparent !important;
+            }
+            .cosmic-header, .party-info {
+                background: transparent !important;
+                color: #000000 !important;
+            }
+            .cosmic-header::before, .cosmic-header::after {
+                display: none !important;
             }
             .cosmic-header, .section-title, .party-info, .disclaimer-box {
                 margin-left: 0 !important;
@@ -919,39 +935,45 @@
             }
             .bhava-grid, .results-grid {
                 grid-template-columns: 1fr !important;
-                gap: 10px !important;
+                gap: 4px !important;
             }
             .bhava-interpretation-box {
                 grid-template-columns: 1fr !important;
+                gap: 2px !important;
             }
             .bhava-card {
-                border: 1px solid #eee !important;
-                background: #f9f9f9 !important;
-                color: #333 !important;
+                border: 1px solid #aaa !important;
+                background: transparent !important;
+                color: #000 !important;
+                margin-bottom: 2px !important;
+                padding: 8px !important;
             }
             .bhava-card.shubha-card { border-left-color: #22c55e !important; }
             .bhava-card.paapa-card { border-left-color: #ef4444 !important; }
             .bhava-card.neutral-card { border-left-color: #64748b !important; }
             .bhava-title-main { color: #333 !important; }
-            .bhava-lagna-tag { background: #eee !important; color: #555 !important; }
-            .bhava-section-label { color: #666 !important; }
+            .bhava-lagna-tag { background: transparent !important; color: #000 !important; border: 1px solid #aaa !important; }
+            .bhava-section-label { color: #000 !important; }
             .interpretation-content {
-                background: #fff !important;
-                border: 1px dashed #ccc !important;
-                color: #333 !important;
+                background: transparent !important;
+                border: 1px dashed #aaa !important;
+                color: #000 !important;
+                padding: 6px !important;
             }
-            .shubha-card .interpretation-content { color: #22c55e !important; border-color: #22c55e !important; }
-            .paapa-card .interpretation-content { color: #ef4444 !important; border-color: #ef4444 !important; }
-            .interpretation-label { color: #333 !important; }
+            .shubha-card .interpretation-content { color: #006400 !important; border-color: #006400 !important; }
+            .paapa-card .interpretation-content { color: #b22222 !important; border-color: #b22222 !important; }
+            .interpretation-label { color: #000 !important; }
             .special-note-box {
-                background: #fff !important;
-                border: 1px solid #ccc !important;
-                color: #333 !important;
+                background: transparent !important;
+                border: 1px solid #aaa !important;
+                color: #000 !important;
+                padding: 6px !important;
+                margin-top: 4px !important;
             }
             .p-tag {
-                background: #eee !important;
-                border-color: #ccc !important;
-                color: #555 !important;
+                background: transparent !important;
+                border: 1px solid #aaa !important;
+                color: #000 !important;
             }
             .planet-name {
                 color: #333 !important; /* Default for planets in print */
@@ -1220,6 +1242,10 @@
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
             onclick="window.location.href='/go-to-dasha-chart'">
             <i class="fas fa-calendar-alt"></i> {{ _('దశాచారము') }}
+        </button>
+        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+            onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> PDF
         </button>
     </div>
 

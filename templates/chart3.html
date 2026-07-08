@@ -850,7 +850,7 @@
 
             @page {
                 size: A4 portrait;
-                margin: 4mm 3mm;
+                margin: 2mm !important;
             }
             
             * {
@@ -878,13 +878,13 @@
                 min-width: unset !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.58 !important; /* Scale container to fit everything perfectly on a single A4 page */
+                zoom: 0.64 !important; /* Scale container to fit everything perfectly on a single A4 page */
             }
 
             .header {
                 padding: 4px 8px !important;
                 margin-bottom: 4px !important;
-                background: #f8f9fa !important;
+                background: transparent !important;
                 border: 1px solid #ddd !important;
                 border-radius: 6px !important;
             }
@@ -906,7 +906,7 @@
                 margin-bottom: 4px !important;
                 padding: 4px 10px !important;
                 border-radius: 6px !important;
-                background: #f8fafc !important;
+                background: transparent !important;
                 border: 1px solid #cbd5e1 !important;
                 box-shadow: none !important;
                 text-align: center !important;
@@ -929,7 +929,7 @@
             .section-header {
                 margin: 4px 0 2px !important;
                 padding: 2px 4px !important;
-                background: #f1f5f9 !important;
+                background: transparent !important;
                 border: 1px solid #cbd5e1 !important;
                 border-radius: 4px !important;
                 page-break-inside: avoid;
@@ -973,7 +973,7 @@
             }
 
             .data-table th {
-                background-color: #f1f5f9 !important;
+                background-color: transparent !important;
                 color: #000000 !important;
                 font-weight: 700 !important;
                 border: 1.5px solid #000000 !important;
@@ -1002,13 +1002,13 @@
             }
 
             .data-table tbody tr:nth-child(even) td {
-                background-color: #f8fafc !important;
+                background-color: transparent !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
             .data-table tbody tr:nth-child(odd) td {
-                background-color: #ffffff !important;
+                background-color: transparent !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -1016,7 +1016,7 @@
             .data-table th:first-child,
             .data-table td:first-child {
                 position: static !important;
-                background: #f1f5f9 !important;
+                background: transparent !important;
                 width: 10% !important;
                 white-space: nowrap !important;
                 font-weight: bold !important;
@@ -1027,93 +1027,20 @@
                 box-shadow: none !important;
             }
 
-            /* Planet-specific bold colors in print */
-            .guru-planet {
-                color: #b45309 !important;
-                border-left: 3px solid #eab308 !important;
-                font-weight: bold !important;
-            }
-            .surya-planet {
-                color: #c2410c !important;
-                border-left: 3px solid #ea580c !important;
-                font-weight: bold !important;
-            }
-            .chandra-planet {
-                color: #475569 !important;
-                border-left: 3px solid #64748b !important;
-                font-weight: bold !important;
-            }
-            .kuja-planet {
-                color: #b91c1c !important;
-                border-left: 3px solid #ef4444 !important;
-                font-weight: bold !important;
-            }
-            .ketu-planet {
-                color: #6d28d9 !important;
-                border-left: 3px solid #8b5cf6 !important;
-                font-weight: bold !important;
-            }
-            .bhoomi-planet {
-                color: #0369a1 !important;
-                border-left: 3px solid #0284c7 !important;
-                font-weight: bold !important;
-            }
-            .shani-planet {
-                color: #1e293b !important;
-                border-left: 3px solid #334155 !important;
-                font-weight: bold !important;
-            }
-            .mitra-planet {
-                color: #713f12 !important;
-                border-left: 3px solid #a16207 !important;
-                font-weight: bold !important;
-            }
-            .chitra-planet {
-                color: #db2777 !important;
-                border-left: 3px solid #f472b6 !important;
-                font-weight: bold !important;
-            }
-            .budha-planet {
-                color: #047857 !important;
-                border-left: 3px solid #10b981 !important;
-                font-weight: bold !important;
-            }
-            .shukra-planet {
-                color: #be185d !important;
-                border-left: 3px solid #ec4899 !important;
-                font-weight: bold !important;
-            }
-            .rahu-planet {
-                color: #334155 !important;
-                border-left: 3px solid #475569 !important;
-                font-weight: bold !important;
-            }
+            /* Conditional Table Colors based on Native Party */
+            {% if native_party == 'గురు పార్టీ' %}
+            .guru-table, .guru-table th, .guru-table td, .guru-table * { color: #006400 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
+            .shani-table, .shani-table th, .shani-table td, .shani-table * { color: #b22222 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
+            {% else %}
+            .shani-table, .shani-table th, .shani-table td, .shani-table * { color: #006400 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
+            .guru-table, .guru-table th, .guru-table td, .guru-table * { color: #b22222 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
+            {% endif %}
 
-            /* Gender Specific bold colors in print */
-            .gender-cell.male {
-                color: #0284c7 !important;
-                font-weight: bold !important;
-            }
-            .gender-cell.female {
-                color: #db2777 !important;
-                font-weight: bold !important;
-            }
-            .gender-cell.neutral {
-                color: #7c3aed !important;
-                font-weight: bold !important;
-            }
+            .friends-section, .friends-section *, .friends-section .result-card, .friends-section .result-card *, .friends-section .own-house-badge, .friends-section .status-msg, .friends-section .bitter-enemy-alert { color: #006400 !important; font-weight: bold !important; text-shadow: none !important; border-color: #006400 !important; }
+            .enemies-section, .enemies-section *, .enemies-section .result-card, .enemies-section .result-card *, .enemies-section .own-house-badge, .enemies-section .status-msg, .enemies-section .bitter-enemy-alert { color: #b22222 !important; font-weight: bold !important; text-shadow: none !important; border-color: #b22222 !important; }
 
-            /* Direction Colors in print */
-            .direction-cell {
-                color: #0369a1 !important;
-                font-weight: bold !important;
-            }
 
-            /* Gemstones in print */
-            .gemstone-cell {
-                color: #15803d !important;
-                font-weight: bold !important;
-            }
+
 
             /* Diseases Cell layout */
             .disease-cell {
@@ -1133,7 +1060,6 @@
             .disease-list li {
                 font-size: 15.2pt !important; /* disease list — 15.2pt */
                 padding: 1px 0 !important;
-                color: #991b1b !important;
                 list-style-type: none !important;
                 word-wrap: break-word !important;
                 word-break: break-word !important;
@@ -1339,7 +1265,6 @@
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: center !important;
-                min-height: 162vh !important; /* Compensates zoom: 0.58 to achieve full A4 page height (162 * 0.58 = 94vh) */
                 box-sizing: border-box !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
@@ -2182,6 +2107,7 @@
         {% endif %}
 
         {% if friends %}
+        <div class="friends-section">
         <h3 class="section-title"><i class="fas fa-heart"></i> {{ _('మిత్ర గ్రహములు (Friendly Planets)') }}</h3>
         <div class="results-grid">
             {% for r in friends %}
@@ -2227,12 +2153,14 @@
             </div>
             {% endfor %}
         </div>
+        </div>
         {% endif %}
         </div> <!-- Close Page 2 print-page-container -->
 
         <!-- Page 3 Container -->
         <div class="print-page-container print-page-break">
         {% if enemies %}
+        <div class="enemies-section">
         <h3 class="section-title"><i class="fas fa-times-circle"></i> {{ _('శత్రు గ్రహములు (Enemy Planets)') }}</h3>
         <div class="results-grid">
             {% for r in enemies %}
@@ -2278,10 +2206,11 @@
             </div>
             {% endfor %}
         </div>
+        </div>
         {% endif %}
 
         <!-- Footer -->
-        <div class="footer">
+        <div class="footer print-hide">
             <p style="font-size: 16px; color: #cbd5e1; margin-bottom: 15px;">
                 {{ _('© తెలుగు జ్యోతిష్య విశ్లేషణ - ద్వాదశ గ్రహముల ఫలితాలు') }}
             </p>
