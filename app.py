@@ -2095,25 +2095,24 @@ def full_report():
     if not birth_info:
         return redirect(url_for('index'))
 
-    # Calculate required data
-    dasha_data = get_dasha_info(birth_info)
-    
-    results_data = calculate_results(birth_info)
-    friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
-    enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
-    
-    bhava_report = calculate_bhava_report(birth_info)
+    # Authorize results page so it doesn't return the password prompt
+    session['results_authorized'] = True
 
-    # Render individual html
-    html1 = render_template("chart.html", **birth_info, **dasha_data)
-    html2 = render_template("chart2.html", **birth_info, **dasha_data)
-    html3 = render_template("chart3.html", 
-                           name=birth_info['name'], dob=birth_info['dob'], 
-                           tob=birth_info['tob'], place=birth_info['place'],
-                           friends=friends, enemies=enemies)
-    html4 = render_template("results.html", 
-        name=birth_info['name'], dob=birth_info['dob'], tob=birth_info['tob'], place=birth_info['place'],
-        bhava_report=bhava_report)
+    # Call the existing route functions directly to get their rendered HTML
+    def get_html_str(response):
+        # response might be a string, or a Response object
+        if isinstance(response, str):
+            return response
+        elif hasattr(response, 'get_data'):
+            return response.get_data(as_text=True)
+        elif isinstance(response, tuple):
+            return response[0]
+        return str(response)
+
+    html1 = get_html_str(chart())
+    html2 = get_html_str(chart2())
+    html3 = get_html_str(chart3())
+    html4 = get_html_str(results())
 
     def extract(html):
         s = re.search(r'<style.*?>(.*?)</style>', html, re.DOTALL)
