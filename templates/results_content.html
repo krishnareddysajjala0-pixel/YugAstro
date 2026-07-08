@@ -1,0 +1,261 @@
+<div class="container">
+        <div class="disclaimer-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>{{ _('గమనిక:') }}</strong> {{ _('ఈ ఫలితాలు కేవలం విద్యా ప్రయోజనాల కోసం మాత్రమే. ఈ ఫలితాలు ఇంకా ధృవీకరించబడలేదు మరియు ఇవి పరిశోధనలో ఉన్నాయి. పరిశోధన పూర్తి అయిన తర్వాత పూర్తి ఫలితాలు ప్రదర్శించబడతాయి.') }}
+            </div>
+        </div>
+        <div class="glow-container">
+            <div class="cosmic-header">
+                <div class="title" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
+                    {{ _('జాఫతకము ఫలితాలు') }}
+                    <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
+                </div>
+            <div class="person-name">{{ name }}</div>
+                <div style="font-size: 0.9em; color: var(--text-muted);">
+                    {{ dob }} | {{ tob }} | {{ place }}
+                </div>
+            </div>
+
+
+            <h3 class="section-title"><i class="fas fa-th-large"></i> {{ _('ద్వాదశ లగ్న ఫలితాలు (Detailed Lagna Analysis)') }}</h3>
+            <div class="bhava-grid">
+                {% for b in bhava_report %}
+                <div class="bhava-card {{ b.state }}-card">
+                    <div class="bhava-number">{{ b.number }}</div>
+
+                    <div class="bhava-header">
+                        {% if b.number in [1, 5, 9] %}
+                        <div class="bhava-title-main" style="color: #2ecc71 !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పుణ్యస్థానము )</span>
+                        </div>
+                        {% elif b.number in [3, 7, 11] %}
+                        <div class="bhava-title-main" style="color: #e74c3c !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పాపస్థానము )</span>
+                        </div>
+                        {% else %}
+                        <div class="bhava-title-main" style="background: linear-gradient(90deg, #2ecc71, #e74c3c) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పుణ్యము + పాపము )</span>
+                        </div>
+                        {% endif %}
+                        <div class="bhava-lagna-tag">{{ b.lagna }} {{ _('లగ్నం') }}</div>
+                    </div>
+
+                    <div class="bhava-section-label">{{ _('కార్యములు / విషయములు') }}</div>
+                    <div class="bhava-content">{{ b.meaning }}</div>
+
+                    <div class="bhava-section-label">{{ _('గ్రహ స్థితి:') }}
+                        {% if b.planets %}
+                        {% for p in b.planets %}
+                        <span class="p-tag" style="color: {{ p.color }}; border-color: {{ p.color }}44;">
+                            {% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% {{ _('బలము') }}
+                        </span>
+                        {% endfor %}
+                        {% else %}
+                        <span style="color: var(--text-muted);">{{ _('ఖాళీ (Empty)') }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="bhava-section-label">{{ _('జాతక ఫలితము (Detailed Analysis)') }}</div>
+                    <div class="bhava-interpretation-box">
+                        <div class="interpretation-content">
+                            <div class="interpretation-label"><i class="fas fa-certificate"></i> {{ _('ఫలితము (Result)') }}</div>
+                            {% if b.state == 'shubha' %}
+                            <i class="fas fa-plus-circle"></i>
+                            {% elif b.state == 'paapa' %}
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {% else %}
+                            <i class="fas fa-dot-circle"></i>
+                            {% endif %}
+                            {{ b.interpretation | safe }}
+                        </div>
+                    </div>
+
+                    {% if b.special_notes %}
+                    <div class="special-note-box" style="display: block;">
+                        {% for note in b.special_notes %}
+                        <div style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fas fa-star" style="margin-top: 3px;"></i>
+                            <span>{{ note | safe }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="fixed-bottom-bar no-print" id="action-bar">
+        <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
+            onclick="window.location.href='/'">
+            <i class="fas fa-home"></i> {{ _('హోమ్') }}
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
+            onclick="window.location.href='/go-to-birth-chart'">
+            <i class="fas fa-arrow-left"></i> {{ _('కుండలికి') }}
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
+            onclick="window.location.href='/go-to-dasha-chart'">
+            <i class="fas fa-calendar-alt"></i> {{ _('దశాచారము') }}
+        </button>
+        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+            onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> PDF
+        </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="width:50px; height:50px; border:5px solid rgba(255,255,255,0.1); border-top:5px solid #ffd700; border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+        <div style="margin-top:20px; color:#ffd700; font-weight:bold; font-size:18px;">{{ _('గణన చేస్తోంది') }}</div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            if (themeName === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', themeName);
+            }
+            localStorage.setItem('preferred-theme', themeName);
+
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-theme-btn') === themeName) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'light';
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                if (btn.getAttribute('data-theme-btn') === savedTheme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        });
+
+        function playLoadingSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                for(let i = 0; i < 6; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(440 + (i * 80), time);
+                    gain.gain.setValueAtTime(0, time);
+                    gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.4);
+                    time += 0.25;
+                }
+            } catch (e) {}
+        }
+
+        function startTyping() {
+            const element = document.getElementById("typing-text");
+            if (!element) return;
+            element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
+        }
+
+        
+
+        function showLoader() {
+            playLoadingSound();
+            document.getElementById('loading-overlay').style.display = 'flex';
+            startTyping();
+        }
+
+        document.querySelectorAll('.float-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const href = this.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+                if(href && href !== '#' && !href.startsWith('javascript:')) {
+                    e.preventDefault();
+                    showLoader();
+                    window.location.href = href;
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Universal Loading Interceptor -->
+    <script>
+    (function() {
+        function playLoadingSound() {
+            try {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523, 659, 784, 1047];
+                notes.forEach(function(freq, i) {
+                    var osc = audioCtx.createOscillator();
+                    var gain = audioCtx.createGain();
+                    var t = audioCtx.currentTime + i * 0.12;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t);
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.3);
+                });
+            } catch(e) {}
+        }
+
+        function showGananaLoader() {
+            var overlay = document.getElementById('loading-overlay');
+            if (!overlay) return;
+            playLoadingSound();
+            overlay.style.display = 'flex';
+            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+        }
+
+        // Attach ONLY to navigation float-btn buttons (skip print)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.float-btn').forEach(function(btn) {
+                var oc = btn.getAttribute('onclick') || '';
+                if (oc.indexOf('print()') !== -1) return;
+                if (oc.indexOf('fetch') !== -1) return;
+                btn.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to nav-item <a> links
+            document.querySelectorAll('a.nav-item').forEach(function(link) {
+                var href = link.getAttribute('href') || '';
+                if (!href || href === '#') return;
+                link.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to main form submit
+            document.querySelectorAll('form:not([id="dasaForm"])').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    showGananaLoader();
+                });
+            });
+        });
+
+        // Hide loader on back/forward cache
+        window.addEventListener('pageshow', function() {
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.style.display = 'none';
+        });
+    })();
+    </script>
