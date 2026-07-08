@@ -2144,6 +2144,7 @@ def full_report():
 
     s1, b1 = extract(html1)
     s2, b2 = extract(html2)
+    s2 += "\n:host { zoom: 0.95 !important; }"
     s3, b3 = extract(html3)
     s4, b4 = extract(html4)
 
