@@ -2114,60 +2114,78 @@ def full_report():
     html3 = get_html_str(chart3())
     html4 = get_html_str(results())
 
-    def extract(html, index):
+    import json
+
+    def extract(html):
         s = re.search(r'<style.*?>(.*?)</style>', html, re.DOTALL)
         style = s.group(1) if s else ""
         b = re.search(r'<body.*?>(.*)</body>', html, re.DOTALL)
         body = b.group(1) if b else ""
+        
         # Remove buttons and UI elements
         body = re.sub(r'<div class="language-switcher print-hide">.*?</div>', '', body, flags=re.DOTALL)
         body = re.sub(r'<div class="theme-switcher print-hide">.*?</div>', '', body, flags=re.DOTALL)
         body = re.sub(r'<div id="top-button-stack".*?>.*?</div>', '', body, flags=re.DOTALL)
         body = re.sub(r'<div class="controls print-hide">.*?</div>', '', body, flags=re.DOTALL)
-        body = re.sub(r'<button.*?>.*?</button>', '', body, flags=re.DOTALL) # remove all buttons to be safe
+        body = re.sub(r'<button.*?>.*?</button>', '', body, flags=re.DOTALL)
         body = re.sub(r'<script.*?>.*?</script>', '', body, flags=re.DOTALL)
 
-        # Isolate .container class to prevent zoom conflicts across pages
-        container_id = f"report-container-{index}"
-        body = body.replace('class="container"', f'class="container" id="{container_id}"')
-        style = re.sub(r'\.container\b', f'#{container_id}', style)
+        # Map global styles to Shadow DOM host
+        style = style.replace(':root', ':host')
+        style = re.sub(r'\bhtml\s*,\s*body\b', ':host', style)
+        style = re.sub(r'\bbody\s*,\s*html\b', ':host', style)
+        style = re.sub(r'\bbody\b', ':host', style)
+        style = re.sub(r'\bhtml\b', ':host', style)
 
+        # Fix specific width constraints that cause print overflow and left-alignment
+        style = style.replace(\'width: 1024px\', \'width: 100%\')
+        style = style.replace(\'min-width: 1024px\', \'width: 100%\')
         return style, body
 
-    s1, b1 = extract(html1, 1)
-    s2, b2 = extract(html2, 2)
-    s3, b3 = extract(html3, 3)
-    s4, b4 = extract(html4, 4)
+    s1, b1 = extract(html1)
+    s2, b2 = extract(html2)
+    s3, b3 = extract(html3)
+    s4, b4 = extract(html4)
 
-    full_html = f"""<!DOCTYPE html>
+    full_html = f'''<!DOCTYPE html>
 <html lang="te">
 <head>
     <meta charset="UTF-8">
     <title>Complete Japatakamu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-    {s1}
-    {s2}
-    {s3}
-    {s4}
+        @page {{ size: A4 portrait; margin: 6mm; }}
+        body {{ background-color: #fff; margin: 0; padding: 0; }}
+        .report-section {{ display: block; width: 100%; }}
     </style>
 </head>
-<body style="background-color: #0c0c0c;">
-    <div class="report-section">{b1}</div>
+<body>
+    <div id="sec1" class="report-section"></div>
     <div style="page-break-before: always;"></div>
-    <div class="report-section">{b2}</div>
+    <div id="sec2" class="report-section"></div>
     <div style="page-break-before: always;"></div>
-    <div class="report-section">{b3}</div>
+    <div id="sec3" class="report-section"></div>
     <div style="page-break-before: always;"></div>
-    <div class="report-section">{b4}</div>
+    <div id="sec4" class="report-section"></div>
+
     <script>
+        function inject(id, style, body) {{
+            const host = document.getElementById(id);
+            const shadow = host.attachShadow({{mode: 'open'}});
+            shadow.innerHTML = "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'><style>" + style + "</style><div>" + body + "</div>";
+        }}
+
+        inject('sec1', {json.dumps(s1)}, {json.dumps(b1)});
+        inject('sec2', {json.dumps(s2)}, {json.dumps(b2)});
+        inject('sec3', {json.dumps(s3)}, {json.dumps(b3)});
+        inject('sec4', {json.dumps(s4)}, {json.dumps(b4)});
+
         window.onload = function() {{
             setTimeout(function() {{ window.print(); }}, 1000);
         }};
     </script>
 </body>
 </html>
-"""
+'''
     return full_html
 
 @app.route("/results", methods=["GET", "POST"])
