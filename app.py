@@ -2117,8 +2117,8 @@ def full_report():
     import json
 
     def extract(html):
-        s = re.search(r'<style.*?>(.*?)</style>', html, re.DOTALL)
-        style = s.group(1) if s else ""
+        styles = re.findall(r'<style.*?>(.*?)</style>', html, re.DOTALL)
+        style = "\n".join(styles)
         b = re.search(r'<body.*?>(.*)</body>', html, re.DOTALL)
         body = b.group(1) if b else ""
         
@@ -2138,8 +2138,8 @@ def full_report():
         style = re.sub(r'\bhtml\b', ':host', style)
 
         # Fix specific width constraints that cause print overflow and left-alignment
-        style = style.replace(\'width: 1024px\', \'width: 100%\')
-        style = style.replace(\'min-width: 1024px\', \'width: 100%\')
+        style = style.replace('width: 1024px', 'width: 100%')
+        style = style.replace('min-width: 1024px', 'width: 100%')
         return style, body
 
     s1, b1 = extract(html1)
@@ -2181,6 +2181,10 @@ def full_report():
 
         window.onload = function() {{
             setTimeout(function() {{ window.print(); }}, 1000);
+        }};
+        
+        window.onafterprint = function() {{
+            window.location.href = '/chart';
         }};
     </script>
 </body>
