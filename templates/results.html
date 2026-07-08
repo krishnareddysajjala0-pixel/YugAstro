@@ -918,8 +918,20 @@
                 background: transparent !important;
             }
             .cosmic-header, .party-info {
-                background: transparent !important;
-                color: #000000 !important;
+                background: #1e293b !important;
+                color: #ffffff !important;
+                border: 2px solid #0f172a !important;
+            }
+            .cosmic-header *, .party-info * {
+                color: #ffffff !important;
+            }
+            .disclaimer-box {
+                background: #7f1d1d !important;
+                color: #ffffff !important;
+                border: 2px solid #450a0a !important;
+            }
+            .disclaimer-box * {
+                color: #ffffff !important;
             }
             .cosmic-header::before, .cosmic-header::after {
                 display: none !important;
@@ -931,11 +943,13 @@
                 padding-right: 0 !important;
             }
             .result-card, .bhava-card {
-                page-break-inside: avoid;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+                display: block !important;
+                margin-bottom: 10px !important;
             }
             .bhava-grid, .results-grid {
-                grid-template-columns: 1fr !important;
-                gap: 4px !important;
+                display: block !important;
             }
             .bhava-interpretation-box {
                 grid-template-columns: 1fr !important;
@@ -1179,7 +1193,16 @@
                     <div class="bhava-number">{{ b.number }}</div>
 
                     <div class="bhava-header">
-                        <div class="bhava-title-main">{{ b.title }}</div>
+                        <div class="bhava-title-main">
+                            {{ b.title }}
+                            {% if b.number in [1, 5, 9] %}
+                            <span style="color: #2ecc71 !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Punya Stanamulu )</span>
+                            {% elif b.number in [3, 7, 11] %}
+                            <span style="color: #e74c3c !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Papa Stanamulu )</span>
+                            {% else %}
+                            <span style="color: #f1c40f !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Papamu + Punyamu )</span>
+                            {% endif %}
+                        </div>
                         <div class="bhava-lagna-tag">{{ b.lagna }} {{ _('లగ్నం') }}</div>
                     </div>
 
