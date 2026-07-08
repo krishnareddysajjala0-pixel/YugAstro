@@ -1193,16 +1193,19 @@
                     <div class="bhava-number">{{ b.number }}</div>
 
                     <div class="bhava-header">
-                        <div class="bhava-title-main">
-                            {{ b.title }}
-                            {% if b.number in [1, 5, 9] %}
-                            <span style="color: #2ecc71 !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Punya Stanamulu )</span>
-                            {% elif b.number in [3, 7, 11] %}
-                            <span style="color: #e74c3c !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Papa Stanamulu )</span>
-                            {% else %}
-                            <span style="color: #f1c40f !important; font-size: 0.85em; font-weight: bold; margin-left: 8px;">( Papamu + Punyamu )</span>
-                            {% endif %}
+                        {% if b.number in [1, 5, 9] %}
+                        <div class="bhava-title-main" style="color: #2ecc71 !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పుణ్యస్థానము )</span>
                         </div>
+                        {% elif b.number in [3, 7, 11] %}
+                        <div class="bhava-title-main" style="color: #e74c3c !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పాపస్థానము )</span>
+                        </div>
+                        {% else %}
+                        <div class="bhava-title-main" style="color: #f1c40f !important;">
+                            {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">( పుణ్యము + పాపము )</span>
+                        </div>
+                        {% endif %}
                         <div class="bhava-lagna-tag">{{ b.lagna }} {{ _('లగ్నం') }}</div>
                     </div>
 
