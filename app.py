@@ -2089,6 +2089,82 @@ def go_to_birth_chart():
         # Redirect to index if no birth info
         return redirect(url_for('index'))
 
+@app.route("/full_report", methods=["GET"])
+def full_report():
+    birth_info = session.get('birth_info')
+    if not birth_info:
+        return redirect(url_for('index'))
+
+    # Calculate required data
+    dasha_data = get_dasha_info(birth_info)
+    
+    results_data = calculate_results(birth_info)
+    friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
+    enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
+    
+    bhava_report = calculate_bhava_report(birth_info)
+
+    # Render individual html
+    html1 = render_template("chart.html", **birth_info, **dasha_data)
+    html2 = render_template("chart2.html", **birth_info, **dasha_data)
+    html3 = render_template("chart3.html", 
+                           name=birth_info['name'], dob=birth_info['dob'], 
+                           tob=birth_info['tob'], place=birth_info['place'],
+                           friends=friends, enemies=enemies)
+    html4 = render_template("results.html", 
+        name=birth_info['name'], dob=birth_info['dob'], tob=birth_info['tob'], place=birth_info['place'],
+        bhava_report=bhava_report)
+
+    def extract(html):
+        s = re.search(r'<style.*?>(.*?)</style>', html, re.DOTALL)
+        style = s.group(1) if s else ""
+        b = re.search(r'<body.*?>(.*)</body>', html, re.DOTALL)
+        body = b.group(1) if b else ""
+        # Remove buttons and UI elements
+        body = re.sub(r'<div class="language-switcher print-hide">.*?</div>', '', body, flags=re.DOTALL)
+        body = re.sub(r'<div class="theme-switcher print-hide">.*?</div>', '', body, flags=re.DOTALL)
+        body = re.sub(r'<div id="top-button-stack".*?>.*?</div>', '', body, flags=re.DOTALL)
+        body = re.sub(r'<div class="controls print-hide">.*?</div>', '', body, flags=re.DOTALL)
+        body = re.sub(r'<button.*?>.*?</button>', '', body, flags=re.DOTALL) # remove all buttons to be safe
+        body = re.sub(r'<script.*?>.*?</script>', '', body, flags=re.DOTALL)
+        return style, body
+
+    s1, b1 = extract(html1)
+    s2, b2 = extract(html2)
+    s3, b3 = extract(html3)
+    s4, b4 = extract(html4)
+
+    full_html = f"""<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Japatakamu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    {s1}
+    {s2}
+    {s3}
+    {s4}
+    </style>
+</head>
+<body style="background-color: #0c0c0c;">
+    <div class="report-section">{b1}</div>
+    <div style="page-break-before: always;"></div>
+    <div class="report-section">{b2}</div>
+    <div style="page-break-before: always;"></div>
+    <div class="report-section">{b3}</div>
+    <div style="page-break-before: always;"></div>
+    <div class="report-section">{b4}</div>
+    <script>
+        window.onload = function() {{
+            setTimeout(function() {{ window.print(); }}, 1000);
+        }};
+    </script>
+</body>
+</html>
+"""
+    return full_html
+
 @app.route("/results", methods=["GET", "POST"])
 def results():
     """Calculate and display results based on planet own-house rules and party logic"""
