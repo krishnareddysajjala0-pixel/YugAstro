@@ -2188,6 +2188,31 @@ def full_report():
         document.body.addEventListener('click', function() {{ window.print(); }});
         document.body.addEventListener('touchstart', function() {{ window.print(); }});
         
+        // Inject a visible print button for iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {{
+            const btn = document.createElement('button');
+            btn.innerHTML = '🖨️ Save PDF';
+            btn.style.position = 'fixed';
+            btn.style.bottom = '20px';
+            btn.style.right = '20px';
+            btn.style.zIndex = '999999';
+            btn.style.padding = '15px 25px';
+            btn.style.fontSize = '20px';
+            btn.style.fontWeight = 'bold';
+            btn.style.backgroundColor = '#e91e63';
+            btn.style.color = '#fff';
+            btn.style.border = 'none';
+            btn.style.borderRadius = '50px';
+            btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.5)';
+            btn.onclick = function(e) {{ 
+                e.stopPropagation(); 
+                window.print(); 
+                btn.style.display = 'none'; 
+            }};
+            document.body.appendChild(btn);
+        }}
+        
         window.onafterprint = function() {{
             window.location.href = '/chart';
         }};

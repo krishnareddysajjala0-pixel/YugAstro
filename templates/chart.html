@@ -2473,6 +2473,14 @@
       }
 
       function doDirectPDFDownload() {
+        // iOS Safari heavily restricts Blob downloads triggered by async promises like html2pdf.
+        // The native iOS print dialog IS a robust PDF generator, so we route iPhones to doPrint()
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+            doPrint();
+            return;
+        }
+
         closePrintOptions();
         
         // Show loader
