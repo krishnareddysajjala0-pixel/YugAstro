@@ -2489,6 +2489,19 @@
 
         const selected = document.querySelector('input[name="print-mode"]:checked');
         const mode = selected ? selected.value : 'kundali-only';
+        
+        if (mode === 'complete') {
+            const pwdInput = document.getElementById('pdf-pwd-input');
+            const pwd = pwdInput ? pwdInput.value : '';
+            if (pwd !== "2468") {
+                alert("Incorrect password!");
+                if (overlay) overlay.style.display = 'none';
+                return;
+            }
+            window.location.href = '/full_report';
+            return;
+        }
+        
         document.body.setAttribute('data-print-mode', mode);
 
         // Apply white background and remove dark theme (same as onbeforeprint does)
@@ -2605,7 +2618,8 @@
         const mode = selected ? selected.value : 'kundali-only';
         
         if (mode === 'complete') {
-            const pwd = prompt("Please enter the password to generate this PDF:");
+            const pwdInput = document.getElementById('pdf-pwd-input');
+            const pwd = pwdInput ? pwdInput.value : '';
             if (pwd !== "2468") {
                 alert("Incorrect password!");
                 return;
