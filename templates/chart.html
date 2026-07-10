@@ -2475,11 +2475,7 @@
       function doDirectPDFDownload() {
         // iOS Safari heavily restricts Blob downloads triggered by async promises like html2pdf.
         // The native iOS print dialog IS a robust PDF generator, so we route iPhones to doPrint()
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-            doPrint();
-            return;
-        }
+
 
         closePrintOptions();
         
@@ -2558,11 +2554,12 @@
           return { img, placeholder };
         });
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const opt = {
           margin:       [8, 4, 8, 4],
           filename:     filename,
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
+          html2canvas:  { scale: isIOS ? 1 : 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
           jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
           pagebreak:    { mode: ['css', 'legacy'], avoid: ['tr', '.chart-container', '.box'] }
         };
@@ -2582,13 +2579,25 @@
           if (overlay) overlay.style.display = 'none';
         }
 
-        html2pdf().set(opt).from(element).save().then(() => {
-          restoreAfterPDF();
-        }).catch(err => {
-          console.error("PDF download failed:", err);
-          restoreAfterPDF();
-          alert("PDF generation failed: " + err);
-        });
+        if (isIOS) {
+            html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+                const url = URL.createObjectURL(pdfBlob);
+                window.location.href = url;
+                restoreAfterPDF();
+            }).catch(err => {
+                console.error("PDF generation failed:", err);
+                restoreAfterPDF();
+                alert("PDF generation failed: " + err);
+            });
+        } else {
+            html2pdf().set(opt).from(element).save().then(() => {
+                restoreAfterPDF();
+            }).catch(err => {
+                console.error("PDF download failed:", err);
+                restoreAfterPDF();
+                alert("PDF generation failed: " + err);
+            });
+        }
       }
 
       function doPrint() {

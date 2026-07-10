@@ -2555,11 +2555,12 @@
                 return { img, placeholder };
             });
             
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             const opt = {
                 margin:       [10, 6, 6, 6],
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
+                html2canvas:  { scale: isIOS ? 1 : 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak:    { mode: ['css', 'legacy'], avoid: 'tr' }
             };
@@ -2580,13 +2581,25 @@
                 if (overlay) overlay.style.display = 'none';
             }
             
-            html2pdf().set(opt).from(element).save().then(() => {
-                restoreAfterPDF();
-            }).catch(err => {
-                console.error("PDF generation error:", err);
-                restoreAfterPDF();
-                alert("PDF generation failed: " + err);
-            });
+            if (isIOS) {
+                html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+                    const url = URL.createObjectURL(pdfBlob);
+                    window.location.href = url;
+                    restoreAfterPDF();
+                }).catch(err => {
+                    console.error("PDF generation error:", err);
+                    restoreAfterPDF();
+                    alert("PDF generation failed: " + err);
+                });
+            } else {
+                html2pdf().set(opt).from(element).save().then(() => {
+                    restoreAfterPDF();
+                }).catch(err => {
+                    console.error("PDF generation error:", err);
+                    restoreAfterPDF();
+                    alert("PDF generation failed: " + err);
+                });
+            }
         };
     })();
     </script>
