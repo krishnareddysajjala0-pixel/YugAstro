@@ -2615,6 +2615,32 @@
           element = document.getElementById('print-wrapper') || document.body;
         }
 
+        // Handle page adjustment zoom scaling for kundali-only when transit is loaded
+        const isTransitLoaded = document.body.classList.contains('transit-loaded');
+        let originalTransform = '';
+        let originalTransformOrigin = '';
+        let originalHeight = '';
+        let scaled = false;
+
+        if (mode === 'kundali-only' && isTransitLoaded) {
+          const wrapper = document.getElementById('print-wrapper');
+          if (wrapper) {
+            originalTransform = wrapper.style.transform;
+            originalTransformOrigin = wrapper.style.transformOrigin;
+            originalHeight = wrapper.style.height;
+
+            const unscaledHeight = wrapper.offsetHeight;
+            const targetHeight = 1400; // Fits perfectly on 1 A4 page (~1448px max height at 1024px width)
+            if (unscaledHeight > targetHeight) {
+              const dynamicScale = targetHeight / unscaledHeight;
+              wrapper.style.transform = `scale(${dynamicScale})`;
+              wrapper.style.transformOrigin = 'top center';
+              wrapper.style.height = targetHeight + 'px';
+              scaled = true;
+            }
+          }
+        }
+
         // Remove images temporarily to avoid SecurityError in WebView/mobile apps
         const images = Array.from(element.querySelectorAll('img'));
         const placeholders = images.map(img => {
@@ -2644,6 +2670,17 @@
           placeholders.forEach(({ img, placeholder }) => {
             if (placeholder.parentNode) placeholder.parentNode.replaceChild(img, placeholder);
           });
+
+          // Restore scaling styles if applied
+          if (scaled) {
+            const wrapper = document.getElementById('print-wrapper');
+            if (wrapper) {
+              wrapper.style.transform = originalTransform;
+              wrapper.style.transformOrigin = originalTransformOrigin;
+              wrapper.style.height = originalHeight;
+            }
+          }
+
           // Restore theme and styles
           window.onafterprint();
           if (overlay) overlay.style.display = 'none';
