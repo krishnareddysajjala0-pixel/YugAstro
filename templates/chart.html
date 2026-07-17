@@ -2134,6 +2134,12 @@
             </div>
           </label>
 
+          <!-- Password Input (Visible only when Complete Japatakamu is selected) -->
+          <div id="pdf-pwd-container" style="display:none; margin-top:-4px; margin-bottom:4px;">
+            <input type="password" id="pdf-pwd-input" placeholder="{{ _('పాస్‌వర్డ్ నమోదు చేయండి (Enter Password)') }}"
+                   style="width:100%; padding:10px 14px; border-radius:10px; border:1.5px solid rgba(74,222,128,0.4); background:rgba(0,0,0,0.2); color:#fff; font-size:14px; outline:none; transition:all 0.2s; box-sizing:border-box;">
+          </div>
+
         </div>
 
         <!-- Buttons -->
@@ -2507,6 +2513,19 @@
         } else {
           labelComplete.style.borderColor = 'rgba(74,222,128,0.8)';
           labelComplete.style.background = 'rgba(74,222,128,0.08)';
+        }
+
+        // Show/hide password container and focus input
+        const pwdContainer = document.getElementById('pdf-pwd-container');
+        if (pwdContainer) {
+          pwdContainer.style.display = (value === 'complete') ? 'block' : 'none';
+          if (value === 'complete') {
+            const pwdInput = document.getElementById('pdf-pwd-input');
+            if (pwdInput) {
+              pwdInput.value = '';
+              pwdInput.focus();
+            }
+          }
         }
       }
 
