@@ -317,3 +317,4 @@
 290. [18-Jul-2026 08:26:53] Name: kaly (Compare 2), Mobile: N/A, DOB: 1998-10-28, TOB: 21:05, Place: Kandukur, Andhra Pradesh, India
 291. [18-Jul-2026 08:29:07] Name: puj (Compare 1), Mobile: N/A, DOB: 2001-02-12, TOB: 15:05, Place: Kandukur, Andhra Pradesh, India
 292. [18-Jul-2026 08:29:08] Name: kaly (Compare 2), Mobile: N/A, DOB: 1998-10-28, TOB: 21:05, Place: Kandukur, Andhra Pradesh, India
+293. [22-Jul-2026 03:12:53] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 1988-10-25, TOB: 01:00, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
