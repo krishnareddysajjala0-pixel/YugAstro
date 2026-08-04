@@ -977,6 +977,77 @@ def get_planet_icon(planet_name):
     return PLANET_ICONS.get(planet_name, "•")
 
 # ---------------- ROUTES ----------------
+
+@app.route("/api/search_place")
+def api_search_place():
+    import sqlite3
+    import urllib.request
+    import urllib.parse
+    import json
+
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 2:
+        return jsonify([])
+
+    results = []
+    seen = set()
+    search_lower = q.lower()
+
+    # 1. Query local 565,737 Indian Places SQLite database
+    db_path = os.path.join(app.root_path, "india_places.db")
+    if os.path.exists(db_path):
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+
+            # Priority 1: Places starting with search term (e.g. LIKE 'zarug%')
+            cursor.execute(
+                "SELECT display_name, lat, lon FROM places WHERE search_key LIKE ? LIMIT 30",
+                (search_lower + "%",)
+            )
+            rows = cursor.fetchall()
+            for r in rows:
+                disp, lat, lon = r[0], str(r[1]), str(r[2])
+                if disp not in seen:
+                    seen.add(disp)
+                    results.append({"display_name": disp, "lat": lat, "lon": lon})
+
+            # Priority 2: Places containing search term if less than 15 matches
+            if len(results) < 15:
+                cursor.execute(
+                    "SELECT display_name, lat, lon FROM places WHERE search_key LIKE ? AND search_key NOT LIKE ? LIMIT 20",
+                    ("%" + search_lower + "%", search_lower + "%")
+                )
+                rows = cursor.fetchall()
+                for r in rows:
+                    disp, lat, lon = r[0], str(r[1]), str(r[2])
+                    if disp not in seen:
+                        seen.add(disp)
+                        results.append({"display_name": disp, "lat": lat, "lon": lon})
+            conn.close()
+        except Exception:
+            pass
+
+    # 2. Fallback to OpenStreetMap Nominatim if zero matches found in local DB
+    if not results:
+        try:
+            headers = {"User-Agent": "Timeastro-Astrology-App/2.0 (contact@timeastro.com)"}
+            url = f"https://nominatim.openstreetmap.org/search?format=json&limit=25&addressdetails=1&q={urllib.parse.quote(q)}"
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=4) as response:
+                if response.status == 200:
+                    data = json.loads(response.read().decode('utf-8'))
+                    for p in data:
+                        disp = p.get('display_name', '')
+                        if disp not in seen:
+                            seen.add(disp)
+                            results.append(p)
+        except Exception:
+            pass
+
+    return jsonify(results)
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -2796,12 +2867,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     ayanam = "ఉత్తరాయణం" if (sun_lon >= 270 or sun_lon < 90) else "దక్షిణాయణం"
     rutuvu = TELUGU_RUTUVULU[int((sun_lon % 360) / 60)]
     
-    # Masam & Year
-    lagna_idx = int((sun_lon % 360) / 30)
-    masam_index = (lagna_idx + 1) % 12
-    telugu_masam_name = TELUGU_MASALU[masam_index]
-    
-    # Calculate exact month name mapping based on Amavasya boundaries
+    # Calculate exact month name mapping based on Amavasya boundaries (Amanta Lunar Month)
     def find_amavasya(jd_guess):
         jd_val = jd_guess
         for _ in range(10):
@@ -2817,10 +2883,11 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     days_to = (360 - diff) / 12.190749
     jd_start = find_amavasya(jd - days_since)
     jd_end = find_amavasya(jd + days_to)
-    
-    # Recalculate exact Telugu Lunar Masam from Sun's position at start of lunar month (preceding Amavasya)
+
+    # Masam is determined by Sun's Rasi at the preceding Amavasya (Amanta system)
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN, PLANET_FLAGS)[0][0]
-    masam_index = (int((amavasya_sun_lon % 360) / 30) + 1) % 12
+    lagna_idx = int((amavasya_sun_lon % 360) / 30)
+    masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
     EN_TO_TELUGU_MONTHS = {
@@ -3227,8 +3294,8 @@ def daily_panchangam():
 
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
-    input_date = request.form.get("calendar_date") or request.args.get("calendar_date") or request.args.get("date")
-    view_type = request.form.get("view_type") or request.args.get("view_type") or "english"
+    input_date = request.form.get("calendar_date")
+    view_type = request.form.get("view_type", "telugu")
     if not input_date:
         input_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
@@ -3271,7 +3338,7 @@ def calendar_view():
     y2, m2_dt, d2, h2 = swe.revjul(jd_end)
     end_dt = datetime.datetime(y2, m2_dt, d2).date()
     
-    if view_type in ["english", "gregorian"]:
+    if view_type == "english":
         import calendar as py_calendar
         start_dt = datetime.date(date_obj.year, date_obj.month, 1)
         last_day = py_calendar.monthrange(date_obj.year, date_obj.month)[1]
@@ -3315,84 +3382,40 @@ def calendar_view():
     telugu_masam_name = TELUGU_MASALU[masam_index]
     translated_masam_name = tr(telugu_masam_name)
     
-    # Accurate Telugu Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
+    # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
     # Paksham: 0 for Shukla, 1 for Krishna
     FEST_MAP = {
-        # చైత్ర మాసం
-        ("చైత్ర", 0, "పాడ్యమి"): "ఉగాది (తెలుగు నూతన సంవత్సరం)",
+        ("చైత్ర", 0, "పాడ్యమి"): "ఉగాది",
         ("చైత్ర", 0, "నవమి"): "శ్రీరామ నవమి",
-        ("చైత్ర", 0, "పౌర్ణమి"): "హనుమాన్ జయంతి",
-        
-        # వైశాఖ మాసం
         ("వైశాఖ", 0, "తదియ"): "అక్షయ తృతీయ",
-        ("వైశాఖ", 0, "పౌర్ణమి"): "బుద్ధ పూర్ణిమ / శ్రీ సత్యనారాయణ జయంతి",
-        
-        # జ్యేష్ఠ మాసం
+        ("వైశాఖ", 0, "పౌర్ణమి"): "బుద్ధ పూర్ణిమ",
         ("జ్యేష్ఠ", 0, "ఏకాదశి"): "నిర్జల ఏకాదశి",
-        ("జ్యేష్ఠ", 0, "పౌర్ణమి"): "ఎరువాక పౌర్ణమి / వటసావిత్రి వ్రతం",
-        
-        # ఆషాఢ మాసం
-        ("ఆషాఢ", 0, "ఏకాదశి"): "తొలి ఏకాదశి (శయన ఏకాదశి)",
-        ("ఆషాఢ", 0, "పౌర్ణమి"): "గురు పూర్ణిమ (వ్యాస పూర్ణిమ)",
-        
-        # శ్రావణ మాసం
+        ("ఆషాఢ", 0, "ఏకాదశి"): "తొలి ఏకాదశి",
+        ("ఆషాఢ", 0, "పౌర్ణమి"): "గురు పూర్ణిమ",
         ("శ్రావణ", 0, "చవితి"): "నాగుల చవితి",
-        ("శ్రావణ", 0, "పంచమి"): "నాగ పంచమి",
-        ("శ్రావణ", 0, "పౌర్ణమి"): "రాఖీ పౌర్ణమి / జంధ్యాల పౌర్ణమి",
-        ("శ్రావణ", 1, "అష్టమి"): "శ్రీ కృష్ణాష్టమి (గోకులాష్టమి)",
-        
-        # భాద్రపద మాసం
+        ("శ్రావణ", 0, "పంచమి"): "నాగుల పంచమి",
+        ("శ్రావణ", 1, "అష్టమి"): "కృష్ణాష్టమి",
         ("భాద్రపద", 0, "చవితి"): "వినాయక చవితి",
-        ("భాద్రపద", 0, "పంచమి"): "ఋషి పంచమి",
-        ("భాద్రపద", 0, "చతుర్దశి"): "అనంత పద్మనాభ వ్రతం (అనంత చతుర్దశి)",
-        ("భాద్రపద", 1, "అమావాస్య"): "మహాలయ అమావాస్య (పితృ అమావాస్య)",
-        
-        # ఆశ్వయుజ మాసం
-        ("ఆశ్వయుజ", 0, "పాడ్యమి"): "దేవీ నవరాత్రులు ప్రారంభం",
-        ("ఆశ్వయుజ", 0, "అష్టమి"): "దుర్గాష్టమి",
-        ("ఆశ్వయుజ", 0, "నవమి"): "మహార్నవమి / ఆయుధ పూజ",
+        ("భాద్రపద", 0, "చతుర్దశి"): "అనంత చతుర్దశి",
         ("ఆశ్వయుజ", 0, "దశమి"): "విజయదశమి (దసరా)",
-        ("ఆశ్వయుజ", 1, "త్రయోదశి"): "ధనత్రయోదశి (ధన్ తేరస్)",
-        ("ఆశ్వయుజ", 1, "చతుర్దశి"): "నరక చతుర్దశి",
-        ("ఆశ్వయుజ", 1, "అమావాస్య"): "కేదారేశ్వర వ్రతం / దీపావళి",
-        
-        # కార్తీక మాసం
-        ("కార్తీక", 0, "చవితి"): "నాగుల చవితి",
-        ("కార్తీక", 0, "ఏకాదశి"): "ఉత్థాన ఏకాదశి",
-        ("కార్తీక", 0, "ద్వాదశి"): "క్షీరాబ్ధి ద్వాదశి (చిలుకు ద్వాదశి)",
-        ("కార్తీక", 0, "పౌర్ణమి"): "కార్తీక పూర్ణిమ / జ్వాలా తోరణం",
-        
-        # మార్గశిర మాసం
-        ("మార్గశిర", 0, "షష్ఠి"): "సుబ్రహ్మణ్య షష్ఠి (స్కంద షష్ఠి)",
-        ("మార్గశిర", 0, "ఏకాదశి"): "గీతా జయంతి / మోక్షద ఏకాదశి",
-        ("మార్గశిర", 0, "త్రయోదశి"): "హనుమద్ వ్రతం",
+        ("ఆశ్వయుజ", 1, "అమావాస్య"): "దీపావళి",
+        ("కార్తీక", 0, "ద్వాదశి"): "చిలుకు ద్వాదశి",
+        ("కార్తీక", 0, "పౌర్ణమి"): "కార్తీక పూర్ణిమ",
         ("మార్గశిర", 0, "పౌర్ణమి"): "దత్తాత్రేయ జయంతి",
-        
-        # పుష్య మాసం
-        ("పుష్య", 0, "ఏకాదశి"): "వైకుంఠ ఏకాదశి (ముక్కోటి ఏకాదశి)",
-        
-        # మాఘ మాసం
-        ("మాఘ", 0, "పంచమి"): "వసంత పంచమి (శ్రీ పంచమి)",
-        ("మాఘ", 0, "సప్తమి"): "రథ సప్తమి (సూర్య జయంతి)",
-        ("మాఘ", 0, "ఏకాదశి"): "భీష్మ ఏకాదశి",
+        ("పుష్య", 0, "ఏకాదశి"): "వైకుంఠ ఏకాదశి",
+        ("మాఘ", 0, "పంచమి"): "వసంత పంచమి",
         ("మాఘ", 1, "చతుర్దశి"): "మహా శివరాత్రి",
-        
-        # ఫాల్గుణ మాసం
-        ("ఫాల్గుణ", 0, "పౌర్ణమి"): "కామదహనం / హోలీ"
+        ("ఫాల్గుణ", 0, "పౌర్ణమి"): "హోలీ"
     }
     
     # Date based festivals
     DATE_FESTS = {
-        (1, 1): "నూతన సంవత్సరం",
-        (1, 13): "భోగి",
-        (1, 14): "మకర సంక్రాంతి",
-        (1, 15): "కనుమ",
-        (1, 16): "ముక్కనుమ",
-        (1, 26): "గణతంత్ర దినోత్సవం",
-        (4, 14): "అంబేడ్కర్ జయంతి",
+        (4, 14): "అంబేద్కర్ జయంతి",
         (8, 15): "స్వాతంత్ర దినోత్సవం",
         (10, 2): "గాంధీ జయంతి",
-        (12, 25): "క్రిస్మస్"
+        (1, 14): "మకర సంక్రాంతి",
+        (1, 13): "భోగి",
+        (1, 15): "కనుమ"
     }
 
     festivals_list = []
@@ -3427,22 +3450,13 @@ def calendar_view():
         key = (m_name, pks, t_name)
         f_name = FEST_MAP.get(key, "")
         
-        # Dynamic check for Varalakshmi Vratam (Friday before Sravana Purnima)
-        if not f_name and m_name == "శ్రావణ" and pks == 0 and current_dt.weekday() == 4:
-            if t_name in ["సప్తమి", "అష్టమి", "నవమి", "దశమి", "ఏకాదశి", "ద్వాదశి", "త్రయోదశి", "చతుర్దశి"]:
-                f_name = "వరలక్ష్మీ వ్రతం"
-        
         # Match from date
         d_key = (current_dt.month, current_dt.day)
         if not f_name:
             f_name = DATE_FESTS.get(d_key, "")
             
         if f_name:
-            festivals_list.append({
-                "day": current_dt.day,
-                "month_en": current_dt.strftime("%b"),
-                "name": tr(f_name)
-            })
+            festivals_list.append({"day": current_dt.day, "name": tr(f_name)})
             
         days_data[wd][week_idx] = {
             "date": current_dt.day,
