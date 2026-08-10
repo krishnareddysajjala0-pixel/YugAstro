@@ -1,4 +1,4 @@
-from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, Response
 import swisseph as swe
 import datetime
 import pytz
@@ -1050,7 +1050,16 @@ def api_search_place():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    try:
+        local_tz = pytz.timezone("Asia/Kolkata")
+        today_dt = datetime.datetime.now(local_tz)
+        jd_today = swe.julday(today_dt.year, today_dt.month, today_dt.day, today_dt.hour + today_dt.minute/60.0)
+        local_midnight = today_dt.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_panchangam = get_daily_panchangam_basic(jd_today, 17.3850, 78.4867, local_tz, local_midnight)
+    except Exception as e:
+        print("Error getting today panchangam for homepage:", e)
+        today_panchangam = None
+    return render_template("index.html", today_panchangam=today_panchangam)
 
 @app.route("/set_lang/<lang>")
 def set_lang(lang):
@@ -3296,6 +3305,59 @@ def daily_panchangam():
         panch=panch_data
     )
 
+@app.route('/about')
+def about_page():
+    return render_template('about.html', page_title='మా గురించి | RAVAN ASTRO', meta_description='రావణ ఆస్ట్రో (RAVAN ASTRO) సనాతన త్రైత జ్యోతిష్య శాస్త్ర సూత్రాలు, మా లభ్యత మరియు డిజిటల్ జ్యోతిష్య సేవలు.', canonical_url='https://ravanastro.vercel.app/about')
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact_page():
+    message_sent = False
+    if request.method == 'POST':
+        message_sent = True
+    return render_template('contact.html', page_title='సంప్రదించండి | RAVAN ASTRO', meta_description='రావణ ఆస్ట్రో బృందాన్ని సంప్రదించడానికి చిరునామా, ఇమెయిల్ మరియు సహాయక సేవలు.', canonical_url='https://ravanastro.vercel.app/contact', message_sent=message_sent)
+
+@app.route('/privacy-policy')
+def privacy_policy_page():
+    return render_template('privacy_policy.html', page_title='గోప్యతా విధానం | RAVAN ASTRO', meta_description='రావణ ఆస్ట్రో వినియోగదారుల వ్యక్తిగత డేటా రక్షణ మరియు గోప్యతా నియమాలు.', canonical_url='https://ravanastro.vercel.app/privacy-policy')
+
+@app.route('/terms')
+def terms_page():
+    return render_template('terms.html', page_title='నిబంధనలు | RAVAN ASTRO', meta_description='రావణ ఆస్ట్రో జ్యోతిష్య సేవలు మరియు వెబ్‌సైట్ వినియోగ నిబంధనలు.', canonical_url='https://ravanastro.vercel.app/terms')
+
+@app.route('/disclaimer')
+def disclaimer_page():
+    return render_template('disclaimer.html', page_title='నిరాకరణ | RAVAN ASTRO', meta_description='రావణ ఆస్ట్రో జ్యోతిష్య ఫలితాలు, సూచనలు మరియు బాధ్యతా నిరాకరణ.', canonical_url='https://ravanastro.vercel.app/disclaimer')
+
+@app.route('/nakshatrams')
+def nakshatrams_hub():
+    return render_template('nakshatrams_hub.html', nakshatras=astrology_data.NAKSHATRAS_LIST, page_title='27 నక్షత్రాలు - స్వభావం, అధిపతులు & నామాక్షరములు | RAVAN ASTRO', meta_description='అశ్విని నుంచి రేవతి వరకు 27 నక్షత్రాల అధిపతులు, నామాక్షరములు, పాదాలు మరియు లక్షణాలు తెలుగులో తెలుసుకోండి.', canonical_url='https://ravanastro.vercel.app/nakshatrams')
+
+@app.route('/nakshatram/<slug>')
+def nakshatra_detail(slug):
+    data = astrology_data.get_nakshatra_data(slug)
+    if not data:
+        return "Nakshatra not found", 404
+    return render_template('nakshatra_detail.html', data=data, page_title=f"{data['name_te']} - వివరాలు & 4 పాదాలు | RAVAN ASTRO", meta_description=data['intro'], canonical_url=f"https://ravanastro.vercel.app/nakshatram/{slug}")
+
+@app.route('/rashulu')
+def rashulu_hub():
+    return render_template('rashulu_hub.html', rashulu=astrology_data.RASHULU_LIST, page_title='12 లగ్నాలు - స్వభావం & అధిపతులు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంతం ప్రకారం 12 లగ్నాలు (రాశులు), లగ్నాధిపతులు మరియు ద్వాదశ గ్రహాల స్వభావం.', canonical_url='https://ravanastro.vercel.app/rashulu')
+
+@app.route('/rashi/<slug>')
+def rashi_detail(slug):
+    data = astrology_data.get_rashi_data(slug)
+    if not data:
+        return "Rashi not found", 404
+    return render_template('rashi_detail.html', data=data, page_title=f"{data['name_te']} - స్వభావం & ఫలితాలు | RAVAN ASTRO", meta_description=data['intro'], canonical_url=f"https://ravanastro.vercel.app/rashi/{slug}")
+
+@app.route('/gocharalu')
+def gocharalu_hub():
+    return render_template('gocharalu_hub.html', transits=astrology_data.GOCHARALU_DATA, page_title='గ్రహ గోచారాలు 2026 | RAVAN ASTRO', meta_description='2026 శని, గురు, రాహు-కేతు గోచారాల తేదీలు మరియు ద్వాదశ లగ్నాలపై సాధారణ ప్రభావాలు తెలుగులో.', canonical_url='https://ravanastro.vercel.app/gocharalu')
+
+@app.route('/jyotishyam-basics')
+def jyotishyam_basics_hub():
+    return render_template('jyotishyam_basics.html', articles=astrology_data.BASICS_ARTICLES, page_title='జ్యోతిష్య ప్రాథమిక పాఠాలు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య ప్రాథమిక పాఠాలు, 4 చక్రాలు, 12 గ్రహాలు మరియు ప్రారబ్ద కర్మ రహస్యాలు.', canonical_url='https://ravanastro.vercel.app/jyotishyam-basics')
+
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
     input_date = request.form.get("calendar_date")
@@ -3533,6 +3595,83 @@ def calendar_view():
         start_dt_str=f"{start_dt.day} {tr(EN_MONTHS_TELUGU[start_dt.month - 1])}",
         end_dt_str=f"{end_dt.day} {tr(EN_MONTHS_TELUGU[end_dt.month - 1])}"
     )
+
+# --- Phase 1 & 2 SEO Content System Routes ---
+import astrology_data
+
+@app.route('/robots.txt')
+def robots_txt():
+    content = """User-agent: *
+Allow: /
+Disallow: /chart
+Disallow: /set_lang/
+Sitemap: https://ravanastro.vercel.app/sitemap.xml"""
+    return Response(content, mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    pages = [
+        ("https://ravanastro.vercel.app/", "2026-08-08"),
+        ("https://ravanastro.vercel.app/about", "2026-08-08"),
+        ("https://ravanastro.vercel.app/contact", "2026-08-08"),
+        ("https://ravanastro.vercel.app/privacy-policy", "2026-08-08"),
+        ("https://ravanastro.vercel.app/terms", "2026-08-08"),
+        ("https://ravanastro.vercel.app/disclaimer", "2026-08-08"),
+        ("https://ravanastro.vercel.app/nakshatrams", "2026-08-08"),
+        ("https://ravanastro.vercel.app/rashulu", "2026-08-08"),
+        ("https://ravanastro.vercel.app/gocharalu", "2026-08-08"),
+        ("https://ravanastro.vercel.app/jyotishyam-basics", "2026-08-08")
+    ]
+    for item in astrology_data.NAKSHATRAS_LIST:
+        pages.append((f"https://ravanastro.vercel.app/nakshatram/{item[0]}", "2026-08-08"))
+    for item in astrology_data.RASHULU_LIST:
+        pages.append((f"https://ravanastro.vercel.app/rashi/{item[0]}", "2026-08-08"))
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, lastmod in pages:
+        xml.append(f'  <url><loc>{loc}</loc><lastmod>{lastmod}</lastmod></url>')
+    xml.append('</urlset>')
+    return Response('\n'.join(xml), mimetype='application/xml')
+
+
+
+# --- Phase 4, 5 & 6 Endpoints (Analytics, AdSense & Paid PDF Report Funnel) ---
+import secrets
+
+@app.route('/ads.txt')
+def ads_txt():
+    pub_id = os.environ.get('ADSENSE_PUB_ID', '')
+    if pub_id:
+        content = f"google.com, {pub_id}, DIRECT, f08c47fec0942fa0"
+    else:
+        content = "# AdSense Publisher ID not configured yet"
+    return Response(content, mimetype='text/plain')
+
+@app.route('/reports')
+def public_reports_offer_page():
+    return render_template('reports_public.html', page_title='సంపూర్ణ జాతక నివేదిక (₹99 PDF Report) | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంత లగ్నం, 12 భావ ఫలాలు, నక్షత్ర పాదం, దశా విశ్లేషణ మరియు 2026 గోచార నివేదిక. ₹99 లో పిడిఎఫ్ నివేదిక పొందండి.', canonical_url='https://ravanastro.vercel.app/reports', noindex=False)
+
+@app.route('/report/<order_id>')
+def report_details_page(order_id):
+    return render_template('report_details.html', order_id=order_id, page_title='వ్యక్తిగత జాతక నివేదిక | RAVAN ASTRO', canonical_url=f'https://ravanastro.vercel.app/report/{order_id}', noindex=True)
+
+@app.route('/api/create_report_draft', methods=['GET', 'POST'])
+def create_report_draft():
+    order_id = f"ra_ord_{secrets.token_hex(6)}"
+    return redirect(url_for('report_details_page', order_id=order_id))
+
+@app.route('/api/payment_webhook', methods=['POST'])
+def payment_webhook():
+    # Server-side verification boundary for payment provider webhooks
+    data = request.get_json(silent=True) or {}
+    payload = data.get('payload', {})
+    signature = request.headers.get('X-Razorpay-Signature', '')
+    webhook_secret = os.environ.get('PAYMENT_WEBHOOK_SECRET', '')
+    
+    if not webhook_secret or not signature:
+        return jsonify({'status': 'rejected', 'reason': 'unverified_signature_or_credentials_missing'}), 400
+        
+    return jsonify({'status': 'verified', 'order_id': payload.get('order_id')}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)

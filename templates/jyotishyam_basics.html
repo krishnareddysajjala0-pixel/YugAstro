@@ -1,0 +1,32 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+<div class="page-card">
+  <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">జ్యోతిష్య ప్రాథమిక విషయాలు</span>
+  </div>
+
+  <h1 class="page-title">జ్యోతిష్య ప్రాథమిక విషయాలు (Astrology Basics)</h1>
+  
+  <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
+    సనాతన త్రైత జ్యోతిష్య శాస్త్రంలో లగ్నము, రాశి, నక్షత్రాలు, భావాలు మరియు దశల ప్రాముఖ్యతను సులభమైన తెలుగు వ్యాసాల ద్వారా అర్థం చేసుకోండి.
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    {% for slug, article in articles.items() %}
+    <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 22px;">
+      <h3 style="color: var(--accent-gold); margin-bottom: 10px;">{{ article.title }}</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">{{ article.intro }}</p>
+      <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.5;">{{ article.content }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cta-box">
+    <h3>మీ సొంత జాతక చక్రాన్ని విశ్లేషించుకోవాలనుకుంటున్నారా?</h3>
+    <p> మీ పుట్టిన సమయంతో లగ్నము, రాశి మరియు 12 భావ ఫలాలను చూడండి.</p>
+    <a href="/" class="cta-btn"><i class="fas fa-graduation-cap"></i> జాతక చక్రం లెక్కించండి</a>
+  </div>
+</div>
+{% endblock %}

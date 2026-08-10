@@ -3,7 +3,7 @@
 
 /* Default Theme (Bright Mode / Standard) */
 :root {
-  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', 'Tiro Tamil', 'Tiro Malayalam', 'Noto Serif Oriya', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Cinzel', 'Georgia', serif;
   --font-hi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
   --font-kn: 'Tiro Kannada', 'Noto Serif Kannada', serif;
@@ -14,7 +14,7 @@
 
 /* Cosmic Mode (Premium Dark) */
 [data-theme="cosmic"] {
-  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Noto Serif Devanagari', 'Noto Serif Tamil', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Philosopher', 'Playfair Display', serif;
   --font-hi: 'Rozha One', 'Noto Serif Devanagari', serif;
   --font-kn: 'Noto Serif Kannada', serif;
@@ -25,7 +25,7 @@
 
 /* Sunset Theme */
 [data-theme="sunset"] {
-  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', 'Tiro Kannada', 'Kalam', 'Noto Serif Devanagari', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Merriweather', 'Lora', serif;
   --font-hi: 'Kalam', 'Noto Serif Devanagari', serif;
   --font-kn: 'Tiro Kannada', serif;
@@ -36,7 +36,7 @@
 
 /* Luxury Obsidian Gold Theme */
 [data-theme="luxury"] {
-  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Yatra One', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Cinzel Decorative', 'Cinzel', serif;
   --font-hi: 'Yatra One', 'Noto Serif Devanagari', serif;
   --font-kn: 'Noto Serif Kannada', serif;
@@ -47,7 +47,7 @@
 
 /* Neo Cyberpunk Theme */
 [data-theme="cyberpunk"] {
-  --font-te: 'Mandali', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Teko', 'Noto Sans Devanagari', sans-serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Orbitron', 'Rajdhani', sans-serif;
   --font-hi: 'Teko', 'Rajdhani', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -58,7 +58,7 @@
 
 /* Solar Amber Theme */
 [data-theme="solar"] {
-  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Rajdhani', sans-serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Outfit', 'Poppins', sans-serif;
   --font-hi: 'Rajdhani', 'Noto Sans Devanagari', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -69,7 +69,7 @@
 
 /* Royal Mandala Theme */
 [data-theme="mandala"] {
-  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', 'Tiro Kannada', 'Rozha One', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Playfair Display', 'Cinzel', serif;
   --font-hi: 'Rozha One', 'Tiro Devanagari Hindi', serif;
   --font-kn: 'Tiro Kannada', serif;
@@ -80,7 +80,7 @@
 
 /* Twilight Fusion Theme */
 [data-theme="twilight"] {
-  --font-te: 'Gidugu', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Syne', 'Quicksand', sans-serif;
   --font-hi: 'Noto Sans Devanagari', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -91,7 +91,7 @@
 
 /* Divine Aurora Theme */
 [data-theme="aurora"] {
-  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', serif;
+  --font-te: 'Noto Sans Telugu', 'Segoe UI', system-ui, sans-serif;
   --font-en: 'Philosopher', 'Lora', serif;
   --font-hi: 'Tiro Devanagari Hindi', serif;
   --font-kn: 'Noto Serif Kannada', serif;

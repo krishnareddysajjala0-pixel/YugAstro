@@ -24,3 +24,5 @@ publish/
 # Large Data
 winapp/sweph.zip
 winapp/sweph/
+
+.agents/

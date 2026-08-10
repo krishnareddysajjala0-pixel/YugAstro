@@ -1,0 +1,161 @@
+{% extends "base_page.html" %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "హోమ్",
+          "item": "https://ravanastro.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "నక్షత్రాలు",
+          "item": "https://ravanastro.vercel.app/nakshatrams"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ data.name_te|tojson }},
+          "item": {{ canonical_url|tojson }}
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": {{ data.h1|tojson }},
+      "description": {{ data.intro|tojson }},
+      "author": {
+        "@type": "Organization",
+        "name": "RAVAN ASTRO Research Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RAVAN ASTRO",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ravanastro.vercel.app/static/favicon.png"
+        }
+      },
+      "datePublished": "2026-08-08",
+      "dateModified": "2026-08-08"
+    }
+    {% if data.faqs %},
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {% for faq in data.faqs %}
+        {
+          "@type": "Question",
+          "name": {{ faq.q|tojson }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq.a|tojson }}
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+    {% endif %}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block page_content %}
+<article class="page-card">
+  <!-- Breadcrumb -->
+  <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
+    <a href="/nakshatrams" style="color: var(--text-muted); text-decoration: none;">నక్షత్రాలు</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">{{ data.name_te }}</span>
+  </div>
+
+  <h1 class="page-title">{{ data.h1 }}</h1>
+
+  <div class="meta-bar">
+    <span><i class="far fa-calendar-alt"></i> చివరిసారి నవీకరించబడింది: 08 ఆగస్టు 2026</span>
+    <span><i class="far fa-user"></i> రావణ ఆస్ట్రో రీసెర్చ్ టీమ్</span>
+  </div>
+
+  <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-main); margin-bottom: 24px;">
+    {{ data.intro }}
+  </p>
+
+  {% if not data.is_full_content %}
+  <div style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--accent-gold); padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 24px;">
+    <i class="fas fa-info-circle"></i> గమనిక: ఈ నక్షత్రానికి సంబంధించి సంక్షిప్త వివరణ క్రింద ఇవ్వబడింది. సంపూర్ణ 4 పాదాల పరిశోధనా పత్రం త్వరలోనే నవీకరించబడుతుంది.
+  </div>
+  {% endif %}
+
+  <!-- Quick Facts Table -->
+  <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
+    <h3 style="color: var(--accent-gold); margin-bottom: 14px; font-size: 1.1rem;"><i class="fas fa-list-alt"></i> ముఖ్యాంశాలు (Quick Facts)</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; font-size: 0.95rem;">
+      <div><strong>నక్షత్ర సంఖ్య:</strong> {{ data.number }} / 27</div>
+      <div><strong>అధిపతి గ్రహం:</strong> {{ data.lord_te }}</div>
+      <div><strong>అధిదేవత:</strong> {{ data.deity_te }}</div>
+      <div><strong>చెందిన రాశి:</strong> {{ data.rashi_te }}</div>
+      <div><strong>చిహ్నం:</strong> {{ data.symbol_te }}</div>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <h2>నక్షత్ర అవలోకనం (Overview)</h2>
+    <p>{{ data.overview }}</p>
+
+    <h2>బలాలు మరియు సద్గుణాలు (Strengths)</h2>
+    <ul>
+      {% for str in data.strengths %}
+      <li>{{ str }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>జాగ్రత్తగా చూడాల్సిన అంశాలు (Cautions)</h2>
+    <ul>
+      {% for cau in data.cautions %}
+      <li>{{ cau }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>అనుకూల వృత్తి మరియు ఉద్యోగాలు (Career & Professions)</h2>
+    <p>{{ data.career }}</p>
+
+    <h2>సంబంధాలు మరియు అనుకూలత (Relationships)</h2>
+    <p>{{ data.relationships }}</p>
+
+    <h2>నాలుగు పాదాల ఫలితాలు (4 Padas Overview)</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px;">
+      {% for pada in data.padas %}
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); padding: 14px; border-radius: 8px;">
+        <h4 style="color: #818cf8; margin-bottom: 6px;">{{ pada.pada }}వ పాదం ({{ pada.navamsha }})</h4>
+        <p style="font-size: 0.9rem; margin-bottom: 0;">{{ pada.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if data.faqs %}
+    <h2>తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
+    {% for faq in data.faqs %}
+    <div style="margin-bottom: 14px;">
+      <strong style="color: var(--accent-gold);">ప్ర: {{ faq.q }}</strong>
+      <p style="margin-top: 4px;">జ: {{ faq.a }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="cta-box">
+      <h3>మీ జన్మ నక్షత్రం తెలుసుకోవాలనుకుంటున్నారా?</h3>
+      <p>మీ జన్మ సమయం మరియు స్థలం ఉపయోగించి తక్షణం జన్మ కుండలి మరియు నక్షత్ర ఫలితాలు పొందండి.</p>
+      <a href="/" class="cta-btn"><i class="fas fa-star"></i> నా జన్మ నక్షత్రం చూడండి</a>
+    </div>
+  </div>
+</article>
+{% endblock %}

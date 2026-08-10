@@ -1,0 +1,56 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+<article class="page-card">
+  <h1 class="page-title">సంప్రదించండి (Contact Us)</h1>
+  
+  <div class="meta-bar">
+    <span><i class="far fa-calendar-alt"></i> చివరిసారి నవీకరించబడింది: 08 ఆగస్టు 2026</span>
+    <span><i class="far fa-clock"></i> స్పందన సమయం: 24 - 48 గంటలు</span>
+  </div>
+
+  <div class="content-body">
+    <p>
+      రావణ ఆస్ట్రో వినియోగదారుల సూచనలు, సందేహాలు మరియు సహాయం కొరకు మేము సదా అందుబాటులో ఉంటాము. మీకు ఏవైనా ప్రశ్నోత్తరాలు ఉన్నా లేదా సలహాలు ఇవ్వాలనుకున్నా క్రింది వివరాల ద్వారా మమ్మల్ని సంప్రదించవచ్చు.
+    </p>
+
+    <h2>మమ్మల్ని నేరుగా ఇమెయిల్ చేయండి</h2>
+    <p style="font-size: 1.1rem; color: var(--accent-gold);">
+      <i class="fas fa-envelope"></i> <strong>support@ravanastro.com</strong> (లేదా <strong>krishnareddysajjala0@gmail.com</strong>)
+    </p>
+
+    {% if message_sent %}
+    <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; padding: 16px; border-radius: 8px; color: #10b981; margin: 20px 0;">
+      <i class="fas fa-check-circle"></i> ధన్యవాదాలు! మీ సందేశం విజయవంతంగా పంపబడింది. మా బృందం త్వరలోనే మిమ్మల్ని సంప్రదిస్తుంది.
+    </div>
+    {% endif %}
+
+    <h2>సందేశం పంపండి (Contact Form)</h2>
+    <form method="POST" action="/contact" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+      <div>
+        <label style="display: block; margin-bottom: 6px; color: var(--text-main);">మీ పేరు (Full Name):</label>
+        <input type="text" name="name" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-main);">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 6px; color: var(--text-main);">ఇమెయిల్ అడ్రస్ (Email Address):</label>
+        <input type="email" name="email" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-main);">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 6px; color: var(--text-main);">విషయము (Subject):</label>
+        <input type="text" name="subject" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-main);">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 6px; color: var(--text-main);">మీ సందేశం (Message):</label>
+        <textarea name="message" rows="5" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-main);"></textarea>
+      </div>
+
+      <button type="submit" class="cta-btn" style="border: none; cursor: pointer; align-self: flex-start;">
+        <i class="fas fa-paper-plane"></i> సందేశం పంపండి
+      </button>
+    </form>
+  </div>
+</article>
+{% endblock %}

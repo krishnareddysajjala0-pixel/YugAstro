@@ -1,0 +1,32 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+<div class="page-card">
+  <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">గ్రహ గోచారాలు 2026</span>
+  </div>
+
+  <h1 class="page-title">గ్రహ గోచారాలు 2026 (Planetary Transits)</h1>
+  
+  <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
+    గోచారం అంటే గ్రహాలు ఒక రాశి నుండి మరొక రాశికి మారడం. 2026 సంవత్సరంలో శని, గురు, రాహు-కేతువుల సంచార ఫలితాల విశ్లేషణ క్రింద ఇవ్వబడింది.
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    {% for slug, transit in transits.items() %}
+    <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 22px;">
+      <h3 style="color: var(--accent-gold); margin-bottom: 10px;">{{ transit.title }}</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">{{ transit.intro }}</p>
+      <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.5;">{{ transit.details }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cta-box">
+    <h3>మీ జాతకంలో ప్రస్తుత నడుస్తున్న దశ ఏమిటో తెలుసా?</h3>
+    <p>గోచార ఫలితాలతో పాటు మీ వింశోత్తరి మహాదశ మరియు అంతర్దశను  చూడండి.</p>
+    <a href="/" class="cta-btn"><i class="fas fa-history"></i> మీ మహాదశ తనిఖీ చేయండి</a>
+  </div>
+</div>
+{% endblock %}
