@@ -2730,6 +2730,15 @@ def go_to_dasha_chart():
         # Redirect to index if no birth info
         return redirect(url_for('index'))
 
+@app.route("/go-to-results")
+def go_to_results():
+    """Redirect to 12 Bhava results page with session data"""
+    birth_info = session.get('birth_info', {})
+    if birth_info:
+        return results()
+    else:
+        return redirect(url_for('index'))
+
 @app.route("/check-birth-data")
 def check_birth_data():
     """Check if birth data exists in session"""
