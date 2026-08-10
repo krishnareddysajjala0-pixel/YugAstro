@@ -3363,9 +3363,50 @@ def rashi_detail(slug):
 def gocharalu_hub():
     return render_template('gocharalu_hub.html', transits=astrology_data.GOCHARALU_DATA, page_title='గ్రహ గోచారాలు 2026 | RAVAN ASTRO', meta_description='2026 శని, గురు, రాహు-కేతు గోచారాల తేదీలు మరియు ద్వాదశ లగ్నాలపై సాధారణ ప్రభావాలు తెలుగులో.', canonical_url='https://ravanastro.vercel.app/gocharalu')
 
+def format_qna_content(raw_text):
+    if "###" not in raw_text and "**జవాబు:**" not in raw_text:
+        return f'<div class="standard-text" style="color: #e2e8f0; line-height: 1.8;">{raw_text}</div>'
+    
+    lines = raw_text.strip().split('\n')
+    html_parts = []
+    
+    for line in lines:
+        line_str = line.strip()
+        if not line_str or line_str == "---":
+            continue
+        if line_str.startswith("###"):
+            q_title = line_str.replace("###", "").strip()
+            html_parts.append(f'''
+            <div class="qna-question-box" style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; border: 1px solid rgba(245, 158, 11, 0.25); padding: 14px 18px; border-radius: 8px; margin-top: 22px; margin-bottom: 12px;">
+              <span style="color: #fbbf24; font-weight: 700; font-size: 1.08rem; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-question-circle" style="color: #f59e0b;"></i> {q_title}
+              </span>
+            </div>
+            ''')
+        elif line_str.startswith("**జవాబు:**"):
+            ans_text = line_str.replace("**జవాబు:**", "").strip()
+            html_parts.append(f'''
+            <div class="qna-answer-box" style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(148, 163, 184, 0.18); padding: 16px 20px; border-radius: 8px; margin-bottom: 18px;">
+              <div style="font-size: 0.98rem; line-height: 1.8;">
+                <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.4); margin-right: 8px; display: inline-block; font-size: 0.88rem;">జవాబు</span>
+                <span style="color: #e2e8f0;">{ans_text}</span>
+              </div>
+            </div>
+            ''')
+        else:
+            html_parts.append(f'<p style="color: #cbd5e1; line-height: 1.8; margin-bottom: 12px;">{line_str}</p>')
+            
+    return "".join(html_parts)
+
 @app.route('/jyotishyam-basics')
 def jyotishyam_basics_hub():
-    return render_template('jyotishyam_basics.html', articles=astrology_data.BASICS_ARTICLES, page_title='జ్యోతిష్య ప్రాథమిక పాఠాలు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య ప్రాథమిక పాఠాలు, 4 చక్రాలు, 12 గ్రహాలు మరియు ప్రారబ్ద కర్మ రహస్యాలు.', canonical_url='https://ravanastro.vercel.app/jyotishyam-basics')
+    formatted_articles = {}
+    for slug, article in astrology_data.BASICS_ARTICLES.items():
+        art_copy = article.copy()
+        art_copy['formatted_content'] = format_qna_content(article['content'])
+        formatted_articles[slug] = art_copy
+        
+    return render_template('jyotishyam_basics.html', articles=formatted_articles, page_title='జ్యోతిష్య ప్రాథమిక పాఠాలు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య ప్రాథమిక పాఠాలు, 4 చక్రాలు, 12 గ్రహాలు మరియు ప్రారబ్ద కర్మ రహస్యాలు.', canonical_url='https://ravanastro.vercel.app/jyotishyam-basics')
 
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
