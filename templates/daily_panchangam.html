@@ -10,13 +10,28 @@
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts for Theme-Wise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;600;700&family=Mandali&family=Montserrat:wght@500;700&family=Noto+Serif+Telugu:wght@400;600;700&family=Orbitron:wght@500;700&family=Outfit:wght@400;600;700&family=Philosopher:wght@400;700&family=Poppins:wght@400;600;700&family=Quicksand:wght@500;700&family=Rozha+One&display=swap" rel="stylesheet">
+
+    <script>
+      (function() {
+        var savedTheme = localStorage.getItem('ravan_theme') || 'cosmic';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      })();
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { 
             overflow-x: hidden; 
-            background-color: #0c0c0c; /* Stable dark background for mobile Safari/Chrome */
+            background-color: #0c0c0c;
         }
-        :root {
+        :root, [data-theme="default"], [data-theme="light"] {
+            --font-main: 'Inter', 'Mandali', 'Segoe UI', system-ui, sans-serif;
+            --font-heading: 'Inter', 'Mandali', sans-serif;
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             --text-main: #1e293b;
             --text-muted: #475569;
@@ -30,6 +45,8 @@
 
         /* Cosmic Mode (Original Dark) */
         [data-theme="cosmic"] {
+            --font-main: 'Outfit', 'Mandali', 'Segoe UI', sans-serif;
+            --font-heading: 'Outfit', 'Mandali', sans-serif;
             --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             --text-main: #ffffff;
             --text-muted: #c7d2fe;
@@ -42,9 +59,9 @@
             --shadow-color: rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="light"] {
-            /* Redundant but kept for compatibility */
-        }        [data-theme="sunset"] {
+        [data-theme="sunset"] {
+            --font-main: 'Poppins', 'Noto Serif Telugu', 'Segoe UI', sans-serif;
+            --font-heading: 'Poppins', 'Noto Serif Telugu', sans-serif;
             --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
             --text-main: #ffffff;
             --text-muted: #c7d2fe;
@@ -200,6 +217,15 @@
       --color-pos: #10b981;
       --color-neg: #f43f5e;
     }
+
+    html, body, button, input, select, textarea, p, span, div, td, th, a {
+      font-family: var(--font-main, 'Inter', 'Segoe UI', sans-serif);
+    }
+
+    h1, h2, h3, h4, h5, h6, .page-title, .card-title, .section-title, .brand-logo, .home-section-heading {
+      font-family: var(--font-heading, var(--font-main, sans-serif)) !important;
+    }
+
     /* Aurora animated background for aurora theme */
     @keyframes aurora-shift {
       0%   { background-position: 0% 50%; }
