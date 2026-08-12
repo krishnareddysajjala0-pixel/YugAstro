@@ -884,52 +884,52 @@
                 </div>
                 {% endif %}
 
-                {% if panch.transit_table %}
-                <!-- Planet Transit Table -->
-                <div style="grid-column: 1 / -1; margin-top: 30px; min-width: 0;">
                 {% if panch.dvadasha_transits %}
-                <div class="transit-section-card" style="margin-top: 24px; margin-bottom: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                        <h2 class="section-title" style="margin: 0;"><i class="fas fa-globe-asia section-icon"></i> {{ _('ద్వాదశ గ్రహముల లగ్న సంచారం') }}</h2>
-                        <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 600;">
-                            గణన తేదీ: {{ dob }}
-                        </span>
-                    </div>
-                    <div style="overflow-x: auto; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.35); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 550px;">
-                            <thead>
-                                <tr style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.08)); border-bottom: 2px solid rgba(255, 215, 0, 0.4);">
-                                    <th style="padding: 12px 10px; text-align: center; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('క్ర.సం') }}</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('గ్రహము') }}</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('లగ్నం') }}</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('ప్రవేశ తేది & సమయం') }}</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('నిష్క్రమణ తేది & సమయం') }}</th>
-                                    <th style="padding: 12px 10px; text-align: center; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('స్థితి') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for p in panch.dvadasha_transits %}
-                                <tr style="background: {% if p.is_active %}rgba(16, 185, 129, 0.08){% elif loop.index is odd %}rgba(255,255,255,0.03){% else %}rgba(0,0,0,0.15){% endif %}; transition: background 0.3s;">
-                                    <td style="padding: 10px; text-align: center; color: #94a3b8; font-weight: 600;">{{ p.sno }}</td>
-                                    <td style="padding: 10px; color: #fff; font-weight: 700;">{{ p.planet }}</td>
-                                    <td style="padding: 10px; color: #facc15; font-weight: 700;">{{ p.lagnam }}</td>
-                                    <td style="padding: 10px; color: #e2e8f0; font-size: 13px;">{{ p.entry_str }}</td>
-                                    <td style="padding: 10px; color: #e2e8f0; font-size: 13px;">{{ p.exit_str }}</td>
-                                    <td style="padding: 10px; text-align: center;">
-                                        {% if p.is_active %}
-                                            <span style="font-size: 0.78rem; background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700;">
-                                                ప్రస్తుత సంచారం
-                                            </span>
-                                        {% else %}
-                                            <span style="font-size: 0.78rem; background: rgba(148, 163, 184, 0.15); color: #94a3b8; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.3);">
-                                                సంచార వ్యవధి
-                                            </span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                <!-- Planet Transit Table -->
+                <div style="grid-column: 1 / -1; margin-top: 24px; margin-bottom: 24px; min-width: 0;">
+                    <div class="transit-section-card" style="margin-top: 10px; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                            <h2 class="section-title" style="margin: 0;"><i class="fas fa-globe-asia section-icon"></i> {{ _('ద్వాదశ గ్రహముల లగ్న సంచారం') }}</h2>
+                            <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 600;">
+                                గణన తేదీ: {{ dob }}
+                            </span>
+                        </div>
+                        <div style="overflow-x: auto; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.35); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 550px;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.08)); border-bottom: 2px solid rgba(255, 215, 0, 0.4);">
+                                        <th style="padding: 12px 10px; text-align: center; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('క్ర.సం') }}</th>
+                                        <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('గ్రహము') }}</th>
+                                        <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('లగ్నం') }}</th>
+                                        <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('ప్రవేశ తేది & సమయం') }}</th>
+                                        <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('నిష్క్రమణ తేది & సమయం') }}</th>
+                                        <th style="padding: 12px 10px; text-align: center; color: #ffd700; font-weight: 800; font-size: 13px;">{{ _('స్థితి') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in panch.dvadasha_transits %}
+                                    <tr style="background: {% if p.is_active %}rgba(16, 185, 129, 0.08){% elif loop.index is odd %}rgba(255,255,255,0.03){% else %}rgba(0,0,0,0.15){% endif %}; transition: background 0.3s;">
+                                        <td style="padding: 10px; text-align: center; color: #94a3b8; font-weight: 600;">{{ p.sno }}</td>
+                                        <td style="padding: 10px; color: #fff; font-weight: 700;">{{ p.planet }}</td>
+                                        <td style="padding: 10px; color: #facc15; font-weight: 700;">{{ p.lagnam }}</td>
+                                        <td style="padding: 10px; color: #e2e8f0; font-size: 13px;">{{ p.entry_str }}</td>
+                                        <td style="padding: 10px; color: #e2e8f0; font-size: 13px;">{{ p.exit_str }}</td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            {% if p.is_active %}
+                                                <span style="font-size: 0.78rem; background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700;">
+                                                    ప్రస్తుత సంచారం
+                                                </span>
+                                            {% else %}
+                                                <span style="font-size: 0.78rem; background: rgba(148, 163, 184, 0.15); color: #94a3b8; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.3);">
+                                                    సంచార వ్యవధి
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
