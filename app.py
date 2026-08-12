@@ -3303,9 +3303,13 @@ def daily_panchangam():
             })
 
         panch_data['transit_table'] = transit_table
+        dvadasha_transits_calc, _ = get_calculated_dvadasha_transits(dob)
+        panch_data['dvadasha_transits'] = dvadasha_transits_calc
     except Exception as e:
         print("Error computing transit table:", e)
         panch_data['transit_table'] = []
+        dvadasha_transits_calc, _ = get_calculated_dvadasha_transits(dob)
+        panch_data['dvadasha_transits'] = dvadasha_transits_calc
 
     
     return render_template(
@@ -3359,9 +3363,24 @@ def rashi_detail(slug):
         return "Rashi not found", 404
     return render_template('rashi_detail.html', data=data, page_title=f"{data['name_te']} - స్వభావం & ఫలితాలు | RAVAN ASTRO", meta_description=data['intro'], canonical_url=f"https://ravanastro.vercel.app/rashi/{slug}")
 
+def get_calculated_dvadasha_transits(target_date_str=None):
+    if not target_date_str:
+        target_date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    
+    results = []
+    for item in astrology_data.DVADASHA_GRAHA_TRANSITS:
+        item_copy = item.copy()
+        entry_d = item_copy["entry_date"]
+        exit_d = item_copy["exit_date"]
+        item_copy["is_active"] = (entry_d <= target_date_str <= exit_d)
+        results.append(item_copy)
+    return results, target_date_str
+
 @app.route('/gocharalu')
 def gocharalu_hub():
-    return render_template('gocharalu_hub.html', transits=astrology_data.GOCHARALU_DATA, page_title='గ్రహ గోచారాలు 2026 | RAVAN ASTRO', meta_description='2026 శని, గురు, రాహు-కేతు గోచారాల తేదీలు మరియు ద్వాదశ లగ్నాలపై సాధారణ ప్రభావాలు తెలుగులో.', canonical_url='https://ravanastro.vercel.app/gocharalu')
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    dvadasha_list, current_date = get_calculated_dvadasha_transits(today_str)
+    return render_template('gocharalu_hub.html', transits=astrology_data.GOCHARALU_DATA, dvadasha_transits=dvadasha_list, current_date=current_date, page_title='గ్రహ గోచారాలు 2026 | RAVAN ASTRO', meta_description='2026 శని, గురు, రాహు-కేతు మరియు ద్వాదశ గ్రహముల లగ్న సంచారముల వివరాలు తెలుగులో.', canonical_url='https://ravanastro.vercel.app/gocharalu')
 
 def format_qna_content(raw_text):
     if "###" not in raw_text and "**జవాబు:**" not in raw_text:

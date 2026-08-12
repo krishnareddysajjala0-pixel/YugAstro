@@ -7,11 +7,64 @@
     <span style="color: var(--accent-gold);">గ్రహ గోచారాలు 2026</span>
   </div>
 
-  <h1 class="page-title">గ్రహ గోచారాలు 2026 (Planetary Transits)</h1>
+  <h1 class="page-title">గ్రహ గోచారాలు 2026 & ద్వాదశ గ్రహముల లగ్న సంచారం</h1>
   
   <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
-    గోచారం అంటే గ్రహాలు ఒక రాశి నుండి మరొక రాశికి మారడం. 2026 సంవత్సరంలో శని, గురు, రాహు-కేతువుల సంచార ఫలితాల విశ్లేషణ క్రింద ఇవ్వబడింది.
+    గోచారం అంటే గ్రహాలు ఒక లగ్నం/రాశి నుండి మరొక లగ్నానికి మారడం. త్రైత సిద్ధాంతంలో సూర్యుడు నుండి మిత్ర వరకు సమస్త 12 గ్రహాల లగ్న సంచార వివరాలు మరియు ప్రవేశ-నిష్క్రమణ సమయములు క్రింది పట్టికలో అందించబడ్డాయి.
   </p>
+
+  <!-- 12 Planets Transit Table (ద్వాదశ గ్రహముల లగ్న సంచారం) -->
+  <div style="background: rgba(15, 23, 42, 0.85); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 22px; margin-bottom: 36px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid rgba(251, 191, 36, 0.3); padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+      <h2 style="font-size: 1.3rem; color: var(--accent-gold); margin: 0; font-weight: 800;">
+        <i class="fas fa-globe-asia" style="margin-right: 8px;"></i> ద్వాదశ గ్రహముల లగ్న సంచారం
+      </h2>
+      <span style="font-size: 0.85rem; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 600;">
+        <i class="fas fa-calculator" style="margin-right: 4px;"></i> నేటి తేదీ గణన ప్రకారం ({{ current_date }})
+      </span>
+    </div>
+
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(15, 23, 42, 0.9)); color: var(--accent-gold); border-bottom: 2px solid rgba(251, 191, 36, 0.4);">
+            <th style="padding: 12px 14px; text-align: center; border-right: 1px solid rgba(255,255,255,0.08);">క్ర.సం</th>
+            <th style="padding: 12px 14px; border-right: 1px solid rgba(255,255,255,0.08);">గ్రహము</th>
+            <th style="padding: 12px 14px; border-right: 1px solid rgba(255,255,255,0.08);">లగ్నం</th>
+            <th style="padding: 12px 14px; border-right: 1px solid rgba(255,255,255,0.08);">ప్రవేశ తేది & సమయం</th>
+            <th style="padding: 12px 14px; border-right: 1px solid rgba(255,255,255,0.08);">నిష్క్రమణ తేది & సమయం</th>
+            <th style="padding: 12px 14px; text-align: center;">స్థితి</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in dvadasha_transits %}
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); {% if item.is_active %}background: rgba(16, 185, 129, 0.08);{% else %}background: rgba(15, 23, 42, 0.4);{% endif %} transition: all 0.2s ease;" onmouseover="this.style.background='rgba(251, 191, 36, 0.12)';" onmouseout="this.style.background='{% if item.is_active %}rgba(16, 185, 129, 0.08){% else %}rgba(15, 23, 42, 0.4){% endif %}';">
+            <td style="padding: 12px 14px; text-align: center; font-weight: 700; color: var(--accent-gold); border-right: 1px solid rgba(255,255,255,0.08);">{{ item.sno }}</td>
+            <td style="padding: 12px 14px; font-weight: 700; color: #ffffff; border-right: 1px solid rgba(255,255,255,0.08);">{{ item.planet }}</td>
+            <td style="padding: 12px 14px; font-weight: 700; color: #fbbf24; border-right: 1px solid rgba(255,255,255,0.08);">{{ item.lagnam }}</td>
+            <td style="padding: 12px 14px; color: #cbd5e1; border-right: 1px solid rgba(255,255,255,0.08);">{{ item.entry_str }}</td>
+            <td style="padding: 12px 14px; color: #cbd5e1; border-right: 1px solid rgba(255,255,255,0.08);">{{ item.exit_str }}</td>
+            <td style="padding: 12px 14px; text-align: center;">
+              {% if item.is_active %}
+                <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700;">
+                  <i class="fas fa-check-circle" style="margin-right: 4px;"></i> ప్రస్తుత సంచారం
+                </span>
+              {% else %}
+                <span style="font-size: 0.8rem; background: rgba(148, 163, 184, 0.15); color: #94a3b8; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.3);">
+                  సంచార వ్యవధి
+                </span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 style="font-size: 1.3rem; color: var(--accent-gold); margin-bottom: 16px; font-weight: 800;">
+    <i class="fas fa-star" style="margin-right: 8px;"></i> గ్రహ గోచార ఫలితాల విశ్లేషణ
+  </h2>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
     {% for slug, transit in transits.items() %}
@@ -25,7 +78,7 @@
 
   <div class="cta-box">
     <h3>మీ జాతకంలో ప్రస్తుత నడుస్తున్న దశ ఏమిటో తెలుసా?</h3>
-    <p>గోచార ఫలితాలతో పాటు మీ వింశోత్తరి మహాదశ మరియు అంతర్దశను  చూడండి.</p>
+    <p>గోచార ఫలితాలతో పాటు మీ వింశోత్తరి మహాదశ మరియు అంతర్దశను చూడండి.</p>
     <a href="/" class="cta-btn"><i class="fas fa-history"></i> మీ మహాదశ తనిఖీ చేయండి</a>
   </div>
 </div>
