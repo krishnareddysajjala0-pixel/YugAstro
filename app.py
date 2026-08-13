@@ -2227,30 +2227,16 @@ def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=N
     return active_match, timeline, target_display, target_date_val, target_time_val, reverse_info, future_matches
 
 
-@app.route("/marana_dasa", methods=["GET", "POST"])
+@app.route("/marana_dasa")
 def marana_dasa():
     birth_info = session.get('birth_info', {})
 
-    if request.method == "POST":
-        name = request.form.get("name", "")
-        dob = request.form.get("dob", "")
-        tob = request.form.get("tob", "")
-        place = request.form.get("place", "")
-        lat = float(request.form.get("lat", 17.3850))
-        lon = float(request.form.get("lon", 78.4867))
-        target_date_val = request.form.get("target_date", "")
-        target_time_val = request.form.get("target_time", "")
-
-        if name and dob and tob:
-            birth_info = get_kundali_data(name, dob, tob, place, lat, lon)
-            session['birth_info'] = birth_info
-
-    else:
-        target_date_val = datetime.datetime.now().strftime("%Y-%m-%d")
-        target_time_val = datetime.datetime.now().strftime("%H:%M")
-
     if not birth_info:
-        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+        # Redirect to birth form on home page if no birth chart generated yet
+        return redirect("/#birthForm")
+
+    target_date_val = datetime.datetime.now().strftime("%Y-%m-%d")
+    target_time_val = datetime.datetime.now().strftime("%H:%M")
 
     active_match, timeline, target_display, t_date, t_time, reverse_info, future_matches = get_marana_dasa_analysis(
         birth_info, target_date_val, target_time_val
@@ -2262,8 +2248,6 @@ def marana_dasa():
         active_match=active_match,
         timeline=timeline,
         target_datetime_display=target_display,
-        target_date_val=t_date,
-        target_time_val=t_time,
         reverse_info=reverse_info,
         future_matches=future_matches
     )
