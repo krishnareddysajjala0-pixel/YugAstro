@@ -327,10 +327,20 @@
       font-weight: 800;
       margin-bottom: 10px;
       letter-spacing: 1px;
+      text-align: center !important;
+      display: block !important;
+      width: 100% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      position: static !important;
     }
 
     /* Force white text for mantra in dark modes */
-    [data-theme="cosmic"] .om-title,
+    [data-theme="cosmic"] .om-title {
+      color: #ffffff;
+      -webkit-text-fill-color: #ffffff;
+    }
+
     /* Action buttons */
     .action-buttons {
       position: fixed;
