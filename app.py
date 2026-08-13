@@ -2012,12 +2012,77 @@ def get_dasha_info(birth_info):
         "current_anthara": current_anthara_name
     }
 
+def find_future_moon_transit_dates(target_lon, start_dt, num_matches=12):
+    """
+    Finds exact future dates/times when the transiting Moon hits target_lon.
+    """
+    matches = []
+    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL
+    
+    # Convert start_dt (local) to UTC for julday calculation
+    try:
+        local_tz = pytz.timezone('Asia/Kolkata')
+        dt_utc = start_dt.astimezone(pytz.utc)
+    except Exception:
+        dt_utc = start_dt
+
+    jd_start = swe.julday(dt_utc.year, dt_utc.month, dt_utc.day,
+                          dt_utc.hour + dt_utc.minute/60.0 + dt_utc.second/3600.0)
+    
+    curr_jd = jd_start
+    
+    for idx in range(num_matches):
+        for iteration in range(20):
+            m_info = swe.calc_ut(curr_jd, swe.MOON, flags)
+            moon_lon = m_info[0][0]
+            speed = m_info[0][3] if len(m_info[0]) > 3 and m_info[0][3] > 0 else 13.176
+            
+            diff = (target_lon - moon_lon) % 360.0
+            if diff > 180: diff -= 360.0
+            
+            if abs(diff) < 0.00001:
+                break
+                
+            curr_jd += diff / speed
+            
+        y, m, d, h_dec = swe.revjul(curr_jd)
+        h = int(h_dec)
+        m_mins = (h_dec - h) * 60.0
+        mn = int(m_mins)
+        sec = int((m_mins - mn) * 60.0)
+        
+        match_dt_utc = datetime.datetime(y, m, d, h, mn, sec, tzinfo=pytz.utc)
+        match_dt_local = match_dt_utc.astimezone(pytz.timezone('Asia/Kolkata'))
+        
+        nak_idx = int(target_lon / 13.333333333333334)
+        deg_rem = target_lon - (nak_idx * 13.333333333333334)
+        padam = int(deg_rem / 3.3333333333333335) + 1
+        
+        deg = int(target_lon % 30)
+        min_arc = int(((target_lon % 30) - deg) * 60)
+        
+        matches.append({
+            'sno': idx + 1,
+            'dt_str': match_dt_local.strftime("%d-%m-%Y %H:%M:%S"),
+            'date_str': match_dt_local.strftime("%d-%m-%Y"),
+            'time_str': match_dt_local.strftime("%H:%M:%S"),
+            'moon_lon_str': f"{deg}°{min_arc:02d}′",
+            'nakshatra': NAKSHATRAS_TELUGU[nak_idx],
+            'padam': padam
+        })
+        
+        curr_jd += 25.0
+        
+    return matches
+
+
 def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=None):
     """
-    Computes exact Dasa & Bhukti timeline for Marana Dasa and Next Birth Continuity.
+    Computes exact Dasa & Bhukti timeline for Marana Dasa, Reverse Engineering Moon Longitude,
+    and calculates Future Matching Dates & Times when Moon transits that exact degree.
     """
     if not birth_info:
-        return None, [], "", "", ""
+        return None, [], "", "", "", {}, []
 
     dob = birth_info.get('dob', '')
     tob = birth_info.get('tob', '')
@@ -2069,6 +2134,10 @@ def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=N
     timeline = []
     active_match = None
 
+    active_m_idx = 0
+    active_b_idx = 0
+    active_el_fraction = 0.0
+
     for i in range(12):
         m_idx = (dasa_idx + i) % 12
         m_name = DASA_ORDER[m_idx]
@@ -2111,10 +2180,51 @@ def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=N
                 item['rem_str'] = f"{rem_days} రోజులు {rem_hrs} గంటలు {rem_mins} నిమిషాలు"
                 active_match = item
 
+                active_m_idx = m_idx
+                active_b_idx = b_idx
+                active_el_fraction = (elapsed.total_seconds() / (b_duration_days * 86400.0))
+
             timeline.append(item)
             curr_dt = end_dt
 
-    return active_match, timeline, target_display, target_date_val, target_time_val
+    # ===== REVERSE ENGINEERING MOON LONGITUDE =====
+    if active_match:
+        m_base_lon = active_m_idx * 30.0
+        m_years = DASA_YEARS.get(DASA_ORDER[active_m_idx], 10)
+
+        b_start_frac = 0.0
+        for j in range(12):
+            curr_b = (active_m_idx + j) % 12
+            if curr_b == active_b_idx:
+                break
+            b_start_frac += DASA_YEARS.get(DASA_ORDER[curr_b], 10) / 120.0
+
+        b_span_frac = DASA_YEARS.get(DASA_ORDER[active_b_idx], 10) / 120.0
+        total_m_frac = (b_start_frac + active_el_fraction * b_span_frac) / (m_years / 120.0)
+
+        rev_target_lon = (m_base_lon + total_m_frac * 30.0) % 360.0
+    else:
+        rev_target_lon = moon_lon
+
+    rev_nak_idx = int(rev_target_lon / 13.333333333333334)
+    rev_rem_deg = rev_target_lon - (rev_nak_idx * 13.333333333333334)
+    rev_padam = int(rev_rem_deg / 3.3333333333333335) + 1
+
+    deg = int(rev_target_lon % 30)
+    min_arc = int(((rev_target_lon % 30) - deg) * 60)
+
+    reverse_info = {
+        'target_lon': round(rev_target_lon, 4),
+        'nakshatra': NAKSHATRAS_TELUGU[rev_nak_idx],
+        'padam': rev_padam,
+        'degree_str': f"{deg}°{min_arc:02d}′",
+        'rasi': LAGNA_NAMES_TELUGU[int(rev_target_lon / 30)]
+    }
+
+    # ===== CALCULATE FUTURE MATCHING DATES =====
+    future_matches = find_future_moon_transit_dates(rev_target_lon, target_dt, 12)
+
+    return active_match, timeline, target_display, target_date_val, target_time_val, reverse_info, future_matches
 
 
 @app.route("/marana_dasa", methods=["GET", "POST"])
@@ -2142,7 +2252,7 @@ def marana_dasa():
     if not birth_info:
         birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
 
-    active_match, timeline, target_display, t_date, t_time = get_marana_dasa_analysis(
+    active_match, timeline, target_display, t_date, t_time, reverse_info, future_matches = get_marana_dasa_analysis(
         birth_info, target_date_val, target_time_val
     )
 
@@ -2153,7 +2263,9 @@ def marana_dasa():
         timeline=timeline,
         target_datetime_display=target_display,
         target_date_val=t_date,
-        target_time_val=t_time
+        target_time_val=t_time,
+        reverse_info=reverse_info,
+        future_matches=future_matches
     )
 
 @app.route("/chart2", methods=["GET", "POST"])

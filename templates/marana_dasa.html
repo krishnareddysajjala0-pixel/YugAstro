@@ -139,6 +139,79 @@
   </div>
   {% endif %}
 
+  <!-- Reverse Engineered Nakshatra & Degree Card -->
+  {% if reverse_info %}
+  <div style="background: linear-gradient(135deg, rgba(88, 28, 135, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%); border: 2px solid #a855f7; border-radius: 18px; padding: 24px; margin-bottom: 32px; box-shadow: 0 10px 35px rgba(168, 85, 247, 0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <span style="font-size: 1.1rem; font-weight: 800; color: #e9d5ff;"><i class="fas fa-microscope"></i> రివర్స్ ఇంజనీరింగ్ ద్వారా కనుగొన్న నక్షత్రము & డిగ్రీలు (Reverse Engineered Position)</span>
+      <span style="background: rgba(168, 85, 247, 0.2); color: #f0abfc; font-weight: 700; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(240, 171, 252, 0.4); font-size: 0.85rem;">
+        చంద్ర రేఖాంశం: {{ reverse_info.target_lon }}°
+      </span>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; text-align: center;">
+      <div style="background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 0.8rem; color: #d8b4fe; font-weight: 600;">నక్షత్రము & పాదము</div>
+        <div style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin-top: 4px;">{{ reverse_info.nakshatra }} ({{ reverse_info.padam }} వ పాదం)</div>
+      </div>
+      <div style="background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 0.8rem; color: #d8b4fe; font-weight: 600;">రాశి & డిగ్రీలు (Degree/Minute)</div>
+        <div style="font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-top: 4px;">{{ reverse_info.rasi }} ({{ reverse_info.degree_str }})</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Calculated Future Matching Dates Table -->
+  {% if future_matches %}
+  <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 2px solid #10b981; border-radius: 18px; padding: 24px; margin-bottom: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+      <div>
+        <div style="font-size: 0.85rem; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.5px;">
+          <i class="fas fa-calendar-alt"></i> భవిష్యత్ గ్రహ సంచార శోధన (Future Transit Matches)
+        </div>
+        <h3 style="font-size: 1.35rem; color: #ffffff; font-weight: 800; margin-top: 4px;">
+          ఈ నక్షత్రము & డిగ్రీలు మ్యాచ్ అయ్యే భవిష్యత్ తేది & సమయాలు
+        </h3>
+      </div>
+      <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700; padding: 6px 16px; border-radius: 20px; border: 1px solid #10b981; font-size: 0.88rem;">
+        మొత్తం: {{ future_matches|length }} భవిష్యత్ మ్యాచులు
+      </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 0.92rem;">
+        <thead>
+          <tr style="background: rgba(16, 185, 129, 0.25); color: #34d399; border-bottom: 2px solid #10b981;">
+            <th style="padding: 12px 8px;">క్ర.సం</th>
+            <th style="padding: 12px 8px;">భవిష్యత్ తేది & సమయం (Future Date & Time)</th>
+            <th style="padding: 12px 8px;">చంద్రుని రేఖాంశం (Degree)</th>
+            <th style="padding: 12px 8px;">నక్షత్రము & పాదము</th>
+            <th style="padding: 12px 8px;">దశా మ్యాచ్ స్థితి</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for match in future_matches %}
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); {% if loop.index % 2 == 0 %}background: rgba(255,255,255,0.02);{% endif %}">
+            <td style="padding: 12px 8px; color: var(--text-muted); font-weight: 700;">{{ match.sno }}</td>
+            <td style="padding: 12px 8px; font-weight: 800; color: #fbbf24; font-size: 1.05rem;">
+              <i class="far fa-clock" style="margin-right: 6px; color: #34d399;"></i> {{ match.dt_str }}
+            </td>
+            <td style="padding: 12px 8px; color: #ffffff; font-weight: 700;">{{ match.moon_lon_str }}</td>
+            <td style="padding: 12px 8px; color: #cbd5e1; font-weight: 600;">{{ match.nakshatra }} ({{ match.padam }} వ పాదం)</td>
+            <td style="padding: 12px 8px;">
+              <span style="background: #10b981; color: #020617; font-weight: 800; font-size: 0.8rem; padding: 4px 14px; border-radius: 14px;">
+                100% Exact Match
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Full Lifetime Dasa Matching Table -->
   {% if timeline %}
   <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15)); border-radius: 18px; padding: 24px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
