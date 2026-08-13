@@ -1,0 +1,194 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+<div class="container" style="max-width: 1100px; margin: 30px auto; padding: 0 16px;">
+
+  <!-- Main Title Header -->
+  <div style="text-align: center; margin-bottom: 28px;">
+    <div style="font-size: 0.9rem; font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.15); display: inline-block; padding: 4px 18px; border-radius: 20px; border: 1px solid rgba(251, 191, 36, 0.3); margin-bottom: 10px;">
+      <i class="fas fa-dharmachakra"></i> త్రైత సిద్ధాంత దశా సిద్ధాంతము
+    </div>
+    <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+      మరణ కాల దశా విశ్లేషణ
+    </h1>
+    <p style="font-size: 1.05rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+      ఒక జీవి ఏ మహాగ్రహ దశ - భుక్తి లో ఎంత సమయం గడిచాక మరణిస్తాడో, అతని మరుసటి జన్మ (పునర్జన్మ) సరిగ్గా అదే దశ-భుక్తి స్థానం నుంచే ప్రారంభమవుతుంది.
+    </p>
+  </div>
+
+  <!-- Author Tribute Quote Box -->
+  <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 20px 24px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);">
+    <div style="font-size: 0.85rem; color: #fbbf24; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">
+      <i class="fas fa-quote-left"></i> త్రైత సిద్ధాంత భగవత్ సూత్రం
+    </div>
+    <div style="font-size: 1.05rem; color: #ffffff; font-weight: 700; line-height: 1.7;">
+      "మరణ సమయానికి ఏ దశా-భుక్తిలో ఎంత కాలం గడిచిందో... మరుసటి జన్మలో అదే దశా-భుక్తి గడిచిన కాలం నుంచే నూతన జన్మ ప్రారంభమవుతుంది."
+    </div>
+    <div style="font-size: 0.88rem; color: #cbd5e1; margin-top: 8px; font-weight: 600;">
+      — జ్యోతిష్య శాస్త్రము గ్రంథకర్త: శ్రీశ్రీశ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరులు
+    </div>
+  </div>
+
+  <!-- Form Section: Birth Details + Target Date/Time -->
+  <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15)); border-radius: 18px; padding: 26px; margin-bottom: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <h3 style="font-size: 1.25rem; color: #fbbf24; font-weight: 800; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+      <i class="fas fa-user-clock"></i> వివరములు ఎంచుకోండి (Birth & Target Death Date Selection)
+    </h3>
+
+    <form action="/marana_dasa" method="POST">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        
+        <div>
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">పేరు (Full Name):</label>
+          <input type="text" name="name" value="{{ birth_info.get('name', '') }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-weight: 600;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">జన్మ తేది (DOB):</label>
+          <input type="date" name="dob" value="{{ birth_info.get('dob', '') }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-weight: 600;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">జన్మ సమయం (TOB):</label>
+          <input type="time" name="tob" value="{{ birth_info.get('tob', '') }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-weight: 600;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">జన్మ స్థలము (Place):</label>
+          <input type="text" name="place" value="{{ birth_info.get('place', '') }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-weight: 600;">
+          <input type="hidden" name="lat" value="{{ birth_info.get('lat', '17.3850') }}">
+          <input type="hidden" name="lon" value="{{ birth_info.get('lon', '78.4867') }}">
+        </div>
+
+        <!-- Target Future / Death Date & Time -->
+        <div style="grid-column: 1 / -1; background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 14px; padding: 16px; margin-top: 10px;">
+          <label style="display: block; font-size: 1rem; font-weight: 800; color: #fbbf24; margin-bottom: 8px;">
+            <i class="fas fa-calendar-check"></i> మరణ లేదా భవిష్యత్ తేది & సమయం (Target Future / Death Date & Time):
+          </label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">తేది (Target Date):</span>
+              <input type="date" name="target_date" value="{{ target_date_val }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #fbbf24; background: var(--input-bg); color: var(--text-main); font-weight: 700; margin-top: 4px;">
+            </div>
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">సమయం (Target Time):</span>
+              <input type="time" name="target_time" value="{{ target_time_val }}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #fbbf24; background: var(--input-bg); color: var(--text-main); font-weight: 700; margin-top: 4px;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align: center; margin-top: 10px;">
+        <button type="submit" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; font-size: 1.05rem; padding: 14px 36px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35); transition: transform 0.2s ease;">
+          <i class="fas fa-calculator"></i> మరణ దశా విశ్లేషణ చేయండి
+        </button>
+      </div>
+    </form>
+  </div>
+
+  {% if active_match %}
+  <!-- Main Result Showcase Cards -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 36px;">
+    
+    <!-- Card 1: Active Dasa Match at Death Time -->
+    <div style="background: rgba(15, 23, 42, 0.95); border: 2px solid #3b82f6; border-radius: 16px; padding: 22px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+      <div style="font-size: 0.85rem; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+        <i class="fas fa-hourglass-half"></i> మరణ సమయ దశా విశ్లేషణ
+      </div>
+      <h3 style="font-size: 1.5rem; color: #ffffff; font-weight: 800; margin-bottom: 12px;">
+        {{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి
+      </h3>
+      <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
+        <div><strong>ప్రారంభం:</strong> {{ active_match.start_dt_str }}</div>
+        <div><strong>ముగింపు:</strong> {{ active_match.end_dt_str }}</div>
+        <div><strong>మొత్తం నిడివి:</strong> {{ active_match.duration_days }} రోజులు</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Elapsed Time in Dasa -->
+    <div style="background: rgba(15, 23, 42, 0.95); border: 2px solid #10b981; border-radius: 16px; padding: 22px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+      <div style="font-size: 0.85rem; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+        <i class="fas fa-history"></i> దశా భుక్తిలో గడిచిన కాలం (Elapsed)
+      </div>
+      <h3 style="font-size: 1.4rem; color: #34d399; font-weight: 800; margin-bottom: 12px;">
+        {{ active_match.elapsed_str }}
+      </h3>
+      <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
+        <div><strong>మిగిలిన శేషం:</strong> {{ active_match.rem_str }}</div>
+        <div><strong>ఎంచుకున్న మరణ సమయం:</strong> {{ target_datetime_display }}</div>
+      </div>
+    </div>
+
+    <!-- Card 3: Next Birth Continuity Prediction -->
+    <div style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(120, 53, 15, 0.9) 0%, rgba(30, 10, 0, 0.95) 100%); border: 2px solid #fbbf24; border-radius: 18px; padding: 24px; text-align: center; box-shadow: 0 10px 35px rgba(251, 191, 36, 0.3);">
+      <div style="font-size: 0.9rem; font-weight: 800; color: #fbbf24; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;">
+        <i class="fas fa-infinity"></i> త్రైత సిద్ధాంతము — మరుసటి జన్మ (పునర్జన్మ) ప్రారంభ స్థానము
+      </div>
+      <h2 style="font-size: 1.65rem; color: #ffffff; font-weight: 800; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.6);">
+        పునర్జన్మ ప్రారంభ దశ: {{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి
+      </h2>
+      <div style="font-size: 1.2rem; color: #fbbf24; font-weight: 700; margin-bottom: 12px; background: rgba(0,0,0,0.4); display: inline-block; padding: 8px 24px; border-radius: 30px; border: 1px solid rgba(251, 191, 36, 0.4);">
+        ప్రారంభ శేషం: {{ active_match.elapsed_str }} పూర్తయిన స్థానం నుండి
+      </div>
+      <p style="font-size: 0.96rem; color: #fef3c7; max-width: 850px; margin: 12px auto 0 auto; line-height: 1.6;">
+        ఈ జీవి ఎంచుకున్న మరణ సమయానికి <strong>{{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి</strong> లో <strong>{{ active_match.elapsed_str }}</strong> పూర్తయినందున, త్రైత సిద్ధాంతము ప్రకారం ఇతని మరుసటి జన్మ సరిగ్గా ఇదే దశ-భుక్తి మరియు ఈ శేష సమయం నుంచే నూతనంగా ప్రారంభమవుతుంది.
+      </p>
+    </div>
+
+  </div>
+  {% endif %}
+
+  <!-- Full Lifetime Dasa Matching Table -->
+  {% if timeline %}
+  <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15)); border-radius: 18px; padding: 24px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+      <h3 style="font-size: 1.3rem; color: #fbbf24; font-weight: 800;">
+        <i class="fas fa-list-ol"></i> జీవితకాల సమగ్ర భవిష్యత్ దశా-భుక్తి పట్టిక (120 Years Dasa Timeline)
+      </h3>
+      <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">
+        మొత్తం: 144 భుక్తులు | <span style="color: #10b981; font-weight: 700;">🟢 ఎంచుకున్న మరణ సమయ మ్యాచ్</span>
+      </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem;">
+        <thead>
+          <tr style="background: rgba(30, 41, 59, 0.9); color: #fbbf24; border-bottom: 2px solid rgba(251, 191, 36, 0.3);">
+            <th style="padding: 12px 8px;">క్ర.సం</th>
+            <th style="padding: 12px 8px;">మహాగ్రహ దశ</th>
+            <th style="padding: 12px 8px;">అంతర్దశ (భుక్తి)</th>
+            <th style="padding: 12px 8px;">ప్రారంభ తేది & సమయం</th>
+            <th style="padding: 12px 8px;">ముగింపు తేది & సమయం</th>
+            <th style="padding: 12px 8px;">మొత్తం రోజులు</th>
+            <th style="padding: 12px 8px;">స్థితి (Status)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in timeline %}
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); {% if item.is_active %}background: rgba(16, 185, 129, 0.22); font-weight: 700;{% else %}{% if loop.index % 2 == 0 %}background: rgba(255,255,255,0.02);{% endif %}{% endif %}">
+            <td style="padding: 10px 8px; color: var(--text-muted);">{{ item.sno }}</td>
+            <td style="padding: 10px 8px; font-weight: 700; color: #ffffff;">{{ item.mahadasha }}</td>
+            <td style="padding: 10px 8px; font-weight: 700; color: #fbbf24;">{{ item.bhukti }}</td>
+            <td style="padding: 10px 8px; color: #cbd5e1;">{{ item.start_dt_str }}</td>
+            <td style="padding: 10px 8px; color: #cbd5e1;">{{ item.end_dt_str }}</td>
+            <td style="padding: 10px 8px; color: var(--text-muted);">{{ item.duration_days }}</td>
+            <td style="padding: 10px 8px;">
+              {% if item.is_active %}
+                <span style="background: #10b981; color: #020617; font-weight: 800; font-size: 0.78rem; padding: 4px 12px; border-radius: 14px;">
+                  🟢 మరణ దశా మ్యాచ్
+                </span>
+              {% else %}
+                <span style="font-size: 0.8rem; color: #64748b;">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

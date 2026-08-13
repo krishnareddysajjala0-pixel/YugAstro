@@ -2012,6 +2012,150 @@ def get_dasha_info(birth_info):
         "current_anthara": current_anthara_name
     }
 
+def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=None):
+    """
+    Computes exact Dasa & Bhukti timeline for Marana Dasa and Next Birth Continuity.
+    """
+    if not birth_info:
+        return None, [], "", "", ""
+
+    dob = birth_info.get('dob', '')
+    tob = birth_info.get('tob', '')
+    moon_lon = birth_info.get('moon_lon', 0.0)
+    nak_index = birth_info.get('nak_index', 0)
+    padam = birth_info.get('padam', 1)
+
+    try:
+        birth_dt = datetime.datetime.strptime(f"{dob} {tob}", "%Y-%m-%d %H:%M")
+    except Exception:
+        try:
+            birth_dt = datetime.datetime.strptime(f"{dob} {tob}", "%d-%m-%Y %H:%M")
+        except Exception:
+            birth_dt = datetime.datetime.now()
+
+    if not target_date_str or not target_time_str:
+        target_dt = datetime.datetime.now()
+        target_date_val = target_dt.strftime("%Y-%m-%d")
+        target_time_val = target_dt.strftime("%H:%M")
+    else:
+        try:
+            target_dt = datetime.datetime.strptime(f"{target_date_str} {target_time_str}", "%Y-%m-%d %H:%M")
+        except Exception:
+            try:
+                target_dt = datetime.datetime.strptime(f"{target_date_str} {target_time_str}", "%d-%m-%Y %H:%M")
+            except Exception:
+                target_dt = datetime.datetime.now()
+        target_date_val = target_dt.strftime("%Y-%m-%d")
+        target_time_val = target_dt.strftime("%H:%M")
+
+    target_display = target_dt.strftime("%d-%m-%Y %H:%M:%S")
+
+    global_pada = nak_index * 4 + padam
+    if global_pada == 0: global_pada = 108
+    while global_pada > 108: global_pada -= 108
+
+    dasa_idx = ((global_pada - 1) // PADAS_PER_DASA) % 12
+    start_dasa_name = DASA_ORDER[dasa_idx]
+
+    nak_size = 13.333333333333334
+    rem_deg = moon_lon - (nak_index * nak_size)
+    padas_in_dasa = (nak_index * 4) % 9
+    frac_dasa_spent = (padas_in_dasa + (rem_deg / (nak_size / 4.0))) / 9.0
+
+    first_dasa_years = DASA_YEARS.get(start_dasa_name, 10)
+    spent_days = frac_dasa_spent * first_dasa_years * 365.2425
+
+    curr_dt = birth_dt - datetime.timedelta(days=spent_days)
+    timeline = []
+    active_match = None
+
+    for i in range(12):
+        m_idx = (dasa_idx + i) % 12
+        m_name = DASA_ORDER[m_idx]
+        m_years = DASA_YEARS.get(m_name, 10)
+
+        for j in range(12):
+            b_idx = (m_idx + j) % 12
+            b_name = DASA_ORDER[b_idx]
+            b_years = DASA_YEARS.get(b_name, 10)
+
+            b_duration_days = (m_years * b_years / 120.0) * 365.2425
+            start_dt = curr_dt
+            end_dt = curr_dt + datetime.timedelta(days=b_duration_days)
+
+            is_active = (start_dt <= target_dt <= end_dt)
+
+            item = {
+                'sno': len(timeline) + 1,
+                'mahadasha': m_name,
+                'bhukti': b_name,
+                'start_dt_str': start_dt.strftime("%d-%m-%Y %H:%M:%S"),
+                'end_dt_str': end_dt.strftime("%d-%m-%Y %H:%M:%S"),
+                'duration_days': round(b_duration_days, 1),
+                'is_active': is_active
+            }
+
+            if is_active:
+                elapsed = target_dt - start_dt
+                remaining = end_dt - target_dt
+
+                el_days = elapsed.days
+                el_hrs = elapsed.seconds // 3600
+                el_mins = (elapsed.seconds % 3600) // 60
+
+                rem_days = remaining.days
+                rem_hrs = remaining.seconds // 3600
+                rem_mins = (remaining.seconds % 3600) // 60
+
+                item['elapsed_str'] = f"{el_days} రోజులు {el_hrs} గంటలు {el_mins} నిమిషాలు"
+                item['rem_str'] = f"{rem_days} రోజులు {rem_hrs} గంటలు {rem_mins} నిమిషాలు"
+                active_match = item
+
+            timeline.append(item)
+            curr_dt = end_dt
+
+    return active_match, timeline, target_display, target_date_val, target_time_val
+
+
+@app.route("/marana_dasa", methods=["GET", "POST"])
+def marana_dasa():
+    birth_info = session.get('birth_info', {})
+
+    if request.method == "POST":
+        name = request.form.get("name", "")
+        dob = request.form.get("dob", "")
+        tob = request.form.get("tob", "")
+        place = request.form.get("place", "")
+        lat = float(request.form.get("lat", 17.3850))
+        lon = float(request.form.get("lon", 78.4867))
+        target_date_val = request.form.get("target_date", "")
+        target_time_val = request.form.get("target_time", "")
+
+        if name and dob and tob:
+            birth_info = get_kundali_data(name, dob, tob, place, lat, lon)
+            session['birth_info'] = birth_info
+
+    else:
+        target_date_val = datetime.datetime.now().strftime("%Y-%m-%d")
+        target_time_val = datetime.datetime.now().strftime("%H:%M")
+
+    if not birth_info:
+        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+
+    active_match, timeline, target_display, t_date, t_time = get_marana_dasa_analysis(
+        birth_info, target_date_val, target_time_val
+    )
+
+    return render_template(
+        "marana_dasa.html",
+        birth_info=birth_info,
+        active_match=active_match,
+        timeline=timeline,
+        target_datetime_display=target_display,
+        target_date_val=t_date,
+        target_time_val=t_time
+    )
+
 @app.route("/chart2", methods=["GET", "POST"])
 def chart2():
     birth_info = session.get('birth_info', {})
