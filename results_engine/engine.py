@@ -1,42 +1,59 @@
 # -*- coding: utf-8 -*-
 """
 Core Evaluation Engine for YugAstro Results Engine.
-Matches normalized chart context against rule sources, reconciles contradictions,
-deduplicates statements, and computes category scores and explainable reasons.
+Implements the 13-Step Pipeline: Rule database cleanup, Topic Mapping,
+Duplicate Removal, Positive/Negative Synthesis, Scoring, Dasha, Antardasha,
+Transit, Yoga Engine, and Safety Filter.
 """
 
 from typing import Dict, List, Any, Optional
 from .context import NormalizedChartContext
 from .rule_loader import RuleLoader
+from .rule_cleaner import RuleCleaner
+from .topic_rules import TopicMapper
 from .scoring import CategoryScorer, WEIGHTS
 from .categories import CATEGORIES, HOUSE_CATEGORY_MAP
+from .dasha_interpreter import DashaInterpreter
+from .transit_interpreter import TransitInterpreter
+from .yoga_engine import YogaEngine
+from .safety_filter import SafetyFilter
 
 class ResultsEngine:
     def __init__(self, rule_loader: Optional[RuleLoader] = None):
         self.rule_loader = rule_loader or RuleLoader.get_instance()
-        self.bhava_lord_rules = self.rule_loader.get_bhava_lord_rules()
+        raw_matrix = self.rule_loader.get_bhava_lord_rules()
+        # STEP 1: Rule Database Cleanup
+        self.bhava_lord_rules = RuleCleaner.clean_bhava_lord_matrix(raw_matrix)
         self.detailed_meanings = self.rule_loader.get_detailed_bhava_meanings()
         self.astro_constants = self.rule_loader.get_astro_constants()
+        self.yoga_engine = YogaEngine(self.rule_loader)
 
     def evaluate(self, context: NormalizedChartContext) -> Dict[str, Any]:
         scorers: Dict[str, CategoryScorer] = {cat: CategoryScorer(cat) for cat in CATEGORIES}
 
-        # 1. Evaluate 12 House Lord Placements (12x12 Matrix)
+        # STEP 2: Rule -> Topic Mapping & Evaluation
         self._evaluate_house_lord_placements(context, scorers)
-
-        # 2. Evaluate Detailed Bhava Meanings
         self._evaluate_detailed_bhava_meanings(context, scorers)
 
-        # 3. Evaluate Current Dasa & Antardasha
-        self._evaluate_dasa_support(context, scorers)
+        # STEP 6 & STEP 7: Dasha & Antardasha Interpretation
+        self._evaluate_dasa_and_antardasha(context, scorers)
 
-        # 4. Evaluate Transits
+        # STEP 8: Transit Interpretation
         self._evaluate_transits(context, scorers)
 
-        # 5. Evaluate Special Extracted Rules
-        self._evaluate_extracted_rules(context, scorers)
+        # STEP 9: Yoga Engine Evaluation
+        yogas = self.yoga_engine.evaluate_yogas(context)
+        for y in yogas:
+            reason = {
+                "rule_id": y["rule_id"],
+                "source": y["source"],
+                "type": "shubha",
+                "text": y["text"],
+                "explanation": y["explanation"]
+            }
+            scorers["ముఖ్య యోగాలు"].add_reason(reason, 3)
 
-        # Aggregate Results
+        # STEP 3, 4, 5, 10: Deduplication, Synthesis, Scoring, Safety Filter
         evaluated_categories = {}
         rule_count = 0
         positive_count = 0
@@ -45,12 +62,15 @@ class ResultsEngine:
 
         for cat_name, scorer in scorers.items():
             res = scorer.get_summary()
-            
-            # Reconcile contradictions and deduplicate statements for user output
+
+            # STEP 3 & STEP 4: Deduplicate and Synthesize Telugu summary
             res["user_summary"] = self._build_user_summary(res)
-            
+
+            # STEP 10: Safety Filter Application
+            res["user_summary"] = SafetyFilter.sanitize_text(res["user_summary"])
+
             evaluated_categories[cat_name] = res
-            
+
             cat_rules = len(res["all_reasons"])
             rule_count += cat_rules
             if res["score"] >= 2:
@@ -62,6 +82,7 @@ class ResultsEngine:
 
         return {
             "categories": evaluated_categories,
+            "yogas": yogas,
             "meta": {
                 "rule_count": rule_count,
                 "positive_count": positive_count,
@@ -74,15 +95,14 @@ class ResultsEngine:
         for h_num in range(1, 13):
             p_house = context.lord_placements.get(h_num, 1)
             lord_planet = context.house_lords.get(h_num, "సూర్యుడు")
-            categories = HOUSE_CATEGORY_MAP.get(h_num, ["వ్యక్తిత్వం"])
+            categories = TopicMapper.get_categories_for_house(h_num)
 
             rule_entry = self.bhava_lord_rules.get(str(h_num), {}).get(str(p_house), {})
-            shubha_text = rule_entry.get("shubha", "").strip() if isinstance(rule_entry, dict) else ""
-            paapa_text = rule_entry.get("paapa", "").strip() if isinstance(rule_entry, dict) else ""
+            shubha_text = rule_entry.get("shubha", "")
+            paapa_text = rule_entry.get("paapa", "")
 
             is_favorable = context.is_favorable_planet(lord_planet)
 
-            # Rule match: Shubha
             if shubha_text:
                 weight = WEIGHTS['BHAVA_LORD_SHUBHA'] if is_favorable else 1
                 reason = {
@@ -98,7 +118,6 @@ class ResultsEngine:
                 for cat in categories:
                     scorers[cat].add_reason(reason, weight)
 
-            # Rule match: Paapa
             if paapa_text:
                 weight = WEIGHTS['BHAVA_LORD_PAAPA'] if not is_favorable else -1
                 reason = {
@@ -120,7 +139,7 @@ class ResultsEngine:
             if not meaning_entry:
                 continue
 
-            categories = HOUSE_CATEGORY_MAP.get(h_num, ["వ్యక్తిత్వం"])
+            categories = TopicMapper.get_categories_for_house(h_num)
             title = meaning_entry.get("title", f"{h_num}వ భావం")
             shubha_text = meaning_entry.get("shubha", "").strip()
             paapa_text = meaning_entry.get("paapa", "").strip()
@@ -151,66 +170,30 @@ class ResultsEngine:
                 for cat in categories:
                     scorers[cat].add_reason(reason, WEIGHTS['BHAVA_MEANING_PAAPA'])
 
-    def _evaluate_dasa_support(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
-        current_dasa = context.current_dasa
-        if not current_dasa:
-            return
-
-        is_fav = context.dasa_favorable
-        weight = WEIGHTS['DASHA_FAVORABLE'] if is_fav else WEIGHTS['DASHA_UNFAVORABLE']
-
-        dasa_reason = {
-            "rule_id": f"CURRENT_DASHA_{current_dasa}",
-            "source": "yugastro_dasa_engine",
-            "dasa": current_dasa,
-            "type": "shubha" if is_fav else "paapa",
-            "text": f"ప్రస్తుతం జరుగుతున్న {current_dasa} మహాగ్రహ దశ లగ్నమునకు {'అనుకూలమైనది' if is_fav else 'పరీక్షా సమయం/ప్రతికూలమైనది'}.",
-            "explanation": f"త్రైత వర్గ సిద్ధాంతం ప్రకారం {current_dasa} దశ లగ్నమునకు {'యోగకారకముగా ఉంది' if is_fav else 'పరిమితులతో పనిచేస్తుంది'}."
-        }
-
+    def _evaluate_dasa_and_antardasha(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
+        dasa_reason = DashaInterpreter.interpret_mahadasha(context)
+        weight = WEIGHTS['DASHA_FAVORABLE'] if dasa_reason.get("is_favorable") else WEIGHTS['DASHA_UNFAVORABLE']
         scorers["ప్రస్తుత దశ"].add_reason(dasa_reason, weight)
 
-        if context.current_anthara:
-            anthara_reason = {
-                "rule_id": f"CURRENT_ANTHARA_{context.current_anthara}",
-                "source": "yugastro_dasa_engine",
-                "anthara": context.current_anthara,
-                "type": "shubha" if is_fav else "paapa",
-                "text": f"ప్రస్తుత అంతర్దశ (భుక్తి): {context.current_anthara}",
-                "explanation": f"ప్రస్తుతం నడుస్తున్న అంతర్దశ {context.current_anthara}."
-            }
-            scorers["అంతర్దశ"].add_reason(anthara_reason, 1 if is_fav else -1)
+        anthara_reason = DashaInterpreter.interpret_antardasha(context)
+        weight_a = 1 if anthara_reason.get("is_favorable") else -1
+        scorers["అంతర్దశ"].add_reason(anthara_reason, weight_a)
 
     def _evaluate_transits(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
-        transit_reason = {
-            "rule_id": "GOCHARAM_2026_SATURN_JUPITER",
-            "source": "yugastro_transit_engine",
-            "type": "shubha" if context.is_guru_party_lagna else "paapa",
-            "text": f"2026 శని మరియు గురు గోచార ఫలితాలు లగ్నాధిపతి వర్గము ({'గురు వర్గం' if context.is_guru_party_lagna else 'శని వర్గం'}) ఆధారంగా విశ్లేషించబడ్డాయి.",
-            "explanation": f"త్రైత సిద్ధాంత గోచార నియమాల ప్రకారం సరి లగ్నాలకు అనుకూల ఫలితాలు, బేసి లగ్నాలకు పరీక్షా సమయం."
-        }
-        scorers["గోచారం"].add_reason(transit_reason, 2 if context.is_guru_party_lagna else -1)
-
-    def _evaluate_extracted_rules(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
-        # Lagna lord impact rule from extracted_rules.txt
-        lagna_lord = context.house_lords.get(1, "సూర్యుడు")
-        lagna_lord_house = context.lord_placements.get(1, 1)
-
-        rule_reason = {
-            "rule_id": "EXTRACTED_LAGNA_LORD_PLACEMENT",
-            "source": "extracted_rules.txt",
-            "text": f"లగ్నాధిపతి ({lagna_lord}) {lagna_lord_house}వ భావంలో స్థితి పొందడం ద్వారా ఆ భావ కారకత్వాలు వ్యక్తిత్వంతో అనుసంధానించబడతాయి.",
-            "explanation": "లగ్నంలో ఏ భావాధిపతి ఉంటే లేదా లగ్నాధిపతి ఏ భావంలో ఉంటే, ఆ భావకారకత్వంతో లగ్న భావం ప్రభావితమవుతుంది."
-        }
-        scorers["వ్యక్తిత్వం"].add_reason(rule_reason, 1)
+        transit_reasons = TransitInterpreter.interpret_transits(context)
+        for tr_r in transit_reasons:
+            w = 2 if tr_r.get("type") == "shubha" else -1
+            scorers["గోచారం"].add_reason(tr_r, w)
 
     def _build_user_summary(self, category_summary: Dict[str, Any]) -> str:
         pos_reasons = category_summary.get("positive_reasons", [])
         neg_reasons = category_summary.get("negative_reasons", [])
 
+        # STEP 3: Deduplicate identical statements
         pos_texts = list(dict.fromkeys([r.get("text", "") for r in pos_reasons if r.get("text")]))
         neg_texts = list(dict.fromkeys([r.get("text", "") for r in neg_reasons if r.get("text")]))
 
+        # STEP 4: Positive/Negative Synthesis
         if pos_texts and neg_texts:
             pos_combined = " ".join(pos_texts[:2])
             neg_combined = " ".join(neg_texts[:2])
@@ -220,4 +203,4 @@ class ResultsEngine:
         elif neg_texts:
             return " ".join(neg_texts[:3])
         else:
-            return "ఈ విభాగానికి సంబంధించి ఫలితాలు సాధారణంగా సమానంగా ఉంటాయి."
+            return "ఈ విభాగానికి సంబంధించి ఫలితాలు సాధారణంగా సమతుల్యంగా ఉంటాయి."

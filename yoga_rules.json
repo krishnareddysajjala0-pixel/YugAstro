@@ -1,0 +1,38 @@
+[
+  {
+    "id": "YOGA_RAVI_BUDHA",
+    "name_te": "రవి-బుధ యోగం (బుధాదిత్య యోగం)",
+    "formation": ["సూర్యుడు", "బుధుడు"],
+    "cancellation": [],
+    "strength": "ఉత్తమ",
+    "result_te": "తీవ్రమైన విద్యా ప్రావీణ్యం, గణిత/జ్ఞాన నైపుణ్యం, సమాజంలో విశేష గుర్తింపు మరియు వ్యాపార చాతుర్యం కలుగుతుంది.",
+    "source": "yugastro_repository_yogas"
+  },
+  {
+    "id": "YOGA_GURU_KETU",
+    "name_te": "గురు-కేతు ఆధ్యాత్మిక యోగం",
+    "formation": ["గురు", "కేతు"],
+    "cancellation": [],
+    "strength": "ఉత్తమ",
+    "result_te": "తీవ్రమైన ఆత్మజ్ఞానం, ఆధ్యాత్మిక చింతన, ధార్మిక గ్రంథ పఠనం మరియు గురువుల అనుగ్రహం లభిస్తుంది.",
+    "source": "yugastro_repository_yogas"
+  },
+  {
+    "id": "YOGA_SWAKSHETRA",
+    "name_te": "గ్రహ స్వక్షేత్ర యోగం",
+    "formation": ["స్వక్షేత్రము"],
+    "cancellation": [],
+    "strength": "మంచి",
+    "result_te": "సొంత రాశిలో ఉన్న గ్రహము తన భావ కారకత్వాలను మరియు స్థాన ఫలాలను పరిపూర్ణంగా అందిస్తుంది.",
+    "source": "yugastro_repository_yogas"
+  },
+  {
+    "id": "YOGA_PARTY_STRENGTH",
+    "name_te": "లగ్న గ్రహ వర్గ బల యోగం",
+    "formation": ["లగ్నవర్గమిళిత గ్రహములు"],
+    "cancellation": [],
+    "strength": "ఉత్తమ",
+    "result_te": "లగ్న వర్గానికి చెందిన అనుకూల గ్రహాలు బలమైన స్థానాలలో ఉండటం వలన జీవితంలో యోగకారక విజయాలు సాధిస్తారు.",
+    "source": "yugastro_repository_yogas"
+  }
+]
