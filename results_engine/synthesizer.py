@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-STEP 3, 4, 11: Telugu Synthesis Engine.
-Synthesizes positive & negative evidence, resolves contradictions, deduplicates rules,
-and formats smooth, professional Telugu prose.
+STEP 3 & STEP 8: Topic Synthesizer Engine.
+Synthesizes positive & negative evidence for each topic into a distinct,
+professional Telugu paragraph without raw paragraph concatenation or duplicates.
 """
 
 from typing import Dict, Any, List
@@ -11,29 +11,27 @@ from .safety_filter import SafetyFilter
 class ResultSynthesizer:
     @staticmethod
     def synthesize_topic_result(topic: str, pos_reasons: List[Dict[str, Any]], neg_reasons: List[Dict[str, Any]]) -> Dict[str, Any]:
-        # Deduplicate positive and negative evidence
         pos_texts = list(dict.fromkeys([r.get("text", "").strip() for r in pos_reasons if r.get("text")]))
         neg_texts = list(dict.fromkeys([r.get("text", "").strip() for r in neg_reasons if r.get("text")]))
 
         pos_count = len(pos_reasons)
         neg_count = len(neg_reasons)
 
-        # Contradiction Analysis & Synthesis
         if pos_texts and neg_texts:
             pos_lead = pos_texts[0]
             neg_lead = neg_texts[0]
-            synthesized_text = f"{topic} విషయంలో {pos_lead} అనుకూల పరిస్థితులు సూచిస్తున్నాయి. అయితే, {neg_lead} జాగ్రత్త వహించడం అవసరం."
+            synthesized_text = f"{topic} అంశంలో {pos_lead} అనుకూల పరిణామాలు సూచిస్తున్నాయి. అయితే, {neg_lead} తగిన అవగాహన మరియు జాగ్రత్త అవసరం."
         elif pos_texts:
             lead = pos_texts[0]
-            extra = f" అలాగే తగిన అభివృద్ధి అవకాశాలు ఉన్నాయి." if pos_count > 1 else ""
-            synthesized_text = f"{topic} రంగానికి సంబంధించి {lead} శ్రేయస్కరమైన అవకాశాలు సూచిస్తోంది.{extra}"
+            extra = " అలాగే అనుకూల సమయం వ్యక్తమవుతోంది." if pos_count > 1 else ""
+            synthesized_text = f"{topic} విభాగానికి సంబంధించి {lead} శ్రేయోదాయకమైన సూచనలు వ్యక్తమవుతున్నాయి.{extra}"
         elif neg_texts:
             lead = neg_texts[0]
-            synthesized_text = f"{topic} అంశంలో {lead} కొన్ని పరిమితులు లేదా పరీక్షా సమయాన్ని సూచిస్తోంది. ప్రణాళికాబద్ధంగా వ్యవహరించడం మంచిది."
+            synthesized_text = f"{topic} విషయంలో {lead} కొన్ని సవాళ్లు లేదా శోధన కాలాన్ని సూచిస్తోంది. ప్రణాళికతో వ్యవహరించడం మంచిది."
         else:
-            synthesized_text = f"{topic} రంగానికి సంబంధించి ఫలితాలు సాధారణంగా సమతుల్యంగా ఉంటాయి."
+            synthesized_text = f"{topic} విభాగానికి సంబంధించిన ఫలితాలు ఈ జాతకంలో సమతుల్యంగా వ్యక్తమవుతున్నాయి."
 
-        # Apply Safety Filter
+        # Safety filter transformation
         synthesized_text = SafetyFilter.sanitize_text(synthesized_text)
 
         return {

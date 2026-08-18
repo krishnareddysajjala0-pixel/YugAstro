@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-STEP 12: 40-Section Report Builder.
-Constructs structured 40-section report objects for UI and PDF rendering.
+STEP 12: 40-Section Report Builder (Phase 2 Review Fixed).
+Constructs structured 40-section report objects with corrected final summary text.
 """
 
 from typing import Dict, Any, List
@@ -33,13 +33,13 @@ class ReportBuilder:
             if score >= 5:
                 highlights.append({
                     "category": cat_name,
-                    "level": cat_data.get("level"),
+                    "level": cat_data.get("classification", cat_data.get("level")),
                     "summary": cat_data.get("user_summary")
                 })
             elif score <= -4:
                 cautions.append({
                     "category": cat_name,
-                    "level": cat_data.get("level"),
+                    "level": cat_data.get("classification", cat_data.get("level")),
                     "summary": cat_data.get("user_summary")
                 })
 
@@ -47,29 +47,31 @@ class ReportBuilder:
         neg_cnt = meta.get("negative_count", 0)
 
         if pos_cnt > neg_cnt * 1.5:
-            overall_status = "ఈ జాతకంలో యోగకారక స్థానాలు మరియు అనుకూల దశా గ్రహాల ప్రభావం అధికంగా ఉన్నందున శుభ ఫలితాలు అధికంగా లభిస్తాయి."
+            overall_status = "ఈ జాతకంలో యోగకారక స్థానాలు మరియు అనుకూల దశా గ్రహాల ప్రభావం అధికంగా ఉన్నందున శుభ ఫలితాలు వర్ధిల్లుతాయి."
         elif neg_cnt > pos_cnt * 1.5:
             overall_status = "ఈ జాతకంలో శోధన మరియు హెచ్చరికలను సూచించే గ్రహ స్థితులు ఉన్నందున ప్రణాళికాబద్ధమైన జాగ్రత్తలతో ముందుకు సాగడం శ్రేయస్కరం."
         else:
-            overall_status = "ఈ జాతకంలో అనుకూల మరియు ప్రతికూల అంశాలు సమతుల్య నిష్పత్తిలో ఉన్నందున శ్రమతో కూడిన విజయాలు లభిస్తాయి."
+            overall_status = "ఈ జాతకంలో అనుకూల మరియు ప్రతికూల అంశాలు సమతుల్య నిష్పత్తిలో ఉన్నందున శ్రమతో కూడిన విజయాలు సిద్ధస్తాయి."
 
         overall_status = SafetyFilter.sanitize_text(overall_status)
 
-        # Format 40 section list
         sections = []
         for cat_name in ALL_40_SECTIONS:
             cat_data = categories.get(cat_name, {})
             sections.append({
                 "title": cat_name,
                 "score": cat_data.get("score", 0),
-                "level": cat_data.get("level", "మిశ్రమ / సాధారణం"),
+                "level": cat_data.get("classification", "మిశ్రమ / సాధారణం"),
                 "color": cat_data.get("color", "#eab308"),
                 "icon": cat_data.get("icon", "🟡"),
                 "summary": cat_data.get("user_summary", "ఈ రంగానికి సంబంధించి ఫలితాలు సమతుల్యంగా ఉన్నాయి."),
                 "reasons": cat_data.get("all_reasons", []),
-                "supporting_rules_count": cat_data.get("positive_reasons_count", len(cat_data.get("positive_reasons", []))),
-                "contradicting_rules_count": cat_data.get("negative_reasons_count", len(cat_data.get("negative_reasons", [])))
+                "supporting_rules_count": len(cat_data.get("supporting_rule_ids", [])),
+                "contradicting_rules_count": len(cat_data.get("contradicting_rule_ids", []))
             })
+
+        # CRITICAL BUG #13 FIX: Non-deterministic, accurate final summary text
+        final_conclusion = "అందుబాటులో ఉన్న త్రైత సిద్ధాంత నియమాలు, జన్మస్థితులు, దశా-గోచార పరిస్థితుల ఆధారంగా ఈ విశ్లేషణ రూపొందించబడింది."
 
         report = {
             "report_title": "సంపూర్ణ జాతక ఫలితాలు",
@@ -86,6 +88,7 @@ class ReportBuilder:
                 "current_anthara": context.current_anthara
             },
             "overall_summary": overall_status,
+            "final_conclusion": final_conclusion,
             "highlights": highlights,
             "cautions": cautions,
             "sections": sections,

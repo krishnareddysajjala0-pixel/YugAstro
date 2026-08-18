@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-STEP 9: Yoga Engine
-Detects planetary Yogas from yoga_rules.json and native chart context.
+CRITICAL BUG #12: Structured Yoga Engine.
+Strict condition matching for repository-supported planetary Yogas.
+Reports Yogas only when ALL required conditions are satisfied.
 """
 
 from typing import Dict, Any, List, Optional
@@ -18,56 +19,53 @@ class YogaEngine:
     def evaluate_yogas(self, context: NormalizedChartContext) -> List[Dict[str, Any]]:
         active_yogas = []
 
-        # 1. Check Sun + Mercury in same house (Ravi-Budha Yoga)
+        # 1. Sun + Mercury in same house (Budhaditya Yoga)
         sun_h = context.planet_houses.get("సూర్యుడు")
         budha_h = context.planet_houses.get("బుధుడు")
         if sun_h and budha_h and sun_h == budha_h:
             active_yogas.append({
-                "rule_id": "YOGA_RAVI_BUDHA",
-                "name": "రవి-బుధ యోగం (బుధాదిత్య యోగం)",
+                "id": "YOGA_RAVI_BUDHA",
+                "name_te": "రవి-బుధ యోగం (బుధాదిత్య యోగం)",
+                "conditions": ["సూర్యుడు మరియు బుధుడు ఒకే భావంలో స్థితి"],
+                "matched_conditions": [f"సూర్యుడు మరియు బుధుడు {sun_h}వ భావంలో కలిసి ఉన్నారు"],
                 "strength": "ఉత్తమ",
-                "text": f"సూర్యుడు మరియు బుధుడు {sun_h}వ భావంలో కలిసి ఉండటం వలన బుధాదిత్య యోగం ఏర్పడుతోంది.",
-                "explanation": "తీవ్రమైన విద్యా ప్రావీణ్యం, గణిత/జ్ఞాన నైపుణ్యం, సమాజంలో విశేష గుర్తింపు మరియు వ్యాపార చాతుర్యం కలుగుతుంది.",
+                "affected_topics": ["విద్య", "మేధస్సు", "వ్యాపారం", "గౌరవం"],
+                "positive_result": "విశేష విద్యా ప్రావీణ్యం, గణిత నైపుణ్యం, సమాజంలో గుర్తింపు మరియు వ్యాపార చాతుర్యం లభిస్తాయి.",
+                "caution": "మానసిక తొందరపాటును అదుపులో ఉంచుకోవాలి.",
                 "source": "yugastro_repository_yogas"
             })
 
-        # 2. Check Guru + Ketu in same house
+        # 2. Jupiter + Ketu in same house (Spiritual Yoga)
         guru_h = context.planet_houses.get("గురు")
         ketu_h = context.planet_houses.get("కేతు")
         if guru_h and ketu_h and guru_h == ketu_h:
             active_yogas.append({
-                "rule_id": "YOGA_GURU_KETU",
-                "name": "గురు-కేతు ఆధ్యాత్మిక యోగం",
+                "id": "YOGA_GURU_KETU",
+                "name_te": "గురు-కేతు ఆధ్యాత్మిక వివేక యోగం",
+                "conditions": ["గురు మరియు కేతువు ఒకే భావంలో స్థితి"],
+                "matched_conditions": [f"గురు మరియు కేతువు {guru_h}వ భావంలో కలిసి ఉన్నారు"],
                 "strength": "ఉత్తమ",
-                "text": f"గురు మరియు కేతువు {guru_h}వ భావంలో కలిసి ఉండటం వలన ఆధ్యాత్మిక యోగం ఏర్పడుతోంది.",
-                "explanation": "తీవ్రమైన ఆత్మజ్ఞానం, ఆధ్యాత్మిక చింతన, ధార్మిక గ్రంథ పఠనం మరియు గురువుల అనుగ్రహం లభిస్తుంది.",
+                "affected_topics": ["ఆధ్యాత్మికత", "మోక్ష/ఆధ్యాత్మిక అంశాలు", "తీర్థయాత్రలు"],
+                "positive_result": "తీవ్రమైన ఆత్మజ్ఞానం, ఆధ్యాత్మిక వివేకం మరియు ధార్మిక గ్రంథ పరిజ్ఞానం లభిస్తుంది.",
+                "caution": "లౌకిక విషయాలలో ఉదాసీనత వహించకూడదు.",
                 "source": "yugastro_repository_yogas"
             })
 
-        # 3. Check Swakshetra (Planets in own house)
+        # 3. Swakshetra Yoga (Planet in own ruled sign)
         for p_name, p_sign in context.planet_signs.items():
             lord_of_sign = context.house_lords.get(context.houses.get(p_sign, 0), "")
             if lord_of_sign == p_name:
                 h_num = context.planet_houses.get(p_name, 1)
                 active_yogas.append({
-                    "rule_id": f"YOGA_SWAKSHETRA_{p_name}",
-                    "name": f"{p_name} స్వక్షేత్ర యోగం",
+                    "id": f"YOGA_SWAKSHETRA_{p_name}",
+                    "name_te": f"{p_name} స్వక్షేత్ర యోగం",
+                    "conditions": [f"{p_name} తన స్వంత రాశి నందు స్థితి పొందడం"],
+                    "matched_conditions": [f"{p_name} తన స్వంత రాశి అయిన {p_sign} ({h_num}వ భావం) నందు స్థితి పొందింది"],
                     "strength": "మంచి",
-                    "text": f"{p_name} తన స్వంత రాశి ({p_sign}) {h_num}వ భావంలో స్థితి పొందడం శుభ యోగం.",
-                    "explanation": "సొంత రాశిలో ఉన్న గ్రహము తన భావ కారకత్వాలను మరియు స్థాన ఫలాలను పరిపూర్ణంగా అందిస్తుంది.",
+                    "affected_topics": [context.house_signs.get(h_num, "వ్యక్తిత్వం")],
+                    "positive_result": f"{p_name} స్వక్షేత్ర స్థితి వల్ల ఆ భావ కారకత్వాలు పరిపూర్ణ బలంతో సిద్ధస్తాయి.",
+                    "caution": "గ్రహ ఆధిక్యతను గ్రహించి ప్రణాళికతో ముందడుగు వేయాలి.",
                     "source": "yugastro_repository_yogas"
                 })
-
-        # 4. Check Party Strength Yoga
-        fav_count = sum(1 for p in context.planet_positions if context.is_favorable_planet(p.get("name","") if isinstance(p, dict) else str(p)))
-        if fav_count >= 4:
-            active_yogas.append({
-                "rule_id": "YOGA_PARTY_STRENGTH",
-                "name": "లగ్న గ్రహ వర్గ బల యోగం",
-                "strength": "ఉత్తమ",
-                "text": f"మీ {context.lagna} లగ్న వర్గానికి చెందిన గ్రహాలు అధిక బలాన్ని కలిగి ఉన్నాయి.",
-                "explanation": "లగ్న వర్గానికి చెందిన అనుకూల గ్రహాలు బలమైన స్థానాలలో ఉండటం వలన జీవితంలో యోగకారక విజయాలు సాధిస్తారు.",
-                "source": "yugastro_repository_yogas"
-            })
 
         return active_yogas
