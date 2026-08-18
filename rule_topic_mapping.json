@@ -1,0 +1,74 @@
+[
+  {
+    "rule_id": "BHAVA_LORD_1_1",
+    "source": "bhava_lord_rules.json",
+    "topics": ["వ్యక్తిత్వం", "శరీర స్వభావం", "ఆరోగ్యం"],
+    "houses": [1],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_2_2",
+    "source": "bhava_lord_rules.json",
+    "topics": ["ధనం", "ఆదాయం", "కుటుంబం"],
+    "houses": [2],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_4_4",
+    "source": "bhava_lord_rules.json",
+    "topics": ["గృహం", "వాహనం", "స్థిరాస్తి", "విద్య", "తల్లి"],
+    "houses": [4],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_5_5",
+    "source": "bhava_lord_rules.json",
+    "topics": ["విద్య", "మేధస్సు", "సంతానం"],
+    "houses": [5],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_7_7",
+    "source": "bhava_lord_rules.json",
+    "topics": ["వివాహం", "దాంపత్యం", "వ్యాపారం"],
+    "houses": [7],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_10_10",
+    "source": "bhava_lord_rules.json",
+    "topics": ["ఉద్యోగం", "వృత్తి", "అధికార స్థానం", "గౌరవం"],
+    "houses": [10],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_11_11",
+    "source": "bhava_lord_rules.json",
+    "topics": ["ఆదాయం", "లాభాలు"],
+    "houses": [11],
+    "planets": [],
+    "type": "positive",
+    "priority": 1
+  },
+  {
+    "rule_id": "BHAVA_LORD_12_12",
+    "source": "bhava_lord_rules.json",
+    "topics": ["ఖర్చులు", "విదేశీ ప్రయాణం", "మోక్ష/ఆధ్యాత్మిక అంశాలు"],
+    "houses": [12],
+    "planets": [],
+    "type": "negative",
+    "priority": 1
+  }
+]

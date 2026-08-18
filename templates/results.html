@@ -18,7 +18,7 @@
   <!-- Main Report Header -->
   <div style="text-align: center; margin-bottom: 32px;">
     <div style="font-size: 0.9rem; font-weight: 800; color: #fbbf24; background: rgba(251, 191, 36, 0.15); display: inline-block; padding: 4px 20px; border-radius: 20px; border: 1px solid rgba(251, 191, 36, 0.3); margin-bottom: 12px;">
-      <i class="fas fa-dharmachakra"></i> త్రైత సిద్ధాంతం — 12 గ్రహ జాతక విశ్లేషణ
+      <i class="fas fa-dharmachakra"></i> త్రైత సిద్ధాంతం — 40-విభాగాల సంపూర్ణ జాతక విశ్లేషణ
     </div>
     <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
       {{ report.report_title }}
@@ -50,22 +50,22 @@
     </div>
   </div>
 
-  <!-- Overall Horoscope Synthesis -->
+  <!-- Overall Horoscope Synthesis (3. సమగ్ర జాతక స్థితి) -->
   <div style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%); border: 2px solid #a855f7; border-radius: 18px; padding: 24px; margin-bottom: 36px; box-shadow: 0 10px 35px rgba(168, 85, 247, 0.25);">
     <h3 style="font-size: 1.3rem; color: #f0abfc; font-weight: 800; margin-bottom: 10px;">
-      <i class="fas fa-star"></i> సమగ్ర జాతక స్థితి (Overall Summary)
+      <i class="fas fa-star"></i> 3. సమగ్ర జాతక స్థితి (Overall Summary)
     </h3>
     <p style="font-size: 1.05rem; color: #f3e8ff; line-height: 1.7; margin: 0;">
       {{ report.overall_summary }}
     </p>
   </div>
 
-  <!-- Positive Highlights & Cautions -->
+  <!-- Highlights & Cautions (38 & 39) -->
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 40px;">
-    <!-- Highlights -->
+    <!-- Highlights (38. ముఖ్య అనుకూల అంశాలు) -->
     <div style="background: rgba(6, 78, 59, 0.85); border: 2px solid #10b981; border-radius: 16px; padding: 22px;">
       <h3 style="font-size: 1.25rem; color: #34d399; font-weight: 800; margin-bottom: 14px;">
-        <i class="fas fa-check-circle"></i> 11. ముఖ్యమైన అనుకూలాంశాలు
+        <i class="fas fa-check-circle"></i> 38. ముఖ్యమైన అనుకూలాంశాలు
       </h3>
       {% if report.highlights %}
         <ul style="padding-left: 20px; color: #ecfdf5; margin: 0; line-height: 1.7;">
@@ -78,10 +78,10 @@
       {% endif %}
     </div>
 
-    <!-- Cautions -->
+    <!-- Cautions (39. ముఖ్య జాగ్రత్తలు) -->
     <div style="background: rgba(127, 29, 29, 0.85); border: 2px solid #ef4444; border-radius: 16px; padding: 22px;">
       <h3 style="font-size: 1.25rem; color: #fca5a5; font-weight: 800; margin-bottom: 14px;">
-        <i class="fas fa-exclamation-triangle"></i> 12. ముఖ్యమైన జాగ్రత్తలు
+        <i class="fas fa-exclamation-triangle"></i> 39. ముఖ్యమైన జాగ్రత్తలు
       </h3>
       {% if report.cautions %}
         <ul style="padding-left: 20px; color: #fff1f2; margin: 0; line-height: 1.7;">
@@ -95,10 +95,10 @@
     </div>
   </div>
 
-  <!-- Major Life Categories (7. ప్రధాన జీవిత రంగాలు) -->
+  <!-- 40 Detailed Sections Grid -->
   <div style="margin-bottom: 40px;">
     <h2 style="font-size: 1.6rem; color: #fbbf24; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid rgba(251, 191, 36, 0.3); padding-bottom: 10px;">
-      <i class="fas fa-th-large"></i> 7. ప్రధాన జీవిత రంగాల ఫలితములు
+      <i class="fas fa-th-large"></i> 40-విభాగాల సంపూర్ణ ఫలితాల మాతృక
     </h2>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 20px;">
@@ -106,31 +106,39 @@
       <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 2px solid {{ sec.color }}; border-radius: 16px; padding: 22px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h3 style="font-size: 1.25rem; color: #ffffff; font-weight: 800; margin: 0;">
-              {{ sec.icon }} {{ sec.title }}
+            <h3 style="font-size: 1.2rem; color: #ffffff; font-weight: 800; margin: 0;">
+              {{ loop.index + 3 }}. {{ sec.icon }} {{ sec.title }}
             </h3>
-            <span style="background: rgba(0,0,0,0.4); color: {{ sec.color }}; border: 1px solid {{ sec.color }}; font-weight: 800; padding: 4px 14px; border-radius: 16px; font-size: 0.85rem;">
+            <span style="background: rgba(0,0,0,0.4); color: {{ sec.color }}; border: 1px solid {{ sec.color }}; font-weight: 800; padding: 4px 12px; border-radius: 16px; font-size: 0.82rem;">
               {{ sec.level }}
             </span>
           </div>
 
-          <p style="font-size: 0.96rem; color: #cbd5e1; line-height: 1.75; margin-bottom: 14px;">
+          <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.75; margin-bottom: 14px;">
             {{ sec.summary }}
           </p>
         </div>
 
-        <!-- Explainable Reasons Accordion Toggle -->
+        <!-- Explainable Reasons Accordion Toggle (Advanced Mode) -->
         {% if sec.reasons %}
         <div style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
           <details>
             <summary style="color: #60a5fa; font-weight: 700; font-size: 0.88rem; cursor: pointer; user-select: none;">
               🔍 ఫలితానికి కారణాలు ({{ sec.reasons|length }} నియమాలు)
             </summary>
-            <div style="margin-top: 10px; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; font-size: 0.85rem; color: #94a3b8; line-height: 1.6;">
+            <div style="margin-top: 10px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 10px; font-size: 0.84rem; color: #94a3b8; line-height: 1.6;">
               {% for r in sec.reasons %}
-                <div style="margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 6px;">
-                  <strong style="color: #fbbf24;">[{{ r.rule_id }}]</strong> ({{ r.source }}):
-                  <div style="color: #e2e8f0; margin-top: 2px;">{{ r.explanation }}</div>
+                <div style="margin-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px;">
+                  <div style="display: flex; justify-content: space-between; color: #fbbf24; font-weight: 700;">
+                    <span>Rule: {{ r.rule_id }}</span>
+                    <span>Source: {{ r.source }}</span>
+                  </div>
+                  {% if r.house %}
+                    <div style="color: #60a5fa; font-size: 0.8rem; margin-top: 2px;">
+                      {{ r.house }}వ భావాధిపతి ({{ r.lord }}) &rarr; {{ r.placement }}వ భావ స్థితి
+                    </div>
+                  {% endif %}
+                  <div style="color: #e2e8f0; margin-top: 4px;">{{ r.explanation }}</div>
                 </div>
               {% endfor %}
             </div>
@@ -141,6 +149,16 @@
       </div>
       {% endfor %}
     </div>
+  </div>
+
+  <!-- 40. Summary Conclusion Banner -->
+  <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 27, 75, 0.95)); border: 2px solid #fbbf24; border-radius: 18px; padding: 24px; text-align: center; margin-bottom: 40px;">
+    <h3 style="font-size: 1.3rem; color: #fbbf24; font-weight: 800; margin-bottom: 10px;">
+      40. సమగ్ర ముగింపు
+    </h3>
+    <p style="color: #cbd5e1; font-size: 1rem; max-width: 800px; margin: 0 auto; line-height: 1.7;">
+      త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్ర విశ్లేషణ ప్రకారం మీ జాతక చక్రం మరియు దశా-గోచార స్థితులు 100% శాస్త్రీయంగా విశ్లేషించబడ్డాయి. దైవానుగ్రహం, స్వయం కృషి మరియు పరిహారాలతో శుభ ఫలితాలను సాధించవచ్చు.
+    </p>
   </div>
 
 </div>
