@@ -16,6 +16,8 @@ import json
 import re
 
 # Cache loaded translation dictionaries
+from results_engine import evaluate_kundali_results
+
 TRANSLATIONS_CACHE = {}
 
 def get_translations_dict(lang):
@@ -214,7 +216,7 @@ def format_lord_placement(lord_house_num, lord_planet, p_house, lang):
 GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.8\resources\app\git\cmd\git.exe'
 
 app = Flask(__name__)
-app.secret_key = 'astrology-secret-key-2024'  # Required for session
+app.secret_key = os.environ.get("SECRET_KEY", "astrology-secret-key-2024")  # Required for session
 
 @app.context_processor
 def inject_translation():
@@ -1576,7 +1578,31 @@ def chart():
     # Calculate dasha data for the print Mahadasha table
     dasha_data = get_dasha_info(data)
 
-    return render_template("chart.html", **data, **dasha_data)
+    # Evaluate Results Engine predictions
+    jathaka_results = evaluate_kundali_results(data, dasha_data if isinstance(dasha_data, dict) else {})
+
+    return render_template("chart.html", **data, **dasha_data, jathaka_results=jathaka_results)
+
+@app.route("/results")
+@app.route("/go-to-results")
+def results_page():
+    birth_info = session.get('birth_info', {})
+    if not birth_info:
+        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+    
+    dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
+    report = evaluate_kundali_results(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
+    return render_template("results.html", report=report)
+
+@app.route("/api/jathaka-results", methods=["GET", "POST"])
+def api_jathaka_results():
+    birth_info = session.get('birth_info', {})
+    if not birth_info:
+        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+
+    dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
+    report = evaluate_kundali_results(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
+    return jsonify({"success": True, "results": report})
 
 @app.route("/compare_kundali")
 def compare_kundali():
