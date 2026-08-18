@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Core Evaluation Engine for YugAstro Results Engine (Phase 2 Review Fixed).
-Enforces strict Topic Relevance Gate, distinct evidence evaluation per topic,
-exact supporting/contradicting rule ID tracking, and required topic schema.
+Core Evaluation Engine for RAVAN ASTRO Results Engine (Version 3 QA Fixed).
+Enforces strict `is_relevant` relevance gate per topic, eliminates cross-topic contamination,
+calculates evidence scores, tracks exact reason counts, and prints console debug report:
+TOPIC | POSITIVE RULES | NEGATIVE RULES | SCORE | STATUS
 """
 
 from typing import Dict, List, Any, Optional
 from .context import NormalizedChartContext
 from .rule_loader import RuleLoader
 from .rule_cleaner import RuleCleaner
-from .topic_evidence import TopicEvidenceFilter, TOPIC_EVIDENCE_MAP
+from .topic_evidence import TopicEvidenceFilter
+from .topic_definitions import TOPIC_DEFINITIONS
 from .scoring import CategoryScorer, WEIGHTS
 from .categories import CATEGORIES
 from .dasha_interpreter import DashaInterpreter
@@ -30,19 +32,19 @@ class ResultsEngine:
     def evaluate(self, context: NormalizedChartContext) -> Dict[str, Any]:
         scorers: Dict[str, CategoryScorer] = {cat: CategoryScorer(cat) for cat in CATEGORIES}
 
-        # 1. House Lord Placement Evaluation with Strict Topic Relevance Gate
+        # 1. Evaluate House Lord Placements with Strict Relevance Gate
         self._evaluate_house_lord_placements(context, scorers)
 
-        # 2. Detailed Bhava Meanings Evaluation
+        # 2. Evaluate Detailed Bhava Meanings with Strict Relevance Gate
         self._evaluate_detailed_bhava_meanings(context, scorers)
 
-        # 3. Dasha & Antardasha Evidence Evaluation
+        # 3. Evaluate Dasha & Antardasha
         self._evaluate_dasa_and_antardasha(context, scorers)
 
-        # 4. Transit Evidence Evaluation
+        # 4. Evaluate Transits
         self._evaluate_transits(context, scorers)
 
-        # 5. Yoga Engine Evaluation
+        # 5. Evaluate Yogas
         yogas = self.yoga_engine.evaluate_yogas(context)
         if yogas:
             for y in yogas:
@@ -55,28 +57,36 @@ class ResultsEngine:
                 }
                 scorers["ముఖ్య యోగాలు"].add_reason(reason, 3)
 
-        # Aggregate Results per Topic according to Internal Data Model
+        # Build Topic Objects and Console Debug Report
         evaluated_categories = {}
         rule_count = 0
         positive_count = 0
         negative_count = 0
         neutral_count = 0
 
-        for cat_name, scorer in scorers.items():
+        print("\n==========================================================================================")
+        print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT")
+        print("==========================================================================================")
+        print(f"{'TOPIC':<24} | {'POSITIVE RULES':<14} | {'NEGATIVE RULES':<14} | {'SCORE':<6} | STATUS")
+        print("------------------------------------------------------------------------------------------")
+
+        for cat_name in CATEGORIES:
+            scorer = scorers[cat_name]
             res = scorer.get_summary()
             pos_reasons = res.get("positive_reasons", [])
             neg_reasons = res.get("negative_reasons", [])
 
-            pos_rule_ids = [r.get("rule_id") for r in pos_reasons if r.get("rule_id")]
-            neg_rule_ids = [r.get("rule_id") for r in neg_reasons if r.get("rule_id")]
+            pos_rule_ids = list(dict.fromkeys([r.get("rule_id") for r in pos_reasons if r.get("rule_id")]))
+            neg_rule_ids = list(dict.fromkeys([r.get("rule_id") for r in neg_reasons if r.get("rule_id")]))
 
-            # Synthesis for Topic
             syn_info = ResultSynthesizer.synthesize_topic_result(cat_name, pos_reasons, neg_reasons)
             summary_te = syn_info["synthesized_text"]
 
-            # Internal Data Model for Topic
+            t_def = TOPIC_DEFINITIONS.get(cat_name, {})
+            t_id = t_def.get("topic_id", cat_name)
+
             topic_object = {
-                "topic_id": cat_name,
+                "topic_id": t_id,
                 "title_te": cat_name,
                 "classification": res["level"],
                 "color": res["color"],
@@ -96,7 +106,9 @@ class ResultsEngine:
 
             evaluated_categories[cat_name] = topic_object
 
-            cat_rules = len(pos_reasons) + len(neg_reasons)
+            print(f"{cat_name:<24} | {len(pos_rule_ids):<14} | {len(neg_rule_ids):<14} | {res['score']:<6} | {res['level']}")
+
+            cat_rules = len(pos_rule_ids) + len(neg_rule_ids)
             rule_count += cat_rules
             if res["score"] >= 2:
                 positive_count += 1
@@ -104,6 +116,8 @@ class ResultsEngine:
                 negative_count += 1
             else:
                 neutral_count += 1
+
+        print("==========================================================================================\n")
 
         return {
             "categories": evaluated_categories,
@@ -127,10 +141,9 @@ class ResultsEngine:
 
             is_favorable = context.is_favorable_planet(lord_planet)
 
-            # Check relevance against EVERY topic individually using relevance gate
             for topic in CATEGORIES:
                 rule_dict = {"text": shubha_text or paapa_text, "explanation": shubha_text or paapa_text}
-                if not TopicEvidenceFilter.is_rule_relevant(rule_dict, topic, h_num, lord_planet):
+                if not TopicEvidenceFilter.is_relevant(rule_dict, topic, h_num, lord_planet):
                     continue
 
                 if shubha_text:
@@ -176,7 +189,7 @@ class ResultsEngine:
 
             for topic in CATEGORIES:
                 rule_dict = {"text": shubha_text or paapa_text, "explanation": shubha_text or paapa_text}
-                if not TopicEvidenceFilter.is_rule_relevant(rule_dict, topic, h_num, lord):
+                if not TopicEvidenceFilter.is_relevant(rule_dict, topic, h_num, lord):
                     continue
 
                 if is_favorable and shubha_text:
