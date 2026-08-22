@@ -71,7 +71,7 @@ class ReportBuilder:
             })
 
         # CRITICAL BUG #13 FIX: Non-deterministic, accurate final summary text
-        final_conclusion = "అందుబాటులో ఉన్న త్రైత సిద్ధాంత నియమాలు, జన్మస్థితులు, దశా-గోచార పరిస్థితుల ఆధారంగా ఈ విశ్లేషణ రూపొందించబడింది."
+        final_conclusion = "జన్మస్థితులు, దశా-గోచార పరిస్థితుల ఆధారంగా ఈ విశ్లేషణ రూపొందించబడింది."
 
         report = {
             "report_title": "సంపూర్ణ జాతక ఫలితాలు",
