@@ -1902,15 +1902,12 @@
 
     <!-- Chart Container -->
     <div class="chart-container">
-      <div class="chart">
-        {{ box("మీనం") }}
+      <div class="chart">{{ _('{{ box("మీనం") }}
         {{ box("మేషం") }}
         {{ box("వృషభం") }}
         {{ box("మిథునం") }}
 
-        {{ box("కుంభం") }}
-
-        <!-- CENTER -->
+        {{ box("కుంభం") }}') }}<!-- CENTER -->
         <div class="center">
           <div class="center-content">
             <table
@@ -1952,9 +1949,7 @@
               </tr>
               <tr>
                 <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
-                <td style="color: var(--text-main);">
-                  {{ nakshatra }} ({{ padam }} {{ _('పాదం') }})
-                </td>
+                <td style="color: var(--text-main);">{{ _('{{ nakshatra }} ({{ padam }} {{ _('పాదం') }})') }}</td>
               </tr>
               <tr>
                 <td style="color: #ffd700; white-space: nowrap;">{{ _('పూర్తి నక్షత్ర పరిమాణం:') }}</td>
@@ -1988,17 +1983,14 @@
 
 
           </div>
-        </div>
-
-        {{ box("కర్కాటకం") }}
+        </div>{{ _('{{ box("కర్కాటకం") }}
 
         {{ box("మకరం") }}
         {{ box("సింహం") }}
         {{ box("ధనస్సు") }}
         {{ box("వృశ్చికం") }}
         {{ box("తులా") }}
-        {{ box("కన్య") }}
-      </div>
+        {{ box("కన్య") }}') }}</div>
     </div>
 
     <!-- Transit Button and Container -->
@@ -2049,9 +2041,7 @@
         <tr class="{% if dasa.is_current %}maha-current-row {% endif %}{{ 'maha-row-favorable' if dasa.is_favorable else 'maha-row-unfavorable' }}">
           <td>{{ loop.index }}</td>
           <td class="{{ 'maha-planet-favorable' if dasa.is_favorable else 'maha-planet-unfavorable' }}">{{ dasa.icon }} {{ dasa.maha }}</td>
-          <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">
-            {% if dasa.is_favorable %}{{ _('అనుకూలము') }}{% else %}{{ _('ప్రతికూలము') }}{% endif %}
-          </td>
+          <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">{{ _('{% if dasa.is_favorable %}{{ _('అనుకూలము') }}{% else %}{{ _('ప్రతికూలము') }}{% endif %}') }}</td>
           <td>{{ dasa.years }}</td>
           <td>{{ dasa.start }}</td>
           <td>{{ dasa.end }}</td>

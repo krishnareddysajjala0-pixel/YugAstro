@@ -26,7 +26,7 @@
         {{ birth_info.name }} <span style="font-size: 0.95rem; color: #cbd5e1; font-weight: 600;">({{ birth_info.place }})</span>
       </div>
       <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">
-        {{ _('జన్మ తేది:') }} <strong>{{ birth_info.dob }}</strong> {{ _('| సమయం:') }} <strong>{{ birth_info.tob }}</strong> {{ _('| నక్షత్రం:') }} <strong>{{ birth_info.nakshatra }} ({{ birth_info.padam }} వ పాదం)</strong>
+        {{ _('జన్మ తేది:') }} <strong>{{ birth_info.dob }}</strong> {{ _('| సమయం:') }} <strong>{{ birth_info.tob }}</strong> {{ _('| నక్షత్రం:') }} <strong>{{ _('{{ birth_info.nakshatra }} ({{ birth_info.padam }} వ పాదం)') }}</strong>
       </div>
     </div>
     <div>
@@ -58,13 +58,11 @@
       <div style="font-size: 0.85rem; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
         <i class="fas fa-hourglass-half"></i> {{ _('ప్రస్తుత/మరణ దశా వివరాలు') }}
       </div>
-      <h3 style="font-size: 1.5rem; color: #ffffff; font-weight: 800; margin-bottom: 12px;">
-        {{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి
-      </h3>
+      <h3 style="font-size: 1.5rem; color: #ffffff; font-weight: 800; margin-bottom: 12px;">{{ _('{{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి') }}</h3>
       <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
         <div><strong>{{ _('ప్రారంభం:') }}</strong> {{ active_match.start_dt_str }}</div>
         <div><strong>{{ _('ముగింపు:') }}</strong> {{ active_match.end_dt_str }}</div>
-        <div><strong>{{ _('మొత్తం నిడివి:') }}</strong> {{ active_match.duration_days }} రోజులు</div>
+        <div><strong>{{ _('మొత్తం నిడివి:') }}</strong>{{ _('{{ active_match.duration_days }} రోజులు') }}</div>
       </div>
     </div>
 
@@ -94,7 +92,7 @@
         {{ _('ప్రారంభ శేషం: {{ active_match.elapsed_str }} పూర్తయిన స్థానం నుండి') }}
       </div>
       <p style="font-size: 0.96rem; color: #fef3c7; max-width: 850px; margin: 12px auto 0 auto; line-height: 1.6;">
-        {{ _('ఈ జీవి మరణ సమయానికి') }} <strong>{{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి</strong> {{ _('లో') }} <strong>{{ active_match.elapsed_str }}</strong> {{ _('పూర్తయినందున, త్రైత సిద్ధాంతము ప్రకారం ఇతని మరుసటి జన్మ సరిగ్గా ఇదే దశ-భుక్తి మరియు ఈ శేష సమయం నుంచే నూతనంగా ప్రారంభమవుతుంది.') }}
+        {{ _('ఈ జీవి మరణ సమయానికి') }} <strong>{{ _('{{ active_match.mahadasha }} మహాగ్రహ దశ - {{ active_match.bhukti }} భుక్తి') }}</strong> {{ _('లో') }} <strong>{{ active_match.elapsed_str }}</strong> {{ _('పూర్తయినందున, త్రైత సిద్ధాంతము ప్రకారం ఇతని మరుసటి జన్మ సరిగ్గా ఇదే దశ-భుక్తి మరియు ఈ శేష సమయం నుంచే నూతనంగా ప్రారంభమవుతుంది.') }}
       </p>
     </div>
 
@@ -114,7 +112,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; text-align: center;">
       <div style="background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
         <div style="font-size: 0.8rem; color: #d8b4fe; font-weight: 600;">{{ _('నక్షత్రము & పాదము') }}</div>
-        <div style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin-top: 4px;">{{ reverse_info.nakshatra }} ({{ reverse_info.padam }} వ పాదం)</div>
+        <div style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin-top: 4px;">{{ _('{{ reverse_info.nakshatra }} ({{ reverse_info.padam }} వ పాదం)') }}</div>
       </div>
       <div style="background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
         <div style="font-size: 0.8rem; color: #d8b4fe; font-weight: 600;">{{ _('లగ్నం & డిగ్రీలు (Degree/Minute)') }}</div>
@@ -160,7 +158,7 @@
               <i class="far fa-clock" style="margin-right: 6px; color: #34d399;"></i> {{ match.dt_str }}
             </td>
             <td style="padding: 12px 8px; color: #ffffff; font-weight: 700;">{{ match.moon_lon_str }}</td>
-            <td style="padding: 12px 8px; color: #cbd5e1; font-weight: 600;">{{ match.nakshatra }} ({{ match.padam }} వ పాదం)</td>
+            <td style="padding: 12px 8px; color: #cbd5e1; font-weight: 600;">{{ _('{{ match.nakshatra }} ({{ match.padam }} వ పాదం)') }}</td>
             <td style="padding: 12px 8px;">
               <span style="background: #10b981; color: #020617; font-weight: 800; font-size: 0.8rem; padding: 4px 14px; border-radius: 14px;">
                 100% Exact Match

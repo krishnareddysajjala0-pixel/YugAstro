@@ -323,7 +323,7 @@
         <!-- Friends/Enemies/Party section moved from results page -->
         {% if native_party %}
         <div class="party-info {{ 'guru-bg' if native_party == 'గురు వర్గము' else 'shani-bg' }}">
-            <div class="party-badge">{% if native_party == 'గురు వర్గము' %}{{ _('గురు వర్గ వ్యక్తి') }}{% else %}{{ _('శని వర్గ వ్యక్తి') }}{% endif %}</div>
+            <div class="party-badge">{{ _('{% if native_party == 'గురు వర్గము' %}{{ _('గురు వర్గ వ్యక్తి') }}{% else %}{{ _('శని వర్గ వ్యక్తి') }}{% endif %}') }}</div>
             <div style="font-size: 14px; margin-top: 5px; opacity: 0.9;">{{ _('మీ లగ్నం:') }} <strong>{{ lagna }}</strong></div>
         </div>
         {% endif %}
@@ -361,15 +361,12 @@
                 <div class="card-footer">
                     <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
                         {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
-                        {% else %}
-                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
-                        {% endif %}
-                    </div>
+                        <i class="fas fa-check-circle"></i>{{ _('{{ _('స్వంత ఇంట్లో ఉన్నది.') }}
+                        {% else %}') }}<i class="fas fa-info-circle"></i>{{ _('{{ _('ఇతర లగ్నములో ఉన్నది.') }}
+                        {% endif %}') }}</div>
                     {% if r.bitter_enemy %}
                     <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
-                    </div>
+                        <i class="fas fa-skull-crossbones"></i>{{ _('{{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}') }}</div>
                     {% endif %}
                 </div>
             </div>
@@ -414,15 +411,12 @@
                 <div class="card-footer">
                     <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
                         {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
-                        {% else %}
-                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
-                        {% endif %}
-                    </div>
+                        <i class="fas fa-check-circle"></i>{{ _('{{ _('స్వంత ఇంట్లో ఉన్నది.') }}
+                        {% else %}') }}<i class="fas fa-info-circle"></i>{{ _('{{ _('ఇతర లగ్నములో ఉన్నది.') }}
+                        {% endif %}') }}</div>
                     {% if r.bitter_enemy %}
                     <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
-                    </div>
+                        <i class="fas fa-skull-crossbones"></i>{{ _('{{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}') }}</div>
                     {% endif %}
                 </div>
             </div>

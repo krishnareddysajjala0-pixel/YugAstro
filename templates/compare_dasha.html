@@ -579,9 +579,9 @@
                     <div class="maha-header">
                         <div class="maha-icon {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.icon }}</div>
                         <div class="maha-info">
-                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.maha }} {{ _('మహాదశ') }}</div>
-                            <div class="maha-period">{{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }}</div>
-                            <div class="maha-age">{{ _('వయసు') }}: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
+                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ _('{{ dasa.maha }} {{ _('మహాదశ') }}') }}</div>
+                            <div class="maha-period">{{ _('{{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }}') }}</div>
+                            <div class="maha-age">{{ _('{{ _('వయసు') }}: {{ dasa.age_start }} - {{ dasa.age_end }}') }}</div>
                         </div>
                         <div class="maha-badges">
                             <span class="status-badge {% if dasa.stiti == 'ప్రస్తుతం' %}current-badge{% elif dasa.stiti == 'గతం' %}past-badge{% else %}future-badge{% endif %}">
@@ -625,9 +625,9 @@
                     <div class="maha-header">
                         <div class="maha-icon {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.icon }}</div>
                         <div class="maha-info">
-                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.maha }} {{ _('మహాదశ') }}</div>
-                            <div class="maha-period">{{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }}</div>
-                            <div class="maha-age">{{ _('వయసు') }}: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
+                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ _('{{ dasa.maha }} {{ _('మహాదశ') }}') }}</div>
+                            <div class="maha-period">{{ _('{{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }}') }}</div>
+                            <div class="maha-age">{{ _('{{ _('వయసు') }}: {{ dasa.age_start }} - {{ dasa.age_end }}') }}</div>
                         </div>
                         <div class="maha-badges">
                             <span class="status-badge {% if dasa.stiti == 'ప్రస్తుతం' %}current-badge{% elif dasa.stiti == 'గతం' %}past-badge{% else %}future-badge{% endif %}">

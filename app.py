@@ -58,6 +58,15 @@ def tr(text, lang=None):
             translated = translated + ' '
         return translated
         
+    # Prefix number matching (e.g. "1. అశ్విని" or "10) జాతకములో...")
+    num_prefix_match = re.match(r'^(\d+[\.\)]\s*)(.+)$', stripped)
+    if num_prefix_match:
+        prefix_str = num_prefix_match.group(1)
+        body_str = num_prefix_match.group(2).strip()
+        if body_str in mapping:
+            translated_body = mapping[body_str]
+            return f"{prefix_str}{translated_body}"
+
     # Suffix matching
     tithi_match = re.match(r'^(\d+)వ తిథి$', text)
     if tithi_match:
