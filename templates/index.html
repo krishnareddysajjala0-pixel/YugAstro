@@ -2937,7 +2937,7 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     
     body {
-        padding-bottom: 80px; /* Make space for nav */
+        padding-bottom: 20px;
     }
   </style>
 
@@ -2946,24 +2946,7 @@
       <div class="loader-astro"></div>
       <p id="typing-text-overlay" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
   </div>
-  <div class="fixed-bottom-bar-nav">
-      <a href="/" class="nav-item active nav-home">
-          <i class="fas fa-home"></i>
-          <span>{{ _('హోమ్') }}</span>
-      </a>
-      <a href="/compare_kundali" class="nav-item nav-compare">
-          <i class="fas fa-balance-scale"></i>
-          <span>{{ _('పోలిక') }}</span>
-      </a>
-      <a href="/daily_panchangam" class="nav-item nav-panch">
-          <i class="fas fa-om"></i>
-          <span>{{ _('పంచాంగం') }}</span>
-      </a>
-      <a href="/calendar_view" class="nav-item nav-cal">
-          <i class="fas fa-calendar-alt"></i>
-          <span>{{ _('క్యాలెండర్') }}</span>
-      </a>
-  </div>
+
   <script>
       function startTyping(targetId) {
           const element = document.getElementById(targetId);
