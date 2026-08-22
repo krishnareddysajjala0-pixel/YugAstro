@@ -8,7 +8,7 @@ html = re.sub(r'{% if panch\.chart %}.*?{% endif %}', '', html, flags=re.DOTALL)
 # maybe the tags are isolated
 html = re.sub(r'{% macro full_box.*?{% endmacro %}', '', html, flags=re.DOTALL)
 html = re.sub(r'<div class="chart-container-c">.*?</div>\s*</div>\s*', '', html, flags=re.DOTALL)
-html = html.replace('<h2 class="section-title"><i class="fas fa-th-large section-icon"></i> రాశి చక్రం</h2>', '')
+html = html.replace('<h2 class="section-title"><i class="fas fa-th-large section-icon"></i> లగ్న చక్రం</h2>', '')
 
 chart_block = """
                 {% if panch.chart %}

@@ -59,8 +59,8 @@ class YogaEngine:
                 active_yogas.append({
                     "id": f"YOGA_SWAKSHETRA_{p_name}",
                     "name_te": f"{p_name} స్వక్షేత్ర యోగం",
-                    "conditions": [f"{p_name} తన స్వంత రాశి నందు స్థితి పొందడం"],
-                    "matched_conditions": [f"{p_name} తన స్వంత రాశి అయిన {p_sign} ({h_num}వ భావం) నందు స్థితి పొందింది"],
+                    "conditions": [f"{p_name} తన స్వంత లగ్నం నందు స్థితి పొందడం"],
+                    "matched_conditions": [f"{p_name} తన స్వంత లగ్నం అయిన {p_sign} ({h_num}వ భావం) నందు స్థితి పొందింది"],
                     "strength": "మంచి",
                     "affected_topics": [context.house_signs.get(h_num, "వ్యక్తిత్వం")],
                     "positive_result": f"{p_name} స్వక్షేత్ర స్థితి వల్ల ఆ భావ కారకత్వాలు పరిపూర్ణ బలంతో సిద్ధస్తాయి.",

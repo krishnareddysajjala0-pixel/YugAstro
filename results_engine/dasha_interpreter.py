@@ -26,10 +26,10 @@ class DashaInterpreter:
         dasa_sign = context.planet_signs.get(dasa_planet, "మేషం")
 
         if is_fav:
-            text = f"ప్రస్తుతం జరుగుతున్న {dasa_planet} మహాగ్రహ దశ ({dasa_sign} రాశి, {dasa_house}వ భావం) మీ {context.lagna} లగ్నమునకు ({lagna_party}) అనుకూల యోగకారక దశగా పనిచేస్తుంది."
+            text = f"ప్రస్తుతం జరుగుతున్న {dasa_planet} మహాగ్రహ దశ ({dasa_sign} లగ్నం, {dasa_house}వ భావం) మీ {context.lagna} లగ్నమునకు ({lagna_party}) అనుకూల యోగకారక దశగా పనిచేస్తుంది."
             explanation = f"త్రైత సిద్ధాంతం ప్రకారం {dasa_planet} ({party} వర్గం) మీ లగ్న వర్గముతో అనుకూలంగా ఉన్నందున కార్యసిద్ధి, ధనాభివృద్ధి మరియు అభివృద్ధి అవకాశాలు లభిస్తాయి."
         else:
-            text = f"ప్రస్తుతం జరుగుతున్న {dasa_planet} మహాగ్రహ దశ ({dasa_sign} రాశి, {dasa_house}వ భావం) మీ {context.lagna} లగ్నమునకు ({lagna_party}) శోధన/పరీక్షా సమయంగా పనిచేస్తుంది."
+            text = f"ప్రస్తుతం జరుగుతున్న {dasa_planet} మహాగ్రహ దశ ({dasa_sign} లగ్నం, {dasa_house}వ భావం) మీ {context.lagna} లగ్నమునకు ({lagna_party}) శోధన/పరీక్షా సమయంగా పనిచేస్తుంది."
             explanation = f"త్రైత సిద్ధాంతం ప్రకారం {dasa_planet} ({party} వర్గం) మీ లగ్న వర్గముతో వ్యతిరేకంగా ఉన్నందున ఓర్పు, నియంత్రణ మరియు ప్రణాళికతో వ్యవహరించడం శ్రేయస్కరం."
 
         return {
@@ -59,10 +59,10 @@ class DashaInterpreter:
         anthara_sign = context.planet_signs.get(anthara_planet, "మేషం")
 
         if is_anthara_fav:
-            text = f"ప్రస్తుత అంతర్దశ (భుక్తి): {anthara_planet} భుక్తి ({anthara_sign} రాశి, {anthara_house}వ భావం) {dasa_planet} మహాగ్రహ దశలో అనుకూల ఫలితాలను మరియు మానసిక తృప్తిని అందిస్తుంది."
+            text = f"ప్రస్తుత అంతర్దశ (భుక్తి): {anthara_planet} భుక్తి ({anthara_sign} లగ్నం, {anthara_house}వ భావం) {dasa_planet} మహాగ్రహ దశలో అనుకూల ఫలితాలను మరియు మానసిక తృప్తిని అందిస్తుంది."
             explanation = f"{dasa_planet} దశలో {anthara_planet} అంతర్దశ మీ లగ్నమునకు అనుకూల యోగాన్ని అందిస్తోంది."
         else:
-            text = f"ప్రస్తుత అంతర్దశ (భుక్తి): {anthara_planet} భుక్తి ({anthara_sign} రాశి, {anthara_house}వ భావం) {dasa_planet} మహాగ్రహ దశలో జాగ్రత్తలను మరియు ఒత్తిడి నిర్వహణను కోరుతోంది."
+            text = f"ప్రస్తుత అంతర్దశ (భుక్తి): {anthara_planet} భుక్తి ({anthara_sign} లగ్నం, {anthara_house}వ భావం) {dasa_planet} మహాగ్రహ దశలో జాగ్రత్తలను మరియు ఒత్తిడి నిర్వహణను కోరుతోంది."
             explanation = f"{dasa_planet} దశలో {anthara_planet} అంతర్దశ సమయంలో నిగ్రహం అవసరం."
 
         return {

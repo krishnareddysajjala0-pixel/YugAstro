@@ -3621,7 +3621,7 @@ def nakshatra_detail(slug):
 
 @app.route('/rashulu')
 def rashulu_hub():
-    return render_template('rashulu_hub.html', rashulu=astrology_data.RASHULU_LIST, page_title='12 లగ్నాలు - స్వభావం & అధిపతులు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంతం ప్రకారం 12 లగ్నాలు (రాశులు), లగ్నాధిపతులు మరియు ద్వాదశ గ్రహాల స్వభావం.', canonical_url='https://ravanastro.vercel.app/rashulu')
+    return render_template('rashulu_hub.html', rashulu=astrology_data.RASHULU_LIST, page_title='12 లగ్నాలు - స్వభావం & అధిపతులు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంతం ప్రకారం 12 లగ్నాలు (లగ్నాలు), లగ్నాధిపతులు మరియు ద్వాదశ గ్రహాల స్వభావం.', canonical_url='https://ravanastro.vercel.app/rashulu')
 
 @app.route('/rashi/<slug>')
 def rashi_detail(slug):
