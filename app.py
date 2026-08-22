@@ -1,4 +1,4 @@
-from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, Response
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, Response, send_file
 import swisseph as swe
 import datetime
 import pytz
@@ -4007,6 +4007,18 @@ def payment_webhook():
         return jsonify({'status': 'rejected', 'reason': 'unverified_signature_or_credentials_missing'}), 400
         
     return jsonify({'status': 'verified', 'order_id': payload.get('order_id')}), 200
+
+@app.route('/rules-handbook')
+def rules_handbook():
+    from results_engine.rules_exporter import RulesExporter
+    dataset = RulesExporter.get_all_rules_dataset()
+    return render_template('rules_handbook.html', dataset=dataset, page_title='సంపూర్ణ జాతక నియమాల గ్రంథం | YugAstro & RAVAN ASTRO', canonical_url='https://ravanastro.vercel.app/rules-handbook', noindex=False)
+
+@app.route('/download-all-rules-pdf')
+def download_all_rules_pdf():
+    from generate_rules_pdf import build_pdf
+    pdf_path = build_pdf("static/YugAstro_All_Rules_Master_Handbook.pdf")
+    return send_file(pdf_path, as_attachment=True, download_name="YugAstro_All_Rules_Master_Handbook.pdf")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
