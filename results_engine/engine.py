@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Core Evaluation Engine for RAVAN ASTRO Results Engine (Version 3 QA Fixed).
-Enforces strict `is_relevant` relevance gate per topic, eliminates cross-topic contamination,
-calculates evidence scores, tracks exact reason counts, and prints console debug report:
-TOPIC | POSITIVE RULES | NEGATIVE RULES | SCORE | STATUS
+Core Evaluation Engine for RAVAN ASTRO Results Engine (Strict Timeastro Rules Integration).
+Enforces exact Timeastro rule database (bhava_lord_rules.json, detailed_bhava_meanings.json,
+astro_constants.json, and Timeastro planetary rules) with strict topic relevance.
 """
 
 from typing import Dict, List, Any, Optional
@@ -32,19 +31,22 @@ class ResultsEngine:
     def evaluate(self, context: NormalizedChartContext) -> Dict[str, Any]:
         scorers: Dict[str, CategoryScorer] = {cat: CategoryScorer(cat) for cat in CATEGORIES}
 
-        # 1. Evaluate House Lord Placements with Strict Relevance Gate
+        # 1. Evaluate House Lord Placements (Timeastro bhava_lord_rules.json)
         self._evaluate_house_lord_placements(context, scorers)
 
-        # 2. Evaluate Detailed Bhava Meanings with Strict Relevance Gate
+        # 2. Evaluate Detailed Bhava Meanings (Timeastro detailed_bhava_meanings.json)
         self._evaluate_detailed_bhava_meanings(context, scorers)
 
-        # 3. Evaluate Dasha & Antardasha
+        # 3. Evaluate Specific Timeastro Planetary Rules
+        self._evaluate_timeastro_planetary_rules(context, scorers)
+
+        # 4. Evaluate Dasha & Antardasha
         self._evaluate_dasa_and_antardasha(context, scorers)
 
-        # 4. Evaluate Transits
+        # 5. Evaluate Transits
         self._evaluate_transits(context, scorers)
 
-        # 5. Evaluate Yogas
+        # 6. Evaluate Yogas
         yogas = self.yoga_engine.evaluate_yogas(context)
         if yogas:
             for y in yogas:
@@ -65,7 +67,7 @@ class ResultsEngine:
         neutral_count = 0
 
         print("\n==========================================================================================")
-        print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT")
+        print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT (TIMEASTRO STRICT RULES)")
         print("==========================================================================================")
         print(f"{'TOPIC':<24} | {'POSITIVE RULES':<14} | {'NEGATIVE RULES':<14} | {'SCORE':<6} | STATUS")
         print("------------------------------------------------------------------------------------------")
@@ -212,6 +214,58 @@ class ResultsEngine:
                         "explanation": f"{title} హెచ్చరిక: {paapa_text}"
                     }
                     scorers[topic].add_reason(reason, WEIGHTS['BHAVA_MEANING_PAAPA'])
+
+    def _evaluate_timeastro_planetary_rules(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
+        """Evaluates exact Timeastro planetary scenario rules across the 12 houses."""
+        for p_name, p_house in context.planet_houses.items():
+            is_fav = context.is_favorable_planet(p_name)
+
+            # 4th House Rules
+            if p_house == 4:
+                if "సూర్యుడు" in p_name:
+                    txt = "సూర్యుడు 4వ లగ్నములో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును." if is_fav else "సూర్యుడు శత్రుగ్రహమై 4వ లగ్నములో ఉన్నందున గృహ సుఖములు లోపించును."
+                    reason = {"rule_id": f"TIMEASTRO_P_4_SUN_{'FAV' if is_fav else 'UNFAV'}", "source": "Timeastro Rules", "house": 4, "type": "shubha" if is_fav else "paapa", "text": txt, "explanation": txt}
+                    if is_fav: scorers["గృహం"].add_reason(reason, 2)
+                    else: scorers["గృహం"].add_reason(reason, -2)
+
+                if "రాహు" in p_name:
+                    txt = "దొంగవృత్తి లేదా దోపిడీల ద్వారా లక్షలు సంపాదించుట, సమాజములో భయంతో కూడిన గౌరవము." if is_fav else "దొంగతనములలో దొరికిపోవుట, పోలీస్ కేసులు, జైలు జీవితము అనుభవించవలసి రావచ్చు."
+                    reason = {"rule_id": f"TIMEASTRO_P_4_RAHU_{'FAV' if is_fav else 'UNFAV'}", "source": "Timeastro Rules", "house": 4, "type": "shubha" if is_fav else "paapa", "text": txt, "explanation": txt}
+                    if is_fav: scorers["స్థిరాస్తి"].add_reason(reason, 2)
+                    else: scorers["గృహం"].add_reason(reason, -2)
+
+            # 7th House Rules
+            if p_house == 7:
+                if "శుక్రుడు" in p_name:
+                    txt = "అందమైన, అనుకూలమైన భార్య/భర్త లభించును. ఆమె/అతని వలన మనశ్శాంతి, సుఖము ఉండును." if is_fav else "కళత్రము వలన కష్టములు, మనఃశ్శాంతి లోపించును."
+                    reason = {"rule_id": f"TIMEASTRO_P_7_VENUS_{'FAV' if is_fav else 'UNFAV'}", "source": "Timeastro Rules", "house": 7, "type": "shubha" if is_fav else "paapa", "text": txt, "explanation": txt}
+                    scorers["వివాహం"].add_reason(reason, 2 if is_fav else -2)
+                if "కుజుడు" in p_name and not is_fav:
+                    txt = "యుక్తవయస్సులో వివాహము ఆలస్యమగును."
+                    reason = {"rule_id": "TIMEASTRO_P_7_MARS_UNFAV", "source": "Timeastro Rules", "house": 7, "type": "paapa", "text": txt, "explanation": txt}
+                    scorers["వివాహం"].add_reason(reason, -2)
+
+            # 3rd House Rules
+            if p_house == 3:
+                if "గురు" in p_name:
+                    txt = "బంగారము లేదా ధనము ఏదో ఒక విధంగా లభ్యమగుట (వ్యాపార లాభం లేదా అదృష్టం)." if is_fav else "ఉన్న బంగారమును కూడా అమ్మవలసిన పరిస్థితులు ఏర్పడును."
+                    reason = {"rule_id": f"TIMEASTRO_P_3_JUPITER_{'FAV' if is_fav else 'UNFAV'}", "source": "Timeastro Rules", "house": 3, "type": "shubha" if is_fav else "paapa", "text": txt, "explanation": txt}
+                    scorers["ధనం"].add_reason(reason, 2 if is_fav else -2)
+
+            # 10th House Rules
+            if p_house == 10:
+                if "సూర్యుడు" in p_name or "చంద్రుడు" in p_name:
+                    txt = "ప్రభుత్వ ఉన్నత ఉద్యోగి (కలెక్టర్) లేదా మంత్రి పదవి యోగం."
+                    reason = {"rule_id": "TIMEASTRO_P_10_SUN_MOON", "source": "Timeastro Rules", "house": 10, "type": "shubha", "text": txt, "explanation": txt}
+                    scorers["అధికార స్థానం"].add_reason(reason, 3)
+                    scorers["ఉద్యోగం"].add_reason(reason, 2)
+
+            # 5th House Rules
+            if p_house == 5:
+                if "కేతు" in p_name:
+                    txt = "దేవుని వైపు చింత, హేతువాదిక జ్ఞానము, సత్యాన్వేషణలో దైవభక్తి పెరగడము." if is_fav else "దైవజ్ఞానము మీద ఆసక్తి ఉండదు, పూర్తిగా ప్రపంచ జ్ఞానములోనే ఉండిపోవుట."
+                    reason = {"rule_id": f"TIMEASTRO_P_5_KETU_{'FAV' if is_fav else 'UNFAV'}", "source": "Timeastro Rules", "house": 5, "type": "shubha" if is_fav else "paapa", "text": txt, "explanation": txt}
+                    scorers["ఆధ్యాత్మికత"].add_reason(reason, 2 if is_fav else -2)
 
     def _evaluate_dasa_and_antardasha(self, context: NormalizedChartContext, scorers: Dict[str, CategoryScorer]):
         dasa_reason = DashaInterpreter.interpret_mahadasha(context)
