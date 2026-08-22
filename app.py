@@ -4020,5 +4020,11 @@ def download_all_rules_pdf():
     pdf_path = build_pdf("static/YugAstro_All_Rules_Master_Handbook.pdf")
     return send_file(pdf_path, as_attachment=True, download_name="YugAstro_All_Rules_Master_Handbook.pdf")
 
+@app.route('/download-all-rules-txt')
+def download_all_rules_txt():
+    from generate_text_rules import generate_text_rules_doc
+    txt_path = generate_text_rules_doc("static/YugAstro_All_Telugu_Rules_Master_Document.txt")
+    return send_file(txt_path, as_attachment=True, download_name="YugAstro_All_Telugu_Rules_Master_Document.txt")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
