@@ -102,9 +102,15 @@ def translate_html_string(html_str, lang=None):
         return html_str
         
     def repl(match):
-        text = match.group(2)
-        if text.strip():
-            return f"{match.group(1)}{tr(text, lang)}{match.group(3)}"
+        prefix, text, suffix = match.group(1), match.group(2), match.group(3)
+        stripped = text.strip()
+        if stripped and not stripped.startswith('{') and not stripped.startswith('/*') and not stripped.startswith('var ') and not stripped.startswith('function'):
+            translated = tr(stripped, lang)
+            if translated != stripped:
+                leading_space = ' ' if text.startswith(' ') or '\n' in text[:len(text)-len(stripped)] else ''
+                trailing_space = ' ' if text.endswith(' ') or '\n' in text[len(text)-len(stripped):] else ''
+                return f"{prefix}{leading_space}{translated}{trailing_space}{suffix}"
+            return f"{prefix}{tr(text, lang)}{suffix}"
         return match.group(0)
     return re.sub(r'(>)([^<]+)(<)', repl, html_str)
 
@@ -225,45 +231,20 @@ def inject_translation():
     if has_request_context():
         lang = session.get('lang', 'te')
     
-    mapping = get_translations_dict(lang)
-    
     def translate_text(text):
         if not text or lang == 'te':
             return text
         if text == 'భాష':
             return {
                 'en': 'Language',
-                'kn': 'ಭಾಷೆ',
+                'kn': 'ഭാಷೆ',
                 'hi': 'भाषा',
                 'ta': 'மொழி',
                 'ml': 'ഭാഷ',
                 'or': 'ଭାଷା'
             }.get(lang, 'Language')
         if isinstance(text, str):
-            if text in mapping:
-                return mapping[text]
-            
-            # Suffix matching
-            import re
-            tithi_match = re.match(r'^(\d+)వ తిథి$', text)
-            if tithi_match:
-                num = tithi_match.group(1)
-                suffix = mapping.get("వ తిథి", " Tithi")
-                return f"{num}{suffix}"
-                
-            padam_match = re.match(r'^(\d+)వ పాదం$', text)
-            if padam_match:
-                num = padam_match.group(1)
-                suffix = mapping.get("వ పాదం", " Pada")
-                return f"{num}{suffix}"
-                
-            # Handle combined times
-            if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
-                translated_text = text
-                for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
-                    if te_word in translated_text:
-                        translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
-                return translated_text
+            return tr(text, lang)
                 
         return text
     return dict(_=translate_text, current_lang=lang)
