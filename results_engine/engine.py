@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-RAVAN ASTRO VERSION 5 — Core Interpretation & Evidence Engine.
-Creates structured Evidence Objects, calculates net scores, and prints mandatory debug output:
-TOPIC | SELECTED_RULE_IDS | POS_CNT | NEG_CNT | POS_SCORE | NEG_SCORE | NET_SCORE | CLASSIFICATION
+Core Evaluation Engine for RAVAN ASTRO Results Engine (Version 3 QA Fixed).
+Enforces strict `is_relevant` relevance gate per topic, eliminates cross-topic contamination,
+calculates evidence scores, tracks exact reason counts, and prints console debug report:
+TOPIC | POSITIVE RULES | NEGATIVE RULES | SCORE | STATUS
 """
 
 from typing import Dict, List, Any, Optional
@@ -56,29 +57,27 @@ class ResultsEngine:
                 }
                 scorers["ముఖ్య యోగాలు"].add_reason(reason, 3)
 
-        # Mandatory Debug Table Print
-        print("\n===================================================================================================")
-        print("RAVAN ASTRO VERSION 5 RESULTS ENGINE CONSOLE DEBUG REPORT")
-        print("===================================================================================================")
-        print(f"{'TOPIC':<20} | {'SELECTED_RULE_IDS':<25} | {'POS_CNT':<7} | {'NEG_CNT':<7} | {'POS_SCR':<7} | {'NEG_SCR':<7} | {'NET_SCR':<7} | CLASSIFICATION")
-        print("---------------------------------------------------------------------------------------------------")
-
+        # Build Topic Objects and Console Debug Report
         evaluated_categories = {}
         rule_count = 0
         positive_count = 0
         negative_count = 0
         neutral_count = 0
 
+        print("\n==========================================================================================")
+        print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT")
+        print("==========================================================================================")
+        print(f"{'TOPIC':<24} | {'POSITIVE RULES':<14} | {'NEGATIVE RULES':<14} | {'SCORE':<6} | STATUS")
+        print("------------------------------------------------------------------------------------------")
+
         for cat_name in CATEGORIES:
             scorer = scorers[cat_name]
             res = scorer.get_summary()
-
             pos_reasons = res.get("positive_reasons", [])
             neg_reasons = res.get("negative_reasons", [])
 
             pos_rule_ids = list(dict.fromkeys([r.get("rule_id") for r in pos_reasons if r.get("rule_id")]))
             neg_rule_ids = list(dict.fromkeys([r.get("rule_id") for r in neg_reasons if r.get("rule_id")]))
-            all_selected_ids = pos_rule_ids + neg_rule_ids
 
             syn_info = ResultSynthesizer.synthesize_topic_result(cat_name, pos_reasons, neg_reasons)
             summary_te = syn_info["synthesized_text"]
@@ -86,17 +85,13 @@ class ResultsEngine:
             t_def = TOPIC_DEFINITIONS.get(cat_name, {})
             t_id = t_def.get("topic_id", cat_name)
 
-            # Build Topic Object matching Internal Data Model
             topic_object = {
                 "topic_id": t_id,
                 "title_te": cat_name,
                 "classification": res["level"],
                 "color": res["color"],
                 "icon": res["icon"],
-                "positive_score": res["positive_score"],
-                "negative_score": res["negative_score"],
-                "net_score": res["net_score"],
-                "score": res["net_score"],
+                "score": res["score"],
                 "summary_te": summary_te,
                 "user_summary": summary_te,
                 "positive_evidence": pos_reasons,
@@ -104,29 +99,25 @@ class ResultsEngine:
                 "all_reasons": pos_reasons + neg_reasons,
                 "supporting_rule_ids": pos_rule_ids,
                 "contradicting_rule_ids": neg_rule_ids,
-                "confidence": "high" if len(all_selected_ids) >= 2 else "medium",
+                "confidence": "high" if (len(pos_rule_ids) + len(neg_rule_ids)) >= 2 else "medium",
                 "dasha_relevance": f"{context.current_dasa} దశ - {context.current_anthara} భుక్తి",
                 "transit_relevance": "2026 శని & గురు గోచారం"
             }
 
             evaluated_categories[cat_name] = topic_object
 
-            rule_ids_str = ",".join(all_selected_ids[:2]) if all_selected_ids else "NONE"
-            if len(all_selected_ids) > 2:
-                rule_ids_str += f"(+{len(all_selected_ids)-2})"
+            print(f"{cat_name:<24} | {len(pos_rule_ids):<14} | {len(neg_rule_ids):<14} | {res['score']:<6} | {res['level']}")
 
-            print(f"{cat_name:<20} | {rule_ids_str:<25} | {len(pos_reasons):<7} | {len(neg_reasons):<7} | {res['positive_score']:<7} | {res['negative_score']:<7} | {res['net_score']:<7} | {res['level']}")
-
-            cat_rules = len(all_selected_ids)
+            cat_rules = len(pos_rule_ids) + len(neg_rule_ids)
             rule_count += cat_rules
-            if res["net_score"] >= 4:
+            if res["score"] >= 2:
                 positive_count += 1
-            elif res["net_score"] <= -3:
+            elif res["score"] <= -2:
                 negative_count += 1
             else:
                 neutral_count += 1
 
-        print("===================================================================================================\n")
+        print("==========================================================================================\n")
 
         return {
             "categories": evaluated_categories,
@@ -156,17 +147,13 @@ class ResultsEngine:
                     continue
 
                 if shubha_text:
-                    weight = WEIGHTS['BHAVA_LORD_SHUBHA'] if is_favorable else 2
+                    weight = WEIGHTS['BHAVA_LORD_SHUBHA'] if is_favorable else 1
                     reason = {
                         "rule_id": f"BHAVA_LORD_{h_num}_{p_house}_SHUBHA",
-                        "topic_id": TOPIC_DEFINITIONS.get(topic, {}).get("topic_id", topic),
                         "source": "bhava_lord_rules.json",
                         "house": h_num,
-                        "planet": lord_planet,
                         "lord": lord_planet,
                         "placement": p_house,
-                        "polarity": "positive",
-                        "strength": weight,
                         "type": "shubha",
                         "text": shubha_text,
                         "explanation": f"{h_num}వ భావాధిపతి ({lord_planet}) {p_house}వ భావ స్థితి: {shubha_text}"
@@ -174,17 +161,13 @@ class ResultsEngine:
                     scorers[topic].add_reason(reason, weight)
 
                 if paapa_text:
-                    weight = WEIGHTS['BHAVA_LORD_PAAPA'] if not is_favorable else -2
+                    weight = WEIGHTS['BHAVA_LORD_PAAPA'] if not is_favorable else -1
                     reason = {
                         "rule_id": f"BHAVA_LORD_{h_num}_{p_house}_PAAPA",
-                        "topic_id": TOPIC_DEFINITIONS.get(topic, {}).get("topic_id", topic),
                         "source": "bhava_lord_rules.json",
                         "house": h_num,
-                        "planet": lord_planet,
                         "lord": lord_planet,
                         "placement": p_house,
-                        "polarity": "negative",
-                        "strength": abs(weight),
                         "type": "paapa",
                         "text": paapa_text,
                         "explanation": f"{h_num}వ భావాధిపతి ({lord_planet}) {p_house}వ భావ స్థితి (హెచ్చరిక): {paapa_text}"
@@ -212,12 +195,8 @@ class ResultsEngine:
                 if is_favorable and shubha_text:
                     reason = {
                         "rule_id": f"BHAVA_MEANING_{h_num}_SHUBHA",
-                        "topic_id": TOPIC_DEFINITIONS.get(topic, {}).get("topic_id", topic),
                         "source": "detailed_bhava_meanings.json",
                         "house": h_num,
-                        "planet": lord,
-                        "polarity": "positive",
-                        "strength": WEIGHTS['BHAVA_MEANING_SHUBHA'],
                         "type": "shubha",
                         "text": shubha_text,
                         "explanation": f"{title} శుభ స్థితి: {shubha_text}"
@@ -226,12 +205,8 @@ class ResultsEngine:
                 elif not is_favorable and paapa_text:
                     reason = {
                         "rule_id": f"BHAVA_MEANING_{h_num}_PAAPA",
-                        "topic_id": TOPIC_DEFINITIONS.get(topic, {}).get("topic_id", topic),
                         "source": "detailed_bhava_meanings.json",
                         "house": h_num,
-                        "planet": lord,
-                        "polarity": "negative",
-                        "strength": abs(WEIGHTS['BHAVA_MEANING_PAAPA']),
                         "type": "paapa",
                         "text": paapa_text,
                         "explanation": f"{title} హెచ్చరిక: {paapa_text}"
