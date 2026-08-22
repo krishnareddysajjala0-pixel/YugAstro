@@ -2363,6 +2363,7 @@ def compare_dasha():
                          now_date=now_date, now_time=now_time)
 
 @app.route("/chart3")
+@app.route("/dwadasa_graha_visheshalu")
 def chart3():
     """Display Dwadasa Grahamula Phalitalu"""
     current_year = datetime.datetime.now().year
