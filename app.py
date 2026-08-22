@@ -131,7 +131,8 @@ def render_template(template_name_or_list, **context):
         for k, v in context.items():
             translated_context[k] = translate_data(v, lang)
         translated_context['current_lang'] = lang
-        return flask_render_template(template_name_or_list, **translated_context)
+        rendered = flask_render_template(template_name_or_list, **translated_context)
+        return translate_html_string(rendered, lang)
     context['current_lang'] = 'te'
     return flask_render_template(template_name_or_list, **context)
 
