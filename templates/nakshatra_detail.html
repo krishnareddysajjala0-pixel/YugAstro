@@ -2,7 +2,7 @@
 
 {% block schema_markup %}
 <script type="application/ld+json">
-{
+{{ _('{
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -65,7 +65,7 @@
     }
     {% endif %}
   ]
-}
+}') }}
 </script>
 {% endblock %}
 
@@ -73,16 +73,16 @@
 <article class="page-card">
   <!-- Breadcrumb -->
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
-    <a href="/nakshatrams" style="color: var(--text-muted); text-decoration: none;">నక్షత్రాలు</a> &rsaquo; 
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
+    <a href="/nakshatrams" style="color: var(--text-muted); text-decoration: none;">{{ _('నక్షత్రాలు') }}</a> &rsaquo; 
     <span style="color: var(--accent-gold);">{{ data.name_te }}</span>
   </div>
 
   <h1 class="page-title">{{ data.h1 }}</h1>
 
   <div class="meta-bar">
-    <span><i class="far fa-calendar-alt"></i> చివరిసారి నవీకరించబడింది: 08 ఆగస్టు 2026</span>
-    <span><i class="far fa-user"></i> రావణ ఆస్ట్రో రీసెర్చ్ టీమ్</span>
+    <span><i class="far fa-calendar-alt"></i> {{ _('చివరిసారి నవీకరించబడింది: 08 ఆగస్టు 2026') }}</span>
+    <span><i class="far fa-user"></i> {{ _('రావణ ఆస్ట్రో రీసెర్చ్ టీమ్') }}</span>
   </div>
 
   <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-main); margin-bottom: 24px;">
@@ -91,47 +91,47 @@
 
   {% if not data.is_full_content %}
   <div style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--accent-gold); padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 24px;">
-    <i class="fas fa-info-circle"></i> గమనిక: ఈ నక్షత్రానికి సంబంధించి సంక్షిప్త వివరణ క్రింద ఇవ్వబడింది. సంపూర్ణ 4 పాదాల పరిశోధనా పత్రం త్వరలోనే నవీకరించబడుతుంది.
+    <i class="fas fa-info-circle"></i> {{ _('గమనిక: ఈ నక్షత్రానికి సంబంధించి సంక్షిప్త వివరణ క్రింద ఇవ్వబడింది. సంపూర్ణ 4 పాదాల పరిశోధనా పత్రం త్వరలోనే నవీకరించబడుతుంది.') }}
   </div>
   {% endif %}
 
   <!-- Quick Facts Table -->
   <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
-    <h3 style="color: var(--accent-gold); margin-bottom: 14px; font-size: 1.1rem;"><i class="fas fa-list-alt"></i> ముఖ్యాంశాలు (Quick Facts)</h3>
+    <h3 style="color: var(--accent-gold); margin-bottom: 14px; font-size: 1.1rem;"><i class="fas fa-list-alt"></i> {{ _('ముఖ్యాంశాలు (Quick Facts)') }}</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; font-size: 0.95rem;">
-      <div><strong>నక్షత్ర సంఖ్య:</strong> {{ data.number }} / 27</div>
-      <div><strong>అధిపతి గ్రహం:</strong> {{ data.lord_te }}</div>
-      <div><strong>అధిదేవత:</strong> {{ data.deity_te }}</div>
-      <div><strong>చెందిన లగ్నం:</strong> {{ data.rashi_te }}</div>
-      <div><strong>చిహ్నం:</strong> {{ data.symbol_te }}</div>
+      <div><strong>{{ _('నక్షత్ర సంఖ్య:') }}</strong> {{ data.number }} / 27</div>
+      <div><strong>{{ _('అధిపతి గ్రహం:') }}</strong> {{ data.lord_te }}</div>
+      <div><strong>{{ _('అధిదేవత:') }}</strong> {{ data.deity_te }}</div>
+      <div><strong>{{ _('చెందిన లగ్నం:') }}</strong> {{ data.rashi_te }}</div>
+      <div><strong>{{ _('చిహ్నం:') }}</strong> {{ data.symbol_te }}</div>
     </div>
   </div>
 
   <div class="content-body">
-    <h2>నక్షత్ర అవలోకనం (Overview)</h2>
+    <h2>{{ _('నక్షత్ర అవలోకనం (Overview)') }}</h2>
     <p>{{ data.overview }}</p>
 
-    <h2>బలాలు మరియు సద్గుణాలు (Strengths)</h2>
+    <h2>{{ _('బలాలు మరియు సద్గుణాలు (Strengths)') }}</h2>
     <ul>
       {% for str in data.strengths %}
       <li>{{ str }}</li>
       {% endfor %}
     </ul>
 
-    <h2>జాగ్రత్తగా చూడాల్సిన అంశాలు (Cautions)</h2>
+    <h2>{{ _('జాగ్రత్తగా చూడాల్సిన అంశాలు (Cautions)') }}</h2>
     <ul>
       {% for cau in data.cautions %}
       <li>{{ cau }}</li>
       {% endfor %}
     </ul>
 
-    <h2>అనుకూల వృత్తి మరియు ఉద్యోగాలు (Career & Professions)</h2>
+    <h2>{{ _('అనుకూల వృత్తి మరియు ఉద్యోగాలు (Career & Professions)') }}</h2>
     <p>{{ data.career }}</p>
 
-    <h2>సంబంధాలు మరియు అనుకూలత (Relationships)</h2>
+    <h2>{{ _('సంబంధాలు మరియు అనుకూలత (Relationships)') }}</h2>
     <p>{{ data.relationships }}</p>
 
-    <h2>నాలుగు పాదాల ఫలితాలు (4 Padas Overview)</h2>
+    <h2>{{ _('నాలుగు పాదాల ఫలితాలు (4 Padas Overview)') }}</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px;">
       {% for pada in data.padas %}
       <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); padding: 14px; border-radius: 8px;">
@@ -142,19 +142,19 @@
     </div>
 
     {% if data.faqs %}
-    <h2>తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
+    <h2>{{ _('తరచుగా అడిగే ప్రశ్నలు (FAQs)') }}</h2>
     {% for faq in data.faqs %}
     <div style="margin-bottom: 14px;">
-      <strong style="color: var(--accent-gold);">ప్ర: {{ faq.q }}</strong>
-      <p style="margin-top: 4px;">జ: {{ faq.a }}</p>
+      <strong style="color: var(--accent-gold);">{{ _('ప్ర: {{ faq.q }}') }}</strong>
+      <p style="margin-top: 4px;">{{ _('జ: {{ faq.a }}') }}</p>
     </div>
     {% endfor %}
     {% endif %}
 
     <div class="cta-box">
-      <h3>మీ జన్మ నక్షత్రం తెలుసుకోవాలనుకుంటున్నారా?</h3>
-      <p>మీ జన్మ సమయం మరియు స్థలం ఉపయోగించి తక్షణం జన్మ కుండలి మరియు నక్షత్ర ఫలితాలు పొందండి.</p>
-      <a href="/" class="cta-btn"><i class="fas fa-star"></i> నా జన్మ నక్షత్రం చూడండి</a>
+      <h3>{{ _('మీ జన్మ నక్షత్రం తెలుసుకోవాలనుకుంటున్నారా?') }}</h3>
+      <p>{{ _('మీ జన్మ సమయం మరియు స్థలం ఉపయోగించి తక్షణం జన్మ కుండలి మరియు నక్షత్ర ఫలితాలు పొందండి.') }}</p>
+      <a href="/" class="cta-btn"><i class="fas fa-star"></i> {{ _('నా జన్మ నక్షత్రం చూడండి') }}</a>
     </div>
   </div>
 </article>

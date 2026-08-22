@@ -532,7 +532,7 @@
       <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
     </button>
     <div class="lang-options">
-      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">{{ _('తెలుగు') }}</a>
       <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
       <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
       <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
@@ -572,7 +572,7 @@
         <!-- Individual 1 -->
         <div class="person-column">
             <div class="person-header">{{ p1.name }}</div>
-            <div class="section-title">✨ {{ dasha1.total_cycle_years }} సంవత్సరాల చక్రం ✨</div>
+            <div class="section-title">{{ _('✨ {{ dasha1.total_cycle_years }} సంవత్సరాల చక్రం ✨') }}</div>
             <div class="dasa-section">
                 {% for dasa in dasha1.all_dasas %}
                 <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %}" onclick="this.classList.toggle('expanded')">
@@ -618,7 +618,7 @@
         <!-- Individual 2 -->
         <div class="person-column">
             <div class="person-header">{{ p2.name }}</div>
-            <div class="section-title">✨ {{ dasha2.total_cycle_years }} సంవత్సరాల చక్రం ✨</div>
+            <div class="section-title">{{ _('✨ {{ dasha2.total_cycle_years }} సంవత్సరాల చక్రం ✨') }}</div>
             <div class="dasa-section">
                 {% for dasa in dasha2.all_dasas %}
                 <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %}" onclick="this.classList.toggle('expanded')">
@@ -738,7 +738,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -747,7 +747,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -761,26 +761,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
-                if (oc.indexOf('fetch') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (oc.indexOf(\'print()\') !== -1) return;
+                if (oc.indexOf(\'fetch\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item <a> links
+            // Attach to nav-item') }} <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;

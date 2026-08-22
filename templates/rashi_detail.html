@@ -2,7 +2,7 @@
 
 {% block schema_markup %}
 <script type="application/ld+json">
-{
+{{ _('{
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -65,7 +65,7 @@
     }
     {% endif %}
   ]
-}
+}') }}
 </script>
 {% endblock %}
 
@@ -73,8 +73,8 @@
 <article class="page-card">
   <!-- Breadcrumb -->
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
-    <a href="/rashulu" style="color: var(--text-muted); text-decoration: none;">లగ్నాలు</a> &rsaquo; 
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
+    <a href="/rashulu" style="color: var(--text-muted); text-decoration: none;">{{ _('లగ్నాలు') }}</a> &rsaquo; 
     <span style="color: var(--accent-gold);">{{ data.name_te }}</span>
   </div>
 
@@ -88,68 +88,68 @@
 
   {% if not data.is_full_content %}
   <div style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--accent-gold); padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 24px;">
-    <i class="fas fa-info-circle"></i> గమనిక: ఈ లగ్నానికి సంబంధించి ప్రాథమిక సమాచారం క్రింద ఇవ్వబడింది. సంపూర్ణ 2026 గోచార నిత్రైతిక త్వరలోనే అందుబాటులోకి వస్తుంది.
+    <i class="fas fa-info-circle"></i> {{ _('గమనిక: ఈ లగ్నానికి సంబంధించి ప్రాథమిక సమాచారం క్రింద ఇవ్వబడింది. సంపూర్ణ 2026 గోచార నిత్రైతిక త్వరలోనే అందుబాటులోకి వస్తుంది.') }}
   </div>
   {% endif %}
 
   <!-- Quick Facts Table -->
   <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
-    <h3 style="color: var(--accent-gold); margin-bottom: 14px; font-size: 1.1rem;"><i class="fas fa-compass"></i> లగ్న వివరాలు (Thraitha Lagnam Facts)</h3>
+    <h3 style="color: var(--accent-gold); margin-bottom: 14px; font-size: 1.1rem;"><i class="fas fa-compass"></i> {{ _('లగ్న వివరాలు (Thraitha Lagnam Facts)') }}</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; font-size: 0.95rem;">
-      <div><strong>లగ్న సంఖ్య:</strong> {{ data.number }} / 12</div>
-      <div><strong>లగ్నాధిపతి:</strong> {{ data.lord_te }}</div>
-      <div><strong>పంచభూత తత్వం:</strong> {{ data.element_te }}</div>
-      <div><strong>లగ్న చిహ్నం:</strong> {{ data.symbol_te }}</div>
+      <div><strong>{{ _('లగ్న సంఖ్య:') }}</strong> {{ data.number }} / 12</div>
+      <div><strong>{{ _('లగ్నాధిపతి:') }}</strong> {{ data.lord_te }}</div>
+      <div><strong>{{ _('పంచభూత తత్వం:') }}</strong> {{ data.element_te }}</div>
+      <div><strong>{{ _('లగ్న చిహ్నం:') }}</strong> {{ data.symbol_te }}</div>
     </div>
   </div>
 
   <div class="content-body">
-    <h2>లగ్నం స్వభావం మరియు విశ్లేషణ (Overview)</h2>
+    <h2>{{ _('లగ్నం స్వభావం మరియు విశ్లేషణ (Overview)') }}</h2>
     <p>{{ data.overview }}</p>
 
-    <h2>ప్రధాన బలాలు (Strengths)</h2>
+    <h2>{{ _('ప్రధాన బలాలు (Strengths)') }}</h2>
     <ul>
       {% for str in data.strengths %}
       <li>{{ str }}</li>
       {% endfor %}
     </ul>
 
-    <h2>జాగ్రత్త పడాల్సిన విషయాలు (Cautions)</h2>
+    <h2>{{ _('జాగ్రత్త పడాల్సిన విషయాలు (Cautions)') }}</h2>
     <ul>
       {% for cau in data.cautions %}
       <li>{{ cau }}</li>
       {% endfor %}
     </ul>
 
-    <h2>ఉద్యోగ మరియు వ్యాపార అవకాశాలు (Career & Business)</h2>
+    <h2>{{ _('ఉద్యోగ మరియు వ్యాపార అవకాశాలు (Career & Business)') }}</h2>
     <p>{{ data.career }}</p>
 
-    <h2>సంబంధాలు మరియు ప్రేమ (Relationships)</h2>
+    <h2>{{ _('సంబంధాలు మరియు ప్రేమ (Relationships)') }}</h2>
     <p>{{ data.relationships }}</p>
 
-    <h2>ఆర్థిక శ్రద్ధ (Finance & Wealth)</h2>
+    <h2>{{ _('ఆర్థిక శ్రద్ధ (Finance & Wealth)') }}</h2>
     <p>{{ data.finance }}</p>
 
-    <h2>ఆరోగ్యం (Health & Wellness)</h2>
+    <h2>{{ _('ఆరోగ్యం (Health & Wellness)') }}</h2>
     <p>{{ data.health }}</p>
 
-    <h2>2026 గోచార సూచనలు (2026 Transit Overview)</h2>
+    <h2>{{ _('2026 గోచార సూచనలు (2026 Transit Overview)') }}</h2>
     <p>{{ data.gocharam_2026 }}</p>
 
     {% if data.faqs %}
-    <h2>తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
+    <h2>{{ _('తరచుగా అడిగే ప్రశ్నలు (FAQs)') }}</h2>
     {% for faq in data.faqs %}
     <div style="margin-bottom: 14px;">
-      <strong style="color: var(--accent-gold);">ప్ర: {{ faq.q }}</strong>
-      <p style="margin-top: 4px;">జ: {{ faq.a }}</p>
+      <strong style="color: var(--accent-gold);">{{ _('ప్ర: {{ faq.q }}') }}</strong>
+      <p style="margin-top: 4px;">{{ _('జ: {{ faq.a }}') }}</p>
     </div>
     {% endfor %}
     {% endif %}
 
     <div class="cta-box">
-      <h3>మీ వ్యక్తిగత జాతక చక్రం చూడండి</h3>
-      <p>మీ పుట్టిన సమయం ప్రకారం మీ లగ్నము, లగ్నం మరియు దశల సమగ్ర ఫలితాలను చూడండి.</p>
-      <a href="/" class="cta-btn"><i class="fas fa-star"></i>  జాతక చక్రం లెక్కించండి</a>
+      <h3>{{ _('మీ వ్యక్తిగత జాతక చక్రం చూడండి') }}</h3>
+      <p>{{ _('మీ పుట్టిన సమయం ప్రకారం మీ లగ్నము, లగ్నం మరియు దశల సమగ్ర ఫలితాలను చూడండి.') }}</p>
+      <a href="/" class="cta-btn"><i class="fas fa-star"></i>  {{ _('జాతక చక్రం లెక్కించండి') }}</a>
     </div>
   </div>
 </article>

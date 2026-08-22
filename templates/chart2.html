@@ -6,7 +6,7 @@
   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>దశా వివరాలు - {{ name }}</title>
+    <title>{{ _('దశా వివరాలు - {{ name }}') }}</title>
     <!-- PWA settings -->
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
@@ -1822,7 +1822,7 @@
       <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
     </button>
     <div class="lang-options">
-      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">{{ _('తెలుగు') }}</a>
       <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
       <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
       <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
@@ -1931,7 +1931,7 @@
                 {% if maha_age_start and maha_age_end %}
                 <br>
                 <span style="font-size: 14px; color: #a0a0ff;">
-                    ({{ _('వయసు') }}: {{ maha_age_start }} {{ _('నుండి') }} {{ maha_age_end }} {{ _('వరకు') }})
+                    {{ _('({{ _(\'వయసు\') }}: {{ maha_age_start }} {{ _(\'నుండి\') }} {{ maha_age_end }} {{ _(\'వరకు\') }})') }}
                 </span>
                 {% endif %}
             </div>
@@ -1955,7 +1955,7 @@
 
         <!-- PRINT ONLY: Maha Dasa Summary -->
         <div class="print-summary-section" style="display: none;">
-            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
+            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">{{ _('✨ {{ _(\'సంపూర్ణ దశా వివరాలు\') }} ({{ total_cycle_years }} {{ _(\'సంవత్సరాల చక్రం\') }}) ✨') }}</div>
             <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
                 <thead>
                     <tr>
@@ -1988,7 +1988,7 @@
 
         <!-- Complete Dasa Details -->
         <div class="dasa-section">
-            <div class="section-title">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
+            <div class="section-title">{{ _('✨ {{ _(\'సంపూర్ణ దశా వివరాలు\') }} ({{ total_cycle_years }} {{ _(\'సంవత్సరాల చక్రం\') }}) ✨') }}</div>
 
             {% for dasa in all_dasas %}
             <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
@@ -2013,7 +2013,7 @@
                             {{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }} {{ _('వరకు') }}
                             <br>
                             <span style="font-size: 13px; color: var(--text-muted); opacity: 0.95;">
-                                ({{ _('వయసు') }}: {{ dasa.age_start }} {{ _('నుండి') }} {{ dasa.age_end }} {{ _('వరకు') }})
+                                {{ _('({{ _(\'వయసు\') }}: {{ dasa.age_start }} {{ _(\'నుండి\') }} {{ dasa.age_end }} {{ _(\'వరకు\') }})') }}
                             </span>
                         </div>
                     </div>
@@ -2277,12 +2277,12 @@
         function saveAsPDF() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF తయారు చేస్తోంది...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {{ _('PDF తయారు చేస్తోంది...\';
             btn.disabled = true;
 
             // In a real app, this would call your backend PDF generation
             setTimeout(() => {
-                alert('PDF డౌన్‌లోడ్ చేయడానికి {{ _('ప్రింట్') }} ఎంపికను ఉపయోగించండి.');
+                alert(\'PDF డౌన్‌లోడ్ చేయడానికి {{ _(\'ప్రింట్\') }} ఎంపికను ఉపయోగించండి.\');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }, 1000);
@@ -2291,17 +2291,17 @@
 
 
         function showReminders() {
-            alert('రిమైండర్లు: ఈ దశ చివరి {{ _('తేదీ:') }} {{ maha_end }}');
+            alert(\'రిమైండర్లు: ఈ దశ చివరి {{ _(\'తేదీ:\') }} {{ maha_end }}\');
         }
 
         // Accordion Toggle
         function toggleAnthara(element) {
             // Toggle the clicked element
-            element.classList.toggle('expanded');
+            element.classList.toggle(\'expanded\');
 
             // Optional: Close others (accordion style)
-            // document.querySelectorAll('.maha-dasa-card').forEach(card => {
-            //     if(card !== element) card.classList.remove('expanded');
+            // document.querySelectorAll(\'.maha-dasa-card\').forEach(card => {
+            //     if(card !== element) card.classList.remove(\'expanded\');
             // });
         }
 
@@ -2310,29 +2310,29 @@
         // Initialize tooltips
         function initializeTooltips() {
             const tooltips = {
-                'సూర్య': '{{ _('సూర్యుడు') }} - జీవిత శక్తి, ప్రతిష్ట',
-                'చంద్ర': '{{ _('చంద్రుడు') }} - మనస్సు, భావోద్వేగాలు',
-                'కుజ': '{{ _('కుజుడు') }} - శక్తి, సాహసం',
-                'గురు': '{{ _('గురువు') }} - జ్ఞానం, అదృష్టం',
-                'శుక్ర': '{{ _('శుక్రుడు') }} - ప్రేమ, సౌందర్యం',
-                '{{ _('శని') }}': '{{ _('శని') }} - {{ _('కర్మ') }}, పరిశ్రమ',
-                'బుధ': '{{ _('బుధుడు') }} - బుద్ధి, వాణిజ్యం',
-                'రాహు': '{{ _('రాహువు') }} - కామనా, అస్పష్టత',
-                'కేతు': '{{ _('కేతువు') }} - ఆధ్యాత్మికత, విముక్తి',
-                '{{ _('భూమి') }}': '{{ _('భూమి') }} - స్థిరత్వం, ప్రాథమిక అవసరాలు',
-                '{{ _('మిత్ర') }}': '{{ _('మిత్ర') }} - స్నేహం, సహకారం',
-                '{{ _('చిత్ర') }}': '{{ _('చిత్ర') }} - సృజనాత్మకత, కళ'
+                \'సూర్య\': \'{{ _(\'సూర్యుడు\') }} - జీవిత శక్తి, ప్రతిష్ట\',
+                \'చంద్ర\': \'{{ _(\'చంద్రుడు\') }} - మనస్సు, భావోద్వేగాలు\',
+                \'కుజ\': \'{{ _(\'కుజుడు\') }} - శక్తి, సాహసం\',
+                \'గురు\': \'{{ _(\'గురువు\') }} - జ్ఞానం, అదృష్టం\',
+                \'శుక్ర\': \'{{ _(\'శుక్రుడు\') }} - ప్రేమ, సౌందర్యం\',
+                \'{{ _(\'శని\') }}\': \'{{ _(\'శని\') }} - {{ _(\'కర్మ\') }}, పరిశ్రమ\',
+                \'బుధ\': \'{{ _(\'బుధుడు\') }} - బుద్ధి, వాణిజ్యం\',
+                \'రాహు\': \'{{ _(\'రాహువు\') }} - కామనా, అస్పష్టత\',
+                \'కేతు\': \'{{ _(\'కేతువు\') }} - ఆధ్యాత్మికత, విముక్తి\',
+                \'{{ _(\'భూమి\') }}\': \'{{ _(\'భూమి\') }} - స్థిరత్వం, ప్రాథమిక అవసరాలు\',
+                \'{{ _(\'మిత్ర\') }}\': \'{{ _(\'మిత్ర\') }} - స్నేహం, సహకారం\',
+                \'{{ _(\'చిత్ర\') }}\': \'{{ _(\'చిత్ర\') }} - సృజనాత్మకత, కళ\'
             };
 
             // Add tooltips to planet names
-            document.querySelectorAll('.anthara-name, .maha-dasa-name').forEach(el => {
-                const planetName = el.textContent.replace(/[✦☉☽♂☿♃♀♄☊☋♁☆]/g, '').trim();
-                const words = planetName.split(' ');
+            document.querySelectorAll(\'.anthara-name, .maha-dasa-name\').forEach(el => {
+                const planetName = el.textContent.replace(/[✦☉☽♂☿♃♀♄☊☋♁☆]/g, \'\').trim();
+                const words = planetName.split(\' \');
                 const mainPlanet = words[0];
 
                 if (tooltips[mainPlanet]) {
                     el.title = tooltips[mainPlanet];
-                    el.style.cursor = 'help';
+                    el.style.cursor = \'help\';
                 }
             });
         }
@@ -2341,24 +2341,24 @@
         initializeTooltips();
 
         // Keyboard shortcuts
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener(\'keydown\', function (e) {
             // Ctrl + 1 for chart
-            if (e.ctrlKey && e.key === '1') {
+            if (e.ctrlKey && e.key === \'1\') {
                 goToChart();
             }
 
             // Ctrl + 2 for correction
-            if (e.ctrlKey && e.key === '2') {
+            if (e.ctrlKey && e.key === \'2\') {
                 goToCorrection();
             }
 
             // Ctrl + 3 for planet details
-            if (e.ctrlKey && e.key === '3') {
+            if (e.ctrlKey && e.key === \'3\') {
                 goToPlanetDetails();
             }
 
             // Ctrl + P for print
-            if (e.ctrlKey && e.key === 'p') {
+            if (e.ctrlKey && e.key === \'p\') {
                 e.preventDefault();
                 window.print();
             }
@@ -2368,7 +2368,7 @@
             const element = document.getElementById("typing-text");
             if (!element) return;
             
-            element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
+            element.innerHTML = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         
@@ -2377,7 +2377,7 @@
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let time = audioCtx.currentTime;
-                for(let i = 0; i < 6; i++) {
+                for(let i = 0; i') }} < 6; i++) {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = i % 2 === 0 ? 'sine' : 'triangle';
@@ -2421,7 +2421,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2430,7 +2430,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -2444,26 +2444,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print') !== -1 || oc.indexOf('Print') !== -1) return;
-                if (oc.indexOf('fetch') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (oc.indexOf(\'print\') !== -1 || oc.indexOf(\'Print\') !== -1) return;
+                if (oc.indexOf(\'fetch\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item <a> links
+            // Attach to nav-item') }} <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;

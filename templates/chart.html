@@ -1629,7 +1629,7 @@
       <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
     </button>
     <div class="lang-options">
-      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">{{ _('తెలుగు') }}</a>
       <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
       <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
       <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
@@ -1805,7 +1805,7 @@
       <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
     </div>
 
-    {# ===== VARIABLES ===== #}
+    {{ _('{# ===== VARIABLES ===== #}
     {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
     {% set positive_lagnas = [] %}
     {% for l in positive_lagnas_raw %}
@@ -1822,7 +1822,7 @@
     {% macro extract_degrees(line) %}
     {% set line_str = line | striptags %}
     {% if "°" in line_str %}
-    {% set parts = line_str.split('°') %}
+    {% set parts = line_str.split(\'°\') %}
     {% if parts|length > 0 %}
     {% set degree_part = parts[0] %}
     {% set degree_num = degree_part.split()[-1] | int %}
@@ -1864,7 +1864,7 @@
     {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
     {% macro box(box_lagna) %}
     {% set hno = houses[box_lagna] %}
-    {% set lines = chart[box_lagna].split('<br>') %}
+    {% set lines = chart[box_lagna].split(\'') }}<br>') %}
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
@@ -1882,9 +1882,9 @@
 
 
 
-      {% for line in chart[box_lagna].split('<br>') %}
+      {% for line in chart[box_lagna].split('<br>{{ _('\') %}
       {% if _("లగ్నం") in line %}
-      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
+      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}') }}
       <div class="lagna-text" style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
       </div>
@@ -2031,7 +2031,7 @@
   <!-- PRINT ONLY: Mahadasha Summary Table – OUTSIDE #print-wrapper to avoid page-break conflicts -->
   {% if all_dasas is defined and all_dasas %}
   <div id="mahadasha-print-section">
-    <div class="maha-print-title">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
+    <div class="maha-print-title">{{ _('✨ {{ _(\'సంపూర్ణ దశా వివరాలు\') }} ({{ total_cycle_years }} {{ _(\'సంవత్సరాల చక్రం\') }}) ✨') }}</div>
     <table class="maha-print-table">
       <thead>
         <tr>
@@ -2068,7 +2068,7 @@
   <div class="jathaka-results-section print-hide" style="margin: 35px 16px;">
     <div style="text-align: center; margin-bottom: 24px;">
       <h2 style="font-size: 1.8rem; color: #fbbf24; font-weight: 800;">
-        <i class="fas fa-magic"></i> జాతక ఫలితాలు (త్రైత సిద్ధాంత విశ్లేషణ)
+        <i class="fas fa-magic"></i> {{ _('జాతక ఫలితాలు (త్రైత సిద్ధాంత విశ్లేషణ)') }}
       </h2>
       <p style="color: var(--text-muted); font-size: 0.98rem; max-width: 750px; margin: 6px auto 0 auto;">
         {{ jathaka_results.overall_summary }}
@@ -2093,7 +2093,7 @@
 
         {% if sec.reasons %}
         <details style="font-size: 0.82rem; color: #60a5fa; cursor: pointer;">
-          <summary style="font-weight: 700;">🔍 ఫలితానికి కారణాలు ({{ sec.reasons|length }} నియమాలు)</summary>
+          <summary style="font-weight: 700;">{{ _('🔍 ఫలితానికి కారణాలు ({{ sec.reasons|length }} నియమాలు)') }}</summary>
           <div style="margin-top: 8px; background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 8px; color: #e2e8f0; line-height: 1.5;">
             {% for r in sec.reasons %}
               <div style="margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 4px;">
@@ -2110,7 +2110,7 @@
     <!-- Link to Full 13-Section Report Page -->
     <div style="text-align: center; margin-top: 20px;">
       <a href="/results" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; font-size: 1.05rem; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.35);">
-        <i class="fas fa-list-alt"></i> 37 రంగాలు & 13 విభాగాల సంపూర్ణ జాతక నివేదిక చూడండి &rarr;
+        <i class="fas fa-list-alt"></i> {{ _('37 రంగాలు & 13 విభాగాల సంపూర్ణ జాతక నివేదిక చూడండి &rarr;') }}
       </a>
     </div>
   </div>
@@ -2118,9 +2118,9 @@
 
     <!-- Paid PDF Report Upgrade Banner (Shown after Kundali generation) -->
     <div class="report-promo-banner print-hide" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.05)); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; margin: 30px 16px; text-align: center;">
-      <h3 style="color: #fbbf24; font-size: 1.3rem; margin-bottom: 8px;"><i class="fas fa-file-pdf"></i> వివరమైన జీవిత జాతక PDF నిత్రైతిక</h3>
-      <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px; margin: 0 auto 14px auto;">మీ 12 భావ ఫలాలు, వింశోత్తరి మహాదశల చార్ట్, శని సాడేసతి విశ్లేషణ మరియు అనుకూల పరిహారాలతో కూడిన పూర్తి జాతక డిజిటల్ పుస్తకం.</p>
-      <a href="/report/ra_ord_preview" class="cta-btn" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; padding: 12px 24px; border-radius: 25px; text-decoration: none;"><i class="fas fa-download"></i> ₹99 కి నిత్రైతిక పొందండి</a>
+      <h3 style="color: #fbbf24; font-size: 1.3rem; margin-bottom: 8px;"><i class="fas fa-file-pdf"></i> {{ _('వివరమైన జీవిత జాతక PDF నిత్రైతిక') }}</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px; margin: 0 auto 14px auto;">{{ _('మీ 12 భావ ఫలాలు, వింశోత్తరి మహాదశల చార్ట్, శని సాడేసతి విశ్లేషణ మరియు అనుకూల పరిహారాలతో కూడిన పూర్తి జాతక డిజిటల్ పుస్తకం.') }}</p>
+      <a href="/report/ra_ord_preview" class="cta-btn" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; padding: 12px 24px; border-radius: 25px; text-decoration: none;"><i class="fas fa-download"></i> {{ _('₹99 కి నిత్రైతిక పొందండి') }}</a>
     </div>
 
     <!-- Floating Bottom Action Bar -->
@@ -2268,55 +2268,55 @@
     </style>
 
     <script>
-      // Theme Management
+      {{ _('// Theme Management
       function setTheme(themeName) {
-        if (themeName === 'default') {
-          document.documentElement.removeAttribute('data-theme');
+        if (themeName === \'default\') {
+          document.documentElement.removeAttribute(\'data-theme\');
         } else {
-          document.documentElement.setAttribute('data-theme', themeName);
+          document.documentElement.setAttribute(\'data-theme\', themeName);
         }
-        localStorage.setItem('preferred-theme', themeName);
+        localStorage.setItem(\'preferred-theme\', themeName);
 
         // Update UI buttons
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.getAttribute('data-theme-btn') === themeName) {
-            btn.classList.add('active');
+        document.querySelectorAll(\'.theme-btn\').forEach(btn => {
+          btn.classList.remove(\'active\');
+          if (btn.getAttribute(\'data-theme-btn\') === themeName) {
+            btn.classList.add(\'active\');
           }
         });
       }
 
       // Load saved theme state into buttons immediately
-      const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'light';
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
-          btn.classList.add('active');
+      const savedThemeGlobal = localStorage.getItem(\'preferred-theme\') || \'light\';
+      document.querySelectorAll(\'.theme-btn\').forEach(btn => {
+        if (btn.getAttribute(\'data-theme-btn\') === savedThemeGlobal) {
+          btn.classList.add(\'active\');
         } else {
-          btn.classList.remove('active');
+          btn.classList.remove(\'active\');
         }
       });
 
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener(\'DOMContentLoaded\', function () {
         // Add animation to boxes on page load
-        const boxes = document.querySelectorAll('.box');
+        const boxes = document.querySelectorAll(\'.box\');
         boxes.forEach((box, index) => {
           box.style.animationDelay = `${index * 0.1}s`;
-          box.style.animation = 'fadeIn 0.5s ease-out';
+          box.style.animation = \'fadeIn 0.5s ease-out\';
         });
 
         // Add hover effect to planets
-        const planets = document.querySelectorAll('.hand');
+        const planets = document.querySelectorAll(\'.hand\');
         planets.forEach(planet => {
-          planet.addEventListener('mouseenter', function () {
-            this.style.transform = 'scale(1.05)';
+          planet.addEventListener(\'mouseenter\', function () {
+            this.style.transform = \'scale(1.05)\';
           });
-          planet.addEventListener('mouseleave', function () {
-            this.style.transform = 'scale(1)';
+          planet.addEventListener(\'mouseleave\', function () {
+            this.style.transform = \'scale(1)\';
           });
         });
 
         // Add CSS for animations
-        const style = document.createElement('style');
+        const style = document.createElement(\'style\');
         style.textContent = `
     @keyframes fadeIn {
       from {
@@ -2349,39 +2349,39 @@
         document.head.appendChild(style);
 
         // Debug: Check if variables are available
-        console.log('Chart loaded successfully');
-        console.log('lagna:', '{{ lagna }}');
-        console.log('name:', '{{ name }}');
+        console.log(\'Chart loaded successfully\');
+        console.log(\'lagna:\', \'{{ lagna }}\');
+        console.log(\'name:\', \'{{ name }}\');
       });
 
       // Navigation functions
       function goToDasaChart() {
         // Create a form to POST to chart2 with all necessary data
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/chart2';
-        form.style.display = 'none';
+        const form = document.createElement(\'form\');
+        form.method = \'POST\';
+        form.action = \'/chart2\';
+        form.style.display = \'none\';
 
         // Add all necessary fields
         const fields = {
-          'dob': '{{ dob }}',
-          'tob': '{{ tob }}',
-          'nakshatra': '{{ nakshatra }}',
-          'padam': '{{ padam }}',
-          'nak_elapsed': '{{ nak_elapsed }}',
-          'nak_remaining': '{{ nak_remaining }}',
-          'nak_index': '{{ nak_index }}',
-          'elapsed_h': '{{ elapsed_h }}',
-          'elapsed_m': '{{ elapsed_m }}'
+          \'dob\': \'{{ dob }}\',
+          \'tob\': \'{{ tob }}\',
+          \'nakshatra\': \'{{ nakshatra }}\',
+          \'padam\': \'{{ padam }}\',
+          \'nak_elapsed\': \'{{ nak_elapsed }}\',
+          \'nak_remaining\': \'{{ nak_remaining }}\',
+          \'nak_index\': \'{{ nak_index }}\',
+          \'elapsed_h\': \'{{ elapsed_h }}\',
+          \'elapsed_m\': \'{{ elapsed_m }}\'
         };
 
         {% if lagna_deg is defined and lagna_deg %}
-        fields['lagna_deg'] = '{{ lagna_deg }}';
+        fields[\'lagna_deg\'] = \'{{ lagna_deg }}\';
         {% endif %}
 
         for (const [key, value] of Object.entries(fields)) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
+          const input = document.createElement(\'input\');
+          input.type = \'hidden\';
           input.name = key;
           input.value = value;
           form.appendChild(input);
@@ -2395,22 +2395,22 @@
 
 
       function goToPlanetDetails() {
-        window.location.href = '/chart3';
+        window.location.href = \'/chart3\';
       }
 
       function fetchTransitChart() {
         showLoader();
-        const btn = document.getElementById('transit-btn');
-        const loading = document.getElementById('transit-loading');
-        const container = document.getElementById('transit-container');
+        const btn = document.getElementById(\'transit-btn\');
+        const loading = document.getElementById(\'transit-loading\');
+        const container = document.getElementById(\'transit-container\');
         
-        if (btn) btn.style.display = 'none';
-        if (loading) loading.style.display = 'block';
+        if (btn) btn.style.display = \'none\';
+        if (loading) loading.style.display = \'block\';
 
-        let lat = '{{ session.get("birth_info", {}).get("lat", "17.3850") }}';
-        let lon = '{{ session.get("birth_info", {}).get("lon", "78.4867") }}';
-        let timezone = '{{ session.get("birth_info", {}).get("timezone_str", "Asia/Kolkata") }}';
-        let place = '{{ session.get("birth_info", {}).get("place", "Hyderabad") }}';
+        let lat = \'{{ session.get("birth_info", {}).get("lat", "17.3850") }}\';
+        let lon = \'{{ session.get("birth_info", {}).get("lon", "78.4867") }}\';
+        let timezone = \'{{ session.get("birth_info", {}).get("timezone_str", "Asia/Kolkata") }}\';
+        let place = \'{{ session.get("birth_info", {}).get("place", "Hyderabad") }}\';
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -2420,7 +2420,7 @@
               sendTransitRequest(lat, lon, timezone, place);
             },
             function(error) {
-              console.log('Geolocation error or denied, using birth location.', error);
+              console.log(\'Geolocation error or denied, using birth location.\', error);
               sendTransitRequest(lat, lon, timezone, place);
             }
           );
@@ -2430,35 +2430,35 @@
 
         function sendTransitRequest(lat, lon, timezone, place) {
           const formData = new FormData();
-          formData.append('lat', lat);
-          formData.append('lon', lon);
-          formData.append('timezone', timezone);
-          formData.append('place', place);
+          formData.append(\'lat\', lat);
+          formData.append(\'lon\', lon);
+          formData.append(\'timezone\', timezone);
+          formData.append(\'place\', place);
 
-          fetch('/transit_chart', {
-            method: 'POST',
+          fetch(\'/transit_chart\', {
+            method: \'POST\',
             body: formData
           })
           .then(response => response.text())
           .then(html => {
-            loading.style.display = 'none';
-            const globalOverlay = document.getElementById('loading-overlay');
-            if (globalOverlay) globalOverlay.style.display = 'none';
+            loading.style.display = \'none\';
+            const globalOverlay = document.getElementById(\'loading-overlay\');
+            if (globalOverlay) globalOverlay.style.display = \'none\';
             container.innerHTML = html;
-            container.classList.add('loaded');
-            document.body.classList.add('transit-loaded');
+            container.classList.add(\'loaded\');
+            document.body.classList.add(\'transit-loaded\');
             // Show the hide/show toggle button
-            const toggleBar = document.getElementById('transit-toggle-bar');
-            if (toggleBar) toggleBar.style.display = 'block';
-            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const toggleBar = document.getElementById(\'transit-toggle-bar\');
+            if (toggleBar) toggleBar.style.display = \'block\';
+            container.scrollIntoView({ behavior: \'smooth\', block: \'start\' });
           })
           .catch(error => {
-            console.error('Error fetching transit chart:', error);
-            loading.style.display = 'none';
-            const globalOverlay = document.getElementById('loading-overlay');
-            if (globalOverlay) globalOverlay.style.display = 'none';
-            if (btn) btn.style.display = 'inline-flex';
-            alert('గ్రహ {{ _('స్థితి') }}ని తీసుకురావడంలో లోపం ఏర్పడింది.');
+            console.error(\'Error fetching transit chart:\', error);
+            loading.style.display = \'none\';
+            const globalOverlay = document.getElementById(\'loading-overlay\');
+            if (globalOverlay) globalOverlay.style.display = \'none\';
+            if (btn) btn.style.display = \'inline-flex\';
+            alert(\'గ్రహ {{ _(\'స్థితి\') }}ని తీసుకురావడంలో లోపం ఏర్పడింది.\');
           });
         }
       }
@@ -2467,50 +2467,50 @@
       // Temporarily remove data-theme so the default light CSS applies during print
       window.onbeforeprint = function () {
         // 1. Remove data-theme so browser prints in light mode
-        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.removeAttribute(\'data-theme\');
 
         // 2. Force white background on all key elements
-        document.body.style.background = '#ffffff';
-        document.body.style.color = '#000000';
+        document.body.style.background = \'#ffffff\';
+        document.body.style.color = \'#000000\';
 
         // 3. Box shadow/transform cleanup
-        document.querySelectorAll('.box').forEach(box => {
-          box.style.boxShadow = 'none';
-          box.style.transform = 'none';
-          box.style.background = '#ffffff';
-          box.style.color = '#000000';
+        document.querySelectorAll(\'.box\').forEach(box => {
+          box.style.boxShadow = \'none\';
+          box.style.transform = \'none\';
+          box.style.background = \'#ffffff\';
+          box.style.color = \'#000000\';
         });
-        document.querySelectorAll('.hand').forEach(hand => {
-          hand.style.border = '1px solid #666';
+        document.querySelectorAll(\'.hand\').forEach(hand => {
+          hand.style.border = \'1px solid #666\';
         });
         // 4. Make sure loading overlay is hidden
-        const overlay = document.getElementById('loading-overlay');
-        if (overlay) overlay.style.display = 'none';
+        const overlay = document.getElementById(\'loading-overlay\');
+        if (overlay) overlay.style.display = \'none\';
       };
 
       function doAfterPrint() {
         // Restore original theme from localStorage preferred theme
-        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        const savedTheme = localStorage.getItem(\'preferred-theme\') || \'default\';
         setTheme(savedTheme);
 
         // Restore body styles
-        document.body.style.background = '';
-        document.body.style.color = '';
+        document.body.style.background = \'\';
+        document.body.style.color = \'\';
 
         // Restore box styles
-        document.querySelectorAll('.box').forEach(box => {
-          box.style.boxShadow = '';
-          box.style.transform = '';
-          box.style.background = '';
-          box.style.color = '';
+        document.querySelectorAll(\'.box\').forEach(box => {
+          box.style.boxShadow = \'\';
+          box.style.transform = \'\';
+          box.style.background = \'\';
+          box.style.color = \'\';
         });
 
         // Restore hand styles
-        document.querySelectorAll('.hand').forEach(hand => {
-          hand.style.border = '';
+        document.querySelectorAll(\'.hand\').forEach(hand => {
+          hand.style.border = \'\';
         });
 
-        // We intentionally DO NOT remove data-print-mode here because Android's
+        // We intentionally DO NOT remove data-print-mode here because Android\'s
         // window.print() is asynchronous, and removing it immediately causes the
         // print spooler to render without the Dasa section. Leaving it has no
         // effect on the screen view.
@@ -2519,15 +2519,15 @@
         closePrintOptions();
 
         // Always hide loading overlay after print/cancel
-        const overlay = document.getElementById('loading-overlay');
-        if (overlay) overlay.style.display = 'none';
+        const overlay = document.getElementById(\'loading-overlay\');
+        if (overlay) overlay.style.display = \'none\';
       }
 
       // Use addEventListener for afterprint — more reliable on Android WebViews
       // (window.onafterprint may not fire on all WebView versions)
       // Use matchMedia for print — often more reliable on Android WebViews than onafterprint
       if (window.matchMedia) {
-        const mediaQueryList = window.matchMedia('print');
+        const mediaQueryList = window.matchMedia(\'print\');
         mediaQueryList.addListener(function(mql) {
           if (!mql.matches) {
             doAfterPrint();
@@ -2535,38 +2535,38 @@
         });
       }
       window.onafterprint = doAfterPrint;
-      window.addEventListener('afterprint', doAfterPrint);
+      window.addEventListener(\'afterprint\', doAfterPrint);
 
       // ===== TRANSIT TOGGLE =====
       function toggleTransitChart() {
-        const container = document.getElementById('transit-container');
-        const icon = document.getElementById('transit-toggle-icon');
-        const text = document.getElementById('transit-toggle-text');
-        const isHidden = container.style.display === 'none';
+        const container = document.getElementById(\'transit-container\');
+        const icon = document.getElementById(\'transit-toggle-icon\');
+        const text = document.getElementById(\'transit-toggle-text\');
+        const isHidden = container.style.display === \'none\';
         if (isHidden) {
-          container.style.display = 'block';
-          document.body.classList.add('transit-loaded');
-          icon.className = 'fas fa-eye-slash';
-          text.textContent = '{{ _('ఈ రోజు కుండలి దాచు') }}';
+          container.style.display = \'block\';
+          document.body.classList.add(\'transit-loaded\');
+          icon.className = \'fas fa-eye-slash\';
+          text.textContent = \'{{ _(\'ఈ రోజు కుండలి దాచు\') }}\';
         } else {
-          container.style.display = 'none';
-          document.body.classList.remove('transit-loaded');
-          icon.className = 'fas fa-eye';
-          text.textContent = '{{ _("ఈ రోజు కుండలి చూపు") }}';
+          container.style.display = \'none\';
+          document.body.classList.remove(\'transit-loaded\');
+          icon.className = \'fas fa-eye\';
+          text.textContent = \'{{ _("ఈ రోజు కుండలి చూపు") }}\';
         }
       }
 
       // ===== PRINT OPTIONS MODAL =====
       function openPrintOptions() {
-        const modal = document.getElementById('print-options-modal');
-        modal.style.display = 'flex';
+        const modal = document.getElementById(\'print-options-modal\');
+        modal.style.display = \'flex\';
         // Reset to default selection
-        document.getElementById('po-kundali-only').checked = true;
-        selectPrintOption('kundali-only');
+        document.getElementById(\'po-kundali-only\').checked = true;
+        selectPrintOption(\'kundali-only\');
       }
 
       function closePrintOptions() {
-        document.getElementById('print-options-modal').style.display = 'none';
+        document.getElementById(\'print-options-modal\').style.display = \'none\';
       }
 
       function selectPrintOption(value) {
@@ -2574,35 +2574,35 @@
         const radio = document.querySelector(`input[name="print-mode"][value="${value}"]`);
         if (radio) radio.checked = true;
         // Highlight active label
-        const labelKundali = document.getElementById('po-label-kundali');
-        const labelBoth = document.getElementById('po-label-both');
-        const labelComplete = document.getElementById('po-label-complete');
+        const labelKundali = document.getElementById(\'po-label-kundali\');
+        const labelBoth = document.getElementById(\'po-label-both\');
+        const labelComplete = document.getElementById(\'po-label-complete\');
         
         [labelKundali, labelBoth, labelComplete].forEach(l => {
           if(!l) return;
-          l.style.borderColor = 'rgba(255,255,255,0.15)';
-          l.style.background = 'rgba(255,255,255,0.05)';
+          l.style.borderColor = \'rgba(255,255,255,0.15)\';
+          l.style.background = \'rgba(255,255,255,0.05)\';
         });
 
-        if (value === 'kundali-only') {
-          labelKundali.style.borderColor = 'rgba(255,215,0,0.8)';
-          labelKundali.style.background = 'rgba(255,215,0,0.08)';
-        } else if (value === 'kundali-and-dasha') {
-          labelBoth.style.borderColor = 'rgba(165,243,252,0.8)';
-          labelBoth.style.background = 'rgba(165,243,252,0.08)';
+        if (value === \'kundali-only\') {
+          labelKundali.style.borderColor = \'rgba(255,215,0,0.8)\';
+          labelKundali.style.background = \'rgba(255,215,0,0.08)\';
+        } else if (value === \'kundali-and-dasha\') {
+          labelBoth.style.borderColor = \'rgba(165,243,252,0.8)\';
+          labelBoth.style.background = \'rgba(165,243,252,0.08)\';
         } else {
-          labelComplete.style.borderColor = 'rgba(74,222,128,0.8)';
-          labelComplete.style.background = 'rgba(74,222,128,0.08)';
+          labelComplete.style.borderColor = \'rgba(74,222,128,0.8)\';
+          labelComplete.style.background = \'rgba(74,222,128,0.08)\';
         }
 
         // Show/hide password container and focus input
-        const pwdContainer = document.getElementById('pdf-pwd-container');
+        const pwdContainer = document.getElementById(\'pdf-pwd-container\');
         if (pwdContainer) {
-          pwdContainer.style.display = (value === 'complete') ? 'block' : 'none';
-          if (value === 'complete') {
-            const pwdInput = document.getElementById('pdf-pwd-input');
+          pwdContainer.style.display = (value === \'complete\') ? \'block\' : \'none\';
+          if (value === \'complete\') {
+            const pwdInput = document.getElementById(\'pdf-pwd-input\');
             if (pwdInput) {
-              pwdInput.value = '';
+              pwdInput.value = \'\';
               pwdInput.focus();
             }
           }
@@ -2617,29 +2617,29 @@
         closePrintOptions();
         
         // Show loader
-        const overlay = document.getElementById('loading-overlay');
+        const overlay = document.getElementById(\'loading-overlay\');
         if (overlay) {
-          overlay.style.display = 'flex';
-          const textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay');
-          if (textEl) textEl.textContent = '{{ _("గణన చేస్తోంది") }}';
+          overlay.style.display = \'flex\';
+          const textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay\');
+          if (textEl) textEl.textContent = \'{{ _("గణన చేస్తోంది") }}\';
         }
 
-        const selected = document.querySelector('input[name="print-mode"]:checked');
-        const mode = selected ? selected.value : 'kundali-only';
+        const selected = document.querySelector(\'input[name="print-mode"]:checked\');
+        const mode = selected ? selected.value : \'kundali-only\';
         
-        if (mode === 'complete') {
-            const pwdInput = document.getElementById('pdf-pwd-input');
-            const pwd = pwdInput ? pwdInput.value : '';
+        if (mode === \'complete\') {
+            const pwdInput = document.getElementById(\'pdf-pwd-input\');
+            const pwd = pwdInput ? pwdInput.value : \'\';
             if (pwd !== "2468") {
                 alert("Incorrect password!");
-                if (overlay) overlay.style.display = 'none';
+                if (overlay) overlay.style.display = \'none\';
                 return;
             }
-            window.location.href = '/full_report';
+            window.location.href = \'/full_report\';
             return;
         }
         
-        document.body.setAttribute('data-print-mode', mode);
+        document.body.setAttribute(\'data-print-mode\', mode);
 
         // Apply white background and remove dark theme (same as onbeforeprint does)
         window.onbeforeprint();
@@ -2655,9 +2655,9 @@
             for (const rule of rules) {
               if (rule.media && rule.media.mediaText) {
                 const text = rule.media.mediaText;
-                if (text.indexOf('print') !== -1) {
+                if (text.indexOf(\'print\') !== -1) {
                   printRules.push(rule);
-                } else if (text.indexOf('max-width') !== -1 || text.indexOf('768') !== -1) {
+                } else if (text.indexOf(\'max-width\') !== -1 || text.indexOf(\'768\') !== -1) {
                   disabledRules.push({ rule, originalText: text });
                 }
               }
@@ -2667,43 +2667,43 @@
           }
         }
         printRules.forEach(rule => {
-          rule.media.mediaText = 'all';
+          rule.media.mediaText = \'all\';
         });
         disabledRules.forEach(item => {
-          item.rule.media.mediaText = 'not all';
+          item.rule.media.mediaText = \'not all\';
         });
 
         // Explicitly show/hide mahadasha section in JS (since html2pdf renders in screen
         // context and @media print rule promotion may not cover specificity edge cases)
-        const mahadashaSec = document.getElementById('mahadasha-print-section');
+        const mahadashaSec = document.getElementById(\'mahadasha-print-section\');
         let mahadashaWasHidden = false;
         if (mahadashaSec) {
-          if (mode === 'kundali-and-dasha') {
-            mahadashaWasHidden = mahadashaSec.style.display === 'none' || 
-                                  window.getComputedStyle(mahadashaSec).display === 'none';
-            mahadashaSec.style.setProperty('display', 'block', 'important');
+          if (mode === \'kundali-and-dasha\') {
+            mahadashaWasHidden = mahadashaSec.style.display === \'none\' || 
+                                  window.getComputedStyle(mahadashaSec).display === \'none\';
+            mahadashaSec.style.setProperty(\'display\', \'block\', \'important\');
           } else {
-            mahadashaSec.style.setProperty('display', 'none', 'important');
+            mahadashaSec.style.setProperty(\'display\', \'none\', \'important\');
           }
         }
 
         // For kundali-only: capture just the print-wrapper div
         // For kundali-and-dasha: capture full body so mahadasha section is included
         let element = document.body;
-        let filename = 'Kundali_Report.pdf';
-        if (mode === 'kundali-only') {
-          element = document.getElementById('print-wrapper') || document.body;
+        let filename = \'Kundali_Report.pdf\';
+        if (mode === \'kundali-only\') {
+          element = document.getElementById(\'print-wrapper\') || document.body;
         }
 
         // Handle page adjustment zoom scaling for kundali-only when transit is loaded
-        const isTransitLoaded = document.body.classList.contains('transit-loaded');
-        let originalTransform = '';
-        let originalTransformOrigin = '';
-        let originalHeight = '';
+        const isTransitLoaded = document.body.classList.contains(\'transit-loaded\');
+        let originalTransform = \'\';
+        let originalTransformOrigin = \'\';
+        let originalHeight = \'\';
         let scaled = false;
 
-        if (mode === 'kundali-only' && isTransitLoaded) {
-          const wrapper = document.getElementById('print-wrapper');
+        if (mode === \'kundali-only\' && isTransitLoaded) {
+          const wrapper = document.getElementById(\'print-wrapper\');
           if (wrapper) {
             originalTransform = wrapper.style.transform;
             originalTransformOrigin = wrapper.style.transformOrigin;
@@ -2714,18 +2714,18 @@
             if (unscaledHeight > targetHeight) {
               const dynamicScale = targetHeight / unscaledHeight;
               wrapper.style.transform = `scale(${dynamicScale})`;
-              wrapper.style.transformOrigin = 'top center';
-              wrapper.style.height = targetHeight + 'px';
+              wrapper.style.transformOrigin = \'top center\';
+              wrapper.style.height = targetHeight + \'px\';
               scaled = true;
             }
           }
         }
 
         // Remove images temporarily to avoid SecurityError in WebView/mobile apps
-        const images = Array.from(element.querySelectorAll('img'));
+        const images = Array.from(element.querySelectorAll(\'img\'));
         const placeholders = images.map(img => {
-          const placeholder = document.createElement('div');
-          placeholder.style.display = 'none';
+          const placeholder = document.createElement(\'div\');
+          placeholder.style.display = \'none\';
           img.parentNode.replaceChild(placeholder, img);
           return { img, placeholder };
         });
@@ -2734,18 +2734,18 @@
         const opt = {
           margin:       [8, 4, 8, 4],
           filename:     filename,
-          image:        { type: 'jpeg', quality: 0.98 },
+          image:        { type: \'jpeg\', quality: 0.98 },
           html2canvas:  { scale: isIOS ? 1 : 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['css', 'legacy'], avoid: ['tr', '.chart-container', '.box'] }
+          jsPDF:        { unit: \'mm\', format: \'a4\', orientation: \'portrait\' },
+          pagebreak:    { mode: [\'css\', \'legacy\'], avoid: [\'tr\', \'.chart-container\', \'.box\'] }
         };
 
         function restoreAfterPDF() {
           // Restore print media rules
-          printRules.forEach(rule => { rule.media.mediaText = 'print'; });
+          printRules.forEach(rule => { rule.media.mediaText = \'print\'; });
           disabledRules.forEach(item => { item.rule.media.mediaText = item.originalText; });
           // Restore mahadasha section
-          if (mahadashaSec) mahadashaSec.style.removeProperty('display');
+          if (mahadashaSec) mahadashaSec.style.removeProperty(\'display\');
           // Restore images
           placeholders.forEach(({ img, placeholder }) => {
             if (placeholder.parentNode) placeholder.parentNode.replaceChild(img, placeholder);
@@ -2753,7 +2753,7 @@
 
           // Restore scaling styles if applied
           if (scaled) {
-            const wrapper = document.getElementById('print-wrapper');
+            const wrapper = document.getElementById(\'print-wrapper\');
             if (wrapper) {
               wrapper.style.transform = originalTransform;
               wrapper.style.transformOrigin = originalTransformOrigin;
@@ -2763,11 +2763,11 @@
 
           // Restore theme and styles
           window.onafterprint();
-          if (overlay) overlay.style.display = 'none';
+          if (overlay) overlay.style.display = \'none\';
         }
 
         if (isIOS) {
-            html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+            html2pdf().set(opt).from(element).outputPdf(\'blob\').then(function(pdfBlob) {
                 const url = URL.createObjectURL(pdfBlob);
                 window.location.href = url;
                 restoreAfterPDF();
@@ -2788,24 +2788,24 @@
       }
 
       function doPrint() {
-        const selected = document.querySelector('input[name="print-mode"]:checked');
-        const mode = selected ? selected.value : 'kundali-only';
+        const selected = document.querySelector(\'input[name="print-mode"]:checked\');
+        const mode = selected ? selected.value : \'kundali-only\';
         
-        if (mode === 'complete') {
-            const pwdInput = document.getElementById('pdf-pwd-input');
-            const pwd = pwdInput ? pwdInput.value : '';
+        if (mode === \'complete\') {
+            const pwdInput = document.getElementById(\'pdf-pwd-input\');
+            const pwd = pwdInput ? pwdInput.value : \'\';
             if (pwd !== "2468") {
                 alert("Incorrect password!");
                 return;
             }
             closePrintOptions();
-            window.location.href = '/full_report';
+            window.location.href = \'/full_report\';
             return;
         }
 
-        document.body.setAttribute('data-print-mode', mode);
+        document.body.setAttribute(\'data-print-mode\', mode);
 
-        // Close the modal gracefully before printing so it doesn't get stuck
+        // Close the modal gracefully before printing so it doesn\'t get stuck
         closePrintOptions();
 
         // Explicitly trigger onbeforeprint logic
@@ -2817,40 +2817,40 @@
         // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
         // on Android WebViews, and hiding the DOM elements 1s later causes the print
         // spooler to miss them. The user can manually click the "Cancel" button in
-        // the modal if afterprint doesn't fire.
+        // the modal if afterprint doesn\'t fire.
       }
 
       // Close modal on overlay click
-      document.getElementById('print-options-modal').addEventListener('click', function(e) {
+      document.getElementById(\'print-options-modal\').addEventListener(\'click\', function(e) {
         if (e.target === this) closePrintOptions();
       });
 
       // Keyboard shortcuts
-      document.addEventListener('keydown', function (e) {
+      document.addEventListener(\'keydown\', function (e) {
         // Escape to close print options modal
-        if (e.key === 'Escape') {
+        if (e.key === \'Escape\') {
           closePrintOptions();
         }
 
         // Home key to go to home
-        if (e.key === 'Home') {
-          window.location.href = '/';
+        if (e.key === \'Home\') {
+          window.location.href = \'/\';
         }
 
         // Ctrl + D for dasha chart
-        if (e.ctrlKey && e.key === 'd') {
+        if (e.ctrlKey && e.key === \'d\') {
           e.preventDefault();
           goToDasaChart();
         }
 
         // Ctrl + P for print — open print options modal
-        if (e.ctrlKey && e.key === 'p') {
+        if (e.ctrlKey && e.key === \'p\') {
           e.preventDefault();
           openPrintOptions();
         }
 
         // Ctrl + G for planet details
-        if (e.ctrlKey && e.key === 'g') {
+        if (e.ctrlKey && e.key === \'g\') {
           e.preventDefault();
           goToPlanetDetails();
         }
@@ -2858,18 +2858,18 @@
 
       function goToDasaChart() {
           showLoader();
-          document.getElementById('dasaForm').submit();
+          document.getElementById(\'dasaForm\').submit();
       }
       function goToPlanetDetails() {
           showLoader();
-          window.location.href = '/chart3';
+          window.location.href = \'/chart3\';
       }
 
       function startTyping() {
           const element = document.getElementById("typing-text");
           if (!element) return;
           
-          element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
+          element.innerHTML = \'{{ _(\'గణన చేస్తోంది\') }}\';
       }
 
       
@@ -2878,7 +2878,7 @@
           try {
               const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
               let time = audioCtx.currentTime;
-              for(let i = 0; i < 6; i++) {
+              for(let i = 0; i') }} < 6; i++) {
                   const osc = audioCtx.createOscillator();
                   const gain = audioCtx.createGain();
                   osc.type = i % 2 === 0 ? 'sine' : 'triangle';
@@ -2923,7 +2923,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2932,7 +2932,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -2946,26 +2946,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (btn.id === 'print-options-btn' || oc.indexOf('print') !== -1) return;
-                if (oc.indexOf('fetch') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (btn.id === \'print-options-btn\' || oc.indexOf(\'print\') !== -1) return;
+                if (oc.indexOf(\'fetch\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item <a> links
+            // Attach to nav-item') }} <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;

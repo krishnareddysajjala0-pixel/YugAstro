@@ -443,23 +443,23 @@
       </a>
 
       <ul class="nav-links">
-        <li><a href="/" style="color: #fbbf24; font-weight: 700;"><i class="fas fa-home"></i> హోమ్</a></li>
-        <li><a href="/#birthForm">జన్మ కుండలి</a></li>
-        <li><a href="/compare_kundali">కుండలి పొంతన</a></li>
-        <li><a href="/daily_panchangam">పంచాంగం</a></li>
-        <li><a href="/calendar_view">క్యాలెండర్</a></li>
-        <li><a href="/marana_dasa" style="color: #fbbf24; font-weight: 700;"><i class="fas fa-skull-crossbones"></i> మరణ దశా విశ్లేషణ</a></li>
-        <li><a href="/nakshatrams">27 నక్షత్రాలు</a></li>
-        <li><a href="/rashulu">12 లగ్నాలు</a></li>
+        <li><a href="/" style="color: #fbbf24; font-weight: 700;"><i class="fas fa-home"></i> {{ _('హోమ్') }}</a></li>
+        <li><a href="/#birthForm">{{ _('జన్మ కుండలి') }}</a></li>
+        <li><a href="/compare_kundali">{{ _('కుండలి పొంతన') }}</a></li>
+        <li><a href="/daily_panchangam">{{ _('పంచాంగం') }}</a></li>
+        <li><a href="/calendar_view">{{ _('క్యాలెండర్') }}</a></li>
+        <li><a href="/marana_dasa" style="color: #fbbf24; font-weight: 700;"><i class="fas fa-skull-crossbones"></i> {{ _('మరణ దశా విశ్లేషణ') }}</a></li>
+        <li><a href="/nakshatrams">{{ _('27 నక్షత్రాలు') }}</a></li>
+        <li><a href="/rashulu">{{ _('12 లగ్నాలు') }}</a></li>
       </ul>
 
       <div>
         <select class="lang-dropdown" onchange="location = this.value;">
-          <option value="/set_lang/te" {% if current_lang == 'te' or not current_lang %}selected{% endif %}>తెలుగు (Telugu)</option>
+          <option value="/set_lang/te" {% if current_lang == 'te' or not current_lang %}selected{% endif %}>{{ _('తెలుగు (Telugu)') }}</option>
           <option value="/set_lang/en" {% if current_lang == 'en' %}selected{% endif %}>English</option>
           <option value="/set_lang/hi" {% if current_lang == 'hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
           <option value="/set_lang/ta" {% if current_lang == 'ta' %}selected{% endif %}>தமிழ் (Tamil)</option>
-          <option value="/set_lang/kn" {% if current_lang == 'kn' %}selected{% endif %}>కನ್ನಡ (Kannada)</option>
+          <option value="/set_lang/kn" {% if current_lang == 'kn' %}selected{% endif %}>{{ _('కನ್ನಡ (Kannada)') }}</option>
           <option value="/set_lang/ml" {% if current_lang == 'ml' %}selected{% endif %}>മലയാളം (Malayalam)</option>
         </select>
       </div>
@@ -468,7 +468,7 @@
 
   <!-- Floating Quick Home Button -->
   <a href="/" class="floating-home-btn" title="హోమ్ పేజీకి వెళ్లండి">
-    <i class="fas fa-home"></i> <span>హోమ్</span>
+    <i class="fas fa-home"></i> <span>{{ _('హోమ్') }}</span>
   </a>
 
   <style>
@@ -567,27 +567,27 @@
       <div class="compact-footer-brand">
         <strong>RAVAN ASTRO</strong>
         <span class="compact-footer-divider">|</span>
-        <span>ఖచ్చితమైన త్రైత జ్యోతిష్య పంచాంగం, జన్మ కుండలి గణనలు మరియు గుణ మేళన సమాచారం.</span>
+        <span>{{ _('ఖచ్చితమైన త్రైత జ్యోతిష్య పంచాంగం, జన్మ కుండలి గణనలు మరియు గుణ మేళన సమాచారం.') }}</span>
       </div>
 
       <div class="compact-footer-links">
-        <a href="/">జన్మ కుండలి</a> <span class="compact-footer-divider">•</span>
-        <a href="/compare_kundali">కుండలి పొంతన</a> <span class="compact-footer-divider">•</span>
-        <a href="/daily_panchangam">దిన పంచాంగం</a> <span class="compact-footer-divider">•</span>
-        <a href="/calendar_view">పండుగల క్యాలెండర్</a> <span class="compact-footer-divider">•</span>
-        <a href="/marana_dasa" style="color: #fbbf24; font-weight: 700;">మరణ కాల దశా విశ్లేషణ</a> <span class="compact-footer-divider">•</span>
-        <a href="/nakshatrams">27 నక్షత్రాలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/rashulu">12 లగ్నాలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/gocharalu">గోచారాలు 2026</a> <span class="compact-footer-divider">•</span>
-        <a href="/jyotishyam-basics">జ్యోతిష్య పాఠాలు</a>
+        <a href="/">{{ _('జన్మ కుండలి') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/compare_kundali">{{ _('కుండలి పొంతన') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/daily_panchangam">{{ _('దిన పంచాంగం') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/calendar_view">{{ _('పండుగల క్యాలెండర్') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/marana_dasa" style="color: #fbbf24; font-weight: 700;">{{ _('మరణ కాల దశా విశ్లేషణ') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/nakshatrams">{{ _('27 నక్షత్రాలు') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/rashulu">{{ _('12 లగ్నాలు') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/gocharalu">{{ _('గోచారాలు 2026') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/jyotishyam-basics">{{ _('జ్యోతిష్య పాఠాలు') }}</a>
       </div>
 
       <div class="compact-footer-links">
-        <a href="/about">మా గురించి</a> <span class="compact-footer-divider">•</span>
-        <a href="/contact">సంప్రదించండి</a> <span class="compact-footer-divider">•</span>
-        <a href="/privacy-policy">గోప్యతా విధానం</a> <span class="compact-footer-divider">•</span>
-        <a href="/terms">నిబంధనలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/disclaimer">నిరాకరణ</a>
+        <a href="/about">{{ _('మా గురించి') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/contact">{{ _('సంప్రదించండి') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/privacy-policy">{{ _('గోప్యతా విధానం') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/terms">{{ _('నిబంధనలు') }}</a> <span class="compact-footer-divider">•</span>
+        <a href="/disclaimer">{{ _('నిరాకరణ') }}</a>
       </div>
 
       <div class="compact-footer-bottom">

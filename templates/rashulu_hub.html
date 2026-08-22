@@ -3,14 +3,14 @@
 {% block page_content %}
 <div class="page-card">
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
-    <span style="color: var(--accent-gold);">12 లగ్నాలు (లగ్నాలు)</span>
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">{{ _('12 లగ్నాలు (లగ్నాలు)') }}</span>
   </div>
 
-  <h1 class="page-title">12 లగ్నాలు (12 Lagnams) - లగ్నాధిపతులు</h1>
+  <h1 class="page-title">{{ _('12 లగ్నాలు (12 Lagnams) - లగ్నాధిపతులు') }}</h1>
   
   <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
-    ద్వాదశ లగ్నాలు (12 లగ్నాలు) మరియు 12 గ్రహములు ప్రతి లగ్నంలో విస్తరించి ఉన్న విధానం, మరియు ఆయా లగ్నాధిపతుల వివరాలు క్రింది లగ్నాన్ని ఎంచుకొని చూడవచ్చు.
+    {{ _('ద్వాదశ లగ్నాలు (12 లగ్నాలు) మరియు 12 గ్రహములు ప్రతి లగ్నంలో విస్తరించి ఉన్న విధానం, మరియు ఆయా లగ్నాధిపతుల వివరాలు క్రింది లగ్నాన్ని ఎంచుకొని చూడవచ్చు.') }}
   </p>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
@@ -21,18 +21,18 @@
         <span style="font-size: 0.8rem; background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 2px 8px; border-radius: 10px;">{{ name_en }}</span>
       </div>
       <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
-        <div><strong>లగ్నాధిపతి:</strong> {{ lord }}</div>
-        <div><strong>తత్వం:</strong> {{ element }}</div>
-        <div><strong>చిహ్నం:</strong> {{ symbol }}</div>
+        <div><strong>{{ _('లగ్నాధిపతి:') }}</strong> {{ lord }}</div>
+        <div><strong>{{ _('తత్వం:') }}</strong> {{ element }}</div>
+        <div><strong>{{ _('చిహ్నం:') }}</strong> {{ symbol }}</div>
       </div>
     </a>
     {% endfor %}
   </div>
 
   <div class="cta-box">
-    <h3>మీ జన్మ లగ్నం మరియు గ్రహ స్థితులు తెలుసా?</h3>
-    <p>మీ జన్మ తేది మరియు సమయంతో త్రైత విధానంలో 12 గ్రహాల స్థితులు మరియు లగ్న ఫలితాలు పొందండి.</p>
-    <a href="/" class="cta-btn"><i class="fas fa-chart-pie"></i>  కుండలి చక్రం లెక్కించండి</a>
+    <h3>{{ _('మీ జన్మ లగ్నం మరియు గ్రహ స్థితులు తెలుసా?') }}</h3>
+    <p>{{ _('మీ జన్మ తేది మరియు సమయంతో త్రైత విధానంలో 12 గ్రహాల స్థితులు మరియు లగ్న ఫలితాలు పొందండి.') }}</p>
+    <a href="/" class="cta-btn"><i class="fas fa-chart-pie"></i>  {{ _('కుండలి చక్రం లెక్కించండి') }}</a>
   </div>
 </div>
 {% endblock %}

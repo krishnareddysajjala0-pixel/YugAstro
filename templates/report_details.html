@@ -3,48 +3,48 @@
 {% block page_content %}
 <article class="page-card">
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
-    <span style="color: var(--accent-gold);">వివరమైన PDF నిత్రైతిక</span>
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">{{ _('వివరమైన PDF నిత్రైతిక') }}</span>
   </div>
 
-  <h1 class="page-title">మీ వివరమైన జీవిత జాతక PDF నిత్రైతిక (Comprehensive Life Report)</h1>
+  <h1 class="page-title">{{ _('మీ వివరమైన జీవిత జాతక PDF నిత్రైతిక (Comprehensive Life Report)') }}</h1>
   
   <div class="meta-bar">
-    <span><i class="fas fa-shield-alt"></i> ఆర్డర్ ఐడీ: {{ order_id }}</span>
-    <span><i class="fas fa-lock"></i> 100% సురక్షితమైన లావాదేవీ</span>
+    <span><i class="fas fa-shield-alt"></i> {{ _('ఆర్డర్ ఐడీ: {{ order_id }}') }}</span>
+    <span><i class="fas fa-lock"></i> {{ _('100% సురక్షితమైన లావాదేవీ') }}</span>
   </div>
 
   <div class="content-body">
     <div style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 24px; margin-bottom: 28px;">
-      <h2 style="color: var(--accent-gold); margin-top: 0;">ఈ నిత్రైతికలో మీకు ఏమి లభిస్తుంది?</h2>
+      <h2 style="color: var(--accent-gold); margin-top: 0;">{{ _('ఈ నిత్రైతికలో మీకు ఏమి లభిస్తుంది?') }}</h2>
       <ul style="color: var(--text-main); font-size: 1.05rem;">
-        <li><strong>వ్యక్తిగత జాతక చక్ర సారాంశం:</strong> లగ్నం, లగ్నం మరియు నక్షత్ర వివరాలు.</li>
-        <li><strong>12 భావాల సమగ్ర విశ్లేషణ:</strong> ధనం, ఆరోగ్యం, వృత్తి, వివాహం మరియు కుటుంబ జీవిత అంచనాలు.</li>
-        <li><strong>వింశోత్తరి దశా అవలోకనం:</strong> ప్రస్తుత నడుస్తున్న మహాదశ మరియు రాబోయే అంతర్దశల పట్టిక.</li>
-        <li><strong>దోషాల పరిశీలన:</strong> శని సాడేసతి, కుజ దోషం మరియు పరిహార సూచనలు.</li>
-        <li><strong>సులభంగా చదివే తెలుగు PDF:</strong> ఫోను లేదా ప్రింట్ చేయడానికి వీలుగా రూపొందించిన డిజిటల్ పుస్తకం.</li>
+        <li><strong>{{ _('వ్యక్తిగత జాతక చక్ర సారాంశం:') }}</strong> {{ _('లగ్నం, లగ్నం మరియు నక్షత్ర వివరాలు.') }}</li>
+        <li><strong>{{ _('12 భావాల సమగ్ర విశ్లేషణ:') }}</strong> {{ _('ధనం, ఆరోగ్యం, వృత్తి, వివాహం మరియు కుటుంబ జీవిత అంచనాలు.') }}</li>
+        <li><strong>{{ _('వింశోత్తరి దశా అవలోకనం:') }}</strong> {{ _('ప్రస్తుత నడుస్తున్న మహాదశ మరియు రాబోయే అంతర్దశల పట్టిక.') }}</li>
+        <li><strong>{{ _('దోషాల పరిశీలన:') }}</strong> {{ _('శని సాడేసతి, కుజ దోషం మరియు పరిహార సూచనలు.') }}</li>
+        <li><strong>{{ _('సులభంగా చదివే తెలుగు PDF:') }}</strong> {{ _('ఫోను లేదా ప్రింట్ చేయడానికి వీలుగా రూపొందించిన డిజిటల్ పుస్తకం.') }}</li>
       </ul>
       <div style="margin-top: 20px; font-size: 1.5rem; font-weight: 700; color: var(--accent-gold);">
-        విశేష ప్రారంభ ధర: <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.1rem; margin-right: 8px;">₹299</span> ₹99 మాత్రమే
+        {{ _('విశేష ప్రారంభ ధర:') }} <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.1rem; margin-right: 8px;">₹299</span> {{ _('₹99 మాత్రమే') }}
       </div>
     </div>
 
-    <h2>ఆర్డర్ వివరాలు మరియు నియమాలు</h2>
+    <h2>{{ _('ఆర్డర్ వివరాలు మరియు నియమాలు') }}</h2>
     <ul>
-      <li><strong>చెల్లింపు విధానం:</strong> UPI (PhonePe, Google Pay, Paytm) లేదా క్రెడిట్/డెబిట్ కార్డు ద్వారా సురక్షిత చెల్లింపు.</li>
-      <li><strong>డెలివరీ సమయం:</strong> చెల్లింపు ధృవీకరించబడిన వెంటనే 1-2 నిమిషాల్లో PDF డౌన్‌లోడ్ లింక్ అందుబాటులోకి వస్తుంది.</li>
-      <li><strong>గోప్యత:</strong> మీ పుట్టిన వివరాలు మూడవ వ్యక్తులకు షేర్ చేయబడవు మరియు ఎన్క్రిప్ట్ చేయబడతాయి.</li>
-      <li><strong>రీఫండ్ విధానం:</strong> సాంకేతిక కారణాల వల్ల నిత్రైతిక జనరేట్ కాకపోతే 100% డబ్బులు తిరిగి ఇవ్వబడతాయి.</li>
+      <li><strong>{{ _('చెల్లింపు విధానం:') }}</strong> {{ _('UPI (PhonePe, Google Pay, Paytm) లేదా క్రెడిట్/డెబిట్ కార్డు ద్వారా సురక్షిత చెల్లింపు.') }}</li>
+      <li><strong>{{ _('డెలివరీ సమయం:') }}</strong> {{ _('చెల్లింపు ధృవీకరించబడిన వెంటనే 1-2 నిమిషాల్లో PDF డౌన్‌లోడ్ లింక్ అందుబాటులోకి వస్తుంది.') }}</li>
+      <li><strong>{{ _('గోప్యత:') }}</strong> {{ _('మీ పుట్టిన వివరాలు మూడవ వ్యక్తులకు షేర్ చేయబడవు మరియు ఎన్క్రిప్ట్ చేయబడతాయి.') }}</li>
+      <li><strong>{{ _('రీఫండ్ విధానం:') }}</strong> {{ _('సాంకేతిక కారణాల వల్ల నిత్రైతిక జనరేట్ కాకపోతే 100% డబ్బులు తిరిగి ఇవ్వబడతాయి.') }}</li>
     </ul>
 
     <div class="cta-box">
-      <h3>సంపూర్ణ జాతక PDF నిత్రైతికను పొందండి</h3>
-      <p style="margin-bottom: 16px;">₹99 చెల్లించి మీ పూర్తి జాతక నిత్రైతికను తక్షణమే డౌన్‌లోడ్ చేసుకోండి.</p>
+      <h3>{{ _('సంపూర్ణ జాతక PDF నిత్రైతికను పొందండి') }}</h3>
+      <p style="margin-bottom: 16px;">{{ _('₹99 చెల్లించి మీ పూర్తి జాతక నిత్రైతికను తక్షణమే డౌన్‌లోడ్ చేసుకోండి.') }}</p>
       
       <form id="checkoutForm" action="/api/checkout_draft" method="POST">
         <input type="hidden" name="order_id" value="{{ order_id }}">
         <button type="button" onclick="alert('చెల్లింపు గేట్‌వే (Razorpay / UPI integration boundary) కాన్ఫిగరేషన్ సిద్ధంగా ఉంది.');" class="cta-btn" style="border: none; cursor: pointer; font-size: 1.1rem;">
-          <i class="fas fa-shopping-cart"></i> ₹99 తో ఆర్డర్ ప్రారంభించండి
+          <i class="fas fa-shopping-cart"></i> {{ _('₹99 తో ఆర్డర్ ప్రారంభించండి') }}
         </button>
       </form>
     </div>

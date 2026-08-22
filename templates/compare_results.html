@@ -1546,7 +1546,7 @@
       <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
     </button>
     <div class="lang-options">
-      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">{{ _('తెలుగు') }}</a>
       <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
       <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
       <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
@@ -1594,7 +1594,7 @@
   <div class="compare-wrapper">
 <div class="chart-container-wrapper">
 <div class="compare-person-header">{{ p1.name }}</div>
-{# ===== VARIABLES ===== #}
+{{ _('{# ===== VARIABLES ===== #}
     {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
     {% set positive_lagnas = [] %}
     {% for l in positive_lagnas_raw %}
@@ -1611,7 +1611,7 @@
     {% macro extract_degrees_p1(line) %}
     {% set line_str = line | striptags %}
     {% if "°" in line_str %}
-    {% set parts = line_str.split('°') %}
+    {% set parts = line_str.split(\'°\') %}
     {% if parts|length > 0 %}
     {% set degree_part = parts[0] %}
     {% set degree_num = degree_part.split()[-1] | int %}
@@ -1653,7 +1653,7 @@
     {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
     {% macro box_p1(lagna) %}
     {% set hno = p1.houses[lagna] %}
-    {% set lines = p1.chart[lagna].split('<br>') %}
+    {% set lines = p1.chart[lagna].split(\'') }}<br>') %}
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
@@ -1672,9 +1672,9 @@
 
 
       {# Display all content from chart data #}
-      {% for line in p1.chart[lagna].split('<br>') %}
+      {% for line in p1.chart[lagna].split('<br>{{ _('\') %}
       {% if _("లగ్నం") in line %}
-      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
+      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}') }}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
       </div>
@@ -1783,7 +1783,7 @@
 </div>
 <div class="chart-container-wrapper">
 <div class="compare-person-header">{{ p2.name }}</div>
-{# ===== VARIABLES ===== #}
+{{ _('{# ===== VARIABLES ===== #}
     {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
     {% set positive_lagnas = [] %}
     {% for l in positive_lagnas_raw %}
@@ -1800,7 +1800,7 @@
     {% macro extract_degrees_p2(line) %}
     {% set line_str = line | striptags %}
     {% if "°" in line_str %}
-    {% set parts = line_str.split('°') %}
+    {% set parts = line_str.split(\'°\') %}
     {% if parts|length > 0 %}
     {% set degree_part = parts[0] %}
     {% set degree_num = degree_part.split()[-1] | int %}
@@ -1842,7 +1842,7 @@
     {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
     {% macro box_p2(lagna) %}
     {% set hno = p2.houses[lagna] %}
-    {% set lines = p2.chart[lagna].split('<br>') %}
+    {% set lines = p2.chart[lagna].split(\'') }}<br>') %}
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
@@ -1861,9 +1861,9 @@
 
 
       {# Display all content from chart data #}
-      {% for line in p2.chart[lagna].split('<br>') %}
+      {% for line in p2.chart[lagna].split('<br>{{ _('\') %}
       {% if _("లగ్నం") in line %}
-      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
+      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}') }}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
       </div>
@@ -2121,7 +2121,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2130,7 +2130,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -2144,26 +2144,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
-                if (oc.indexOf('fetch') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (oc.indexOf(\'print()\') !== -1) return;
+                if (oc.indexOf(\'fetch\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item <a> links
+            // Attach to nav-item') }} <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
 
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+        {{ _('@import url(\'https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap\');
 
         * {
             margin: 0;
@@ -244,7 +244,7 @@
             background-color: #0c0c0c;
             background: var(--bg-primary);
             color: var(--text-main);
-            font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
+            font-family: \'Poppins\', \'Noto Sans Telugu\', sans-serif;
             min-height: 100vh;
             padding: 20px;
             padding-bottom: 100px;
@@ -256,13 +256,13 @@
 
         /* Rainbow numbers background */
         body::before {
-            content: '';
+            content: \'\';
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cstyle%3Etext%7Bfont-family:\'Segoe UI\',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x=\'20\' y=\'40\' fill=\'%23FF0000\'%3E9%3C/text%3E%3Ctext x=\'150\' y=\'30\' fill=\'%23FF7F00\'%3E6%3C/text%3E%3Ctext x=\'80\' y=\'160\' fill=\'%23FFFF00\'%3E3%3C/text%3E%3Ctext x=\'120\' y=\'80\' fill=\'%2300FF00\'%3E9%3C/text%3E%3Ctext x=\'40\' y=\'120\' fill=\'%230000FF\'%3E6%3C/text%3E%3Ctext x=\'170\' y=\'140\' fill=\'%238B00FF\'%3E3%3C/text%3E%3Ctext x=\'90\' y=\'20\' fill=\'%23FF0000\'%3E6%3C/text%3E%3Ctext x=\'10\' y=\'180\' fill=\'%23FF7F00\'%3E3%3C/text%3E%3C/svg%3E");
             background-size: 200px 200px;
             z-index: -1;
             animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
@@ -311,7 +311,7 @@
         }
 
         .header::before {
-            content: '';
+            content: \'\';
             position: absolute;
             top: 0;
             left: 0;
@@ -387,7 +387,7 @@
             border-radius: 20px;
             border: none;
             cursor: pointer;
-            font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
+            font-family: \'Segoe UI\', \'Noto Serif Telugu\', sans-serif;
             font-size: 13px;
             font-weight: 700;
             display: flex;
@@ -1017,7 +1017,7 @@
             }
 
             /* Conditional Table Colors based on Native Party */
-            {% if native_party == 'గురు పార్టీ' %}
+            {% if native_party == \'గురు పార్టీ\' %}
             .guru-table, .guru-table th, .guru-table td, .guru-table * { color: #006400 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
             .shani-table, .shani-table th, .shani-table td, .shani-table * { color: #b22222 !important; font-weight: bold !important; font-size: 15.2pt !important; border-left: none !important; }
             {% else %}
@@ -1841,13 +1841,13 @@
 
         /* Rainbow numbers background */
         body::before {
-            content: '';
+            content: \'\';
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cstyle%3Etext%7Bfont-family:\'Segoe UI\',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x=\'20\' y=\'40\' fill=\'%23FF0000\'%3E9%3C/text%3E%3Ctext x=\'150\' y=\'30\' fill=\'%23FF7F00\'%3E6%3C/text%3E%3Ctext x=\'80\' y=\'160\' fill=\'%23FFFF00\'%3E3%3C/text%3E%3Ctext x=\'120\' y=\'80\' fill=\'%2300FF00\'%3E9%3C/text%3E%3Ctext x=\'40\' y=\'120\' fill=\'%230000FF\'%3E6%3C/text%3E%3Ctext x=\'170\' y=\'140\' fill=\'%238B00FF\'%3E3%3C/text%3E%3Ctext x=\'90\' y=\'20\' fill=\'%23FF0000\'%3E6%3C/text%3E%3Ctext x=\'10\' y=\'180\' fill=\'%23FF7F00\'%3E3%3C/text%3E%3C/svg%3E");
             background-size: 200px 200px;
             z-index: -1;
             animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
@@ -1889,7 +1889,7 @@
         }
 
         .cosmic-header::before {
-            content: '';
+            content: \'\';
             position: absolute;
             top: 0;
             left: 0;
@@ -2599,7 +2599,7 @@
                 transform: scale(0.85);
                 transform-origin: top right;
             }
-        }
+        }') }}
     
     </style>
   <link rel="stylesheet" href="/static/css/theme-fonts.css">

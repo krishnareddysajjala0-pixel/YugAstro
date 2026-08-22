@@ -3,14 +3,14 @@
 {% block page_content %}
 <div class="page-card">
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-    <a href="/" style="color: var(--text-muted); text-decoration: none;">హోమ్</a> &rsaquo; 
-    <span style="color: var(--accent-gold);">జ్యోతిష్య ప్రాథమిక విషయాలు</span>
+    <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
+    <span style="color: var(--accent-gold);">{{ _('జ్యోతిష్య ప్రాథమిక విషయాలు') }}</span>
   </div>
 
-  <h1 class="page-title">జ్యోతిష్య ప్రాథమిక విషయాలు (Astrology Basics)</h1>
+  <h1 class="page-title">{{ _('జ్యోతిష్య ప్రాథమిక విషయాలు (Astrology Basics)') }}</h1>
   
   <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
-    సనాతన త్రైత జ్యోతిష్య శాస్త్రంలో లగ్నము, లగ్నం, నక్షత్రాలు, భావాలు మరియు దశల ప్రాముఖ్యతను సులభమైన తెలుగు వ్యాసాల ద్వారా అర్థం చేసుకోండి.
+    {{ _('సనాతన త్రైత జ్యోతిష్య శాస్త్రంలో లగ్నము, లగ్నం, నక్షత్రాలు, భావాలు మరియు దశల ప్రాముఖ్యతను సులభమైన తెలుగు వ్యాసాల ద్వారా అర్థం చేసుకోండి.') }}
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 24px;">
@@ -18,7 +18,7 @@
     <div id="{{ slug }}" style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 12px; margin-bottom: 14px;">
         <h2 style="color: var(--accent-gold); font-size: 1.25rem; margin: 0;"><i class="fas fa-book-open" style="margin-right: 8px; font-size: 1rem; color: var(--accent-gold-light);"></i>{{ article.title }}</h2>
-        <span style="font-size: 0.8rem; background: rgba(212, 175, 55, 0.15); color: #f59e0b; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">త్రైత పాఠము</span>
+        <span style="font-size: 0.8rem; background: rgba(212, 175, 55, 0.15); color: #f59e0b; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">{{ _('త్రైత పాఠము') }}</span>
       </div>
       <p style="font-size: 1rem; color: #fbbf24; line-height: 1.6; margin-bottom: 16px; font-weight: 500; background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 8px; border-left: 4px solid var(--accent-gold);">
         {{ article.intro }}
@@ -35,9 +35,9 @@
   </div>
 
   <div class="cta-box">
-    <h3>మీ సొంత జాతక చక్రాన్ని విశ్లేషించుకోవాలనుకుంటున్నారా?</h3>
-    <p> మీ పుట్టిన సమయంతో లగ్నము, లగ్నం మరియు 12 భావ ఫలాలను చూడండి.</p>
-    <a href="/" class="cta-btn"><i class="fas fa-graduation-cap"></i> జాతక చక్రం లెక్కించండి</a>
+    <h3>{{ _('మీ సొంత జాతక చక్రాన్ని విశ్లేషించుకోవాలనుకుంటున్నారా?') }}</h3>
+    <p> {{ _('మీ పుట్టిన సమయంతో లగ్నము, లగ్నం మరియు 12 భావ ఫలాలను చూడండి.') }}</p>
+    <a href="/" class="cta-btn"><i class="fas fa-graduation-cap"></i> {{ _('జాతక చక్రం లెక్కించండి') }}</a>
   </div>
 </div>
 {% endblock %}

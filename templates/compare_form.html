@@ -825,7 +825,7 @@
       <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
     </button>
     <div class="lang-options">
-      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">{{ _('తెలుగు') }}</a>
       <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
       <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
       <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
@@ -1017,7 +1017,7 @@
                 } else {
                     data.forEach(p => {
                     const div = document.createElement("div");
-                    div.innerHTML = `<div style="font-weight: 600; color: #fff;">${p.display_name.split(',')[0]}</div><div style="font-size: 12px; color: #a0a0ff;">${p.display_name.split(',').slice(1).join(',').trim()}</div>`;
+                    div.innerHTML = `<div style="font-weight: 600; color: #fff;">${p.display_name.split(',')[0]}</div><div style="font-size: 12px; color: #a0a0ff;">${p.display_name.split(',').slice(1).join(',').trim()}</div>{{ _('`;
                     div.onclick = () => {
                         placeInput.value = p.display_name;
                         latInput.value = p.lat;
@@ -1057,27 +1057,27 @@
 
     // Set default Date and Time
     const now = new Date();
-    const dateStr = now.toISOString().split('T')[0];
-    const timeStr = now.toTimeString().split(' ')[0].substring(0, 5);
+    const dateStr = now.toISOString().split(\'T\')[0];
+    const timeStr = now.toTimeString().split(\' \')[0].substring(0, 5);
     
-    document.getElementById('dob1').value = dateStr;
-    document.getElementById('tob1').value = timeStr;
-    document.getElementById('dob2').value = dateStr;
-    document.getElementById('tob2').value = timeStr;
+    document.getElementById(\'dob1\').value = dateStr;
+    document.getElementById(\'tob1\').value = timeStr;
+    document.getElementById(\'dob2\').value = dateStr;
+    document.getElementById(\'tob2\').value = timeStr;
 
     function reverseGeocode(lat, lon, callback) {
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
-        fetch(url, { headers: { 'Accept-Language': 'en' } })
+        fetch(url, { headers: { \'Accept-Language\': \'en\' } })
             .then(r => r.json())
             .then(data => {
                 const a = data.address || {};
-                const city    = a.city || a.town || a.village || a.county || '';
-                const state   = a.state || '';
-                const country = a.country || '';
-                const place   = [city, state, country].filter(Boolean).join(', ');
-                callback(place || 'Current Location');
+                const city    = a.city || a.town || a.village || a.county || \'\';
+                const state   = a.state || \'\';
+                const country = a.country || \'\';
+                const place   = [city, state, country].filter(Boolean).join(\', \');
+                callback(place || \'Current Location\');
             })
-            .catch(() => callback('Current Location'));
+            .catch(() => callback(\'Current Location\'));
     }
 
     function detectLocation() {
@@ -1086,13 +1086,13 @@
             function(pos) {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
-                document.getElementById('lat1').value = lat;
-                document.getElementById('lon1').value = lon;
-                document.getElementById('lat2').value = lat;
-                document.getElementById('lon2').value = lon;
+                document.getElementById(\'lat1\').value = lat;
+                document.getElementById(\'lon1\').value = lon;
+                document.getElementById(\'lat2\').value = lat;
+                document.getElementById(\'lon2\').value = lon;
                 reverseGeocode(lat, lon, function(placeName) {
-                    document.getElementById('place1').value = placeName;
-                    document.getElementById('place2').value = placeName;
+                    document.getElementById(\'place1\').value = placeName;
+                    document.getElementById(\'place2\').value = placeName;
                 });
             },
             function(err) {},
@@ -1105,14 +1105,14 @@
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
-        element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
+        element.innerHTML = \'{{ _(\'గణన చేస్తోంది\') }}\';
     }
 
     function playLoadingSound() {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             let time = audioCtx.currentTime;
-            for(let i = 0; i < 6; i++) {
+            for(let i = 0; i') }} < 6; i++) {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = i % 2 === 0 ? 'sine' : 'triangle';
@@ -1145,7 +1145,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1154,7 +1154,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -1168,43 +1168,43 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (oc.indexOf(\'print()\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            document.querySelectorAll('a.nav-item').forEach(function(link) {
-                var href = link.getAttribute('href') || '';
-                if (!href || href === '#') return;
-                link.addEventListener('click', function() {
+            document.querySelectorAll(\'a.nav-item\').forEach(function(link) {
+                var href = link.getAttribute(\'href\') || \'\';
+                if (!href || href === \'#\') return;
+                link.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            document.querySelectorAll('form').forEach(function(form) {
-                form.addEventListener('submit', function() {
+            document.querySelectorAll(\'form\').forEach(function(form) {
+                form.addEventListener(\'submit\', function() {
                     showGananaLoader();
                 });
             });
         });
 
-        window.addEventListener('pageshow', function() {
-            var overlay = document.getElementById('loading-overlay');
-            if (overlay) overlay.style.display = 'none';
+        window.addEventListener(\'pageshow\', function() {
+            var overlay = document.getElementById(\'loading-overlay\');
+            if (overlay) overlay.style.display = \'none\';
         });
-    })();
+    })();') }}
     </script>
 </body>
 </html>

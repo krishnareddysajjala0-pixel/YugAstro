@@ -504,14 +504,14 @@
     </style>
 
     <script>
-        // Theme Management is defined earlier in the file.
+        {{ _('// Theme Management is defined earlier in the file.
         // Load saved theme state into buttons immediately
-        const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'default';
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
-                btn.classList.add('active');
+        const savedThemeGlobal = localStorage.getItem(\'preferred-theme\') || \'default\';
+        document.querySelectorAll(\'.theme-btn\').forEach(btn => {
+            if (btn.getAttribute(\'data-theme-btn\') === savedThemeGlobal) {
+                btn.classList.add(\'active\');
             } else {
-                btn.classList.remove('active');
+                btn.classList.remove(\'active\');
             }
         });
 
@@ -519,7 +519,7 @@
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
+                section.scrollIntoView({ behavior: \'smooth\' });
             }
         }
 
@@ -533,92 +533,92 @@
 
       function goToBirthChart() {
             showLoader();
-            window.location.href = '/go-to-birth-chart';
+            window.location.href = \'/go-to-birth-chart\';
         }
 
         function goToDashaChart() {
             showLoader();
-            window.location.href = '/go-to-dasha-chart';
+            window.location.href = \'/go-to-dasha-chart\';
         }
 
         // Add hover effects to table rows
-        document.addEventListener('DOMContentLoaded', function () {
-            const tableRows = document.querySelectorAll('.data-table tbody tr');
+        document.addEventListener(\'DOMContentLoaded\', function () {
+            const tableRows = document.querySelectorAll(\'.data-table tbody tr\');
 
             tableRows.forEach(row => {
-                row.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-2px)';
-                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                row.addEventListener(\'mouseenter\', function () {
+                    this.style.transform = \'translateY(-2px)\';
+                    this.style.boxShadow = \'0 5px 15px rgba(0, 0, 0, 0.2)\';
                 });
 
-                row.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
+                row.addEventListener(\'mouseleave\', function () {
+                    this.style.transform = \'translateY(0)\';
+                    this.style.boxShadow = \'none\';
                 });
             });
 
             // Highlight current year in footer
             const currentYear = new Date().getFullYear();
-            const footerText = document.querySelector('.footer p');
+            const footerText = document.querySelector(\'.footer p\');
             if (footerText) {
-                footerText.innerHTML = `© ${currentYear} {{ _('తెలుగు జ్యోతిష్య విశ్లేషణ') }} - {{ _('ద్వాదశ గ్రహముల ఫలితాలు') }}`;
+                footerText.innerHTML = `© ${currentYear} {{ _(\'తెలుగు జ్యోతిష్య విశ్లేషణ\') }} - {{ _(\'ద్వాదశ గ్రహముల ఫలితాలు\') }}`;
             }
 
             // Add floating button tooltips
-            const floatBtns = document.querySelectorAll('.float-btn');
+            const floatBtns = document.querySelectorAll(\'.float-btn\');
             floatBtns.forEach(btn => {
-                btn.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-5px)';
+                btn.addEventListener(\'mouseenter\', function () {
+                    this.style.transform = \'translateY(-5px)\';
                 });
-                btn.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
+                btn.addEventListener(\'mouseleave\', function () {
+                    this.style.transform = \'translateY(0)\';
                 });
             });
         });
 
         // Keyboard shortcuts
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener(\'keydown\', function (e) {
             // Home key to go to top
-            if (e.key === 'Home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (e.key === \'Home\') {
+                window.scrollTo({ top: 0, behavior: \'smooth\' });
             }
 
             // End key to go to bottom
-            if (e.key === 'End') {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            if (e.key === \'End\') {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: \'smooth\' });
             }
 
             // Ctrl+P for print
-            if (e.ctrlKey && e.key === 'p') {
+            if (e.ctrlKey && e.key === \'p\') {
                 e.preventDefault();
                 window.print();
             }
 
             // Escape to go home
-            if (e.key === 'Escape') {
-                window.location.href = '/';
+            if (e.key === \'Escape\') {
+                window.location.href = \'/\';
             }
 
             // Ctrl+1 for birth chart
-            if (e.ctrlKey && e.key === '1') {
+            if (e.ctrlKey && e.key === \'1\') {
                 e.preventDefault();
                 goToBirthChart();
             }
 
             // Ctrl+2 for dasha chart
-            if (e.ctrlKey && e.key === '2') {
+            if (e.ctrlKey && e.key === \'2\') {
                 e.preventDefault();
                 goToDashaChart();
             }
         });
 
         // Add loading animation to page
-        window.addEventListener('load', function () {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
+        window.addEventListener(\'load\', function () {
+            document.body.style.opacity = \'0\';
+            document.body.style.transition = \'opacity 0.5s ease\';
 
             setTimeout(() => {
-                document.body.style.opacity = '1';
+                document.body.style.opacity = \'1\';
             }, 100);
         });
 
@@ -626,7 +626,7 @@
             const element = document.getElementById("typing-text");
             if (!element) return;
             
-            element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
+            element.innerHTML = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         
@@ -635,7 +635,7 @@
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let time = audioCtx.currentTime;
-                for(let i = 0; i < 6; i++) {
+                for(let i = 0; i') }} < 6; i++) {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = i % 2 === 0 ? 'sine' : 'triangle';
@@ -671,7 +671,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    (function() {
+    {{ _('(function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -680,7 +680,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = 'sine';
+                    osc.type = \'sine\';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -694,26 +694,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById('loading-overlay');
+            var overlay = document.getElementById(\'loading-overlay\');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = 'flex';
-            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
+            overlay.style.display = \'flex\';
+            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
+            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.float-btn').forEach(function(btn) {
-                var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
-                if (oc.indexOf('fetch') !== -1) return;
-                btn.addEventListener('click', function() {
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
+                var oc = btn.getAttribute(\'onclick\') || \'\';
+                if (oc.indexOf(\'print()\') !== -1) return;
+                if (oc.indexOf(\'fetch\') !== -1) return;
+                btn.addEventListener(\'click\', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item <a> links
+            // Attach to nav-item') }} <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;
