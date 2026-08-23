@@ -140,8 +140,8 @@
     <h2>{{ _('తరచుగా అడిగే ప్రశ్నలు (FAQs)') }}</h2>
     {% for faq in data.faqs %}
     <div style="margin-bottom: 14px;">
-      <strong style="color: var(--accent-gold);">{{ _('ప్ర: {{ faq.q }}') }}</strong>
-      <p style="margin-top: 4px;">{{ _('జ: {{ faq.a }}') }}</p>
+      <strong style="color: var(--accent-gold);">{{ _('ప్ర:') }} {{ _(faq.q) }}</strong>
+      <p style="margin-top: 4px;">{{ _('జ:') }} {{ _(faq.a) }}</p>
     </div>
     {% endfor %}
     {% endif %}
