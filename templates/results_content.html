@@ -39,15 +39,18 @@
                             {{ b.title }} <span style="font-size: 0.85em; font-weight: bold; margin-left: 8px;">{{ _('( పుణ్యము + పాపము )') }}</span>
                         </div>
                         {% endif %}
-                        <div class="bhava-lagna-tag">{{ _('{{ b.lagna }} {{ _('లగ్నం') }}') }}</div>
+                        <div class="bhava-lagna-tag">{{ b.lagna }} {{ _('లగ్నం') }}</div>
                     </div>
 
                     <div class="bhava-section-label">{{ _('కార్యములు / విషయములు') }}</div>
                     <div class="bhava-content">{{ b.meaning }}</div>
 
-                    <div class="bhava-section-label">{{ _('{{ _('గ్రహ స్థితి:') }}
+                    <div class="bhava-section-label">{{ _('గ్రహ స్థితి:') }}
                         {% if b.planets %}
-                        {% for p in b.planets %}') }}<span class="p-tag" style="color: {{ p.color }}; border-color: {{ p.color }}44;">{{ _('{% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% {{ _('బలము') }}') }}</span>
+                        {% for p in b.planets %}
+                        <span class="p-tag" style="color: {{ p.color }}; border-color: {{ p.color }}44;">
+                            {% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% {{ _('బలము') }}
+                        </span>
                         {% endfor %}
                         {% else %}
                         <span style="color: var(--text-muted);">{{ _('ఖాళీ (Empty)') }}</span>

@@ -1701,7 +1701,11 @@
     }
 </style>
   <link rel="stylesheet" href="/static/css/theme-fonts.css">
-</head>{{ _('{% set is_guru_party = (lagna in ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]) if lagna else True %}') }}<body
+</head>
+
+{% set is_guru_party = (lagna in ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]) if lagna else True %}
+
+<body
     style="--guru-color: {{ '#00ff00' if is_guru_party else '#ff3333' }}; --shani-color: {{ '#ff3333' if is_guru_party else '#00ff00' }};">
 
   <!-- Language Switcher -->

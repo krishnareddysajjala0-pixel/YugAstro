@@ -55,8 +55,8 @@
     {% endif %}
 
     <div class="planets-content">
-      {% for line in chart[box_lagna].split('<br>{{ _('\') %}
-        {% if _("లగ్నం") in line %}') }}
+      {% for line in chart[box_lagna].split('<br>') %}
+        {% if 'లగ్నం' in line or _('లగ్నం') in line %}
           <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
             {{ line | safe }}
           </div>
@@ -75,16 +75,21 @@
   <div class="page-title" style="font-size: 20px; color: #ff9800;">
     <i class="fas fa-clock"></i> {{ name }}
   </div>
-  <div style="text-align: center; color: #a0a0ff; font-size: 14px; margin-bottom: 10px;">{{ _('{{ _('తేదీ:') }} {{ dob }} | {{ _('సమయం:') }} {{ tob }}') }}</div>
+  <div style="text-align: center; color: #a0a0ff; font-size: 14px; margin-bottom: 10px;">
+    {{ _('తేదీ:') }} {{ dob }} | {{ _('సమయం:') }} {{ tob }}
+  </div>
 </div>
 
 <div class="chart-container transit-chart-anim" style="margin-top: 10px;">
-  <div class="chart">{{ _('{{ box("మీనం") }}
+  <div class="chart">
+    {{ box("మీనం") }}
     {{ box("మేషం") }}
     {{ box("వృషభం") }}
     {{ box("మిథునం") }}
 
-    {{ box("కుంభం") }}') }}<div class="center">
+    {{ box("కుంభం") }}
+
+    <div class="center">
       <div class="center-content">
         <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
           <tr>
@@ -113,13 +118,16 @@
           </tr>
         </table>
       </div>
-    </div>{{ _('{{ box("కర్కాటకం") }}
+    </div>
+
+    {{ box("కర్కాటకం") }}
     {{ box("మకరం") }}
     {{ box("సింహం") }}
     {{ box("ధనస్సు") }}
     {{ box("వృశ్చికం") }}
     {{ box("తులా") }}
-    {{ box("కన్య") }}') }}</div>
+    {{ box("కన్య") }}
+  </div>
 </div>
 
 

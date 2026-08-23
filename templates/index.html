@@ -2557,13 +2557,13 @@
         clearTimeout(suggestionTimeout);
       }
 
-      if (q.length') }} < 2) {
+      if (q.length < 2) {
         suggestions.style.display = "none";
         suggestions.innerHTML = "";
         return;
       }
 
-      suggestionTimeout = setTimeout(() => {{ _('{
+      suggestionTimeout = setTimeout(() => {
         fetchSuggestions(q);
       }, 300);
     });

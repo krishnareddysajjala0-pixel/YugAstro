@@ -134,7 +134,9 @@
                     <span>Source: {{ r.source }}</span>
                   </div>
                   {% if r.house %}
-                    <div style="color: #60a5fa; font-size: 0.8rem; margin-top: 2px;">{{ _('{{ r.house }}వ భావాధిపతి ({{ r.lord }}) &rarr; {{ r.placement }}వ భావ స్థితి') }}</div>
+                    <div style="color: #60a5fa; font-size: 0.8rem; margin-top: 2px;">
+                      {{ r.house }}వ భావాధిపతి ({{ r.lord }}) &rarr; {{ r.placement }}వ భావ స్థితి
+                    </div>
                   {% endif %}
                   <div style="color: #e2e8f0; margin-top: 4px;">{{ r.explanation }}</div>
                 </div>
