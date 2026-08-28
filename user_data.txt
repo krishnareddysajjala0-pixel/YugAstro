@@ -381,3 +381,4 @@
 354. [23-Aug-2026 06:46:11] Name: Krishna Reddy sajjala, Mobile: +91 9999999999, DOB: 2026-08-23, TOB: 12:15, Place: Ongole, Prakasam, Andhra Pradesh, 523002, India
 355. [23-Aug-2026 06:56:16] Name: Reddy, Mobile: +91 9999999999, DOB: 2026-08-23, TOB: 12:25, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 356. [24-Aug-2026 10:20:29] Name: CHARAN TEJ, Mobile: +91 9999999999, DOB: 2010-10-22, TOB: 13:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+357. [28-Aug-2026 04:38:02] Name: Krishna, Mobile: +91 9700866666, DOB: 2026-08-28, TOB: 10:07, Place: Tadpatri, Anantapuram, Andhra Pradesh, India
