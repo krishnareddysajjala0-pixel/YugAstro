@@ -1791,6 +1791,104 @@
         min-width: 25px !important;
       }
     }
+
+    /* Bhavas Detailed 1-12 Table */
+    .bhavas-detailed-section {
+      margin: 28px auto 20px auto;
+      max-width: 960px;
+      padding: 0 12px;
+    }
+    .bhavas-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      font-size: 13.5px;
+      text-align: left;
+    }
+    .bhavas-table th {
+      padding: 12px 10px;
+      color: #ffd700;
+      font-weight: 700;
+      border-bottom: 2px solid var(--card-border);
+      background: var(--table-header-bg, rgba(251, 191, 36, 0.1));
+    }
+    .bhavas-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--card-border);
+      vertical-align: middle;
+    }
+    .bhavas-table tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .bhava-lagna-row {
+      background: rgba(251, 191, 36, 0.07);
+    }
+    .karma-punyam {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .karma-papam {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .karma-mixed {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    .planet-pill {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
+    .hand-pill {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--card-border);
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
+    .hide-hands .hand-pill {
+      display: none !important;
+    }
+    @media (max-width: 650px) {
+      .bhavas-table {
+        font-size: 12px;
+      }
+      .bhavas-table th, .bhavas-table td {
+        padding: 8px 6px;
+      }
+    }
+    @media print {
+      .bhavas-detailed-section {
+        margin-top: 20px;
+        page-break-inside: auto;
+      }
+      .bhavas-table {
+        color: #000 !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+      }
+      .bhavas-table th, .bhavas-table td {
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+      .planet-pill, .hand-pill {
+        background: #f8f8f8 !important;
+        border: 1px solid #ddd !important;
+        color: #000 !important;
+      }
+    }
   </style>
 
   <div id="print-wrapper">
@@ -2001,6 +2099,102 @@
       </div>
     </div>
 
+    <!-- 1 to 12 Bhavas Detailed Planetary & Aspect Analysis Table -->
+    {% if bhavas_list %}
+    <div class="bhavas-detailed-section">
+      <div class="bhavas-header" style="text-align: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.35rem; color: #fbbf24; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px;">
+          <span>🌟</span> {{ _('1వ భావం నుండి 12వ భావాల వివరాలు') }}
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
+          {{ _('లగ్నం, రాశి, స్థిత గ్రహాలు, చూపులు (హస్తాలు) మరియు నక్షత్ర-పాద విశ్లేషణ') }}
+        </p>
+      </div>
+
+      <div class="table-responsive" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; box-shadow: 0 8px 24px var(--shadow-color); border: 1px solid var(--card-border);">
+        <table class="bhavas-table">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--card-border);">
+              <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; text-align: center; width: 14%; white-space: nowrap;">{{ _('భావం') }}</th>
+              <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 16%; white-space: nowrap;">{{ _('రాశి / లగ్నం') }}</th>
+              <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 35%;">{{ _('స్థిత గ్రహాలు (నక్షత్రం, పాదం)') }}</th>
+              <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 35%;">{{ _('చూపులు / దృష్టులు 👉 (నక్షత్రం, పాదం)') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for bhava in bhavas_list %}
+            <tr class="bhava-row {% if bhava.is_lagna_bhava %}bhava-lagna-row{% endif %}">
+              <!-- Bhava No & Karma -->
+              <td style="padding: 12px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">
+                <div style="font-weight: 800; font-size: 14px; color: var(--text-main);">
+                  {{ bhava.bhava_name }}
+                </div>
+                <span class="karma-badge {{ bhava.karma_class }}" style="display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 6px; margin-top: 3px; font-weight: 600;">
+                  {{ bhava.karma_type }}
+                </span>
+              </td>
+
+              <!-- Rashi Name -->
+              <td style="padding: 12px 10px; vertical-align: middle; white-space: nowrap;">
+                <span style="font-weight: 700; font-size: 14.5px; color: #38bdf8;">
+                  {{ bhava.rashi }}
+                </span>
+                {% if bhava.is_lagna_bhava %}
+                <span style="background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid #fbbf24; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 4px;">
+                  జన్మ లగ్నం
+                </span>
+                {% endif %}
+              </td>
+
+              <!-- Direct Planets & Lagna Point -->
+              <td style="padding: 10px; vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  {% if bhava.is_lagna_bhava and bhava.lagna_point %}
+                  <div class="planet-pill lagna-point-pill" style="border: 1px solid #fbbf24; background: rgba(251, 191, 36, 0.15);">
+                    <span style="color: #fbbf24; font-weight: 800;"><i class="fas fa-compass"></i> లగ్నం</span>
+                    <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ bhava.lagna_point.degree }})</span>
+                    <span style="color: var(--text-muted); font-size: 12px;">{{ bhava.lagna_point.nakshatra }} - {{ bhava.lagna_point.padam }}వ పాదం</span>
+                  </div>
+                  {% endif %}
+
+                  {% if bhava.direct_planets %}
+                    {% for p in bhava.direct_planets %}
+                    <div class="planet-pill" style="border-left: 3px solid {{ p.color }};">
+                      <span style="color: {{ p.color }}; font-weight: 700;">{{ p.name }}</span>
+                      <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ p.degree }})</span>
+                      <span style="color: var(--text-muted); font-size: 12px;">{{ p.nakshatra }} - {{ p.padam }}వ పాదం</span>
+                    </div>
+                    {% endfor %}
+                  {% elif not bhava.is_lagna_bhava %}
+                    <span style="color: var(--text-muted); font-style: italic; font-size: 12px;">-</span>
+                  {% endif %}
+                </div>
+              </td>
+
+              <!-- Hands / Aspects -->
+              <td style="padding: 10px; vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  {% if bhava.hand_aspects %}
+                    {% for h in bhava.hand_aspects %}
+                    <div class="hand-pill" style="border-left: 3px dashed {{ h.color }};">
+                      <span style="color: {{ h.color }}; font-weight: 700;">{{ h.name }} <span style="font-size: 0.85em;">👉</span></span>
+                      <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ h.degree }})</span>
+                      <span style="color: var(--text-muted); font-size: 12px;">{{ h.nakshatra }} - {{ h.padam }}వ పాదం</span>
+                    </div>
+                    {% endfor %}
+                  {% else %}
+                    <span style="color: var(--text-muted); font-style: italic; font-size: 12px;">-</span>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Transit Button and Container -->
     <div style="text-align: center; margin: 20px 0;">
       <button onclick="fetchTransitChart()" id="transit-btn" style="background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4); display: inline-flex; align-items: center; gap: 8px;">
@@ -2063,65 +2257,7 @@
   </div>
   {% endif %}
 
-  <!-- Automatic Telugu Jaataka Results Section -->
-  {% if jathaka_results %}
-  <div class="jathaka-results-section print-hide" style="margin: 35px 16px;">
-    <div style="text-align: center; margin-bottom: 24px;">
-      <h2 style="font-size: 1.8rem; color: #fbbf24; font-weight: 800;">
-        <i class="fas fa-magic"></i> జాతక ఫలితాలు (త్రైత సిద్ధాంత విశ్లేషణ)
-      </h2>
-      <p style="color: var(--text-muted); font-size: 0.98rem; max-width: 750px; margin: 6px auto 0 auto;">
-        {{ jathaka_results.overall_summary }}
-      </p>
-    </div>
 
-    <!-- Category Highlights Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-bottom: 24px;">
-      {% for sec in jathaka_results.sections[:6] %}
-      <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 2px solid {{ sec.color }}; border-radius: 14px; padding: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h4 style="font-size: 1.1rem; color: #ffffff; font-weight: 800; margin: 0;">
-            {{ sec.icon }} {{ sec.title }}
-          </h4>
-          <span style="background: rgba(0,0,0,0.4); color: {{ sec.color }}; border: 1px solid {{ sec.color }}; font-weight: 800; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;">
-            {{ sec.level }}
-          </span>
-        </div>
-        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; margin: 0 0 10px 0;">
-          {{ sec.summary }}
-        </p>
-
-        {% if sec.reasons %}
-        <details style="font-size: 0.82rem; color: #60a5fa; cursor: pointer;">
-          <summary style="font-weight: 700;">🔍 ఫలితానికి కారణాలు ({{ sec.reasons|length }} నియమాలు)</summary>
-          <div style="margin-top: 8px; background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 8px; color: #e2e8f0; line-height: 1.5;">
-            {% for r in sec.reasons %}
-              <div style="margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 4px;">
-                <strong style="color: #fbbf24;">[{{ r.rule_id }}]</strong>: {{ r.explanation }}
-              </div>
-            {% endfor %}
-          </div>
-        </details>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
-
-    <!-- Link to Full 13-Section Report Page -->
-    <div style="text-align: center; margin-top: 20px;">
-      <a href="/results" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; font-size: 1.05rem; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.35);">
-        <i class="fas fa-list-alt"></i> 37 రంగాలు & 13 విభాగాల సంపూర్ణ జాతక నివేదిక చూడండి &rarr;
-      </a>
-    </div>
-  </div>
-  {% endif %}
-
-    <!-- Paid PDF Report Upgrade Banner (Shown after Kundali generation) -->
-    <div class="report-promo-banner print-hide" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.05)); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; margin: 30px 16px; text-align: center;">
-      <h3 style="color: #fbbf24; font-size: 1.3rem; margin-bottom: 8px;"><i class="fas fa-file-pdf"></i> వివరమైన జీవిత జాతక PDF నిత్రైతిక</h3>
-      <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px; margin: 0 auto 14px auto;">మీ 12 భావ ఫలాలు, వింశోత్తరి మహాదశల చార్ట్, శని సాడేసతి విశ్లేషణ మరియు అనుకూల పరిహారాలతో కూడిన పూర్తి జాతక డిజిటల్ పుస్తకం.</p>
-      <a href="/report/ra_ord_preview" class="cta-btn" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; padding: 12px 24px; border-radius: 25px; text-decoration: none;"><i class="fas fa-download"></i> ₹99 కి నిత్రైతిక పొందండి</a>
-    </div>
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">

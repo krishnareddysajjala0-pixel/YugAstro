@@ -1,3 +1,15 @@
+import sys
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, Response
 import swisseph as swe
 import datetime
@@ -1482,6 +1494,49 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
 
 
 
+    # 8. Build ordered 1 to 12 Bhavas detailed structure (Lagna, Planets, Hands, Nakshatras & Padams)
+    bhavas_list = []
+    lagna_start_idx = LAGNA_NAMES_TELUGU.index(lagna)
+
+    lagna_nak_idx = int(lagna_lon / NAKSHATRA_SIZE)
+    lagna_nak_name = NAKSHATRAS_TELUGU[lagna_nak_idx]
+    lagna_nak_offset = lagna_lon - (lagna_nak_idx * NAKSHATRA_SIZE)
+    lagna_padam = int(lagna_nak_offset / PADAM_SIZE) + 1
+
+    for h_no in range(1, 13):
+        rashi_name = LAGNA_NAMES_TELUGU[(lagna_start_idx + h_no - 1) % 12]
+
+        if h_no in [1, 5, 9]:
+            karma_type = "పుణ్యం"
+            karma_class = "karma-punyam"
+        elif h_no in [3, 7, 11]:
+            karma_type = "పాపం"
+            karma_class = "karma-papam"
+        else:
+            karma_type = "పుణ్యం + పాపం"
+            karma_class = "karma-mixed"
+
+        direct_planets = [p for p in planet_positions if p["lagna"] == rashi_name and not p["is_hand"]]
+        hand_aspects = [p for p in planet_positions if p["lagna"] == rashi_name and p["is_hand"]]
+
+        bhavas_list.append({
+            'bhava_num': h_no,
+            'bhava_name': f"{h_no}వ భావం",
+            'rashi': rashi_name,
+            'karma_type': karma_type,
+            'karma_class': karma_class,
+            'is_lagna_bhava': (h_no == 1),
+            'lagna_point': {
+                'name': 'లగ్నం',
+                'degree': lagna_degree_str,
+                'nakshatra': lagna_nak_name,
+                'padam': lagna_padam
+            } if h_no == 1 else None,
+            'direct_planets': direct_planets,
+            'hand_aspects': hand_aspects,
+            'has_occupants': bool(direct_planets or hand_aspects or (h_no == 1))
+        })
+
     return {
         'name': name,
         'dob': dob,
@@ -1517,6 +1572,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'rutuvu': rutuvu,
         'telugu_masam': telugu_masam,
         'planet_positions': planet_positions,
+        'bhavas_list': bhavas_list,
         'chart': chart_data,
         'houses': houses_map,
         'all_nakshatras': NAKSHATRAS_TELUGU,
@@ -1645,7 +1701,130 @@ def compare_results():
     log_user_to_github(name1 + " (Compare 1)", dob1, tob1, place1)
     log_user_to_github(name2 + " (Compare 2)", dob2, tob2, place2)
 
-    return render_template("compare_results.html", p1=data1, p2=data2)
+    # --- Person 1 vs Person 2 Comparison Engine ---
+    p1_planet_positions = data1.get('planet_positions', [])
+    p2_planet_positions = data2.get('planet_positions', [])
+    p1_lagna = data1.get('lagna', '')
+    p2_lagna = data2.get('lagna', '')
+
+    same_nakshatra_pada_matches = []
+    same_rashi_planet_matches = []
+    comparison_bhavas = []
+
+    # 1. Exact Same Planet in Same Nakshatra and Same Pada Matches
+    seen_nak_matches = set()
+    for p1_p in p1_planet_positions:
+        for p2_p in p2_planet_positions:
+            if p1_p["name"] == p2_p["name"] and p1_p["nakshatra"] == p2_p["nakshatra"] and p1_p["padam"] == p2_p["padam"]:
+                nak_key = (p1_p["name"], p1_p["lagna"], p1_p["nakshatra"], p1_p["padam"], p1_p["is_hand"], p2_p["is_hand"])
+                if nak_key in seen_nak_matches:
+                    continue
+                seen_nak_matches.add(nak_key)
+
+                same_nakshatra_pada_matches.append({
+                    "planet": p1_p["name"],
+                    "p1_planet": p1_p["name"],
+                    "p1_is_hand": p1_p["is_hand"],
+                    "p1_degree": p1_p["degree"],
+                    "p1_rashi": p1_p["lagna"],
+                    "p1_color": p1_p["color"],
+                    "p2_planet": p2_p["name"],
+                    "p2_is_hand": p2_p["is_hand"],
+                    "p2_degree": p2_p["degree"],
+                    "p2_rashi": p2_p["lagna"],
+                    "p2_color": p2_p["color"],
+                    "nakshatra": p1_p["nakshatra"],
+                    "padam": p1_p["padam"],
+                    "is_both_direct": (not p1_p["is_hand"] and not p2_p["is_hand"])
+                })
+
+    # 2. Same Planet in Same Rashi / Lagna (Deduplicated)
+    seen_rashi_matches = set()
+    for p1_p in p1_planet_positions:
+        for p2_p in p2_planet_positions:
+            if p1_p["is_hand"] and p2_p["is_hand"]:
+                continue
+            if p1_p["name"] == p2_p["name"] and p1_p["lagna"] == p2_p["lagna"]:
+                rashi_key = (p1_p["name"], p1_p["lagna"], p1_p["is_hand"], p2_p["is_hand"])
+                if rashi_key in seen_rashi_matches:
+                    continue
+                seen_rashi_matches.add(rashi_key)
+
+                if not p1_p["is_hand"] and not p2_p["is_hand"]:
+                    match_type = "ఒకే రాశిలో గ్రహ స్థితి"
+                elif p1_p["is_hand"] and not p2_p["is_hand"]:
+                    match_type = f"{name1} దృష్టి 👉 vs {name2} స్థితి"
+                else:
+                    match_type = f"{name1} స్థితి vs {name2} దృష్టి 👉"
+
+                same_rashi_planet_matches.append({
+                    "planet": p1_p["name"],
+                    "rashi": p1_p["lagna"],
+                    "match_type": match_type,
+                    "p1_is_hand": p1_p["is_hand"],
+                    "p1_degree": p1_p["degree"],
+                    "p1_nakshatra": p1_p["nakshatra"],
+                    "p1_padam": p1_p["padam"],
+                    "p1_color": p1_p["color"],
+                    "p2_is_hand": p2_p["is_hand"],
+                    "p2_degree": p2_p["degree"],
+                    "p2_nakshatra": p2_p["nakshatra"],
+                    "p2_padam": p2_p["padam"],
+                    "p2_color": p2_p["color"],
+                    "is_both_direct": (not p1_p["is_hand"] and not p2_p["is_hand"]),
+                    "is_exact_nakshatra_pada": (p1_p["nakshatra"] == p2_p["nakshatra"] and p1_p["padam"] == p2_p["padam"])
+                })
+
+    # 3. 12 Bhavas Comparison Table (aligned to Person 1 Bhavas)
+    p1_start_idx = LAGNA_NAMES_TELUGU.index(p1_lagna) if p1_lagna in LAGNA_NAMES_TELUGU else 0
+    for h_no in range(1, 13):
+        r_name = LAGNA_NAMES_TELUGU[(p1_start_idx + h_no - 1) % 12]
+
+        p1_direct = [p for p in p1_planet_positions if p["lagna"] == r_name and not p["is_hand"]]
+        p1_hands = [p for p in p1_planet_positions if p["lagna"] == r_name and p["is_hand"]]
+
+        p2_direct = [p for p in p2_planet_positions if p["lagna"] == r_name and not p["is_hand"]]
+        p2_hands = [p for p in p2_planet_positions if p["lagna"] == r_name and p["is_hand"]]
+
+        bhava_matches = []
+        for p1_d in p1_direct:
+            for p2_d in p2_direct:
+                if p1_d["name"] == p2_d["name"]:
+                    bhava_matches.append(f"🪐 {p1_d['name']} సంయోగం")
+                if p1_d["nakshatra"] == p2_d["nakshatra"] and p1_d["padam"] == p2_d["padam"]:
+                    bhava_matches.append(f"✨ {p1_d['name']} & {p2_d['name']}: {p1_d['nakshatra']}-{p1_d['padam']}వ పాదం")
+
+        for p1_h in p1_hands:
+            for p2_d in p2_direct:
+                if p1_h["nakshatra"] == p2_d["nakshatra"] and p1_h["padam"] == p2_d["padam"]:
+                    bhava_matches.append(f"👁️ {p1_h['name']}👉 & {p2_d['name']}: {p1_h['nakshatra']}-{p1_h['padam']}వ పాదం")
+
+        for p2_h in p2_hands:
+            for p1_d in p1_direct:
+                if p2_h["nakshatra"] == p1_d["nakshatra"] and p2_h["padam"] == p1_d["padam"]:
+                    bhava_matches.append(f"👁️ {p2_h['name']}👉 & {p1_d['name']}: {p2_h['nakshatra']}-{p2_h['padam']}వ పాదం")
+
+        comparison_bhavas.append({
+            "bhava_num": h_no,
+            "bhava_name": f"{h_no}వ భావం",
+            "rashi": r_name,
+            "is_p1_lagna": (h_no == 1),
+            "is_p2_lagna": (r_name == p2_lagna),
+            "p1_direct": p1_direct,
+            "p1_hands": p1_hands,
+            "p2_direct": p2_direct,
+            "p2_hands": p2_hands,
+            "highlights": bhava_matches
+        })
+
+    return render_template(
+        "compare_results.html",
+        p1=data1,
+        p2=data2,
+        same_nakshatra_pada_matches=same_nakshatra_pada_matches,
+        same_rashi_planet_matches=same_rashi_planet_matches,
+        comparison_bhavas=comparison_bhavas
+    )
 
 
 @app.route("/transit_chart", methods=["POST"])
@@ -1752,12 +1931,224 @@ def transit_chart():
     for i in range(12):
         houses_map[LAGNA_NAMES_TELUGU[(idx+i)%12]] = i+1
 
+    # Extract Planetary Positions with Nakshatras & Padams for Transit
+    green_planets = ["సూర్యుడు", "భూమి", "కుజుడు", "గురు", "కేతు", "చంద్రుడు"]
+    positive_lagnas = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
+
+    planet_positions = []
+    for n, longt in base_pos.items():
+        r = LAGNA_NAMES_TELUGU[int(longt/30)]
+        d = int(longt % 30)
+        m = int(((longt % 30) - d) * 60)
+        
+        p_nak_idx = int(longt / NAKSHATRA_SIZE)
+        p_nak_name = NAKSHATRAS_TELUGU[p_nak_idx]
+        p_nak_offset = longt - (p_nak_idx * NAKSHATRA_SIZE)
+        p_padam = int(p_nak_offset / PADAM_SIZE) + 1
+        
+        is_green = any(p in n for p in green_planets)
+        if lagna in positive_lagnas:
+            color = "#22c55e" if is_green else "#ef4444"
+        else:
+            color = "#ef4444" if is_green else "#22c55e"
+        
+        planet_positions.append({
+            "name": n,
+            "lagna": r,
+            "degree": f"{d}°{m:02d}′",
+            "nakshatra": p_nak_name,
+            "padam": p_padam,
+            "color": color,
+            "is_hand": False
+        })
+
+        angles = [180] + SPECIAL_HANDS.get(n, [])
+        for a in angles:
+            hl = (longt + a) % 360
+            hr = LAGNA_NAMES_TELUGU[int(hl/30)]
+            hd = int(hl % 30)
+            hm = int(((hl % 30) - hd) * 60)
+            
+            h_nak_idx = int(hl / NAKSHATRA_SIZE)
+            h_nak_name = NAKSHATRAS_TELUGU[h_nak_idx]
+            h_nak_offset = hl - (h_nak_idx * NAKSHATRA_SIZE)
+            h_padam = int(h_nak_offset / PADAM_SIZE) + 1
+
+            planet_positions.append({
+                "name": n,
+                "lagna": hr,
+                "degree": f"{hd}°{hm:02d}′",
+                "nakshatra": h_nak_name,
+                "padam": h_padam,
+                "color": color,
+                "is_hand": True
+            })
+
+    # Build 1 to 12 Bhavas for Transit
+    bhavas_list = []
+    lagna_start_idx = LAGNA_NAMES_TELUGU.index(lagna)
+    lagna_nak_idx = int(lagna_lon / NAKSHATRA_SIZE)
+    lagna_nak_name = NAKSHATRAS_TELUGU[lagna_nak_idx]
+    lagna_nak_offset = lagna_lon - (lagna_nak_idx * NAKSHATRA_SIZE)
+    lagna_padam = int(lagna_nak_offset / PADAM_SIZE) + 1
+
+    for h_no in range(1, 13):
+        rashi_name = LAGNA_NAMES_TELUGU[(lagna_start_idx + h_no - 1) % 12]
+
+        if h_no in [1, 5, 9]:
+            karma_type = "పుణ్యం"
+            karma_class = "karma-punyam"
+        elif h_no in [3, 7, 11]:
+            karma_type = "పాపం"
+            karma_class = "karma-papam"
+        else:
+            karma_type = "పుణ్యం + పాపం"
+            karma_class = "karma-mixed"
+
+        direct_planets = [p for p in planet_positions if p["lagna"] == rashi_name and not p["is_hand"]]
+        hand_aspects = [p for p in planet_positions if p["lagna"] == rashi_name and p["is_hand"]]
+
+        bhavas_list.append({
+            'bhava_num': h_no,
+            'bhava_name': f"{h_no}వ భావం",
+            'rashi': rashi_name,
+            'karma_type': karma_type,
+            'karma_class': karma_class,
+            'is_lagna_bhava': (h_no == 1),
+            'lagna_point': {
+                'name': 'లగ్నం',
+                'degree': lagna_degree_str,
+                'nakshatra': lagna_nak_name,
+                'padam': lagna_padam
+            } if h_no == 1 else None,
+            'direct_planets': direct_planets,
+            'hand_aspects': hand_aspects
+        })
+
+    # --- Birth vs Transit Comparison Engine ---
+    birth_info = session.get('birth_info', {})
+    birth_planet_positions = birth_info.get('planet_positions', [])
+    birth_lagna = birth_info.get('lagna', '')
+    birth_bhavas = birth_info.get('bhavas_list', [])
+
+    same_nakshatra_pada_matches = []
+    same_rashi_planet_matches = []
+    comparison_bhavas = []
+
+    if birth_planet_positions:
+        # 1. Exact Same Planet in Same Nakshatra and Same Pada Matches (ఒకే గ్రహం - ఒకే నక్షత్రం & ఒకే పాదం)
+        seen_nak_matches = set()
+        for tp in planet_positions:
+            for bp in birth_planet_positions:
+                if tp["name"] == bp["name"] and tp["nakshatra"] == bp["nakshatra"] and tp["padam"] == bp["padam"]:
+                    nak_key = (tp["name"], tp["lagna"], tp["nakshatra"], tp["padam"], tp["is_hand"], bp["is_hand"])
+                    if nak_key in seen_nak_matches:
+                        continue
+                    seen_nak_matches.add(nak_key)
+
+                    same_nakshatra_pada_matches.append({
+                        "planet": tp["name"],
+                        "transit_planet": tp["name"],
+                        "transit_is_hand": tp["is_hand"],
+                        "transit_degree": tp["degree"],
+                        "transit_rashi": tp["lagna"],
+                        "transit_color": tp["color"],
+                        "birth_planet": bp["name"],
+                        "birth_is_hand": bp["is_hand"],
+                        "birth_degree": bp["degree"],
+                        "birth_rashi": bp["lagna"],
+                        "birth_color": bp["color"],
+                        "nakshatra": tp["nakshatra"],
+                        "padam": tp["padam"],
+                        "is_both_direct": (not tp["is_hand"] and not bp["is_hand"])
+                    })
+
+        # 2. Same Planet in Same Rashi / Lagna (Deduplicated - Direct or Transit Aspect on Birth Planet)
+        seen_rashi_matches = set()
+        for tp in planet_positions:
+            for bp in birth_planet_positions:
+                # Exclude aspect-to-aspect matches to eliminate duplicate clutter
+                if tp["is_hand"] and bp["is_hand"]:
+                    continue
+                if tp["name"] == bp["name"] and tp["lagna"] == bp["lagna"]:
+                    rashi_key = (tp["name"], tp["lagna"], tp["is_hand"], bp["is_hand"])
+                    if rashi_key in seen_rashi_matches:
+                        continue
+                    seen_rashi_matches.add(rashi_key)
+
+                    if not tp["is_hand"] and not bp["is_hand"]:
+                        match_type = "ఒకే రాశిలో గ్రహ స్థితి"
+                    elif tp["is_hand"] and not bp["is_hand"]:
+                        match_type = "జన్మ గ్రహంపై గోచార దృష్టి"
+                    else:
+                        match_type = "జన్మ దృష్టిపై గోచార గ్రహం"
+
+                    same_rashi_planet_matches.append({
+                        "planet": tp["name"],
+                        "rashi": tp["lagna"],
+                        "match_type": match_type,
+                        "transit_is_hand": tp["is_hand"],
+                        "transit_degree": tp["degree"],
+                        "transit_nakshatra": tp["nakshatra"],
+                        "transit_padam": tp["padam"],
+                        "transit_color": tp["color"],
+                        "birth_is_hand": bp["is_hand"],
+                        "birth_degree": bp["degree"],
+                        "birth_nakshatra": bp["nakshatra"],
+                        "birth_padam": bp["padam"],
+                        "birth_color": bp["color"],
+                        "is_both_direct": (not tp["is_hand"] and not bp["is_hand"]),
+                        "is_exact_nakshatra_pada": (tp["nakshatra"] == bp["nakshatra"] and tp["padam"] == bp["padam"])
+                    })
+
+        # 3. Side-by-Side 12 Bhavas Comparison (aligned to Birth Chart Bhavas)
+        birth_start_idx = LAGNA_NAMES_TELUGU.index(birth_lagna) if birth_lagna in LAGNA_NAMES_TELUGU else 0
+        for h_no in range(1, 13):
+            r_name = LAGNA_NAMES_TELUGU[(birth_start_idx + h_no - 1) % 12]
+
+            b_direct = [p for p in birth_planet_positions if p["lagna"] == r_name and not p["is_hand"]]
+            b_hands = [p for p in birth_planet_positions if p["lagna"] == r_name and p["is_hand"]]
+
+            t_direct = [p for p in planet_positions if p["lagna"] == r_name and not p["is_hand"]]
+            t_hands = [p for p in planet_positions if p["lagna"] == r_name and p["is_hand"]]
+
+            # Check highlights for this bhava
+            bhava_matches = []
+            for td in t_direct:
+                for bd in b_direct:
+                    if td["name"] == bd["name"]:
+                        bhava_matches.append(f"🪐 {td['name']} జన్మ స్థితిపై గోచారం")
+                    if td["nakshatra"] == bd["nakshatra"] and td["padam"] == bd["padam"]:
+                        bhava_matches.append(f"✨ {td['name']} & {bd['name']}: {td['nakshatra']}-{td['padam']}వ పాదం")
+
+            for th in t_hands:
+                for bd in b_direct:
+                    if th["nakshatra"] == bd["nakshatra"] and th["padam"] == bd["padam"]:
+                        bhava_matches.append(f"👁️ {th['name']}👉 దృష్టి & {bd['name']}: {th['nakshatra']}-{th['padam']}వ పాదం")
+
+            comparison_bhavas.append({
+                "bhava_num": h_no,
+                "bhava_name": f"{h_no}వ భావం",
+                "rashi": r_name,
+                "is_birth_lagna": (h_no == 1),
+                "birth_direct": b_direct,
+                "birth_hands": b_hands,
+                "transit_direct": t_direct,
+                "transit_hands": t_hands,
+                "highlights": bhava_matches
+            })
+
     return render_template(
         "transit_partial.html",
         chart=chart_data,
         lagna=lagna,
         lagna_deg=lagna_degree_str,
         houses=houses_map,
+        bhavas_list=bhavas_list,
+        same_nakshatra_pada_matches=same_nakshatra_pada_matches,
+        same_rashi_planet_matches=same_rashi_planet_matches,
+        comparison_bhavas=comparison_bhavas,
+        birth_lagna=birth_lagna,
         name="ఈ రోజు గ్రహ స్థితి",
         dob=local_dt.strftime("%d-%m-%Y"),
         tob=local_dt.strftime("%H:%M:%S")

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ current_lang if current_lang else 'te' }}" class="notranslate">
 <head>
   <meta name="google" content="notranslate">
@@ -738,7 +738,7 @@
 
     <!-- Universal Loading Interceptor -->
     <script>
-    {{ _('(function() {
+    (function() {
         function playLoadingSound() {
             try {
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -747,7 +747,7 @@
                     var osc = audioCtx.createOscillator();
                     var gain = audioCtx.createGain();
                     var t = audioCtx.currentTime + i * 0.12;
-                    osc.type = \'sine\';
+                    osc.type = 'sine';
                     osc.frequency.setValueAtTime(freq, t);
                     gain.gain.setValueAtTime(0, t);
                     gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
@@ -761,26 +761,26 @@
         }
 
         function showGananaLoader() {
-            var overlay = document.getElementById(\'loading-overlay\');
+            var overlay = document.getElementById('loading-overlay');
             if (!overlay) return;
             playLoadingSound();
-            overlay.style.display = \'flex\';
-            var textEl = overlay.querySelector(\'p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]\');
-            if (textEl) textEl.textContent = \'{{ _(\'గణన చేస్తోంది\') }}\';
+            overlay.style.display = 'flex';
+            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
-        document.addEventListener(\'DOMContentLoaded\', function() {
-            document.querySelectorAll(\'.float-btn\').forEach(function(btn) {
-                var oc = btn.getAttribute(\'onclick\') || \'\';
-                if (oc.indexOf(\'print()\') !== -1) return;
-                if (oc.indexOf(\'fetch\') !== -1) return;
-                btn.addEventListener(\'click\', function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.float-btn').forEach(function(btn) {
+                var oc = btn.getAttribute('onclick') || '';
+                if (oc.indexOf('print()') !== -1) return;
+                if (oc.indexOf('fetch') !== -1) return;
+                btn.addEventListener('click', function() {
                     showGananaLoader();
                 });
             });
 
-            // Attach to nav-item') }} <a> links
+            // Attach to nav-item <a> links
             document.querySelectorAll('a.nav-item').forEach(function(link) {
                 var href = link.getAttribute('href') || '';
                 if (!href || href === '#') return;

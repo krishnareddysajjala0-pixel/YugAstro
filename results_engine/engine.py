@@ -66,11 +66,14 @@ class ResultsEngine:
         negative_count = 0
         neutral_count = 0
 
-        print("\n==========================================================================================")
-        print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT (TIMEASTRO STRICT RULES)")
-        print("==========================================================================================")
-        print(f"{'TOPIC':<24} | {'POSITIVE RULES':<14} | {'NEGATIVE RULES':<14} | {'SCORE':<6} | STATUS")
-        print("------------------------------------------------------------------------------------------")
+        try:
+            print("\n==========================================================================================")
+            print("RAVAN ASTRO VERSION 3 RESULTS ENGINE CONSOLE DEBUG REPORT (TIMEASTRO STRICT RULES)")
+            print("==========================================================================================")
+            print(f"{'TOPIC':<24} | {'POSITIVE RULES':<14} | {'NEGATIVE RULES':<14} | {'SCORE':<6} | STATUS")
+            print("------------------------------------------------------------------------------------------")
+        except Exception:
+            pass
 
         for cat_name in CATEGORIES:
             scorer = scorers[cat_name]
@@ -108,7 +111,10 @@ class ResultsEngine:
 
             evaluated_categories[cat_name] = topic_object
 
-            print(f"{cat_name:<24} | {len(pos_rule_ids):<14} | {len(neg_rule_ids):<14} | {res['score']:<6} | {res['level']}")
+            try:
+                print(f"{cat_name:<24} | {len(pos_rule_ids):<14} | {len(neg_rule_ids):<14} | {res['score']:<6} | {res['level']}")
+            except Exception:
+                pass
 
             cat_rules = len(pos_rule_ids) + len(neg_rule_ids)
             rule_count += cat_rules
@@ -119,7 +125,10 @@ class ResultsEngine:
             else:
                 neutral_count += 1
 
-        print("==========================================================================================\n")
+        try:
+            print("==========================================================================================\n")
+        except Exception:
+            pass
 
         return {
             "categories": evaluated_categories,

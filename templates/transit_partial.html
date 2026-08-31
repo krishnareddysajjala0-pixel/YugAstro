@@ -130,4 +130,272 @@
   </div>
 </div>
 
+<!-- 1 to 12 Bhavas Detailed Table for Today's Transit -->
+{% if bhavas_list %}
+<div class="bhavas-detailed-section" style="margin: 25px auto 15px auto; max-width: 960px; padding: 0 10px;">
+  <div class="bhavas-header" style="text-align: center; margin-bottom: 16px;">
+    <h3 style="font-size: 1.35rem; color: #fbbf24; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px;">
+      <span>🌟</span> {{ _('ఈ రోజు 1వ భావం నుండి 12వ భావాల గ్రహ స్థితులు') }}
+    </h3>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
+      {{ _('ప్రస్తుత లగ్నం, రాశి, గోచార గ్రహాలు, చూపులు (హస్తాలు) మరియు నక్షత్ర-పాద విశ్లేషణ') }}
+    </p>
+  </div>
+
+  <div class="table-responsive" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; box-shadow: 0 8px 24px var(--shadow-color); border: 1px solid var(--card-border);">
+    <table class="bhavas-table" style="width: 100%; border-collapse: collapse; background: var(--card-bg); font-size: 13.5px; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--card-border);">
+          <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; text-align: center; width: 14%; white-space: nowrap;">{{ _('భావం') }}</th>
+          <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 16%; white-space: nowrap;">{{ _('రాశి / లగ్నం') }}</th>
+          <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 35%;">{{ _('స్థిత గ్రహాలు (నక్షత్రం, పాదం)') }}</th>
+          <th style="padding: 12px 10px; color: #ffd700; font-weight: 700; width: 35%;">{{ _('చూపులు / దృష్టులు 👉 (నక్షత్రం, పాదం)') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bhava in bhavas_list %}
+        <tr class="bhava-row {% if bhava.is_lagna_bhava %}bhava-lagna-row{% endif %}">
+          <!-- Bhava No & Karma -->
+          <td style="padding: 12px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">
+            <div style="font-weight: 800; font-size: 14px; color: var(--text-main);">
+              {{ bhava.bhava_name }}
+            </div>
+            <span class="karma-badge {{ bhava.karma_class }}" style="display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 6px; margin-top: 3px; font-weight: 600;">
+              {{ bhava.karma_type }}
+            </span>
+          </td>
+
+          <!-- Rashi Name -->
+          <td style="padding: 12px 10px; vertical-align: middle; white-space: nowrap;">
+            <span style="font-weight: 700; font-size: 14.5px; color: #38bdf8;">
+              {{ bhava.rashi }}
+            </span>
+            {% if bhava.is_lagna_bhava %}
+            <span style="background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid #fbbf24; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 4px;">
+              గోచార లగ్నం
+            </span>
+            {% endif %}
+          </td>
+
+          <!-- Direct Planets & Lagna Point -->
+          <td style="padding: 10px; vertical-align: middle;">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              {% if bhava.is_lagna_bhava and bhava.lagna_point %}
+              <div class="planet-pill lagna-point-pill" style="border: 1px solid #fbbf24; background: rgba(251, 191, 36, 0.15);">
+                <span style="color: #fbbf24; font-weight: 800;"><i class="fas fa-compass"></i> లగ్నం</span>
+                <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ bhava.lagna_point.degree }})</span>
+                <span style="color: var(--text-muted); font-size: 12px;">{{ bhava.lagna_point.nakshatra }} - {{ bhava.lagna_point.padam }}వ పాదం</span>
+              </div>
+              {% endif %}
+
+              {% if bhava.direct_planets %}
+                {% for p in bhava.direct_planets %}
+                <div class="planet-pill" style="border-left: 3px solid {{ p.color }};">
+                  <span style="color: {{ p.color }}; font-weight: 700;">{{ p.name }}</span>
+                  <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ p.degree }})</span>
+                  <span style="color: var(--text-muted); font-size: 12px;">{{ p.nakshatra }} - {{ p.padam }}వ పాదం</span>
+                </div>
+                {% endfor %}
+              {% elif not bhava.is_lagna_bhava %}
+                <span style="color: var(--text-muted); font-style: italic; font-size: 12px;">-</span>
+              {% endif %}
+            </div>
+          </td>
+
+          <!-- Hands / Aspects -->
+          <td style="padding: 10px; vertical-align: middle;">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              {% if bhava.hand_aspects %}
+                {% for h in bhava.hand_aspects %}
+                <div class="hand-pill" style="border-left: 3px dashed {{ h.color }};">
+                  <span style="color: {{ h.color }}; font-weight: 700;">{{ h.name }} <span style="font-size: 0.85em;">👉</span></span>
+                  <span style="color: #ffd700; font-weight: 600; font-size: 12px;">({{ h.degree }})</span>
+                  <span style="color: var(--text-muted); font-size: 12px;">{{ h.nakshatra }} - {{ h.padam }}వ పాదం</span>
+                </div>
+                {% endfor %}
+              {% else %}
+                <span style="color: var(--text-muted); font-style: italic; font-size: 12px;">-</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<!-- ============================================================ -->
+<!-- BIRTH VS TRANSIT COMPARISON SECTION -->
+<!-- ============================================================ -->
+{% if same_nakshatra_pada_matches or same_rashi_planet_matches or comparison_bhavas %}
+<div class="comparison-analysis-wrapper" style="margin: 35px auto 25px auto; max-width: 960px; padding: 0 10px;">
+  
+  <!-- Header Title -->
+  <div style="text-align: center; margin-bottom: 24px; padding: 18px; background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.05)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px;">
+    <h2 style="font-size: 1.5rem; color: #fbbf24; font-weight: 800; margin: 0 0 6px 0;">
+      ⚖️ {{ _('జన్మ కుండలి vs గోచార కుండలి సరిపోలిక విశ్లేషణ') }}
+    </h2>
+    <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0;">
+      {{ _('ఒకే నక్షత్రం-పాదం, ఒకే లగ్నం/రాశి మరియు 12 భావాల గ్రహ-దృష్టి సంయోగాల సమగ్ర నివేదిక') }}
+    </p>
+  </div>
+
+  <!-- 1. EXACT SAME PLANET IN SAME NAKSHATRA & PADAM MATCHES -->
+  <div style="margin-bottom: 25px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; box-shadow: 0 6px 20px var(--shadow-color);">
+    <h3 style="font-size: 1.15rem; color: #34d399; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+      <span>✨</span> {{ _('ఒకే గ్రహం - ఒకే నక్షత్రం మరియు ఒకే పాదంలో ఉన్న జాబితా (Same Planet in Same Nakshatra & Pada)') }}
+    </h3>
+    
+    {% if same_nakshatra_pada_matches %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px;">
+      {% for m in same_nakshatra_pada_matches %}
+      <div style="background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.35); border-left: 4px solid #34d399; border-radius: 10px; padding: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-weight: 800; color: #38bdf8; font-size: 14px;">
+            🪐 {{ m.planet }}
+          </span>
+          <span style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid #34d399; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">
+            🌟 {{ m.nakshatra }} - {{ m.padam }}వ పాదం
+          </span>
+        </div>
+        <div style="font-size: 13px; color: var(--text-main); line-height: 1.6;">
+          <div><strong style="color: #60a5fa;">గోచారం (Today):</strong> <span style="color: {{ m.transit_color }}; font-weight: 700;">{{ m.transit_planet }}{% if m.transit_is_hand %} (చూపు 👉){% else %} (స్థితి){% endif %}</span> ({{ m.transit_degree }}) - {{ m.transit_rashi }}</div>
+          <div><strong style="color: #f472b6;">జన్మ (Birth):</strong> <span style="color: {{ m.birth_color }}; font-weight: 700;">{{ m.birth_planet }}{% if m.birth_is_hand %} (చూపు 👉){% else %} (స్థితి){% endif %}</span> ({{ m.birth_degree }}) - {{ m.birth_rashi }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); font-style: italic; font-size: 13px; margin: 0;">
+      ప్రస్తుత సమయానికి జన్మ గ్రహాలలోని ఏ గ్రహమూ గోచారంలో సరిగ్గా అదే గ్రహానికి చెందిన అదే నక్షత్రం-పాదంలో లేదు.
+    </p>
+    {% endif %}
+  </div>
+
+  <!-- 2. SAME PLANET IN SAME RASHI / LAGNA -->
+  <div style="margin-bottom: 25px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; box-shadow: 0 6px 20px var(--shadow-color);">
+    <h3 style="font-size: 1.15rem; color: #fbbf24; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+      <span>🪐</span> {{ _('ఒకే రాశి / లగ్నంలో ఉన్న గ్రహాలు & దృష్టి సంయోగాలు (Same Planet in Same Lagna)') }}
+    </h3>
+
+    {% if same_rashi_planet_matches %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px;">
+      {% for m in same_rashi_planet_matches %}
+      <div style="background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.35); border-left: 4px solid #fbbf24; border-radius: 10px; padding: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
+          <span style="font-weight: 800; color: #38bdf8; font-size: 14px;">
+            🪐 {{ m.planet }} in {{ m.rashi }}
+          </span>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <span style="background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid #fbbf24; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 8px;">
+              {{ m.match_type }}
+            </span>
+            {% if m.is_exact_nakshatra_pada %}
+            <span style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid #34d399; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 8px;">
+              ఒకే నక్షత్ర-పాదం
+            </span>
+            {% endif %}
+          </div>
+        </div>
+        <div style="font-size: 13px; color: var(--text-main); line-height: 1.6;">
+          <div><strong style="color: #60a5fa;">గోచారం (Today):</strong> {% if m.transit_is_hand %}చూపు 👉{% else %}స్థితి{% endif %} ({{ m.transit_degree }} | {{ m.transit_nakshatra }}-{{ m.transit_padam }}వ పాదం)</div>
+          <div><strong style="color: #f472b6;">జన్మ (Birth):</strong> {% if m.birth_is_hand %}చూపు 👉{% else %}స్థితి{% endif %} ({{ m.birth_degree }} | {{ m.birth_nakshatra }}-{{ m.birth_padam }}వ పాదం)</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); font-style: italic; font-size: 13px; margin: 0;">
+      ప్రస్తుత సమయానికి ఒకే రాశిలో ఉన్న జన్మ & గోచార గ్రహ సంయోగాలు లేవు.
+    </p>
+    {% endif %}
+  </div>
+
+  <!-- 3. SIDE BY SIDE 12 BHAVAS COMPARISON TABLE -->
+  {% if comparison_bhavas %}
+  <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; box-shadow: 0 6px 20px var(--shadow-color);">
+    <h3 style="font-size: 1.15rem; color: #818cf8; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+      <span>📊</span> {{ _('1వ భావం నుండి 12వ భావాల జన్మ vs గోచార పూర్తి పట్టిక') }}
+    </h3>
+
+    <div class="table-responsive" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; border: 1px solid var(--card-border);">
+      <table class="bhavas-table" style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--card-border); background: var(--table-header-bg, rgba(99, 102, 241, 0.15));">
+            <th style="padding: 10px 8px; color: #ffd700; font-weight: 700; width: 12%; text-align: center;">{{ _('భావం') }}</th>
+            <th style="padding: 10px 8px; color: #ffd700; font-weight: 700; width: 12%;">{{ _('రాశి') }}</th>
+            <th style="padding: 10px 8px; color: #60a5fa; font-weight: 700; width: 34%;">{{ _('జన్మ గ్రహాలు & చూపులు') }}</th>
+            <th style="padding: 10px 8px; color: #34d399; font-weight: 700; width: 34%;">{{ _('గోచార గ్రహాలు & చూపులు') }}</th>
+            <th style="padding: 10px 8px; color: #fbbf24; font-weight: 700; width: 8%; text-align: center;">{{ _('పోలిక') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cb in comparison_bhavas %}
+          <tr class="bhava-row {% if cb.is_birth_lagna %}bhava-lagna-row{% endif %}" style="border-bottom: 1px solid var(--card-border);">
+            <td style="padding: 10px 6px; text-align: center; vertical-align: middle; font-weight: 800; color: var(--text-main);">
+              {{ cb.bhava_name }}
+            </td>
+            <td style="padding: 10px 6px; vertical-align: middle; font-weight: 700; color: #38bdf8;">
+              {{ cb.rashi }}
+              {% if cb.is_birth_lagna %}<br><span style="font-size: 10px; color: #fbbf24;">(జన్మ లగ్నం)</span>{% endif %}
+            </td>
+            <td style="padding: 8px 6px; vertical-align: middle;">
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                {% for p in cb.birth_direct %}
+                <div style="font-size: 12px;">
+                  <strong style="color: {{ p.color }};">{{ p.name }}</strong> <span style="color: #ffd700; font-size: 11px;">({{ p.degree }})</span> - <span style="color: var(--text-muted); font-size: 11.5px;">{{ p.nakshatra }} ({{ p.padam }})</span>
+                </div>
+                {% endfor %}
+                {% for h in cb.birth_hands %}
+                <div style="font-size: 12px;">
+                  <strong style="color: {{ h.color }};">{{ h.name }} <span style="font-size: 0.85em;">👉</span></strong> <span style="color: #ffd700; font-size: 11px;">({{ h.degree }})</span> - <span style="color: var(--text-muted); font-size: 11.5px;">{{ h.nakshatra }} ({{ h.padam }})</span>
+                </div>
+                {% endfor %}
+                {% if not cb.birth_direct and not cb.birth_hands %}
+                <span style="color: var(--text-muted); font-size: 11px;">-</span>
+                {% endif %}
+              </div>
+            </td>
+            <td style="padding: 8px 6px; vertical-align: middle;">
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                {% for p in cb.transit_direct %}
+                <div style="font-size: 12px;">
+                  <strong style="color: {{ p.color }};">{{ p.name }}</strong> <span style="color: #ffd700; font-size: 11px;">({{ p.degree }})</span> - <span style="color: var(--text-muted); font-size: 11.5px;">{{ p.nakshatra }} ({{ p.padam }})</span>
+                </div>
+                {% endfor %}
+                {% for h in cb.transit_hands %}
+                <div style="font-size: 12px;">
+                  <strong style="color: {{ h.color }};">{{ h.name }} <span style="font-size: 0.85em;">👉</span></strong> <span style="color: #ffd700; font-size: 11px;">({{ h.degree }})</span> - <span style="color: var(--text-muted); font-size: 11.5px;">{{ h.nakshatra }} ({{ h.padam }})</span>
+                </div>
+                {% endfor %}
+                {% if not cb.transit_direct and not cb.transit_hands %}
+                <span style="color: var(--text-muted); font-size: 11px;">-</span>
+                {% endif %}
+              </div>
+            </td>
+            <td style="padding: 8px 4px; text-align: center; vertical-align: middle;">
+              {% if cb.highlights %}
+                {% for h in cb.highlights %}
+                <div style="font-size: 11px; background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 4px; padding: 2px 4px; margin-bottom: 2px; white-space: nowrap;">
+                  {{ h }}
+                </div>
+                {% endfor %}
+              {% else %}
+                <span style="color: var(--text-muted); font-size: 11px;">-</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endif %}
+
+
 
