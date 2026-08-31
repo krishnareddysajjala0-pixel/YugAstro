@@ -448,14 +448,120 @@ def get_nakshatra_data(slug):
             }
     return None
 
+# Alias maps for URL slug normalization
+RASHI_ALIASES = {
+    # Mesha
+    "mesha": "mesha", "mesham": "mesha", "aries": "mesha", "mesha-rashi": "mesha", "mesha-lagnam": "mesha", "mesa": "mesha", "mesam": "mesha",
+    # Vrishabha
+    "vrishabha": "vrishabha", "vrushabha": "vrishabha", "vrishabham": "vrishabha", "vrushabham": "vrishabha", "taurus": "vrishabha", "vrishabha-rashi": "vrishabha", "vrushabha-rashi": "vrishabha", "vrishabh": "vrishabha",
+    # Mithuna
+    "mithuna": "mithuna", "mithunam": "mithuna", "gemini": "mithuna", "mithuna-rashi": "mithuna", "mithuna-lagnam": "mithuna", "mithun": "mithuna",
+    # Karkataka
+    "karkataka": "karkataka", "karkatakam": "karkataka", "cancer": "karkataka", "karkataka-rashi": "karkataka", "karka": "karkataka", "karkam": "karkataka", "karkatak": "karkataka",
+    # Simha
+    "simha": "simha", "simham": "simha", "leo": "simha", "simha-rashi": "simha", "singha": "simha", "singham": "simha", "singh": "simha",
+    # Kanya
+    "kanya": "kanya", "kanyam": "kanya", "virgo": "kanya", "kanya-rashi": "kanya", "kanya-lagnam": "kanya",
+    # Tula
+    "tula": "tula", "thula": "tula", "tulam": "tula", "thulam": "tula", "libra": "tula", "tula-rashi": "tula", "thula-rashi": "tula", "tule": "tula",
+    # Vrischika
+    "vrischika": "vrischika", "vruschika": "vrischika", "vrischikam": "vrischika", "vruschikam": "vrischika", "scorpio": "vrischika", "vrischika-rashi": "vrischika", "vruschika-rashi": "vrischika", "vrischik": "vrischika",
+    # Dhanu / Dhanus / Dhanussu / Sagittarius
+    "dhanu": "dhanu", "dhanus": "dhanu", "dhanusu": "dhanu", "dhanussu": "dhanu", "dhanur": "dhanu", "dhanush": "dhanu", "sagittarius": "dhanu", "dhanu-rashi": "dhanu", "dhanussu-rashi": "dhanu", "dhanu-lagnam": "dhanu",
+    # Makara
+    "makara": "makara", "makaram": "makara", "capricorn": "makara", "makara-rashi": "makara", "makar": "makara", "makara-lagnam": "makara",
+    # Kumbha
+    "kumbha": "kumbha", "kumbham": "kumbha", "aquarius": "kumbha", "kumbha-rashi": "kumbha", "kumbh": "kumbha", "kumbha-lagnam": "kumbha",
+    # Meena
+    "meena": "meena", "meenam": "meena", "pisces": "meena", "meena-rashi": "meena", "mina": "meena", "minam": "meena", "meena-lagnam": "meena"
+}
+
+NAKSHATRA_ALIASES = {
+    "ashwini": "ashwini", "aswini": "ashwini",
+    "bharani": "bharani",
+    "krittika": "krittika", "krithika": "krittika", "kritika": "krittika",
+    "rohini": "rohini",
+    "mrigashira": "mrigashira", "mrigasira": "mrigashira",
+    "ardra": "ardra", "arudra": "ardra",
+    "punarvasu": "punarvasu",
+    "pushya": "pushya", "pushyami": "pushya",
+    "ashlesha": "ashlesha", "aslesha": "ashlesha",
+    "magha": "magha", "makha": "magha",
+    "purva-phalguni": "purva-phalguni", "purvaphalguni": "purva-phalguni", "pubba": "purva-phalguni",
+    "uttara-phalguni": "uttara-phalguni", "uttaraphalguni": "uttara-phalguni", "uttara": "uttara-phalguni",
+    "hasta": "hasta", "hastha": "hasta",
+    "chitra": "chitra", "chitta": "chitra",
+    "swati": "swati", "swathi": "swati",
+    "visakha": "visakha", "vishakha": "visakha",
+    "anuradha": "anuradha",
+    "jyeshtha": "jyeshtha", "jyeshta": "jyeshtha",
+    "mula": "mula", "moola": "mula",
+    "purvashadha": "purvashadha", "purvashada": "purvashadha",
+    "uttarashadha": "uttarashadha", "uttarashada": "uttarashadha",
+    "shravana": "shravana", "sravana": "shravana", "shravanam": "shravana", "sravanam": "shravana",
+    "dhanishta": "dhanishta", "dhanista": "dhanishta",
+    "shatabhisha": "shatabhisha", "satabhisha": "shatabhisha", "shatabhisham": "shatabhisha", "satabhisham": "shatabhisha", "satabhishak": "shatabhisha", "shatabhishak": "shatabhisha",
+    "purvabhadra": "purvabhadra", "purvabhadrapada": "purvabhadra", "poorvabhadra": "purvabhadra",
+    "uttarabhadra": "uttarabhadra", "uttarabhadrapada": "uttarabhadra",
+    "revati": "revati", "revathi": "revati"
+}
+
+def get_nakshatra_data(slug):
+    if not slug:
+        return None
+    slug_norm = str(slug).lower().strip().replace('_', '-')
+    canonical_slug = NAKSHATRA_ALIASES.get(slug_norm, slug_norm)
+
+    if canonical_slug in FULL_NAKSHATRA_CONTENT:
+        data = FULL_NAKSHATRA_CONTENT[canonical_slug].copy()
+        data["is_full_content"] = True
+        return data
+
+    for item in NAKSHATRAS_LIST:
+        if item[0] == canonical_slug:
+            return {
+                "slug": item[0],
+                "name_te": f"{item[1]} నక్షత్రం",
+                "name_en": f"{item[2]} Nakshatra",
+                "number": NAKSHATRAS_LIST.index(item) + 1,
+                "lord_te": item[3],
+                "deity_te": item[4],
+                "rashi_te": item[5],
+                "symbol_te": item[6],
+                "h1": f"{item[1]} నక్షత్రం: సంక్షిప్త వివరాలు మరియు ఫలితాలు",
+                "intro": f"{item[1]} నక్షత్రం త్రైత జ్యోతిష్యంలో {NAKSHATRAS_LIST.index(item) + 1}వ నక్షత్రం. దీనికి అధిపతి {item[3]} మరియు దేవత {item[4]}.",
+                "overview": f"{item[1]} నక్షత్రానికి అధిపతిగా {item[3]} వ్యవహరిస్తారు. ఈ నక్షత్రం {item[5]}లో ఉంటుంది.",
+                "strengths": [f"{item[3]} గ్రహ ప్రాభవం వల్ల కలిగే సద్గుణాలు", "కార్యదీక్ష మరియు స్వతంత్ర ఆలోచనలు"],
+                "cautions": ["తొందరపాటు నిర్ణయాలు తగ్గించుకోవడం మంచిది"],
+                "career": f"{item[3]} గ్రహానికి సంబంధించిన సాంకేతిక, పరిపాలనా లేదా సేవారంగాలు.",
+                "relationships": "కుటుంబ బంధాలకు మరియు అనుబంధాలకు ప్రాధాన్యత ఇస్తారు.",
+                "padas": [
+                    {"pada": 1, "navamsha": "నవంశ 1", "desc": "మొదటి పాదంలో జన్మించిన వారికి శారీరక దృఢత్వం ఉంటుంది."},
+                    {"pada": 2, "navamsha": "నవంశ 2", "desc": "రెండవ పాదంలో జన్మించిన వారికి బుద్ధి బలం పెరుగుతుంది."},
+                    {"pada": 3, "navamsha": "నవంశ 3", "desc": "మూడవ పాదంలో జన్మించిన వారికి సృజనాత్మకత ఉంటుంది."},
+                    {"pada": 4, "navamsha": "నవంశ 4", "desc": "నాల్గవ పాదంలో జన్మించిన వారికి సుఖసంతోషాలు లభిస్తాయి."}
+                ],
+                "faqs": [
+                    {"q": f"{item[1]} నక్షత్రం ఏ లగ్నంలో ఉంటుంది?", "a": f"{item[1]} నక్షత్రం {item[5]}లో ఉంటుంది."},
+                    {"q": f"{item[1]} నక్షత్ర అధిపతి ఎవరు?", "a": f"{item[3]} అధిపతి గ్రహం."}
+                ],
+                "is_full_content": False
+            }
+    return None
+
 def get_rashi_data(slug):
-    if slug in FULL_RASHI_CONTENT:
-        data = FULL_RASHI_CONTENT[slug].copy()
+    if not slug:
+        return None
+    slug_norm = str(slug).lower().strip().replace('_', '-')
+    canonical_slug = RASHI_ALIASES.get(slug_norm, slug_norm)
+
+    if canonical_slug in FULL_RASHI_CONTENT:
+        data = FULL_RASHI_CONTENT[canonical_slug].copy()
         data["is_full_content"] = True
         return data
 
     for item in RASHULU_LIST:
-        if item[0] == slug:
+        if item[0] == canonical_slug:
             return {
                 "slug": item[0],
                 "name_te": item[1],
