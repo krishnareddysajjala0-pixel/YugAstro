@@ -4367,6 +4367,16 @@ def jyotishyam_basics_hub():
         
     return render_template('jyotishyam_basics.html', articles=formatted_articles, page_title='జ్యోతిష్య ప్రాథమిక పాఠాలు | RAVAN ASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య ప్రాథమిక పాఠాలు, 4 చక్రాలు, 12 గ్రహాలు మరియు ప్రారబ్ద కర్మ రహస్యాలు.', canonical_url='https://ravanastro.vercel.app/jyotishyam-basics')
 
+@app.route('/kaala_chakramu')
+@app.route('/kala-chakramu')
+def kaala_chakramu_page():
+    return render_template('kaala_chakramu.html', page_title='కాల చక్రము - త్రైత సిద్ధాంత జ్యోతిష్యం | YUGASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో కాల చక్రము మరియు ద్వాదశ లగ్నముల కాల గమన విశ్లేషణ.', canonical_url='https://skrastro.vercel.app/kaala_chakramu')
+
+@app.route('/karma_chakramu')
+@app.route('/karma-chakramu')
+def karma_chakramu_page():
+    return render_template('karma_chakramu.html', page_title='కర్మ చక్రము - త్రైత సిద్ధాంత జ్యోతిష్యం | YUGASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో పుణ్య, పాప, మిశ్రమ కర్మల చక్రము మరియు ద్వాదశ భావముల కర్మ ప్రభావం.', canonical_url='https://skrastro.vercel.app/karma_chakramu')
+
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
     input_date = request.form.get("calendar_date")
