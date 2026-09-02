@@ -1507,16 +1507,34 @@
         <input type="hidden" name="lon" id="lon">
 
         <!-- Main Action Buttons -->
-        <div class="btn-container">
+        <div class="btn-container" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
           <button type="submit" class="btn btn-show">
             <span class="btn-icon">🌀</span>
             {{ _('కుండలి చూపించండి') }}
+          </button>
+          <button type="button" onclick="submitNakshatraChart()" class="btn btn-show" style="background: linear-gradient(135deg, #b45309, #fbbf24); color: #0f172a; border: 2px solid #f59e0b;">
+            <span class="btn-icon">📜</span>
+            {{ _('నక్షత్ర పాద కుండలి') }}
           </button>
         </div>
       </form>
     </div>
   </div>
   </div>
+
+  <script>
+    function submitNakshatraChart() {
+      const form = document.querySelector('form');
+      if (form) {
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        form.action = '/nakshatra_chart';
+        form.submit();
+      }
+    }
+  </script>
 
   <!-- Restructured Premium Homepage UI -->
   <style>

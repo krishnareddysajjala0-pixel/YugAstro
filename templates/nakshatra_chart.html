@@ -1,0 +1,784 @@
+﻿<!DOCTYPE html>
+<html lang="{{ current_lang if current_lang else 'te' }}" class="notranslate">
+
+<head>
+  <meta name="google" content="notranslate">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>49వ చిత్రపటము - నక్షత్ర పాద జాఫతక చక్రము | {{ name }}</title>
+  
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1A1A1D">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      if (savedTheme !== 'default') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #0c0c0c;
+    }
+
+    :root {
+      --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --card-bg: rgba(255, 255, 255, 0.98);
+      --card-border: rgba(15, 23, 42, 0.15);
+      --box-border: #1e293b;
+      --box-border-hover: #b45309;
+      --header-bg: linear-gradient(45deg, #b45309, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --color-pos: #059669;
+      --color-neg: #dc2626;
+      --label-bg: rgba(15, 23, 42, 0.05);
+      --label-text: #0f172a;
+      --house-no-bg: rgba(15, 23, 42, 0.1);
+      --house-no-text: #0f172a;
+    }
+
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 60%), linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(15, 23, 42, 0.92);
+      --card-border: rgba(99, 102, 241, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(0, 0, 0, 0.5);
+      --label-text: #ffffff;
+      --house-no-bg: rgba(255, 255, 255, 0.12);
+      --house-no-text: #ffffff;
+    }
+
+    [data-theme="luxury"] {
+      --bg-primary: radial-gradient(ellipse at 30% 20%, #2a1f00 0%, #0a0908 60%, #1a0f00 100%);
+      --text-main: #f5f5f4;
+      --text-muted: #d97706;
+      --card-bg: rgba(28, 25, 23, 0.96);
+      --card-border: rgba(217, 119, 6, 0.45);
+      --box-border: rgba(217, 119, 6, 0.5);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #f5f5f4, #fbbf24, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.92);
+      --label-bg: rgba(12, 10, 9, 0.82);
+      --label-text: #fbbf24;
+      --house-no-bg: rgba(217, 119, 6, 0.25);
+      --house-no-text: #fbbf24;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 10px 100px 10px;
+      transition: all 0.3s ease;
+    }
+
+    .page-header {
+      text-align: center;
+      margin: 10px auto 20px auto;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .om-title {
+      font-size: 28px;
+      color: #ffd700;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+
+    .main-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fbbf24;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .sub-title {
+      color: var(--text-muted);
+      font-size: 13.5px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* Top Action Bar */
+    .top-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .action-btn-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px var(--shadow-color);
+      text-decoration: none;
+    }
+
+    .action-btn-pill:hover {
+      transform: translateY(-2px);
+      border-color: #fbbf24;
+      color: #fbbf24;
+    }
+
+    .action-btn-primary {
+      background: linear-gradient(135deg, #b45309, #fbbf24);
+      color: #0f172a !important;
+      border: none;
+    }
+
+    /* Chart Grid Layout */
+    .chart-container {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--card-bg);
+      padding: 12px;
+      border-radius: 16px;
+      border: 2px solid var(--box-border);
+      box-shadow: 0 10px 30px var(--shadow-color);
+      margin: 0 auto 30px auto;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Nakshatra Box */
+    .nak-box {
+      border: 1.5px solid var(--box-border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      min-height: 180px;
+    }
+
+    .nak-box:hover {
+      border-color: var(--box-border-hover);
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.15);
+    }
+
+    .nak-box.lagna-box {
+      border: 2.5px solid #fbbf24 !important;
+      box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+    }
+
+    /* House background color tints */
+    .house-green {
+      border-top: 4px solid var(--color-pos);
+    }
+
+    .house-red {
+      border-top: 4px solid var(--color-neg);
+    }
+
+    .house-mixed {
+      border-top: 4px solid #eab308;
+    }
+
+    .nak-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 8px;
+      background: rgba(251, 191, 36, 0.1);
+      border-bottom: 1.5px solid var(--box-border);
+    }
+
+    .house-badge {
+      background: var(--house-no-bg);
+      color: var(--house-no-text);
+      font-weight: 800;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .rashi-title-text {
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+    }
+
+    .karma-badge-small {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fbbf24;
+    }
+
+    /* Nakshatras & Padas inner grid */
+    .nak-padas-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .nak-group-row {
+      display: flex;
+      border-bottom: 1px solid var(--card-border);
+      flex: 1;
+    }
+
+    .nak-group-row:last-child {
+      border-bottom: none;
+    }
+
+    .nak-name-cell {
+      width: 42%;
+      padding: 4px 6px;
+      background: rgba(0, 0, 0, 0.08);
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .nak-name-text {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #ffd700;
+      line-height: 1.25;
+    }
+
+    .padas-list-cell {
+      width: 58%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 2px 4px;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .pada-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      line-height: 1.35;
+      padding: 1px 0;
+    }
+
+    .pada-num {
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 14px;
+      display: inline-block;
+      text-align: right;
+    }
+
+    .pada-row.has-occupant .pada-num {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .pada-dash {
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .occupant-pill {
+      font-weight: 800;
+      font-size: 10.8px;
+      white-space: nowrap;
+    }
+
+    .lagna-occupant {
+      color: #fbbf24 !important;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+
+    .hide-hands .aspect-hand {
+      display: none !important;
+    }
+
+    /* Center Box */
+    .center-box {
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+      border: 2px solid #ffd700;
+      border-radius: 12px;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .center-box::before {
+      content: 'త్రైత సిద్ధాంతం';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      font-size: 38px;
+      font-weight: 900;
+      color: rgba(255, 215, 0, 0.05);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .center-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .center-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+      color: #ffd700;
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      padding: 3px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .center-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin: 4px 0;
+      text-align: left;
+    }
+
+    .center-table td {
+      padding: 3px 4px;
+    }
+
+    /* Bottom 1-12 Bhavas Table */
+    .bhavas-detailed-section {
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px auto 40px auto;
+    }
+
+    .bhavas-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      font-size: 13px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .bhavas-table th {
+      padding: 10px;
+      color: #ffd700;
+      font-weight: 800;
+      background: rgba(251, 191, 36, 0.12);
+      border-bottom: 2px solid var(--card-border);
+      text-align: left;
+    }
+
+    .bhavas-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--card-border);
+      vertical-align: middle;
+    }
+
+    .bhavas-table tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .chart-grid {
+        gap: 5px;
+      }
+      .nak-name-text {
+        font-size: 10px;
+      }
+      .pada-row {
+        font-size: 9.5px;
+      }
+      .rashi-title-text {
+        font-size: 11.5px;
+      }
+      .center-table {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nak-box {
+        min-height: 140px;
+      }
+      .nak-name-cell {
+        width: 46%;
+        padding: 2px;
+      }
+      .nak-name-text {
+        font-size: 9px;
+      }
+      .pada-row {
+        font-size: 8.5px;
+        gap: 2px;
+      }
+      .occupant-pill {
+        font-size: 9px;
+      }
+      .rashi-title-text {
+        font-size: 10px;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .top-action-bar, .no-print, .fixed-bottom-bar-nav {
+        display: none !important;
+      }
+      .chart-container {
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .nak-box {
+        border: 1.5px solid #000 !important;
+        background: #fff !important;
+        break-inside: avoid;
+      }
+      .center-box {
+        border: 2px solid #000 !important;
+        background: #fff !important;
+      }
+      .center-box::before {
+        display: none !important;
+      }
+      .nak-box-header {
+        background: #f0f0f0 !important;
+        border-bottom: 1px solid #000 !important;
+      }
+      .rashi-title-text {
+        color: #000 !important;
+      }
+      .nak-name-cell {
+        border-right: 1px solid #000 !important;
+        background: #f8f8f8 !important;
+      }
+      .nak-name-text {
+        color: #000 !important;
+      }
+      .nak-group-row {
+        border-bottom: 1px solid #000 !important;
+      }
+      .occupant-pill {
+        color: #000 !important;
+      }
+      .bhavas-table {
+        border: 1px solid #000 !important;
+      }
+      .bhavas-table th, .bhavas-table td {
+        border-bottom: 1px solid #000 !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Action Navigation -->
+  <div class="top-action-bar no-print">
+    <a href="/chart" class="action-btn-pill">
+      <i class="fas fa-arrow-left"></i> {{ _('సాధారణ కుండలి') }}
+    </a>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button onclick="toggleAspects()" id="chupuluBtn" class="action-btn-pill">
+        👆 {{ _('చూపులు దాచు/చూపు') }}
+      </button>
+
+      <button onclick="window.print()" class="action-btn-pill action-btn-primary">
+        <i class="fas fa-print"></i> {{ _('ప్రింట్ / PDF') }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="om-title">49వ చిత్రపటము</div>
+    <div class="main-title">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 28px; height: auto;">
+      {{ _('త్రైత సిద్ధాంత నక్షత్ర పాద జాఫతక చక్రము') }}
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 28px; height: auto;">
+    </div>
+    <div class="sub-title">
+      {{ name }} | {{ dob }} ({{ day_name }}) | {{ tob }} | {{ place }}
+    </div>
+  </div>
+
+  <!-- Macro for Nakshatra Box -->
+  {% macro render_nak_box(rashi_name) %}
+  {% set b = nakshatra_boxes[rashi_name] %}
+  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}">
+    <div class="nak-box-header">
+      <span class="house-badge">{{ b.house_no }}</span>
+      <span class="rashi-title-text">{{ b.rashi_name }}</span>
+      <span class="karma-badge-small">{{ b.karma_label }}</span>
+    </div>
+
+    <div class="nak-padas-container">
+      {% for nak in b.nakshatras %}
+      <div class="nak-group-row">
+        <div class="nak-name-cell">
+          <span class="nak-name-text">{{ nak.nakshatra_name }}</span>
+        </div>
+        <div class="padas-list-cell">
+          {% for p in nak.padas %}
+          <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
+            <span class="pada-num">{{ p.rashi_pada }}</span>
+            {% if p.occupants %}
+              <span class="pada-dash">-</span>
+              {% for occ in p.occupants %}
+                {% if occ.is_lagna %}
+                  <span class="occupant-pill lagna-occupant">🚩 లగ్నం</span>
+                {% elif occ.is_hand %}
+                  <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ occ.name }}</span>
+                {% else %}
+                  <span class="occupant-pill" style="color: {{ occ.color }};">{{ occ.name }}</span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endmacro %}
+
+  <!-- 4x4 South Indian Grid Chart -->
+  <div class="chart-container">
+    <div class="chart-grid">
+      <!-- Row 1 -->
+      {{ render_nak_box("మీనం") }}
+      {{ render_nak_box("మేషం") }}
+      {{ render_nak_box("వృషభం") }}
+      {{ render_nak_box("మిథునం") }}
+
+      <!-- Row 2 -->
+      {{ render_nak_box("కుంభం") }}
+
+      <!-- Center Box -->
+      <div class="center-box">
+        <div class="center-content">
+          <span class="center-badge">త్రైత సిద్ధాంతం - 49వ చిత్రపటము</span>
+          <table class="center-table">
+            <tr>
+              <td style="color: #ffd700; width: 40%;">{{ _('పేరు:') }}</td>
+              <td style="font-weight: bold; color: var(--text-main);">{{ name }}</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('తేదీ & సమయం:') }}</td>
+              <td style="color: var(--text-main);">{{ dob }} ({{ tob }})</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('స్థలం:') }}</td>
+              <td style="color: var(--text-main);">{{ place.split(',')[0] if ',' in place else place }}</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('జన్మ లగ్నం:') }}</td>
+              <td style="color: #38bdf8; font-weight: bold;">{{ lagna }} ({{ lagna_deg }})</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('జన్మ నక్షత్రం:') }}</td>
+              <td style="color: #34d399; font-weight: bold;">{{ nakshatra }} ({{ padam }}వ పాదం)</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('దశా శేషం:') }}</td>
+              <td style="color: #fca5a5; font-weight: bold;">{{ nak_remaining }}</td>
+            </tr>
+            <tr>
+              <td style="color: #ffd700;">{{ _('వర్గము:') }}</td>
+              <td style="color: var(--text-main); font-weight: bold;">
+                {% if lagna in ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
+                  <span style="color: #10b981;">గురు వర్గము</span>
+                {% else %}
+                  <span style="color: #f59e0b;">శని వర్గము</span>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      {{ render_nak_box("కర్కాటకం") }}
+
+      <!-- Row 3 -->
+      {{ render_nak_box("మకరం") }}
+      {{ render_nak_box("సింహం") }}
+
+      <!-- Row 4 -->
+      {{ render_nak_box("ధనస్సు") }}
+      {{ render_nak_box("వృశ్చికం") }}
+      {{ render_nak_box("తులా") }}
+      {{ render_nak_box("కన్య") }}
+    </div>
+  </div>
+
+  <!-- 1 to 12 Bhavas Detailed Planetary & Aspect Analysis Table -->
+  {% if bhavas_list %}
+  <div class="bhavas-detailed-section">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <h3 style="font-size: 1.3rem; color: #fbbf24; font-weight: 800; display: inline-flex; align-items: center; gap: 8px;">
+        <span>🌟</span> {{ _('1వ భావం నుండి 12వ భావాల నక్షత్ర-పాద పూర్తి పట్టిక') }}
+      </h3>
+    </div>
+
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; border: 1px solid var(--card-border);">
+      <table class="bhavas-table">
+        <thead>
+          <tr>
+            <th style="width: 12%; text-align: center;">{{ _('భావం') }}</th>
+            <th style="width: 15%;">{{ _('రాశి / లగ్నం') }}</th>
+            <th style="width: 36%;">{{ _('స్థిత గ్రహాలు (నక్షత్రం, పాదం)') }}</th>
+            <th style="width: 37%;">{{ _('దృష్టి సంయోగాలు 👉 (నక్షత్రం, పాదం)') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bhava in bhavas_list %}
+          <tr>
+            <td style="text-align: center; font-weight: 800; color: var(--text-main);">
+              {{ bhava.bhava_name }}
+              <br><span style="font-size: 10px; color: #fbbf24;">({{ bhava.karma_type }})</span>
+            </td>
+            <td style="font-weight: 700; color: #38bdf8;">
+              {{ bhava.rashi }}
+              {% if bhava.is_lagna_bhava %}<br><span style="font-size: 10px; color: #fbbf24;">(జన్మ లగ్నం)</span>{% endif %}
+            </td>
+            <td>
+              {% if bhava.is_lagna_bhava and bhava.lagna_point %}
+              <div style="margin-bottom: 4px;">
+                <strong style="color: #fbbf24;">🚩 లగ్నం:</strong> {{ bhava.lagna_point.degree }} - {{ bhava.lagna_point.nakshatra }} ({{ bhava.lagna_point.padam }}వ పాదం)
+              </div>
+              {% endif %}
+              {% for p in bhava.direct_planets %}
+              <div style="font-size: 12.5px; margin-bottom: 2px;">
+                <strong style="color: {{ p.color }};">🪐 {{ p.name }}</strong> ({{ p.degree }}) - <span style="color: var(--text-muted);">{{ p.nakshatra }} ({{ p.padam }}వ పాదం)</span>
+              </div>
+              {% endfor %}
+              {% if not bhava.direct_planets and not (bhava.is_lagna_bhava and bhava.lagna_point) %}
+              <span style="color: var(--text-muted); font-size: 11px;">-</span>
+              {% endif %}
+            </td>
+            <td>
+              {% for h in bhava.hand_aspects %}
+              <div class="aspect-hand" style="font-size: 12.5px; margin-bottom: 2px;">
+                <strong style="color: {{ h.color }};">👉 {{ h.name }}</strong> ({{ h.degree }}) - <span style="color: var(--text-muted);">{{ h.nakshatra }} ({{ h.padam }}వ పాదం)</span>
+              </div>
+              {% endfor %}
+              {% if not bhava.hand_aspects %}
+              <span style="color: var(--text-muted); font-size: 11px;">-</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Bottom Navigation Buttons -->
+  <div class="no-print" style="margin: 20px auto 50px auto; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+    <a href="/chart" class="action-btn-pill action-btn-primary" style="padding: 12px 24px; font-size: 15px;">
+      🌀 {{ _('సాధారణ కుండలి చూడండి') }}
+    </a>
+    <a href="/compare_kundali" class="action-btn-pill" style="padding: 12px 24px; font-size: 15px;">
+      ⚖️ {{ _('కుండలుల సరిపోలిక') }}
+    </a>
+    <a href="/" class="action-btn-pill" style="padding: 12px 24px; font-size: 15px;">
+      🏠 {{ _('హోమ్') }}
+    </a>
+  </div>
+
+  <script>
+    function toggleAspects() {
+      document.body.classList.toggle('hide-hands');
+      const btn = document.getElementById('chupuluBtn');
+      if (document.body.classList.contains('hide-hands')) {
+        btn.style.opacity = '0.5';
+      } else {
+        btn.style.opacity = '1';
+      }
+    }
+  </script>
+</body>
+</html>
