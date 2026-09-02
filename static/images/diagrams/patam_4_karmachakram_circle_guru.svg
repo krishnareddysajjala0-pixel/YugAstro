@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%" font-family="'Outfit', 'Segoe UI', 'Noto Sans Telugu', sans-serif">
+<defs><radialGradient id="bg4" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#020617"/></radialGradient></defs>
+<rect width="500" height="500" fill="url(#bg4)" rx="20"/>
+<circle cx="250" cy="250" r="210" fill="#0f172a" stroke="#fbbf24" stroke-width="4"/>
+<path d="M 250 250 L 250.0 40.0 A 210 210 0 0 1 355.0 68.13466520526791 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="298.9167995243764" y="72.44001883136607" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">1</text>
+<text x="286.95935964063995" y="116.06579200592103" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">ప్రథమ స్థానము</text>
+<path d="M 250 250 L 355.0 68.13466520526791 A 210 210 0 0 1 431.8653347947321 145.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="383.6431816442575" y="121.35681835574252" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">2</text>
+<text x="350.97484835343903" y="153.025151646561" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">ద్వితీయ స్థానము</text>
+<path d="M 250 250 L 431.8653347947321 145.0 A 210 210 0 0 1 460.0 250.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="432.55998116863395" y="206.08320047562358" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">3</text>
+<text x="387.934207994079" y="217.04064035936003" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">తృతీయ స్థానము</text>
+<path d="M 250 250 L 460.0 250.0 A 210 210 0 0 1 431.8653347947321 355.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="432.55998116863395" y="303.9167995243764" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">4</text>
+<text x="387.934207994079" y="290.95935964063995" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">చతుర్థ స్థానము</text>
+<path d="M 250 250 L 431.8653347947321 355.0 A 210 210 0 0 1 355.0 431.8653347947321 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="383.6431816442575" y="388.6431816442575" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">5</text>
+<text x="350.97484835343903" y="354.97484835343903" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">పంచమ స్థానము</text>
+<path d="M 250 250 L 355.0 431.8653347947321 A 210 210 0 0 1 250.0 460.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="298.9167995243764" y="437.55998116863395" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">6</text>
+<text x="286.95935964063995" y="391.934207994079" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">షష్ఠమ స్థానము</text>
+<path d="M 250 250 L 250.0 460.0 A 210 210 0 0 1 145.00000000000006 431.8653347947321 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="201.08320047562356" y="437.55998116863395" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">7</text>
+<text x="213.04064035936003" y="391.934207994079" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">సప్తమ స్థానము</text>
+<path d="M 250 250 L 145.00000000000006 431.8653347947321 A 210 210 0 0 1 68.13466520526788 355.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="116.35681835574252" y="388.6431816442575" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">8</text>
+<text x="149.02515164656103" y="354.97484835343903" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">అష్టమ స్థానము</text>
+<path d="M 250 250 L 68.13466520526788 355.0 A 210 210 0 0 1 40.0 250.00000000000003 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="67.4400188313661" y="303.9167995243765" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">9</text>
+<text x="112.06579200592105" y="290.95935964064" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">నవమ స్థానము</text>
+<path d="M 250 250 L 40.0 250.00000000000003 A 210 210 0 0 1 68.13466520526791 144.99999999999997 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="67.44001883136607" y="206.08320047562358" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">10</text>
+<text x="112.06579200592103" y="217.04064035936003" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">దశమ స్థానము</text>
+<path d="M 250 250 L 68.13466520526791 144.99999999999997 A 210 210 0 0 1 144.9999999999999 68.13466520526791 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="116.35681835574249" y="121.35681835574252" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">11</text>
+<text x="149.02515164656097" y="153.02515164656103" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">ఏకాదశ స్థానము</text>
+<path d="M 250 250 L 144.9999999999999 68.13466520526791 A 210 210 0 0 1 249.99999999999997 40.0 Z" fill="#fbbf24" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="201.08320047562358" y="72.44001883136607" fill="#fbbf24" font-size="14" font-weight="900" text-anchor="middle">12</text>
+<text x="213.04064035936005" y="116.06579200592103" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">ద్వాదశ స్థానము</text>
+<circle cx="250" cy="250" r="48" fill="#020617" stroke="#fbbf24" stroke-width="3.5"/>
+<text x="250" y="242" fill="#fbbf24" font-size="16" font-weight="900" text-anchor="middle">గు</text>
+<text x="250" y="262" fill="#fbbf24" font-size="16" font-weight="900" text-anchor="middle">రు వు</text>
+<text x="250" y="720" fill="#94a3b8" font-size="14" font-weight="700" text-anchor="middle">కర్మచక్రము - 4వ పటము</text>
+</svg>

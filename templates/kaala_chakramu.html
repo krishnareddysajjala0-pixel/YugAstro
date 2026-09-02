@@ -5,14 +5,14 @@
   .kala-page-container {
     max-width: 1050px;
     margin: 0 auto;
-    font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif;
+    font-family: 'Outfit', 'Segoe UI', 'Noto Sans Telugu', sans-serif;
   }
   
   .kala-hero-banner {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(15, 23, 42, 0.98) 100%);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(15, 23, 42, 0.98) 100%);
     border: 2px solid #10b981;
     border-radius: 20px;
-    padding: 30px;
+    padding: 32px;
     text-align: center;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
     margin-bottom: 35px;
@@ -20,29 +20,14 @@
     overflow: hidden;
   }
 
-  .kala-hero-banner::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-
   .kala-section-card {
-    background: var(--input-bg, rgba(15, 23, 42, 0.85));
+    background: var(--input-bg, rgba(15, 23, 42, 0.88));
     border: 1px solid var(--card-border, rgba(16, 185, 129, 0.25));
     border-radius: 18px;
     padding: 28px;
-    margin-bottom: 32px;
+    margin-bottom: 35px;
     box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
     transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .kala-section-card:hover {
-    border-color: rgba(16, 185, 129, 0.5);
   }
 
   .kala-sec-header {
@@ -116,124 +101,31 @@
     font-weight: 600;
   }
 
-  .diagram-showcase-box {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
+  .diagram-frame-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1.5px solid rgba(56, 189, 248, 0.3);
     border-radius: 16px;
     padding: 20px;
-    margin: 22px 0;
+    margin: 24px 0;
     text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   }
 
-  .diagram-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #38bdf8;
-    margin-bottom: 14px;
-  }
-
-  /* 4-Tier 3D Vertical Stack */
-  .four-chakras-stack {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin: 20px auto;
-    max-width: 480px;
-  }
-
-  .chakra-layer {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 800;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    position: relative;
-  }
-
-  .layer-brahma {
-    background: linear-gradient(90deg, rgba(236, 72, 153, 0.25), rgba(168, 85, 247, 0.25));
-    border: 2px solid #ec4899;
-    color: #f472b6;
-  }
-
-  .layer-kala {
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.25), rgba(59, 130, 246, 0.25));
-    border: 2px solid #38bdf8;
-    color: #38bdf8;
-  }
-
-  .layer-karma {
-    background: linear-gradient(90deg, rgba(251, 191, 36, 0.25), rgba(245, 158, 11, 0.25));
-    border: 2px solid #fbbf24;
-    color: #fbbf24;
-  }
-
-  .layer-guna {
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.25));
-    border: 2px solid #10b981;
-    color: #34d399;
-  }
-
-  /* Mini Rashi Square Grid */
-  .mini-rashi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 4px;
-    max-width: 400px;
-    margin: 0 auto;
-    background: #0f172a;
-    border: 2px solid #38bdf8;
+  .diagram-frame-box img {
+    max-width: 100%;
+    height: auto;
     border-radius: 12px;
-    padding: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    display: block;
   }
 
-  .mini-rashi-cell {
-    background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: 6px;
-    min-height: 52px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
+  .diagram-caption {
+    font-size: 1.05rem;
     font-weight: 800;
-    color: #e0f2fe;
-    text-align: center;
-  }
-
-  .mini-rashi-cell.center-cell {
-    grid-column: 2 / 4;
-    grid-row: 2 / 4;
-    background: rgba(15, 23, 42, 0.9) !important;
-    border: 1.5px dashed #38bdf8 !important;
-    color: #38bdf8 !important;
-    font-size: 13px !important;
-  }
-
-  /* Guna Concentric Circles Component */
-  .guna-concentric-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-  }
-
-  .guna-circle-card {
-    background: rgba(15, 23, 42, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 16px;
-    text-align: center;
-    flex: 1;
-    min-width: 240px;
-    max-width: 320px;
+    color: #38bdf8;
+    margin-top: 14px;
+    letter-spacing: 0.3px;
   }
 </style>
 
@@ -253,7 +145,7 @@
       కాల చక్రము (Kaala Chakramu)
     </h1>
     <p style="font-size: 1.05rem; color: #cbd5e1; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-      త్రైత సిద్ధాంతం ప్రకారం నుదుటిలోని <strong>బ్రహ్మ, కాల, కర్మ, గుణ చక్రాల సముదాయం</strong>, ద్వాదశ రాశుల కాలచక్రం మరియు గ్రహాల కిరణ ప్రసార రహస్యం.
+      త్రైత సిద్ధాంతం ప్రకారం నుదుటిలోని <strong>బ్రహ్మ, కాల, కర్మ, గుణ చక్రాల సముదాయం</strong>, ద్వాదశ రాశుల కాలచక్రం, గుణచక్ర రహస్యము మరియు జీవుని ప్రారబ్ద గమనం.
     </p>
 
     <!-- Master Chart -->
@@ -266,52 +158,28 @@
     </div>
   </div>
 
-  <!-- Section 1: 6. కాల, కర్మ చక్రములు -->
+  <!-- Section 1: 6. కాల, కర్మ చక్రములు & 2వ పటము -->
   <div class="kala-section-card">
     <div class="kala-sec-header">
       <h2 class="kala-sec-title">
         <i class="fas fa-history"></i> 6. కాల, కర్మ చక్రములు (జాఫతకము & ప్రారబ్దము)
       </h2>
-      <span class="kala-badge badge-emerald">ప్రారబ్ద కర్మ ప్రవాహం</span>
+      <span class="kala-badge badge-emerald">4 చక్రాల సముదాయం</span>
     </div>
 
-    <div class="kala-prose">
+    <div class="karma-prose">
       <p>
-        ఒక జీవుడు తన జీవితములో అనుభవించవలసిన ప్రారబ్దకర్మను, ఒక పథకము ప్రకారము పుట్టినప్పుడే నిర్ణయించి ఉండడమును <strong>"జాఫతకము"</strong> అన్నాము. ఆ జాఫతకము 12 విధములుగా విభజింపబడి ఉండును. విభజింపబడిన జాఫతకములోని ప్రారబ్దము, 12 భాగములుగానున్న <strong>కర్మచక్రములో</strong> ఉండును. ఎవని కర్మచక్రము వాని తలలో ఉండును.
+        ఒక జీవుడు తన జీవితములో అనుభవించవలసిన ప్రారబ్దకర్మను, ఒక పథకము ప్రకారము పుట్టినప్పుడే నిర్ణయించి ఉండడమును <strong>"జాఫతకము"</strong> అన్నాము. ఆ జాఫతకము 12 విధములుగా విభజింపబడి ఉండును. విభజింపబడిన జాఫతకములోని ప్రారబ్దము, 12 భాగములుగానున్న <strong>కర్మచక్రములో</strong> ఉండును.
       </p>
 
       <div class="highlight-quote-kala">
-        💡 <strong>తల లోపలి 4 చక్రములు:</strong> తల మధ్యభాగములో ఫాలభాగమున (నుదుటి భాగమున) గల నాలుగు చక్రముల సముదాయములో, క్రిందినుండి రెండవ చక్రము కర్మచక్రమై ఉన్నది. కర్మచక్రములోని ప్రారబ్దకర్మను జీవితకాలములో మనిషి చేత అనుభవింప చేయునవి <strong>గ్రహములు</strong>. గ్రహములు కర్మచక్రమును ఆనుకొని, పైనుండే <strong>కాలచక్రములో</strong> గలవు!
+        💡 <strong>తల లోపలి 4 చక్రముల రహస్యం:</strong> తల మధ్యభాగములో ఫాలభాగమున (నుదుటి భాగమున) గల నాలుగు చక్రముల సముదాయములో, పైనుండి రెండవ చక్రము <strong>కాలచక్రము</strong> కాగా, క్రిందినుండి రెండవ చక్రము <strong>కర్మచక్రము</strong>. కర్మచక్రములోని ప్రారబ్దకర్మను జీవితకాలములో మనిషి చేత అనుభవింప చేయునవి గ్రహములు. ఆ గ్రహములు కాలచక్రములో ఉండి కిరణములను కర్మచక్రముపై ప్రసరింపజేయును!
       </div>
 
-      <p>
-        పుట్టిన సమయములో గల జాఫతకము ద్వారా మనిషి జీవిత ప్రారబ్దమును తెలుసుకోవచ్చును. జాఫతకములో కర్మ ప్రత్యక్షముగా కనిపించదు; జాఫతకములో ప్రత్యక్షముగా <strong>గ్రహములు</strong> కనిపించును. కాలచక్రములోని గ్రహములను చూచి, వాటి ద్వారా అవి పాలించు ప్రారబ్దమును తెలుసుకోవచ్చును. అందుకే జ్యోతిష్యములో ఇటు గ్రహములు, అటు కర్మ ఆచరణ (ఆచారము) అను రెండు భాగములు కలసి <strong>గ్రహచారము (గ్రహచారణ)</strong> అని పిలువబడుచున్నది.
-      </p>
-
-      <!-- 2nd Diagram: 4 Chakras Vertical Tier -->
-      <div class="diagram-showcase-box">
-        <div class="diagram-title">2వ చిత్రపటము: బ్రహ్మ, కాల, కర్మ, గుణ చక్రముల 4 అంతస్తుల సముదాయం</div>
-        <div class="four-chakras-stack">
-          <div class="chakra-layer layer-brahma">
-            <span>1. బ్రహ్మ చక్రము</span>
-            <small style="font-weight: 600;">(ఆధ్యాత్మికం / ఆత్మ ఆధార స్థానం)</small>
-          </div>
-          <div class="chakra-layer layer-kala">
-            <span>2. కాల చక్రము</span>
-            <small style="font-weight: 600;">(ద్వాదశ రాశులు & గ్రహాల కిరణ ప్రసారం)</small>
-          </div>
-          <div class="chakra-layer layer-karma">
-            <span>3. కర్మ చక్రము</span>
-            <small style="font-weight: 600;">(12 స్థానాలు / పాపపుణ్య కర్మల పత్రం)</small>
-          </div>
-          <div class="chakra-layer layer-guna">
-            <span>4. గుణ చక్రము</span>
-            <small style="font-weight: 600;">(తామస, రాజస, సాత్విక గుణాలు & జీవుడు)</small>
-          </div>
-        </div>
-        <div style="font-size: 0.88rem; color: #94a3b8; margin-top: 10px;">
-          (మనిషి నుదుటి భాగమున లోపల ఈ నాలుగు చక్రములు ఒకదానికొకటి అనుసంధానమై ప్రారబ్దకర్మను నడుపును)
-        </div>
+      <!-- 2nd Diagram: 4-Tier 3D Spindle Stack -->
+      <div class="diagram-frame-box">
+        <img src="/static/images/diagrams/patam_2_four_chakras_stack.svg" alt="2వ పటము: బ్రహ్మ, కాల, కర్మ, గుణచక్రము" style="max-width: 520px;">
+        <div class="diagram-caption">2వ పటము: బ్రహ్మ, కాల, కర్మ, గుణచక్రము (4 అంతస్తుల సముదాయం)</div>
       </div>
     </div>
   </div>
@@ -320,165 +188,107 @@
   <div class="kala-section-card">
     <div class="kala-sec-header">
       <h2 class="kala-sec-title">
-        <i class="fas fa-circle-notch"></i> 1వ & 3వ పటములు: కాలచక్రము (12 రాశులు)
+        <i class="fas fa-circle-notch"></i> 1వ & 3వ పటములు: కాలచక్రము (ద్వాదశ రాశుల చక్రం)
       </h2>
-      <span class="kala-badge badge-sky">ద్వాదశ రాశులు</span>
+      <span class="kala-badge badge-sky">12 రాశులు</span>
     </div>
 
     <div class="kala-prose">
       <p>
         కాలచక్రము గుండ్రముగా వుండి 12 భాగములు కలిగియుండగా, కొందరు జ్యోతిష్యులు దానికి 'జాతకచక్రమనీ' లేక 'జాతకకుండలియనీ', 'లగ్నకుండలి' అనీ పేరుపెట్టి చతురస్రముగా చిత్రించుకొన్నారు.
       </p>
-
       <p>
-        ఈ 12 కాలచక్ర భాగములకు వరుసగా 12 రాశుల పేర్లు కలవు:
+        ఈ 12 కాలచక్ర భాగములకు 12 రాశుల పేర్లు కలవు:
         <br><strong>1) మేషము, 2) వృషభము, 3) మిథునము, 4) కర్కాటకము, 5) సింహము, 6) కన్య, 7) తుల, 8) వృశ్చికము, 9) ధనస్సు, 10) మకరము, 11) కుంభము, 12) మీనము.</strong>
       </p>
 
-      <!-- 1st and 3rd Diagrams Showcase -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 24px 0;">
-        <!-- Circular Kaala Chakra (1st Diagram) -->
-        <div class="diagram-showcase-box">
-          <div class="diagram-title">1వ పటము: కాలచక్రము (వృత్తాకార రూపం)</div>
-          <div style="position: relative; width: 220px; height: 220px; margin: 0 auto; border: 2px solid #38bdf8; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0.9) 70%);">
-            <div style="font-weight: 800; color: #38bdf8; font-size: 14px;">కాలచక్రము<br><small style="font-size: 10px; color: #94a3b8;">12 రాశులు</small></div>
-            <!-- Surrounding labels -->
-            <span style="position: absolute; top: 6px; font-size: 11px; font-weight: 700; color: #e0f2fe;">మేషం</span>
-            <span style="position: absolute; top: 25px; right: 25px; font-size: 11px; font-weight: 700; color: #e0f2fe;">వృషభం</span>
-            <span style="position: absolute; right: 8px; top: 75px; font-size: 11px; font-weight: 700; color: #e0f2fe;">మిథునం</span>
-            <span style="position: absolute; right: 12px; bottom: 50px; font-size: 11px; font-weight: 700; color: #e0f2fe;">కర్కాటకం</span>
-            <span style="position: absolute; bottom: 8px; right: 45px; font-size: 11px; font-weight: 700; color: #e0f2fe;">సింహం</span>
-            <span style="position: absolute; bottom: 8px; left: 45px; font-size: 11px; font-weight: 700; color: #e0f2fe;">కన్య</span>
-            <span style="position: absolute; left: 12px; bottom: 50px; font-size: 11px; font-weight: 700; color: #e0f2fe;">తుల</span>
-            <span style="position: absolute; left: 8px; top: 75px; font-size: 11px; font-weight: 700; color: #e0f2fe;">వృశ్చికం</span>
-            <span style="position: absolute; top: 25px; left: 25px; font-size: 11px; font-weight: 700; color: #e0f2fe;">మీనం</span>
-          </div>
+      <!-- 1st and 3rd Diagrams Display -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 24px 0;">
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_1_kalachakram_circle.svg" alt="1వ పటము: కాలచక్రము (వృత్తాకార రూపం)">
+          <div class="diagram-caption">1వ పటము: కాలచక్రము (వృత్తాకార చక్రం)</div>
         </div>
 
-        <!-- Square Kaala Chakra (3rd Diagram) -->
-        <div class="diagram-showcase-box">
-          <div class="diagram-title">3వ పటము: కాలచక్రము (చతురస్ర కుండలి రూపం)</div>
-          <div class="mini-rashi-grid">
-            <div class="mini-rashi-cell">మీనము</div>
-            <div class="mini-rashi-cell" style="border-color: #38bdf8; background: rgba(56, 189, 248, 0.2);">మేషం</div>
-            <div class="mini-rashi-cell">వృషభం</div>
-            <div class="mini-rashi-cell">మిథునం</div>
-
-            <div class="mini-rashi-cell">కుంభము</div>
-            <div class="mini-rashi-cell center-cell">కాలచక్రము<br><small style="font-size: 9px; color: #94a3b8;">గ్రహాల గమనం</small></div>
-            <div class="mini-rashi-cell">కర్కాటక</div>
-
-            <div class="mini-rashi-cell">మకరము</div>
-            <div class="mini-rashi-cell">సింహ</div>
-
-            <div class="mini-rashi-cell">ధనస్సు</div>
-            <div class="mini-rashi-cell">వృశ్చిక</div>
-            <div class="mini-rashi-cell">తుల</div>
-            <div class="mini-rashi-cell">కన్య</div>
-          </div>
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_3_kalachakram_square.svg" alt="3వ పటము: కాలచక్రము (చతురస్ర కుండలి రూపం)">
+          <div class="diagram-caption">3వ పటము: కాలచక్రము (చతురస్ర కుండలి)</div>
         </div>
-      </div>
-
-      <div class="highlight-quote-kala" style="border-left-color: #fbbf24; color: #fde68a;">
-        ⚠️ <strong>ముఖ్యమైన అవగాహన:</strong> కాలచక్రమునకు మాత్రమే పేర్లు (మేషం, వృషభం...) గలవు, కర్మచక్రమునకు పేర్లు ఉండవు (కేవలం 1 నుండి 12 అంకెలతో కూడిన స్థానములు మాత్రమే ఉంటాయి). కాలచక్రంలోని గ్రహాలు కిరణాలను ప్రసరింపజేయగా, కర్మచక్రంలోని పాపపుణ్యాలు ఫలితాలుగా మారుతాయి!
       </div>
     </div>
   </div>
 
-  <!-- Section 3: 8. గుణచక్ర రహస్యము & 324 రకాల పాపపుణ్య కర్మలు -->
+  <!-- Section 3: 8. గుణచక్ర రహస్యము & 6, 7, 8వ పటములు (324 కర్మలు) -->
   <div class="kala-section-card">
     <div class="kala-sec-header">
       <h2 class="kala-sec-title">
         <i class="fas fa-layer-group"></i> 8. గుణచక్ర రహస్యము & 324 రకాల పాపపుణ్య కర్మలు
       </h2>
-      <span class="kala-badge badge-gold">108 × 3 = 324 కర్మలు</span>
+      <span class="kala-badge badge-gold">6, 7, 8వ పటములు</span>
     </div>
 
     <div class="kala-prose">
       <p>
-        ప్రారబ్దకర్మ ఎలా పుట్టుచున్నదో అని చూస్తే, పొగ పుట్టుటకు నిప్పు కారణమన్నట్లు, ప్రారబ్దకర్మ పుట్టుటకు మనిషి తలలోని <strong>గుణములు కారణము</strong>. గుణచక్రము 3 భాగములుగా విభజింపబడి ఉన్నది: <strong>1. తామస, 2. రాజస, 3. సాత్విక</strong>.
+        ప్రారబ్దకర్మ పుట్టుటకు మనిషి తలలోని <strong>గుణములు కారణము</strong>. గుణచక్రము 3 భాగములుగా విభజింపబడి ఉన్నది: <strong>1. తామస, 2. రాజస, 3. సాత్విక</strong>.
       </p>
 
       <ul style="margin-left: 20px; line-height: 1.8;">
         <li><strong>6 చెడు గుణాలు (శత్రువులు):</strong> కామ, క్రోధ, లోభ, మోహ, మద, మాత్సర్యములు (పాపమును పుట్టించును).</li>
         <li><strong>6 మంచి గుణాలు (మిత్రులు):</strong> దాన, దయ, ఔదార్య, వైరాగ్య, వినయ, ప్రేమలు (పుణ్యమును పుట్టించును).</li>
-        <li>ప్రతి గుణమూ 9 పరిమాణములుగా (చిన్నది నుండి పెద్దది వరకు) ఉండుట వలన: <strong>12 × 9 = 108 గుణాలు</strong> (54 పాపములు + 54 పుణ్యములు).</li>
+        <li>ప్రతి గుణమూ 9 పరిమాణములుగా ఉండుట వలన: <strong>12 × 9 = 108 గుణాలు</strong> (54 పాపములు + 54 పుణ్యములు).</li>
         <li>3 గుణ భాగములలో (తామస, రాజస, సాత్విక) కలిపి: <strong>108 × 3 = 324 రకముల పాపపుణ్య కర్మలు</strong> తలయందు తయారగును!</li>
       </ul>
 
-      <!-- 6, 7, 8 Diagrams Visual Showcase -->
-      <div class="diagram-showcase-box">
-        <div class="diagram-title">6, 7, 8వ పటములు: గుణచక్రము (తామస, రాజస, సాత్విక & ఆత్మ)</div>
-        <div class="guna-concentric-container">
-          <div class="guna-circle-card" style="border-color: #ef4444;">
-            <div style="color: #f87171; font-weight: 800; font-size: 1.1rem; margin-bottom: 6px;">1. తామస భాగము</div>
-            <div style="font-size: 1.4rem; font-weight: 900; color: #ffffff;">108 గుణాలు</div>
-            <p style="font-size: 0.85rem; color: #fecaca; margin-top: 6px;">54 పాపములు + 54 పుణ్యములు</p>
-          </div>
-
-          <div class="guna-circle-card" style="border-color: #f59e0b;">
-            <div style="color: #fbbf24; font-weight: 800; font-size: 1.1rem; margin-bottom: 6px;">2. రాజస భాగము</div>
-            <div style="font-size: 1.4rem; font-weight: 900; color: #ffffff;">108 గుణాలు</div>
-            <p style="font-size: 0.85rem; color: #fef08a; margin-top: 6px;">54 పాపములు + 54 పుణ్యములు</p>
-          </div>
-
-          <div class="guna-circle-card" style="border-color: #10b981;">
-            <div style="color: #34d399; font-weight: 800; font-size: 1.1rem; margin-bottom: 6px;">3. సాత్విక భాగము</div>
-            <div style="font-size: 1.4rem; font-weight: 900; color: #ffffff;">108 గుణాలు</div>
-            <p style="font-size: 0.85rem; color: #a7f3d0; margin-top: 6px;">54 పాపములు + 54 పుణ్యములు</p>
-          </div>
+      <!-- 6, 7, 8 Diagrams Display -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin: 24px 0;">
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_6_gunachakram_rings.svg" alt="6వ పటము: గుణచక్రము">
+          <div class="diagram-caption">6వ పటము: గుణచక్రము</div>
         </div>
-        <div style="font-size: 1.15rem; font-weight: 800; color: #fbbf24; margin-top: 14px;">
-          మొత్తం పాపపుణ్య కర్మలు = 324 రకములు
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_7_gunachakram_3divisions.svg" alt="7వ పటము: గుణచక్రము 3 భాగాలు">
+          <div class="diagram-caption">7వ పటము: 3 గుణ భాగములు</div>
+        </div>
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_8_gunachakram_324gunas.svg" alt="8వ పటము: 324 గుణాల గుంపు">
+          <div class="diagram-caption">8వ పటము: 324 గుణాల సముదాయం</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Section 4: 9. కర్మను అనుభవించు జీవుడు (9, 10, 11వ పటములు) -->
+  <!-- Section 4: 9. కర్మను అనుభవించు జీవుడు & 9, 10, 11వ పటములు -->
   <div class="kala-section-card">
     <div class="kala-sec-header">
       <h2 class="kala-sec-title">
         <i class="fas fa-user-circle"></i> 9. కర్మను అనుభవించు జీవుడు (9, 10, 11వ పటములు)
       </h2>
-      <span class="kala-badge badge-emerald">జీవుని స్థితులు</span>
+      <span class="kala-badge badge-emerald">తామస, రాజస, సాత్విక జీవులు</span>
     </div>
 
     <div class="kala-prose">
       <p>
-        కర్మను పరిపాలించుటకు <strong>కాలచక్రములోని గ్రహములు</strong> ఉన్నవి. కర్మను పుట్టించుటకు <strong>గుణచక్రములోని గుణములు</strong> ఉన్నవి. కర్మను అనుభవించుటకు <strong>జీవుడు గుణచక్రములోనే ఉన్నాడు</strong>!
+        కర్మను అనుభవించుటకు జీవుడు గుణచక్రములోనే ఉంటాడు. ప్రారబ్దకర్మను బట్టి జీవుడు అస్వతంత్రుడై గుణభాగాలను మారుచుండును:
       </p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0;">
-        <div style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid #ef4444; border-radius: 12px; padding: 18px; text-align: center;">
-          <div style="font-size: 1.1rem; font-weight: 800; color: #f87171;">9వ పటము: తామసుడు</div>
-          <p style="font-size: 0.9rem; color: #fecaca; margin-top: 8px;">
-            జీవుడు తామస భాగములో ఉన్నప్పుడు తామసుడై, తామస గుణ ప్రవర్తనల వలన కలుగు సుఖదుఃఖములను అనుభవించును.
-          </p>
+      <!-- 9, 10, 11 Diagrams Display -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin: 24px 0;">
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_9_jeeva_in_tamas.svg" alt="9వ పటము: తామస భాగములో జీవుడు">
+          <div class="diagram-caption">9వ పటము: తామస భాగములో జీవుడు (తామసుడు)</div>
         </div>
-
-        <div style="background: rgba(245, 158, 11, 0.12); border: 1.5px solid #f59e0b; border-radius: 12px; padding: 18px; text-align: center;">
-          <div style="font-size: 1.1rem; font-weight: 800; color: #fbbf24;">10వ పటము: రాజసుడు</div>
-          <p style="font-size: 0.9rem; color: #fef08a; margin-top: 8px;">
-            జీవుడు రాజస భాగములోనికి చేరినప్పుడు రాజసుడై, రాజస గుణ ప్రవర్తనలతో కార్యములను నిర్వహించును.
-          </p>
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_10_jeeva_in_rajas.svg" alt="10వ పటము: రాజస భాగములో జీవుడు">
+          <div class="diagram-caption">10వ పటము: రాజస భాగములో జీవుడు (రాజసుడు)</div>
         </div>
-
-        <div style="background: rgba(16, 185, 129, 0.12); border: 1.5px solid #10b981; border-radius: 12px; padding: 18px; text-align: center;">
-          <div style="font-size: 1.1rem; font-weight: 800; color: #34d399;">11వ పటము: సాత్వికుడు</div>
-          <p style="font-size: 0.9rem; color: #a7f3d0; margin-top: 8px;">
-            జీవుడు సాత్విక భాగములోనికి వెళ్ళినప్పుడు సాత్వికుడై శాంతము, దైవచింతన, పుణ్యకర్మల యందు లగ్నమగును.
-          </p>
+        <div class="diagram-frame-box">
+          <img src="/static/images/diagrams/patam_11_jeeva_in_sattva.svg" alt="11వ పటము: సాత్విక భాగములో జీవుడు">
+          <div class="diagram-caption">11వ పటము: సాత్విక భాగములో జీవుడు (సాత్వికుడు)</div>
         </div>
-      </div>
-
-      <div class="highlight-quote-kala">
-        ✨ <strong>సంపూర్ణ జ్ఞానం:</strong> జ్ఞానదృష్టితో బ్రహ్మ, కాల, కర్మ, గుణచక్రములను నాలుగుచక్రముల చట్రమును చూచినప్పుడే జ్యోతిష్యము శాస్త్రబద్ధముగా అర్థమగును.
       </div>
     </div>
   </div>
 
-  <!-- CTA Box -->
+  <!-- Bottom CTA -->
   <div class="cta-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(15, 23, 42, 0.95)); border: 2px solid #10b981; border-radius: 18px; padding: 26px; text-align: center; margin-top: 30px;">
     <h3 style="color: #34d399; font-size: 1.35rem; font-weight: 800; margin-bottom: 8px;">కాలచక్ర గోచార ఫలితాలను చూడండి</h3>
     <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 18px;">ద్వాదశ గ్రహముల కాలచక్ర సంచారము ఆధారంగా మీ రాశి, లగ్న ఫలితాలను లెక్కించండి.</p>

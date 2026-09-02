@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" width="100%" height="100%" font-family="'Outfit', 'Segoe UI', 'Noto Sans Telugu', sans-serif">
+<defs><linearGradient id="bg40" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#020617"/></linearGradient></defs>
+<rect width="760" height="430" fill="url(#bg40)" rx="18" stroke="rgba(255,255,255,0.1)"/>
+<circle cx="210" cy="190" r="140" fill="#090d16" stroke="#10b981" stroke-width="2.5"/>
+<text x="251.66986626150583" y="38.48594196746001" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">1</text>
+<line x1="210" y1="190" x2="210.0" y2="50.0" stroke="#334155"/>
+<text x="323.84419177103416" y="80.15580822896584" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">2</text>
+<line x1="210" y1="190" x2="280.0" y2="68.7564434701786" stroke="#334155"/>
+<text x="365.51405803254" y="152.33013373849417" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">3</text>
+<line x1="210" y1="190" x2="331.24355652982143" y2="120.00000000000001" stroke="#334155"/>
+<text x="365.51405803254" y="235.66986626150583" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">4</text>
+<line x1="210" y1="190" x2="350.0" y2="190.0" stroke="#334155"/>
+<text x="323.84419177103416" y="307.84419177103416" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">5</text>
+<line x1="210" y1="190" x2="331.24355652982143" y2="260.0" stroke="#334155"/>
+<text x="251.66986626150583" y="349.51405803254" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<line x1="210" y1="190" x2="280.0" y2="311.2435565298214" stroke="#334155"/>
+<text x="168.33013373849414" y="349.51405803254" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">7</text>
+<line x1="210" y1="190" x2="210.0" y2="330.0" stroke="#334155"/>
+<text x="96.15580822896585" y="307.84419177103416" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">8</text>
+<line x1="210" y1="190" x2="140.00000000000003" y2="311.24355652982143" stroke="#334155"/>
+<text x="54.48594196746001" y="235.6698662615059" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">9</text>
+<line x1="210" y1="190" x2="88.75644347017858" y2="260.0" stroke="#334155"/>
+<text x="54.48594196746001" y="152.33013373849417" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">10</text>
+<line x1="210" y1="190" x2="70.0" y2="190.00000000000003" stroke="#334155"/>
+<text x="96.15580822896582" y="80.15580822896585" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">11</text>
+<line x1="210" y1="190" x2="88.7564434701786" y2="119.99999999999999" stroke="#334155"/>
+<text x="168.33013373849417" y="38.48594196746001" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">12</text>
+<line x1="210" y1="190" x2="139.99999999999994" y2="68.75644347017861" stroke="#334155"/>
+<polygon points="246.23466631435292,54.77038431953045 308.99494936611666,288.99494936611666 74.77038431953045,226.23466631435295" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="3"/>
+<text x="210" y="365" fill="#34d399" font-size="15" font-weight="900" text-anchor="middle">మిత్రస్థాన కోణములు (1, 5, 9)</text>
+<circle cx="550" cy="190" r="140" fill="#090d16" stroke="#ef4444" stroke-width="2.5"/>
+<text x="591.6698662615058" y="38.48594196746001" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">1</text>
+<line x1="550" y1="190" x2="550.0" y2="50.0" stroke="#334155"/>
+<text x="663.8441917710342" y="80.15580822896584" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">2</text>
+<line x1="550" y1="190" x2="620.0" y2="68.7564434701786" stroke="#334155"/>
+<text x="705.51405803254" y="152.33013373849417" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">3</text>
+<line x1="550" y1="190" x2="671.2435565298214" y2="120.00000000000001" stroke="#334155"/>
+<text x="705.51405803254" y="235.66986626150583" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">4</text>
+<line x1="550" y1="190" x2="690.0" y2="190.0" stroke="#334155"/>
+<text x="663.8441917710342" y="307.84419177103416" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">5</text>
+<line x1="550" y1="190" x2="671.2435565298214" y2="260.0" stroke="#334155"/>
+<text x="591.6698662615058" y="349.51405803254" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<line x1="550" y1="190" x2="620.0" y2="311.2435565298214" stroke="#334155"/>
+<text x="508.33013373849417" y="349.51405803254" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">7</text>
+<line x1="550" y1="190" x2="550.0" y2="330.0" stroke="#334155"/>
+<text x="436.15580822896584" y="307.84419177103416" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">8</text>
+<line x1="550" y1="190" x2="480.0" y2="311.24355652982143" stroke="#334155"/>
+<text x="394.48594196746" y="235.6698662615059" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">9</text>
+<line x1="550" y1="190" x2="428.75644347017857" y2="260.0" stroke="#334155"/>
+<text x="394.48594196746" y="152.33013373849417" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">10</text>
+<line x1="550" y1="190" x2="410.0" y2="190.00000000000003" stroke="#334155"/>
+<text x="436.15580822896584" y="80.15580822896585" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">11</text>
+<line x1="550" y1="190" x2="428.7564434701786" y2="119.99999999999999" stroke="#334155"/>
+<text x="508.33013373849417" y="38.48594196746001" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">12</text>
+<line x1="550" y1="190" x2="479.99999999999994" y2="68.75644347017861" stroke="#334155"/>
+<polygon points="685.2296156804696,153.76533368564708 513.7653336856471,325.2296156804696 451.00505063388334,91.00505063388336" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="3"/>
+<text x="550" y="365" fill="#f87171" font-size="15" font-weight="900" text-anchor="middle">శత్రుస్థాన కోణములు (3, 7, 11)</text>
+<text x="380" y="405" fill="#f8fafc" font-size="16" font-weight="900" text-anchor="middle">40వ చిత్రపటము (మిత్ర & శత్రు కోణములు)</text>
+</svg>

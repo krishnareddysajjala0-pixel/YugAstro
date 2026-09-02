@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 520" width="100%" height="100%" font-family="'Outfit', 'Segoe UI', 'Noto Sans Telugu', sans-serif">
+<defs><radialGradient id="bgG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1e293b"/><stop offset="100%" stop-color="#020617"/></radialGradient></defs>
+<rect width="500" height="520" fill="url(#bgG)" rx="20"/>
+<circle cx="250" cy="240" r="190" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="2.5"/>
+<circle cx="250" cy="240" r="135" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="2.5"/>
+<circle cx="250" cy="240" r="80" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-width="2.5"/>
+<circle cx="250" cy="240" r="34" fill="#020617" stroke="#fbbf24" stroke-width="3"/>
+<text x="250" y="246" fill="#fbbf24" font-size="16" font-weight="900" text-anchor="middle">ఆత్మ</text>
+<text x="412.0" y="244.0" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="402.2302045673172" y="299.4072632187583" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="374.09919978527444" y="348.13159276921937" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="331.0" y="384.29611541307906" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="278.13100478204274" y="403.53885598797774" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="221.8689952179573" y="403.53885598797774" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="169.00000000000006" y="384.29611541307906" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="125.90080021472558" y="348.1315927692194" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="97.76979543268286" y="299.4072632187584" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="88.0" y="244.00000000000003" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="97.76979543268283" y="188.59273678124168" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="125.90080021472556" y="139.86840723078063" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="168.99999999999994" y="103.70388458692096" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="221.8689952179573" y="84.46114401202229" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="278.1310047820427" y="84.46114401202229" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="331.0" y="103.70388458692094" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="374.09919978527444" y="139.86840723078058" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="402.2302045673172" y="188.59273678124168" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">✕</text>
+<text x="356.3592373253185" y="262.7540031880285" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="339.5360578359445" y="304.39283357484067" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="307.23128053718614" y="335.58919438489403" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="265.03069490368705" y="350.9489514240896" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="220.2311655717641" y="347.81626316133844" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="180.57893815385376" y="326.7327998568496" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="152.93024299968997" y="291.34408385322035" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="142.06579068193764" y="247.76914564387013" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="149.86414370678696" y="203.5424879110815" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="174.9768959904283" y="166.31130156342567" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="213.0618245208278" y="142.51319695512188" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="257.53369916436554" y="136.26308257193898" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="300.70292878087616" y="148.64165997123587" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="335.10516138952596" y="177.5085606648289" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="354.79193843780763" y="217.87243527523586" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<text x="307.7792924893212" y="249.05503307936416" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="297.5108185687615" y="277.2674333083607" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="274.5118591809606" y="296.5658516481257" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="244.94496692063584" y="301.7792924893212" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="216.7325666916393" y="291.5108185687615" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="197.4341483518743" y="268.5118591809606" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="192.22070751067875" y="238.94496692063584" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="202.48918143123848" y="210.7325666916393" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="225.48814081903944" y="191.43414835187428" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="255.05503307936416" y="186.22070751067875" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="283.2674333083607" y="196.48918143123848" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<text x="302.5658516481257" y="219.48814081903944" fill="#34d399" font-size="14" font-weight="900" text-anchor="middle">~</text>
+<line x1="390" y1="120" x2="440" y2="100" stroke="#ef4444" stroke-width="1.5"/>
+<text x="445" y="104" fill="#f87171" font-size="12" font-weight="800">తామస భాగము</text>
+<line x1="360" y1="180" x2="440" y2="180" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="445" y="184" fill="#fbbf24" font-size="12" font-weight="800">రాజస భాగము</text>
+<line x1="315" y1="240" x2="440" y2="260" stroke="#10b981" stroke-width="1.5"/>
+<text x="445" y="264" fill="#34d399" font-size="12" font-weight="800">సాత్విక భాగము</text>
+<text x="250" y="490" fill="#f8fafc" font-size="15" font-weight="800" text-anchor="middle">గుణచక్రము - 6వ పటము</text>
+</svg>
