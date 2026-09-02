@@ -1132,16 +1132,52 @@
       }
       
       body[data-print-mode="kundali-only"] .box {
-        min-height: 300px !important;
+        min-height: 145px !important;
       }
       
       body[data-print-mode="kundali-only"] .chart-container {
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }
       
       body[data-print-mode="kundali-only"] .lagna-name {
-        font-size: 23.6px !important; /* Double the print size (11.8px) */
+        font-size: 16px !important;
+      }
+
+      .bhavas-detailed-section {
+        page-break-before: always !important;
+        break-before: page !important;
+        margin-top: 10mm !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      
+      .bhavas-header h3 {
+        color: #000000 !important;
+        font-size: 16pt !important;
+      }
+
+      .bhavas-header p {
+        color: #333333 !important;
+      }
+
+      .bhavas-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        background: #ffffff !important;
+      }
+
+      .bhavas-table th {
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+        border: 1.5px solid #000000 !important;
+      }
+
+      .bhavas-table td {
+        border: 1px solid #475569 !important;
+        color: #000000 !important;
       }
 
       .box br {
@@ -1150,32 +1186,17 @@
 
       .center {
         padding: 6px !important;
-        font-size: 22.7px !important; /* Increased by 10% from 20.6px */
         border: 1px solid #000 !important;
       }
       
       .center table {
-        font-size: 21.8px !important; /* Increased by 10% from 19.8px */
         font-weight: bold !important;
-        border-spacing: 0 1px !important; /* More compact spacing for print layout */
-      }
-
-      #transit-container .header {
-        margin-top: 30px !important; /* Reduced spacing to fit both on one page */
-        padding-top: 20px !important;
-        border-top: 1px dashed #000 !important;
-      }
-
-      #transit-container .header div {
-        margin-bottom: 2px !important;
-        font-size: 13px !important;
-        color: #000 !important;
+        border-spacing: 0 1px !important;
       }
 
       .hand {
-        font-size: 22.7px !important; /* Same size as planet names (22.7px) */
         background: transparent !important;
-        border: 1px solid #333 !important; /* Restore oval circle line */
+        border: 1px solid #333 !important;
         border-radius: 12px !important;
       }
 
@@ -1208,8 +1229,6 @@
         right: 2px !important;
         padding: 4px 2px !important;
       }
-
-
     }
 
     @page {
