@@ -5,13 +5,14 @@
   <meta name="google" content="notranslate">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>49వ చిత్రపటము - నక్షత్ర పాద జాఫతక చక్రము | {{ name }}</title>
+  <title>{{ _('నక్షత్ర పాద జాఫతక చక్రము') }} | {{ name }}</title>
   
   <link rel="manifest" href="/static/manifest.json">
   <meta name="theme-color" content="#1A1A1D">
   <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="/static/css/theme-fonts.css">
   
   <script>
     (function () {
@@ -39,7 +40,7 @@
       --text-muted: #334155;
       --card-bg: rgba(255, 255, 255, 0.98);
       --card-border: rgba(15, 23, 42, 0.15);
-      --box-border: #1e293b;
+      --box-border: #334155;
       --box-border-hover: #b45309;
       --header-bg: linear-gradient(45deg, #b45309, #d97706);
       --shadow-color: rgba(0, 0, 0, 0.1);
@@ -49,6 +50,9 @@
       --label-text: #0f172a;
       --house-no-bg: rgba(15, 23, 42, 0.1);
       --house-no-text: #0f172a;
+      --nak-title-color: #b45309;
+      --pada-num-color: #475569;
+      --pada-active-color: #0284c7;
     }
 
     [data-theme="cosmic"] {
@@ -57,7 +61,7 @@
       --text-muted: #c7d2fe;
       --card-bg: rgba(15, 23, 42, 0.92);
       --card-border: rgba(99, 102, 241, 0.25);
-      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border: rgba(255, 255, 255, 0.25);
       --box-border-hover: #fbbf24;
       --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
       --shadow-color: rgba(0, 0, 0, 0.6);
@@ -67,6 +71,30 @@
       --label-text: #ffffff;
       --house-no-bg: rgba(255, 255, 255, 0.12);
       --house-no-text: #ffffff;
+      --nak-title-color: #ffd700;
+      --pada-num-color: #94a3b8;
+      --pada-active-color: #38bdf8;
+    }
+
+    [data-theme="sunset"] {
+      --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
+      --text-main: #ffffff;
+      --text-muted: #fca5a5;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(69, 10, 10, 0.88);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fbbf24, #f97316);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(69, 10, 10, 0.7);
+      --house-no-bg: rgba(255, 255, 255, 0.12);
+      --nak-title-color: #fde047;
+      --pada-num-color: #fca5a5;
+      --pada-active-color: #fef08a;
     }
 
     [data-theme="luxury"] {
@@ -85,6 +113,116 @@
       --house-no-text: #fbbf24;
       --color-pos: #10b981;
       --color-neg: #f43f5e;
+      --nak-title-color: #fbbf24;
+      --pada-num-color: #d97706;
+      --pada-active-color: #fde68a;
+    }
+
+    [data-theme="cyberpunk"] {
+      --bg-primary: linear-gradient(170deg, #04080f 0%, #090d18 60%, #0a0512 100%);
+      --text-main: #f0fdfa;
+      --text-muted: #ff007f;
+      --card-bg: rgba(8, 12, 22, 0.97);
+      --card-border: rgba(255, 0, 127, 0.55);
+      --box-border: rgba(0, 255, 204, 0.42);
+      --box-border-hover: #ff007f;
+      --header-bg: linear-gradient(45deg, #00ffcc, #ff007f);
+      --shadow-color: rgba(0, 0, 0, 0.88);
+      --label-bg: rgba(4, 8, 15, 0.85);
+      --label-text: #00ffcc;
+      --house-no-bg: rgba(255, 0, 127, 0.18);
+      --house-no-text: #ff007f;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #00ffcc;
+      --pada-num-color: #ff007f;
+      --pada-active-color: #38bdf8;
+    }
+
+    [data-theme="solar"] {
+      --bg-primary: linear-gradient(150deg, #fffbeb 0%, #fef3c7 45%, #fff7ed 100%);
+      --text-main: #451a03;
+      --text-muted: #92400e;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(217, 119, 6, 0.32);
+      --box-border: rgba(217, 119, 6, 0.35);
+      --box-border-hover: #b45309;
+      --header-bg: linear-gradient(45deg, #451a03, #b45309);
+      --shadow-color: rgba(120, 53, 15, 0.12);
+      --label-bg: rgba(254, 243, 199, 0.8);
+      --label-text: #78350f;
+      --house-no-bg: rgba(245, 158, 11, 0.22);
+      --house-no-text: #451a03;
+      --color-pos: #059669;
+      --color-neg: #dc2626;
+      --nak-title-color: #b45309;
+      --pada-num-color: #92400e;
+      --pada-active-color: #ea580c;
+    }
+
+    [data-theme="mandala"] {
+      --bg-primary: radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.22) 0%, transparent 55%),
+                    radial-gradient(circle at 20% 80%, rgba(217, 119, 6, 0.18) 0%, transparent 50%),
+                    linear-gradient(160deg, #1a0800 0%, #2d0f00 40%, #1a0005 100%);
+      --text-main: #fef3c7;
+      --text-muted: #fca5a5;
+      --card-bg: rgba(30, 10, 0, 0.94);
+      --card-border: rgba(220, 38, 38, 0.4);
+      --box-border: rgba(251, 191, 36, 0.4);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fef3c7, #f97316, #dc2626);
+      --shadow-color: rgba(0, 0, 0, 0.9);
+      --label-bg: rgba(20, 5, 0, 0.8);
+      --label-text: #fbbf24;
+      --house-no-bg: rgba(220, 38, 38, 0.2);
+      --house-no-text: #fef3c7;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #fbbf24;
+      --pada-num-color: #fca5a5;
+      --pada-active-color: #ffd700;
+    }
+
+    [data-theme="twilight"] {
+      --bg-primary: linear-gradient(160deg, #fde68a 0%, #fca5a5 35%, #c4b5fd 70%, #a5b4fc 100%);
+      --text-main: #f0eeff;
+      --text-muted: #ddd6fe;
+      --card-bg: rgba(17, 12, 46, 0.94);
+      --card-border: rgba(196, 181, 253, 0.45);
+      --box-border: rgba(196, 181, 253, 0.4);
+      --box-border-hover: #a78bfa;
+      --header-bg: linear-gradient(45deg, #1e1b4b, #7c3aed, #c4b5fd);
+      --shadow-color: rgba(30, 27, 75, 0.25);
+      --label-bg: rgba(10, 8, 30, 0.85);
+      --label-text: #ddd6fe;
+      --house-no-bg: rgba(196, 181, 253, 0.2);
+      --house-no-text: #f0eeff;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #c4b5fd;
+      --pada-num-color: #a5b4fc;
+      --pada-active-color: #fde68a;
+    }
+
+    [data-theme="aurora"] {
+      --bg-primary: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+      --text-main: #f0fdf4;
+      --text-muted: #34d399;
+      --card-bg: rgba(2, 6, 23, 0.88);
+      --card-border: rgba(52, 211, 153, 0.35);
+      --box-border: rgba(52, 211, 153, 0.4);
+      --box-border-hover: #34d399;
+      --header-bg: linear-gradient(45deg, #34d399, #38bdf8, #818cf8);
+      --shadow-color: rgba(0, 0, 0, 0.9);
+      --label-bg: rgba(2, 6, 23, 0.82);
+      --label-text: #34d399;
+      --house-no-bg: rgba(52, 211, 153, 0.14);
+      --house-no-text: #34d399;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #34d399;
+      --pada-num-color: #6ee7b7;
+      --pada-active-color: #38bdf8;
     }
 
     body {
@@ -106,29 +244,25 @@
       width: 100%;
     }
 
-    .om-title {
-      font-size: 28px;
-      color: #ffd700;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    }
-
     .main-title {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 800;
-      color: #fbbf24;
+      color: var(--text-main);
+      background: var(--header-bg);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-top: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      text-shadow: 0 2px 10px var(--shadow-color);
     }
 
     .sub-title {
       color: var(--text-muted);
-      font-size: 13.5px;
-      margin-top: 4px;
+      font-size: 14px;
+      margin-top: 6px;
       font-weight: 600;
     }
 
@@ -163,14 +297,76 @@
 
     .action-btn-pill:hover {
       transform: translateY(-2px);
-      border-color: #fbbf24;
-      color: #fbbf24;
+      border-color: var(--box-border-hover);
+      color: var(--box-border-hover);
     }
 
     .action-btn-primary {
-      background: linear-gradient(135deg, #b45309, #fbbf24);
+      background: var(--header-bg);
       color: #0f172a !important;
       border: none;
+    }
+
+    /* Theme Switcher Widget */
+    .theme-switcher {
+      position: relative;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 6px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 15px var(--shadow-color);
+      transition: max-width 0.3s ease;
+      overflow: hidden;
+      max-width: 42px;
+    }
+
+    .theme-switcher.expanded {
+      max-width: 320px;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+    }
+
+    .theme-options {
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .theme-switcher.expanded .theme-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      padding: 6px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+
+    .theme-btn:hover {
+      transform: scale(1.15);
+      background: rgba(120, 120, 120, 0.2);
     }
 
     /* Chart Grid Layout */
@@ -197,43 +393,34 @@
     .nak-box {
       border: 1.5px solid var(--box-border);
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.02);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       transition: all 0.2s ease;
-      min-height: 180px;
+      min-height: 185px;
     }
 
     .nak-box:hover {
       border-color: var(--box-border-hover);
-      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.15);
+      box-shadow: 0 4px 15px var(--shadow-color);
     }
 
     .nak-box.lagna-box {
-      border: 2.5px solid #fbbf24 !important;
-      box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+      border: 2.5px solid var(--box-border-hover) !important;
+      box-shadow: 0 0 16px rgba(251, 191, 36, 0.3);
     }
 
-    /* House background color tints */
-    .house-green {
-      border-top: 4px solid var(--color-pos);
-    }
-
-    .house-red {
-      border-top: 4px solid var(--color-neg);
-    }
-
-    .house-mixed {
-      border-top: 4px solid #eab308;
-    }
+    .house-green { border-top: 4px solid var(--color-pos); }
+    .house-red { border-top: 4px solid var(--color-neg); }
+    .house-mixed { border-top: 4px solid #eab308; }
 
     .nak-box-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 8px;
-      background: rgba(251, 191, 36, 0.1);
+      padding: 6px 8px;
+      background: rgba(120, 120, 120, 0.08);
       border-bottom: 1.5px solid var(--box-border);
     }
 
@@ -241,26 +428,26 @@
       background: var(--house-no-bg);
       color: var(--house-no-text);
       font-weight: 800;
-      font-size: 11px;
+      font-size: 11.5px;
       padding: 2px 6px;
       border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--card-border);
     }
 
     .rashi-title-text {
       font-weight: 800;
-      font-size: 13.5px;
-      color: #38bdf8;
+      font-size: 14px;
+      color: var(--text-main);
       letter-spacing: 0.5px;
     }
 
     .karma-badge-small {
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
       padding: 2px 5px;
       border-radius: 4px;
-      background: rgba(0, 0, 0, 0.25);
-      color: #fbbf24;
+      background: var(--label-bg);
+      color: var(--label-text);
     }
 
     /* Nakshatras & Padas inner grid */
@@ -283,7 +470,7 @@
     .nak-name-cell {
       width: 42%;
       padding: 4px 6px;
-      background: rgba(0, 0, 0, 0.08);
+      background: rgba(0, 0, 0, 0.05);
       border-right: 1px solid var(--card-border);
       display: flex;
       align-items: center;
@@ -292,9 +479,9 @@
     }
 
     .nak-name-text {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
-      color: #ffd700;
+      color: var(--nak-title-color);
       line-height: 1.25;
     }
 
@@ -303,29 +490,29 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      padding: 2px 4px;
-      background: rgba(255, 255, 255, 0.01);
+      padding: 3px 5px;
+      background: transparent;
     }
 
     .pada-row {
       display: flex;
       align-items: center;
       gap: 4px;
-      font-size: 11px;
+      font-size: 11.5px;
       line-height: 1.35;
       padding: 1px 0;
     }
 
     .pada-num {
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--pada-num-color);
       min-width: 14px;
       display: inline-block;
       text-align: right;
     }
 
     .pada-row.has-occupant .pada-num {
-      color: #38bdf8;
+      color: var(--pada-active-color);
       font-weight: 800;
     }
 
@@ -336,7 +523,7 @@
 
     .occupant-pill {
       font-weight: 800;
-      font-size: 10.8px;
+      font-size: 11px;
       white-space: nowrap;
     }
 
@@ -356,14 +543,14 @@
     .center-box {
       grid-column: 2 / 4;
       grid-row: 2 / 4;
-      border: 2px solid #ffd700;
+      border: 2px solid var(--box-border);
       border-radius: 12px;
       background: var(--card-bg);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 14px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -377,7 +564,7 @@
       transform: translate(-50%, -50%) rotate(-25deg);
       font-size: 38px;
       font-weight: 900;
-      color: rgba(255, 215, 0, 0.05);
+      color: rgba(255, 215, 0, 0.04);
       white-space: nowrap;
       pointer-events: none;
       z-index: 0;
@@ -391,26 +578,27 @@
 
     .center-badge {
       display: inline-block;
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
-      color: #ffd700;
-      border: 1px solid rgba(251, 191, 36, 0.4);
-      padding: 3px 12px;
+      background: var(--label-bg);
+      color: var(--label-text);
+      border: 1px solid var(--card-border);
+      padding: 4px 14px;
       border-radius: 15px;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 800;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .center-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 11.5px;
+      font-size: 12px;
       margin: 4px 0;
       text-align: left;
     }
 
     .center-table td {
-      padding: 3px 4px;
+      padding: 3.5px 5px;
+      color: var(--text-main);
     }
 
     /* Bottom 1-12 Bhavas Table */
@@ -432,9 +620,9 @@
 
     .bhavas-table th {
       padding: 10px;
-      color: #ffd700;
+      color: var(--text-main);
       font-weight: 800;
-      background: rgba(251, 191, 36, 0.12);
+      background: rgba(120, 120, 120, 0.08);
       border-bottom: 2px solid var(--card-border);
       text-align: left;
     }
@@ -443,6 +631,7 @@
       padding: 8px 10px;
       border-bottom: 1px solid var(--card-border);
       vertical-align: middle;
+      color: var(--text-main);
     }
 
     .bhavas-table tr:hover {
@@ -455,39 +644,39 @@
         gap: 5px;
       }
       .nak-name-text {
-        font-size: 10px;
+        font-size: 10.5px;
       }
       .pada-row {
-        font-size: 9.5px;
+        font-size: 10px;
       }
       .rashi-title-text {
-        font-size: 11.5px;
+        font-size: 12px;
       }
       .center-table {
-        font-size: 10px;
+        font-size: 10.5px;
       }
     }
 
     @media (max-width: 600px) {
       .nak-box {
-        min-height: 140px;
+        min-height: 145px;
       }
       .nak-name-cell {
         width: 46%;
         padding: 2px;
       }
       .nak-name-text {
-        font-size: 9px;
+        font-size: 9.5px;
       }
       .pada-row {
-        font-size: 8.5px;
+        font-size: 9px;
         gap: 2px;
       }
       .occupant-pill {
-        font-size: 9px;
+        font-size: 9.5px;
       }
       .rashi-title-text {
-        font-size: 10px;
+        font-size: 10.5px;
       }
     }
 
@@ -559,10 +748,28 @@
       <i class="fas fa-arrow-left"></i> {{ _('సాధారణ కుండలి') }}
     </a>
 
-    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
       <button onclick="toggleAspects()" id="chupuluBtn" class="action-btn-pill">
         👆 {{ _('చూపులు దాచు/చూపు') }}
       </button>
+
+      <!-- Theme Switcher -->
+      <div class="theme-switcher">
+        <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Theme">
+          <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options">
+          <button class="theme-btn" onclick="setTheme('default')" title="Default"><i class="fas fa-sun"></i></button>
+          <button class="theme-btn" onclick="setTheme('cosmic')" title="Cosmic"><i class="fas fa-moon"></i></button>
+          <button class="theme-btn" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+          <button class="theme-btn" onclick="setTheme('luxury')" title="Luxury Gold"><i class="fas fa-gem"></i></button>
+          <button class="theme-btn" onclick="setTheme('cyberpunk')" title="Cyberpunk"><i class="fas fa-bolt"></i></button>
+          <button class="theme-btn" onclick="setTheme('solar')" title="Solar"><i class="fas fa-fire-alt"></i></button>
+          <button class="theme-btn" onclick="setTheme('mandala')" title="Mandala"><i class="fas fa-dharmachakra"></i></button>
+          <button class="theme-btn" onclick="setTheme('twilight')" title="Twilight"><i class="fas fa-adjust"></i></button>
+          <button class="theme-btn" onclick="setTheme('aurora')" title="Aurora"><i class="fas fa-magic"></i></button>
+        </div>
+      </div>
 
       <button onclick="window.print()" class="action-btn-pill action-btn-primary">
         <i class="fas fa-print"></i> {{ _('ప్రింట్ / PDF') }}
@@ -572,11 +779,10 @@
 
   <!-- Page Header -->
   <div class="page-header">
-    <div class="om-title">49వ చిత్రపటము</div>
     <div class="main-title">
-      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 28px; height: auto;">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
       {{ _('త్రైత సిద్ధాంత నక్షత్ర పాద జాఫతక చక్రము') }}
-      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 28px; height: auto;">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
     </div>
     <div class="sub-title">
       {{ name }} | {{ dob }} ({{ day_name }}) | {{ tob }} | {{ place }}
@@ -639,39 +845,39 @@
       <!-- Center Box -->
       <div class="center-box">
         <div class="center-content">
-          <span class="center-badge">త్రైత సిద్ధాంతం - 49వ చిత్రపటము</span>
+          <span class="center-badge">{{ _('త్రైత సిద్ధాంత నక్షత్ర పాద చక్రము') }}</span>
           <table class="center-table">
             <tr>
-              <td style="color: #ffd700; width: 40%;">{{ _('పేరు:') }}</td>
-              <td style="font-weight: bold; color: var(--text-main);">{{ name }}</td>
+              <td style="font-weight: 700; width: 40%;">{{ _('పేరు:') }}</td>
+              <td style="font-weight: bold;">{{ name }}</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('తేదీ & సమయం:') }}</td>
-              <td style="color: var(--text-main);">{{ dob }} ({{ tob }})</td>
+              <td style="font-weight: 700;">{{ _('తేదీ & సమయం:') }}</td>
+              <td>{{ dob }} ({{ tob }})</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('స్థలం:') }}</td>
-              <td style="color: var(--text-main);">{{ place.split(',')[0] if ',' in place else place }}</td>
+              <td style="font-weight: 700;">{{ _('స్థలం:') }}</td>
+              <td>{{ place.split(',')[0] if ',' in place else place }}</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('జన్మ లగ్నం:') }}</td>
-              <td style="color: #38bdf8; font-weight: bold;">{{ lagna }} ({{ lagna_deg }})</td>
+              <td style="font-weight: 700;">{{ _('జన్మ లగ్నం:') }}</td>
+              <td style="color: var(--pada-active-color); font-weight: bold;">{{ lagna }} ({{ lagna_deg }})</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('జన్మ నక్షత్రం:') }}</td>
-              <td style="color: #34d399; font-weight: bold;">{{ nakshatra }} ({{ padam }}వ పాదం)</td>
+              <td style="font-weight: 700;">{{ _('జన్మ నక్షత్రం:') }}</td>
+              <td style="color: var(--color-pos); font-weight: bold;">{{ nakshatra }} ({{ padam }}వ పాదం)</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('దశా శేషం:') }}</td>
-              <td style="color: #fca5a5; font-weight: bold;">{{ nak_remaining }}</td>
+              <td style="font-weight: 700;">{{ _('దశా శేషం:') }}</td>
+              <td style="font-weight: bold;">{{ nak_remaining }}</td>
             </tr>
             <tr>
-              <td style="color: #ffd700;">{{ _('వర్గము:') }}</td>
-              <td style="color: var(--text-main); font-weight: bold;">
+              <td style="font-weight: 700;">{{ _('వర్గము:') }}</td>
+              <td style="font-weight: bold;">
                 {% if lagna in ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
-                  <span style="color: #10b981;">గురు వర్గము</span>
+                  <span style="color: var(--color-pos);">గురు వర్గము</span>
                 {% else %}
-                  <span style="color: #f59e0b;">శని వర్గము</span>
+                  <span style="color: var(--color-neg);">శని వర్గము</span>
                 {% endif %}
               </td>
             </tr>
@@ -697,7 +903,7 @@
   {% if bhavas_list %}
   <div class="bhavas-detailed-section">
     <div style="text-align: center; margin-bottom: 16px;">
-      <h3 style="font-size: 1.3rem; color: #fbbf24; font-weight: 800; display: inline-flex; align-items: center; gap: 8px;">
+      <h3 style="font-size: 1.3rem; color: var(--text-main); font-weight: 800; display: inline-flex; align-items: center; gap: 8px;">
         <span>🌟</span> {{ _('1వ భావం నుండి 12వ భావాల నక్షత్ర-పాద పూర్తి పట్టిక') }}
       </h3>
     </div>
@@ -717,9 +923,9 @@
           <tr>
             <td style="text-align: center; font-weight: 800; color: var(--text-main);">
               {{ bhava.bhava_name }}
-              <br><span style="font-size: 10px; color: #fbbf24;">({{ bhava.karma_type }})</span>
+              <br><span style="font-size: 10.5px; color: var(--text-muted);">({{ bhava.karma_type }})</span>
             </td>
-            <td style="font-weight: 700; color: #38bdf8;">
+            <td style="font-weight: 700; color: var(--pada-active-color);">
               {{ bhava.rashi }}
               {% if bhava.is_lagna_bhava %}<br><span style="font-size: 10px; color: #fbbf24;">(జన్మ లగ్నం)</span>{% endif %}
             </td>
@@ -770,6 +976,15 @@
   </div>
 
   <script>
+    function setTheme(theme) {
+      if (theme === 'default') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+      localStorage.setItem('preferred-theme', theme);
+    }
+
     function toggleAspects() {
       document.body.classList.toggle('hide-hands');
       const btn = document.getElementById('chupuluBtn');
