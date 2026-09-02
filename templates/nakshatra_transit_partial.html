@@ -30,7 +30,7 @@
           <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
             <span class="pada-num">{{ p.rashi_pada }}</span>
             {% if p.occupants %}
-              <span class="pada-dash">-</span>
+              <span class="pada-arrow">➔</span>
               <span class="occupants-wrap">
                 {% for occ in p.occupants %}
                   {% if occ.is_lagna %}

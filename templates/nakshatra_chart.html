@@ -546,37 +546,42 @@
 
     .pada-row {
       display: flex;
-      align-items: center;
-      flex-wrap: wrap;
+      align-items: flex-start;
       gap: 3px;
       font-size: 11.5px;
-      line-height: 1.3;
-      padding: 1px 0;
+      line-height: 1.35;
+      padding: 1.5px 0;
     }
 
     .pada-num {
-      font-weight: 700;
+      font-weight: 800;
       color: var(--pada-num-color);
       min-width: 12px;
       display: inline-block;
       text-align: right;
+      line-height: 1.35;
     }
 
     .pada-row.has-occupant .pada-num {
       color: var(--pada-active-color);
-      font-weight: 800;
+      font-weight: 900;
     }
 
-    .pada-dash {
-      color: var(--text-muted);
-      font-size: 10px;
+    .pada-arrow {
+      color: var(--pada-active-color);
+      font-size: 11px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1.35;
+      margin-right: 1px;
     }
 
     .occupants-wrap {
-      display: inline-flex;
+      display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 2.5px;
+      gap: 3px 5px;
       flex: 1;
     }
 
@@ -586,9 +591,10 @@
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      padding: 0 3px;
+      padding: 1px 4px;
       border-radius: 3px;
       background: rgba(255, 255, 255, 0.08);
+      line-height: 1.25;
     }
 
     .planet-name-pill {
@@ -836,26 +842,34 @@
         border-bottom: 1px solid #ccc !important;
       }
       .pada-row {
+        align-items: flex-start !important;
         font-size: 10.5px !important;
         gap: 2px !important;
         padding: 0.5px 0 !important;
-        line-height: 1.2 !important;
+        line-height: 1.25 !important;
       }
       .pada-num {
         color: #475569 !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         font-size: 10px !important;
+        line-height: 1.25 !important;
+      }
+      .pada-arrow {
+        color: #0284c7 !important;
+        font-size: 9.5px !important;
+        font-weight: 900 !important;
+        line-height: 1.25 !important;
       }
       .occupants-wrap {
-        display: inline-flex !important;
+        display: flex !important;
         flex-wrap: wrap !important;
-        gap: 2px !important;
+        gap: 2px 4px !important;
       }
       /* PRESERVE EXACT PLANET COLORS IN PRINT / PDF */
       .occupant-pill {
         font-weight: 900 !important;
         font-size: 10.5px !important;
-        padding: 0 2px !important;
+        padding: 0 2.5px !important;
         line-height: 1.2 !important;
         text-shadow: none !important;
       }
@@ -1026,7 +1040,7 @@
           <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
             <span class="pada-num">{{ p.rashi_pada }}</span>
             {% if p.occupants %}
-              <span class="pada-dash">-</span>
+              <span class="pada-arrow">➔</span>
               <span class="occupants-wrap">
                 {% for occ in p.occupants %}
                   {% if occ.is_lagna %}
