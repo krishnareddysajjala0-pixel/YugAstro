@@ -1,56 +1,635 @@
 ﻿{% extends "base_page.html" %}
 
 {% block page_content %}
-<div class="page-card">
+<style>
+  .karma-page-container {
+    max-width: 1050px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif;
+  }
+  
+  .karma-hero-banner {
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .karma-hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .karma-section-card {
+    background: var(--input-bg, rgba(15, 23, 42, 0.85));
+    border: 1px solid var(--card-border, rgba(251, 191, 36, 0.25));
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .karma-section-card:hover {
+    border-color: rgba(251, 191, 36, 0.5);
+  }
+
+  .karma-sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.25);
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .karma-sec-title {
+    color: #fbbf24;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .karma-badge {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .badge-gold {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.4);
+  }
+
+  .badge-green {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+
+  .badge-red {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+
+  .karma-prose {
+    font-size: 1.02rem;
+    line-height: 1.85;
+    color: #e2e8f0;
+  }
+
+  .karma-prose p {
+    margin-bottom: 16px;
+    text-align: justify;
+  }
+
+  .highlight-quote {
+    background: rgba(251, 191, 36, 0.08);
+    border-left: 4px solid #fbbf24;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 1.02rem;
+    color: #fde68a;
+    font-weight: 600;
+  }
+
+  /* Colorful Diagram Grid Box */
+  .diagram-showcase-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 22px 0;
+    text-align: center;
+  }
+
+  .diagram-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #38bdf8;
+    margin-bottom: 14px;
+  }
+
+  /* 4x4 Grid Visual Component */
+  .mini-chakra-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4px;
+    max-width: 380px;
+    margin: 0 auto;
+    background: #0f172a;
+    border: 2px solid #475569;
+    border-radius: 10px;
+    padding: 6px;
+  }
+
+  .mini-chakra-cell {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 2px;
+    text-align: center;
+  }
+
+  .cell-kendra {
+    background: rgba(251, 191, 36, 0.25) !important;
+    border: 2px solid #fbbf24 !important;
+    color: #fbbf24 !important;
+    font-weight: 900 !important;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+  }
+
+  .cell-punyam {
+    background: rgba(16, 185, 129, 0.22) !important;
+    border: 1.5px solid #10b981 !important;
+    color: #34d399 !important;
+  }
+
+  .cell-papam {
+    background: rgba(239, 68, 68, 0.22) !important;
+    border: 1.5px solid #ef4444 !important;
+    color: #f87171 !important;
+  }
+
+  .cell-mixed {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(239, 68, 68, 0.15)) !important;
+    border: 1.5px solid #ca8a04 !important;
+    color: #fef08a !important;
+  }
+
+  .cell-center {
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+    background: rgba(30, 41, 59, 0.8) !important;
+    border: 1.5px dashed #fbbf24 !important;
+    color: #fbbf24 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+  }
+
+  /* 12 Bhavas Karma Table */
+  .karma-table-custom {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .karma-table-custom th {
+    background: rgba(251, 191, 36, 0.18);
+    color: #fbbf24;
+    font-weight: 800;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.35);
+  }
+
+  .karma-table-custom td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    vertical-align: middle;
+  }
+
+  .karma-table-custom tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
+  }
+</style>
+
+<div class="karma-page-container">
+  <!-- Breadcrumb -->
   <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
     <a href="/" style="color: var(--text-muted); text-decoration: none;">{{ _('హోమ్') }}</a> &rsaquo; 
     <span style="color: var(--accent-gold);">{{ _('కర్మ చక్రము') }}</span>
   </div>
 
-  <h1 class="page-title">{{ _('కర్మ చక్రము (Karma Chakramu)') }}</h1>
-  
-  <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px;">
-    {{ _('త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో పుణ్య, పాప, మిశ్రమ కర్మల చక్రము మరియు ద్వాదశ భావముల కర్మ ప్రభావం.') }}
-  </p>
+  <!-- Hero Banner -->
+  <div class="karma-hero-banner">
+    <div style="display: inline-block; background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); padding: 4px 18px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; margin-bottom: 12px; text-transform: uppercase;">
+      <i class="fas fa-book-open"></i> జ్యోతిష్య శాస్త్రము - త్రైత సిద్ధాంతం
+    </div>
+    <h1 style="font-size: 2.1rem; color: #ffffff; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px;">
+      కర్మ చక్రము (Karma Chakramu)
+    </h1>
+    <p style="font-size: 1.05rem; color: #cbd5e1; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+      త్రైత సిద్ధాంతం ప్రకారం 12 స్థానములలోని <strong>కేంద్రములు, కోణములు, పుణ్య-పాప-మిశ్రమ కర్మలు</strong> మరియు జీవుని జీవిత ప్రవాహ విశ్లేషణ.
+    </p>
 
-  <!-- Featured Circular Chart Image -->
-  <div style="text-align: center; margin: 24px 0 32px 0;">
-    <div style="display: inline-block; background: rgba(15, 23, 42, 0.85); border: 2px solid var(--accent-gold); border-radius: 20px; padding: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); max-width: 100%;">
-      <img src="/static/images/kala_karma_chakramulu.png" alt="కాల, కర్మ చక్రములు - త్రైత సిద్ధాంతం" style="max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; max-height: 520px;">
-      <div style="margin-top: 12px; font-weight: 800; color: #fbbf24; font-size: 1.15rem; letter-spacing: 0.5px;">
-        కాల, కర్మ చక్రములు
-      </div>
-      <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">
-        గ్రంథకర్త: త్రిమత ఏకైక గురువు, ఆధ్యాత్మిక సామ్రాజ్య చక్రవర్తి, త్రైత సిద్ధాంత ఆదికర్త
+    <!-- Featured Master Chart -->
+    <div style="margin-top: 25px;">
+      <div style="display: inline-block; background: rgba(15, 23, 42, 0.9); border: 2px solid #fbbf24; border-radius: 16px; padding: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+        <img src="/static/images/kala_karma_chakramulu.png" alt="కాల, కర్మ చక్రములు - త్రైత సిద్ధాంతం" style="max-width: 100%; height: auto; border-radius: 10px; max-height: 480px; display: block; margin: 0 auto;">
+        <div style="margin-top: 10px; font-weight: 800; color: #fbbf24; font-size: 1.1rem;">కాల, కర్మ చక్రములు</div>
+        <div style="font-size: 0.82rem; color: #94a3b8;">గ్రంథకర్త: త్రిమత ఏకైక గురువు, ఆధ్యాత్మిక సామ్రాజ్య చక్రవర్తి, త్రైత సిద్ధాంత ఆదికర్త శ్రీశ్రీశ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరులు</div>
       </div>
     </div>
   </div>
 
-  <!-- Content Section -->
-  <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 30px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 12px; margin-bottom: 16px;">
-      <h2 style="color: var(--accent-gold); font-size: 1.25rem; margin: 0;">
-        <i class="fas fa-dharmachakra" style="margin-right: 8px; color: var(--accent-gold-light);"></i>
-        {{ _('కర్మ చక్ర విశ్లేషణ (పుణ్య, పాప, మిశ్రమ కర్మలు)') }}
+  <!-- Section 1: 26. కర్మచక్రములో కేంద్రములు -->
+  <div class="karma-section-card">
+    <div class="karma-sec-header">
+      <h2 class="karma-sec-title">
+        <i class="fas fa-bullseye"></i> 26. కర్మచక్రములో కేంద్రములు (Kendras)
       </h2>
-      <span style="font-size: 0.8rem; background: rgba(212, 175, 55, 0.15); color: #f59e0b; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">
-        {{ _('త్రైత సిద్ధాంతం') }}
-      </span>
+      <span class="karma-badge badge-gold">అంగీ & అర్ధాంగి భాగాలు</span>
     </div>
 
-    <div style="color: #e2e8f0; font-size: 1rem; line-height: 1.8;">
-      {% if content %}
-        {{ content | safe }}
-      {% else %}
-        <p style="color: #94a3b8; font-style: italic;">(కర్మ చక్రము గురించిన పూర్తి వివరణ త్వరలో అప్‌డేట్ చేయబడుతుంది...)</p>
-      {% endif %}
+    <div class="karma-prose">
+      <p>
+        కర్మచక్రములోని 12 భాగములను <strong>అంగీ, అర్ధాంగి</strong> అని రెండు భాగములుగా విభజించుకున్నాము. అంగీ అను మొదటి భాగములో <strong>1వ స్థానమూ</strong>, అర్ధాంగి అను రెండవ భాగములో <strong>7వ స్థానము</strong> ప్రారంభమైనవి అగుటయేకాక, 1వ స్థానములో తన శరీరమునకు సంబంధించిన కర్మయూ, 7వ స్థానమున తన భార్యకు సంబంధించిన కర్మయూ నమోదు చేయబడినదని మరియు నమోదు చేయబడుచున్నదనీ చెప్పాము.
+      </p>
+
+      <div class="highlight-quote">
+        💡 <strong>కేంద్రము అనగా:</strong> ఆధారస్థానమనీ, ముఖ్యముగా గుర్తింపు పొందిన స్థానమనీ చెప్పవచ్చును. కర్మచక్రము యొక్క పన్నెండు స్థానములలోనే మనిషి (జీవుని) జీవితమంతా ఇమిడియున్నది.
+      </div>
+
+      <p>
+        ఇప్పుడు అంగీ, అర్ధాంగి అను రెండు భాగములలో ముఖ్యకేంద్రములుగా గుర్తింపబడిన స్థానములు <strong>రెండు గలవు</strong>.
+      </p>
+
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>అంగీ భాగము (1 నుండి 6 స్థానములు):</strong> 1వ స్థానమును వదలి మిగతా ఐదు స్థానములను (2, 3, 4, 5, 6) తీసుకుంటే, వాటి మధ్యలో గల <strong>4వ స్థానము కేంద్రమగును</strong> (స్థూల స్థిరాస్తులు).</li>
+        <li><strong>అర్ధాంగి భాగము (7 నుండి 12 స్థానములు):</strong> 7వ స్థానమును వదలి తర్వాతగల ఐదు స్థానములను (8, 9, 10, 11, 12) చూస్తే, వాటి మధ్యనగల <strong>10వ స్థానము కేంద్రమగును</strong> (సూక్ష్మ ఆస్తి / కీర్తి, ప్రతిష్ట, వృత్తి).</li>
+      </ul>
+
+      <!-- Interactive Colorful Diagram: 37 & 38 Patamulu -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 24px 0;">
+        <!-- 37th Diagram (4th Kendra) -->
+        <div class="diagram-showcase-box">
+          <div class="diagram-title">37వ పటము: 4వ స్థానము కేంద్రము (అంగీ)</div>
+          <div class="mini-chakra-grid">
+            <div class="mini-chakra-cell">12</div>
+            <div class="mini-chakra-cell" style="background: rgba(251, 191, 36, 0.15); border-color: #fbbf24;">1 (శరీరం)</div>
+            <div class="mini-chakra-cell">2</div>
+            <div class="mini-chakra-cell">3</div>
+
+            <div class="mini-chakra-cell">11</div>
+            <div class="mini-chakra-cell cell-center">అంగీ కేంద్రం</div>
+            <div class="mini-chakra-cell cell-kendra">4<br><small style="font-size: 9px;">కేంద్రం</small></div>
+
+            <div class="mini-chakra-cell">10</div>
+            <div class="mini-chakra-cell">5</div>
+
+            <div class="mini-chakra-cell">9</div>
+            <div class="mini-chakra-cell">8</div>
+            <div class="mini-chakra-cell" style="background: rgba(236, 72, 153, 0.15); border-color: #ec4899;">7 (భార్య)</div>
+            <div class="mini-chakra-cell">6</div>
+          </div>
+          <div style="font-size: 0.85rem; color: #fbbf24; margin-top: 10px; font-weight: 700;">4వ స్థానము: స్థూల ఆస్తి కేంద్రము</div>
+        </div>
+
+        <!-- 38th Diagram (10th Kendra) -->
+        <div class="diagram-showcase-box">
+          <div class="diagram-title">38వ పటము: 10వ స్థానము కేంద్రము (అర్ధాంగి)</div>
+          <div class="mini-chakra-grid">
+            <div class="mini-chakra-cell">12</div>
+            <div class="mini-chakra-cell" style="background: rgba(251, 191, 36, 0.15); border-color: #fbbf24;">1 (శరీరం)</div>
+            <div class="mini-chakra-cell">2</div>
+            <div class="mini-chakra-cell">3</div>
+
+            <div class="mini-chakra-cell">11</div>
+            <div class="mini-chakra-cell cell-center">అర్ధాంగి కేంద్రం</div>
+            <div class="mini-chakra-cell">4</div>
+
+            <div class="mini-chakra-cell cell-kendra">10<br><small style="font-size: 9px;">కేంద్రం</small></div>
+            <div class="mini-chakra-cell">5</div>
+
+            <div class="mini-chakra-cell">9</div>
+            <div class="mini-chakra-cell">8</div>
+            <div class="mini-chakra-cell" style="background: rgba(236, 72, 153, 0.15); border-color: #ec4899;">7 (భార్య)</div>
+            <div class="mini-chakra-cell">6</div>
+          </div>
+          <div style="font-size: 0.85rem; color: #fbbf24; margin-top: 10px; font-weight: 700;">10వ స్థానము: సూక్ష్మ ఆస్తి (కీర్తి) కేంద్రము</div>
+        </div>
+      </div>
+
+      <div class="highlight-quote" style="border-left-color: #38bdf8; color: #bae6fd;">
+        ✨ <strong>త్రైత సిద్ధాంత విశేషం:</strong> మానవ జీవితంలో ముఖ్యముగా అందరూ గమనించేవి రెండు కలవు. అందులో ఒకటి <strong>మనిషికున్న ఆస్తి (4వ స్థానం)</strong>, రెండవది <strong>మనిషికున్న పేరు ప్రతిష్టలు / కీర్తి (10వ స్థానం)</strong>. మిగతా ఎనిమిది స్థానముల కర్మలకు ఈ 4, 10 స్థానములే ప్రధాన ఆధార కేంద్రములు!
+      </div>
     </div>
   </div>
 
-  <div class="cta-box">
-    <h3>{{ _('మీ జన్మ కుండలిలోని కర్మ భావాలను విశ్లేషించుకోవాలనుకుంటున్నారా?') }}</h3>
-    <p>{{ _('త్రైత సిద్ధాంతం ప్రకారం మీ 12 భావాల పుణ్య, పాప కర్మల స్థితిని తెలుసుకోండి.') }}</p>
-    <a href="/" class="cta-btn"><i class="fas fa-star-of-david"></i> {{ _('కుండలి లెక్కించండి') }}</a>
+  <!-- Section 2: 27. కర్మచక్రములోని కోణములు -->
+  <div class="karma-section-card">
+    <div class="karma-sec-header">
+      <h2 class="karma-sec-title">
+        <i class="fas fa-draw-polygon"></i> 27. కర్మచక్రములోని కోణములు (Trikonas)
+      </h2>
+      <span class="karma-badge badge-green">పుణ్య & పాప త్రికోణాలు</span>
+    </div>
+
+    <div class="karma-prose">
+      <p>
+        కర్మచక్రములో శాస్త్రబద్ధముగా కేంద్రములు రెండుగలవని తెలుసుకొన్నాము. అంగీ, అర్ధాంగి అను భాగములలో మూడు స్థానములు ఒకదానికొకటి సమదూరములో త్రికోణాకృతిగా ఉండుట వలన వాటిని <strong>కోణస్థానములు</strong> అన్నారు.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0;">
+        <div style="background: rgba(16, 185, 129, 0.12); border: 1.5px solid #10b981; border-radius: 12px; padding: 18px;">
+          <h3 style="color: #34d399; font-size: 1.15rem; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+            <span>🟢</span> మిత్రస్థాన కోణములు (పుణ్య కోణములు)
+          </h3>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 8px 0;">1, 5, 9 స్థానములు</div>
+          <p style="font-size: 0.92rem; color: #a7f3d0; margin: 0;">
+            శరీర ప్రారంభము (1), ప్రపంచ జ్ఞానము (5), పరమాత్మ ప్రపంచ ధనము (9). ఈ మూడూ పరస్పర మిత్ర పుణ్య స్థానములు.
+          </p>
+        </div>
+
+        <div style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid #ef4444; border-radius: 12px; padding: 18px;">
+          <h3 style="color: #f87171; font-size: 1.15rem; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+            <span>🔴</span> శత్రుస్థాన కోణములు (పాప కోణములు)
+          </h3>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 8px 0;">3, 7, 11 స్థానములు</div>
+          <p style="font-size: 0.92rem; color: #fecaca; margin: 0;">
+            ప్రపంచ ధనము (3), భార్య/సంసార సమస్యలు (7), పరమాత్మ ప్రపంచ జ్ఞాన గ్రహీత (11). ఈ మూడూ పరస్పర శత్రు పాప స్థానములు.
+          </p>
+        </div>
+      </div>
+
+      <div class="highlight-quote" style="border-left-color: #ef4444; color: #fecaca;">
+        ⚡ <strong>1 × 7 పూర్తి స్థాయి శత్రుత్వ సూత్రం:</strong><br>
+        పుణ్యకోణములకు పూర్తి 7వ స్థానములే పాప కోణములుగా ఏర్పడినవి!
+        <br>• <strong>1కి 7 (1 × 7)</strong> : శరీరానికి ↔ భార్య
+        <br>• <strong>5కి 11 (5 × 11)</strong> : ప్రపంచ విద్యకు ↔ పరమాత్మ జ్ఞానం
+        <br>• <strong>9కి 3 (9 × 3)</strong> : పరమాత్మ ధనానికి ↔ ప్రపంచ ధనం
+      </div>
+
+      <!-- 40th Diagram: Mitra and Shatru Konas -->
+      <div class="diagram-showcase-box">
+        <div class="diagram-title">40వ పటము: మిత్ర కోణములు (1,5,9) & శత్రు కోణములు (3,7,11)</div>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+          <!-- Mitra 1,5,9 -->
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1.5px solid #10b981; border-radius: 12px; padding: 12px; min-width: 200px;">
+            <div style="color: #34d399; font-weight: 800; margin-bottom: 6px;">మిత్ర కోణములు (పుణ్యం)</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #10b981;">1 ➔ 5 ➔ 9</div>
+          </div>
+          <!-- Shatru 3,7,11 -->
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1.5px solid #ef4444; border-radius: 12px; padding: 12px; min-width: 200px;">
+            <div style="color: #f87171; font-weight: 800; margin-bottom: 6px;">శత్రు కోణములు (పాపం)</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #ef4444;">3 ➔ 7 ➔ 11</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: 41వ పటము - పుణ్య, పాప, మిశ్రమ కర్మల సంపూర్ణ అమరిక -->
+  <div class="karma-section-card">
+    <div class="karma-sec-header">
+      <h2 class="karma-sec-title">
+        <i class="fas fa-th-large"></i> 41వ పటము: కర్మపత్రములో 12 స్థానముల కర్మల విభజన
+      </h2>
+      <span class="karma-badge badge-gold">పుణ్యం | పాపం | మిశ్రమం</span>
+    </div>
+
+    <div class="karma-prose">
+      <p>
+        కర్మపత్రములోని 12 స్థానములలో:
+        <br>• <strong>3 స్థానములు కేవల పుణ్యము:</strong> 1, 5, 9 స్థానములు (ఆకుపచ్చ)
+        <br>• <strong>3 స్థానములు కేవల పాపము:</strong> 3, 7, 11 స్థానములు (ఎరుపు)
+        <br>• <strong>6 స్థానములు పుణ్యము + పాపము (మిశ్రమము):</strong> 2, 4, 6, 8, 10, 12 సరి స్థానములు (గ్రీన్ + రెడ్ మిశ్రమం)
+      </p>
+
+      <!-- 41st Master Grid -->
+      <div class="diagram-showcase-box" style="border-color: #fbbf24;">
+        <div class="diagram-title">41వ చిత్రపటము: కర్మపత్రము (పుణ్య, పాప, మిశ్రమ స్థానములు)</div>
+        <div class="mini-chakra-grid" style="max-width: 440px;">
+          <!-- Row 1: 12, 1, 2, 3 -->
+          <div class="mini-chakra-cell cell-mixed">12<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+          <div class="mini-chakra-cell cell-punyam">1<br><small style="font-size: 8px;">పుణ్యము</small></div>
+          <div class="mini-chakra-cell cell-mixed">2<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+          <div class="mini-chakra-cell cell-papam">3<br><small style="font-size: 8px;">పాపము</small></div>
+
+          <!-- Row 2: 11, Center, 4 -->
+          <div class="mini-chakra-cell cell-papam">11<br><small style="font-size: 8px;">పాపము</small></div>
+          <div class="mini-chakra-cell cell-center" style="font-size: 14px !important;">కర్మపత్రము<br><small style="font-size: 9px; color: #94a3b8;">12 స్థానముల కర్మ</small></div>
+          <div class="mini-chakra-cell cell-mixed">4<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+
+          <!-- Row 3: 10, 5 -->
+          <div class="mini-chakra-cell cell-mixed">10<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+          <div class="mini-chakra-cell cell-punyam">5<br><small style="font-size: 8px;">పుణ్యము</small></div>
+
+          <!-- Row 4: 9, 8, 7, 6 -->
+          <div class="mini-chakra-cell cell-punyam">9<br><small style="font-size: 8px;">పుణ్యము</small></div>
+          <div class="mini-chakra-cell cell-mixed">8<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+          <div class="mini-chakra-cell cell-papam">7<br><small style="font-size: 8px;">పాపము</small></div>
+          <div class="mini-chakra-cell cell-mixed">6<br><small style="font-size: 8px;">పుణ్యం+పాపం</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: 1 నుండి 12 స్థానములలోని సంపూర్ణ కర్మల విశ్లేషణ -->
+  <div class="karma-section-card">
+    <div class="karma-sec-header">
+      <h2 class="karma-sec-title">
+        <i class="fas fa-list-ol"></i> 1 నుండి 12 స్థానములలోని సంపూర్ణ కర్మల వివరాలు (42-46 పటములు)
+      </h2>
+      <span class="karma-badge badge-gold">పూర్తి కర్మచక్రము</span>
+    </div>
+
+    <div class="karma-prose">
+      <p>
+        మనిషి జననము నుండి మరణము వరకు, ప్రపంచ ఆస్తుల నుండి పరమాత్మ జ్ఞానము వరకు సమస్త కర్మలు ఈ 12 స్థానములలో ఎలా నిక్షిప్తమై ఉంటాయో క్రింది పట్టిక ద్వారా వివరముగా తెలుసుకోవచ్చును:
+      </p>
+
+      <div style="overflow-x: auto;">
+        <table class="karma-table-custom">
+          <thead>
+            <tr>
+              <th style="width: 10%;">స్థానము</th>
+              <th style="width: 18%;">భాగము / వర్గము</th>
+              <th style="width: 18%;">కర్మ రకము</th>
+              <th style="width: 54%;">లిఖించబడిన కర్మ & జీవన ఫలితము</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1వ స్థానం</strong></td>
+              <td>అంగీ ప్రారంభం</td>
+              <td><span class="karma-badge badge-green">పుణ్యము</span></td>
+              <td><strong>శరీర ప్రారంభము:</strong> అవయవముల కర్మ, జన్మ ఆరంభము, రూపం, శరీర స్వభావం.</td>
+            </tr>
+            <tr>
+              <td><strong>2వ స్థానం</strong></td>
+              <td>అంగీ భాగం</td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>అజ్ఞాన జీవిత కాలము:</strong> మనిషి తన జీవితములో అజ్ఞానముతో ఎంతకాలము గడుపును అను కర్మ.</td>
+            </tr>
+            <tr>
+              <td><strong>3వ స్థానం</strong></td>
+              <td>శత్రు కోణము</td>
+              <td><span class="karma-badge badge-red">పాపము</span></td>
+              <td><strong>ప్రపంచ ధనము:</strong> నగదు నిలువ, డబ్బు చలామణి, భౌతిక లావాదేవీల కర్మ.</td>
+            </tr>
+            <tr>
+              <td><strong>4వ స్థానం</strong></td>
+              <td><strong>అంగీ కేంద్రము</strong></td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>స్థూల స్థిరాస్తులు:</strong> గృహములు, భూములు, వాహనములు మరియు స్థూల సంపద.</td>
+            </tr>
+            <tr>
+              <td><strong>5వ స్థానం</strong></td>
+              <td>మిత్ర కోణము</td>
+              <td><span class="karma-badge badge-green">పుణ్యము</span></td>
+              <td><strong>ప్రపంచ జ్ఞానము (విద్య):</strong> స్థూల ఆస్తులను సంపాదించుటకు కావలసిన ప్రపంచ బుద్ధి, చదువుల కర్మ.</td>
+            </tr>
+            <tr>
+              <td><strong>6వ స్థానం</strong></td>
+              <td>12కి శత్రుస్థానం</td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>శత్రు, ఋణ, రోగములు:</strong> మరణమునకు (12వ) వ్యతిరేకముగా మనిషిని బ్రతికుండగానే బాధించు రోగములు, అప్పులు, శత్రు బాధలు.</td>
+            </tr>
+            <tr>
+              <td><strong>7వ స్థానం</strong></td>
+              <td>అర్ధాంగి ప్రారంభం</td>
+              <td><span class="karma-badge badge-red">పాపము</span></td>
+              <td><strong>భార్య / వివాహ కర్మ:</strong> భార్య సంబంధిత విషయములు మరియు సంసారము వలన ఎదురయ్యే సమస్యల కర్మ.</td>
+            </tr>
+            <tr>
+              <td><strong>8వ స్థానం</strong></td>
+              <td>అర్ధాంగి భాగం</td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>జ్ఞాన జీవిత కాలము:</strong> మనిషి తన జీవితములో దైవ ధ్యాసతో జ్ఞానములో ఎంతకాలము గడుపును అను కర్మ.</td>
+            </tr>
+            <tr>
+              <td><strong>9వ స్థానం</strong></td>
+              <td>మిత్ర కోణము</td>
+              <td><span class="karma-badge badge-green">పుణ్యము</span></td>
+              <td><strong>పరమాత్మ ప్రపంచ ధనము:</strong> ఆధ్యాత్మిక సంపద, దైవ జ్ఞానశక్తి, ధర్మ నిష్ఠ.</td>
+            </tr>
+            <tr>
+              <td><strong>10వ స్థానం</strong></td>
+              <td><strong>అర్ధాంగి కేంద్రము</strong></td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>సూక్ష్మ ఆస్తి (కీర్తి / వృత్తి):</strong> కంటికి కనిపించని ఆస్తి అయిన కీర్తి ప్రతిష్టలు, వృత్తి, ఉద్యోగము మరియు గౌరవము.</td>
+            </tr>
+            <tr>
+              <td><strong>11వ స్థానం</strong></td>
+              <td>శత్రు కోణము</td>
+              <td><span class="karma-badge badge-red">పాపము</span></td>
+              <td><strong>పరమాత్మ ప్రపంచ జ్ఞానము:</strong> దైవజ్ఞాన గ్రహీత శక్తి (జ్ఞాన విచక్షణ).</td>
+            </tr>
+            <tr>
+              <td><strong>12వ స్థానం</strong></td>
+              <td>అర్ధాంగి ముగింపు</td>
+              <td><span class="karma-badge badge-gold">పుణ్యం + పాపం</span></td>
+              <td><strong>శరీర అంత్యము (మరణం):</strong> జీవిత ముగింపు, మోక్ష కర్మ, శరీర బాధల నుండి విముక్తి పొందు కర్మ.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 46th Diagram Visual -->
+      <div class="diagram-showcase-box">
+        <div class="diagram-title">46వ చిత్రపటము: పూర్తి కర్మచక్రము (Master Karma Chart)</div>
+        <div class="mini-chakra-grid" style="max-width: 480px;">
+          <!-- Row 1: 12, 1, 2, 3 -->
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">12<br>శరీర అంత్య</div>
+          <div class="mini-chakra-cell cell-punyam" style="font-size: 10px;">1<br>శరీర ప్రారంభ</div>
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">2<br>అజ్ఞాన జీవితం</div>
+          <div class="mini-chakra-cell cell-papam" style="font-size: 10px;">3<br>ప్రపంచ ధనం</div>
+
+          <!-- Row 2: 11, Center, 4 -->
+          <div class="mini-chakra-cell cell-papam" style="font-size: 10px;">11<br>పరమాత్మ జ్ఞానం</div>
+          <div class="mini-chakra-cell cell-center" style="font-size: 14px !important;">పూర్తి కర్మచక్రం<br><small style="font-size: 9px; color: #fbbf24;">46వ చిత్రపటము</small></div>
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">4<br>స్థూల స్థిరాస్తులు</div>
+
+          <!-- Row 3: 10, 5 -->
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">10<br>సూక్ష్మ ఆస్తి(కీర్తి)</div>
+          <div class="mini-chakra-cell cell-punyam" style="font-size: 10px;">5<br>ప్రపంచ జ్ఞానం</div>
+
+          <!-- Row 4: 9, 8, 7, 6 -->
+          <div class="mini-chakra-cell cell-punyam" style="font-size: 10px;">9<br>పరమాత్మ ధనం</div>
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">8<br>జ్ఞాన జీవితం</div>
+          <div class="mini-chakra-cell cell-papam" style="font-size: 10px;">7<br>భార్య సంబంధం</div>
+          <div class="mini-chakra-cell cell-mixed" style="font-size: 10px;">6<br>శత్రు, ఋణ, రోగం</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: కాల, కర్మ, గుణ చక్రముల అనుసంధాన రహస్యము -->
+  <div class="karma-section-card">
+    <div class="karma-sec-header">
+      <h2 class="karma-sec-title">
+        <i class="fas fa-link"></i> కాల, కర్మ, గుణ చక్రముల అనుసంధాన రహస్యము
+      </h2>
+      <span class="karma-badge badge-gold">జీవన అనుభవం</span>
+    </div>
+
+    <div class="karma-prose">
+      <p>
+        పైనున్న <strong>కాలచక్రములోని ద్వాదశ గ్రహముల కిరణములు</strong> క్రిందగల <strong>కర్మచక్రములోని పాపపుణ్య కర్మలమీద</strong> ప్రసరించగా, ఆ కిరణములు కర్మచక్రములోని కర్మను తీసికొని క్రిందనున్న <strong>గుణచక్రములోని జీవుని మీద</strong> పడును.
+      </p>
+
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 20px; margin: 18px 0;">
+        <div style="display: flex; flex-direction: column; gap: 10px; font-weight: 700; color: #bae6fd;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="background: #38bdf8; color: #020617; padding: 2px 10px; border-radius: 6px;">1. కాల చక్రము</span>
+            <span>➔ ద్వాదశ గ్రహముల కిరణముల ప్రసారం</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="background: #fbbf24; color: #020617; padding: 2px 10px; border-radius: 6px;">2. కర్మ చక్రము</span>
+            <span>➔ 12 స్థానములలోని ప్రారబ్ద పాపపుణ్య కర్మల సేకరణ</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="background: #34d399; color: #020617; padding: 2px 10px; border-radius: 6px;">3. గుణ చక్రము</span>
+            <span>➔ జీవునికి ఆయా గుణములు అంటిపెట్టుకుని బుద్ధి ద్వారా ఆలోచనగా మారుట</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="background: #ec4899; color: #020617; padding: 2px 10px; border-radius: 6px;">4. శరీరము</span>
+            <span>➔ కార్యరూపమై కష్టసుఖములు, ఆనందదుఃఖములుగా అనుభవమునకు వచ్చుట</span>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        ఈ విధముగా ఒక మనిషిగానున్న జీవుడు చివరకు సుఖదుఃఖములను అనుభవించుటకు ఏర్పరచబడిన విధానమే <strong>కాల, కర్మ, గుణచక్రముల అమరిక</strong>. జీవుడు జీవితములో అనుభవించు కర్మను ముందే సూచాయగా తెలుసుకోవడమును <strong>"జ్యోతిష్యము"</strong> అంటాము!
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="cta-box" style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(15, 23, 42, 0.95)); border: 2px solid var(--accent-gold); border-radius: 18px; padding: 26px; text-align: center; margin-top: 30px;">
+    <h3 style="color: #fbbf24; font-size: 1.35rem; font-weight: 800; margin-bottom: 8px;">మీ సొంత కర్మచక్ర ఫలితాలను తెలుసుకోండి</h3>
+    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 18px;">త్రైత సిద్ధాంత లగ్న చక్రము ఆధారముగా మీ 12 స్థానముల పుణ్య, పాప కర్మల స్థితిని వెంటనే లెక్కించండి.</p>
+    <a href="/" class="cta-btn" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #020617; font-weight: 800; padding: 12px 28px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+      <i class="fas fa-calculator"></i> జాతక చక్రం లెక్కించండి
+    </a>
   </div>
 </div>
 {% endblock %}
