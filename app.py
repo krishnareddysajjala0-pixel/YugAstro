@@ -1856,6 +1856,40 @@ def nakshatra_chart():
         nakshatra_boxes=nakshatra_boxes
     )
 
+@app.route("/nakshatra_transit_chart", methods=["POST"])
+def nakshatra_transit_chart():
+    lat = request.form.get("lat")
+    lon = request.form.get("lon")
+    timezone_str = request.form.get("timezone", "Asia/Kolkata")
+    place = request.form.get("place", "ప్రస్తుత స్థానం")
+
+    if not lat or not lon:
+        birth_info = session.get('birth_info', {})
+        lat = birth_info.get('lat', 17.3850)
+        lon = birth_info.get('lon', 78.4867)
+        place = birth_info.get('place', 'హైదరాబాద్')
+        timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
+
+    lat = float(lat)
+    lon = float(lon)
+
+    local_tz = pytz.timezone(timezone_str)
+    local_dt = datetime.datetime.now(local_tz)
+    today_dob = local_dt.strftime("%Y-%m-%d")
+    today_tob = local_dt.strftime("%H:%M")
+
+    transit_data = get_kundali_data("ఈ రోజు గోచారం", today_dob, today_tob, place, lat, lon)
+    transit_dasha = get_dasha_info(transit_data)
+    transit_boxes = build_nakshatra_pada_boxes(transit_data)
+
+    return render_template(
+        "nakshatra_transit_partial.html",
+        **transit_data,
+        **transit_dasha,
+        nakshatra_boxes=transit_boxes,
+        today_formatted=local_dt.strftime("%d-%m-%Y %I:%M %p")
+    )
+
 @app.route("/results")
 @app.route("/go-to-results")
 def results_page():
