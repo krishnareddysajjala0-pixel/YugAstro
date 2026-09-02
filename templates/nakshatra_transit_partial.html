@@ -1,4 +1,4 @@
-﻿<div class="transit-nakshatra-wrapper" style="margin-top: 30px; animation: fadeIn 0.4s ease;">
+<div class="transit-nakshatra-wrapper" style="margin-top: 30px; animation: fadeIn 0.4s ease;">
   <div style="text-align: center; margin-bottom: 16px;">
     <div style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(56, 189, 248, 0.15)); border: 1.5px solid #10b981; padding: 6px 18px; border-radius: 25px;">
       <span style="font-size: 18px;">🪐</span>
@@ -22,8 +22,8 @@
     <div class="nak-padas-container">
       {% for nak in b.nakshatras %}
       <div class="nak-group-row">
-        <div class="nak-name-cell">
-          <span class="nak-name-text">{{ nak.nakshatra_name }}</span>
+        <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
+          <span class="nak-name-text">{{ nak.short_nakshatra_name if nak.short_nakshatra_name else nak.nakshatra_name }}</span>
         </div>
         <div class="padas-list-cell">
           {% for p in nak.padas %}
@@ -31,15 +31,17 @@
             <span class="pada-num">{{ p.rashi_pada }}</span>
             {% if p.occupants %}
               <span class="pada-dash">-</span>
-              {% for occ in p.occupants %}
-                {% if occ.is_lagna %}
-                  <span class="occupant-pill lagna-occupant">🚩 గోచార లగ్నం</span>
-                {% elif occ.is_hand %}
-                  <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ occ.name }}</span>
-                {% else %}
-                  <span class="occupant-pill" style="color: {{ occ.color }};">{{ occ.name }}</span>
-                {% endif %}
-              {% endfor %}
+              <span class="occupants-wrap">
+                {% for occ in p.occupants %}
+                  {% if occ.is_lagna %}
+                    <span class="occupant-pill lagna-occupant">🚩 గోచార లగ్నం</span>
+                  {% elif occ.is_hand %}
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ occ.name }}</span>
+                  {% else %}
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ occ.name }}</span>
+                  {% endif %}
+                {% endfor %}
+              </span>
             {% endif %}
           </div>
           {% endfor %}

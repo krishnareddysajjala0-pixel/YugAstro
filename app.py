@@ -1643,6 +1643,36 @@ RASHI_NAKSHATRA_PADA_MAP = {
     ]
 }
 
+SHORT_NAKSHATRAS_TELUGU = {
+    "అశ్విని": "అశ్వి",
+    "భరణి": "భరణి",
+    "కృత్తిక": "కృత్తి",
+    "రోహిణి": "రోహి",
+    "మృగశిర": "మృగ",
+    "ఆరుద్ర": "ఆరు",
+    "పునర్వసు": "పునర్వ",
+    "పుష్యమి": "పుష్య",
+    "ఆశ్లేష": "ఆశ్లే",
+    "మఖ": "మఖ",
+    "పుబ్బ": "పుబ్బ",
+    "ఉత్తర": "ఉత్తర",
+    "హస్త": "హస్త",
+    "చిత్త": "చిత్త",
+    "స్వాతి": "స్వాతి",
+    "విశాఖ": "విశా",
+    "అనూరాధ": "అనూ",
+    "జ్యేష్ఠ": "జ్యేష్ఠ",
+    "మూల": "మూల",
+    "పూర్వాషాఢ": "పూ.షా",
+    "ఉత్తరాషాఢ": "ఉ.షా",
+    "శ్రవణం": "శ్రవ",
+    "ధనిష్ఠ": "ధని",
+    "శతభిషం": "శత",
+    "పూర్వాభాద్ర": "పూ.భా",
+    "ఉత్తరాభాద్ర": "ఉ.భా",
+    "రేవతి": "రేవతి"
+}
+
 def build_nakshatra_pada_boxes(data):
     """
     Builds the 12 boxes mapping each Rashi's 3 Nakshatras & 9 Padas
@@ -1726,6 +1756,7 @@ def build_nakshatra_pada_boxes(data):
 
             nakshatras_data.append({
                 "nakshatra_name": nak_name,
+                "short_nakshatra_name": SHORT_NAKSHATRAS_TELUGU.get(nak_name, nak_name),
                 "padas": padas_data
             })
 
