@@ -1324,8 +1324,8 @@
 
           <!-- Column 2 - Mobile Number -->
           <div class="form-group">
-            <label for="mobile" class="required-field">
-              <i class="fas fa-mobile-alt"></i> {{ _('మొబైల్ నంబర్') }}
+            <label for="mobile">
+              <i class="fas fa-mobile-alt"></i> {{ _('మొబైల్ నంబర్') }} <small style="font-size: 11px; opacity: 0.7;">({{ _('ఐచ్ఛికం') }})</small>
             </label>
             <div class="input-container">
               <style>
@@ -1467,15 +1467,9 @@
                 <option value="+260">Zambia (+260)</option>
                 <option value="+263">Zimbabwe (+263)</option>
               </select>
-              <input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}" placeholder="{{ _('10 అంకెల నంబర్') }}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="padding-left: 85px;">
+              <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" placeholder="{{ _('10 అంకెల నంబర్ (ఐచ్ఛికం)') }}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="padding-left: 85px;">
             </div>
             <div class="error-message">{{ _('enter correct mobile number') }}</div>
-            <div style="margin-top: 12px; display: flex; align-items: center;">
-              <input type="checkbox" id="req_telegram" name="req_telegram" value="yes" checked style="width: 20px !important; max-width: 20px !important; height: 20px !important; appearance: auto !important; -webkit-appearance: checkbox !important; padding: 0 !important; border: none !important; box-shadow: none !important; margin: 0 !important; cursor: pointer; display: inline-block;">
-              <label for="req_telegram" style="margin-left: 8px; margin-bottom: 0; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-main); display: inline-block;">
-                <i class="fab fa-telegram" style="color: #0088cc; margin-right: 4px;"></i> {{ _('టెలిగ్రామ్‌లో జాతకం PDF పొందండి') }}
-              </label>
-            </div>
           </div>
 
           <!-- Full width place input -->
@@ -2657,11 +2651,11 @@
 
     // Form validation and submission
     mainForm.addEventListener("submit", (e) => {
-      // Validate Name and Mobile Number
+      // Validate Name and Mobile Number (Mobile is now Optional)
       const nameVal = document.getElementById("name").value.trim();
-      const mobileVal = document.getElementById("mobile").value.trim();
-      let nameInvalid = nameVal.length < 5;
-      let mobileInvalid = mobileVal.length !== 10;
+      const mobileVal = document.getElementById("mobile") ? document.getElementById("mobile").value.trim() : "";
+      let nameInvalid = nameVal.length < 2;
+      let mobileInvalid = (mobileVal.length > 0 && mobileVal.length !== 10);
 
       if (nameInvalid || mobileInvalid) {
         e.preventDefault();
@@ -2679,7 +2673,7 @@
         }
         
         if (mobileInvalid) {
-            errorMessages.push("please enter correct mobile number");
+            errorMessages.push("please enter correct 10-digit mobile number");
             const mobileInputNode = document.getElementById("mobile");
             mobileInputNode.parentNode.style.borderColor = "#ff6b6b";
             mobileInputNode.parentNode.style.animation = "shake 0.5s";
