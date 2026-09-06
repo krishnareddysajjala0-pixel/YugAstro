@@ -453,7 +453,6 @@
 426. [03-Sep-2026 08:35:14] Name: PULICHERLA JASWITHA, Mobile: +91 8897165741, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 427. [03-Sep-2026 08:47:26] Name: RUPA RAJU, Mobile: +91 8897165741, DOB: 1996-06-04, TOB: 14:30, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
 428. [03-Sep-2026 08:53:15] Name: RUPA RAJU, Mobile: +91 8897165741, DOB: 1996-06-04, TOB: 14:30, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
-429. [07-Sep-2026 05:31:49] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-07, TOB: 11:01, Place: Jaipur, Rajasthan
-430. [09-Sep-2026 06:51:27] Name: UPENDRA , Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
-431. [09-Sep-2026 07:01:14] Name: UPENDRA , Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
-432. [09-Sep-2026 09:26:30] Name: PULICHERLA UPENDRA KUMAR, Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+429. [06-Sep-2026 08:48:53] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-06, TOB: 08:48, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+430. [06-Sep-2026 08:50:15] Name: jj (Compare 1), Mobile: N/A, DOB: 2026-09-06, TOB: 08:50, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+431. [06-Sep-2026 08:50:15] Name: jjj (Compare 2), Mobile: N/A, DOB: 2026-09-06, TOB: 08:50, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

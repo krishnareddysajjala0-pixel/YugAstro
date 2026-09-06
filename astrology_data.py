@@ -598,6 +598,21 @@ def get_nakshatra_data(slug):
             }
     return None
 
+RASHI_ALIASES = {
+    "mesha": "mesha", "aries": "mesha",
+    "vrishabha": "vrishabha", "taurus": "vrishabha",
+    "mithuna": "mithuna", "gemini": "mithuna",
+    "karkataka": "karkataka", "cancer": "karkataka",
+    "simha": "simha", "leo": "simha",
+    "kanya": "kanya", "virgo": "kanya",
+    "thula": "tula", "tula": "tula", "libra": "tula",
+    "vrischika": "vrischika", "scorpio": "vrischika",
+    "dhanus": "dhanu", "dhanu": "dhanu", "sagittarius": "dhanu",
+    "makara": "makara", "capricorn": "makara",
+    "kumbha": "kumbha", "aquarius": "kumbha",
+    "meena": "meena", "pisces": "meena"
+}
+
 def get_rashi_data(slug):
     if not slug:
         return None
