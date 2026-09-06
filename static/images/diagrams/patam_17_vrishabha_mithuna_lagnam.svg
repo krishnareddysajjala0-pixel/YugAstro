@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 550" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0f172a" rx="16"/>
+  <text x="300" y="35" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">17వ పటము: వృషభ / మిథున లగ్నముల మిత్ర-శత్రు గ్రహ విభజన</text>
+
+  <!-- Left: Friends (Green) -->
+  <rect x="30" y="60" width="250" height="440" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="2" rx="12"/>
+  <text x="155" y="95" font-family="'Outfit', sans-serif" font-size="18" font-weight="bold" fill="#34d399" text-anchor="middle">🟢 మిత్రులు (పుణ్య పాలిత)</text>
+  <line x1="45" y1="110" x2="265" y2="110" stroke="#10b981" stroke-width="1.5"/>
+  <text x="55" y="145" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">2.  మిత్ర (వృషభం)</text>
+  <text x="55" y="185" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">3.  చిత్ర (మిథునం)</text>
+  <text x="55" y="225" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">6.  బుధుడు (కన్య)</text>
+  <text x="55" y="265" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">7.  శుక్రుడు (తుల)</text>
+  <text x="55" y="305" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">10. రాహువు (మకర)</text>
+  <text x="55" y="345" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">11. శని (కుంభ)</text>
+
+  <!-- Right: Enemies (Red) -->
+  <rect x="320" y="60" width="250" height="440" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" stroke-width="2" rx="12"/>
+  <text x="445" y="95" font-family="'Outfit', sans-serif" font-size="18" font-weight="bold" fill="#f87171" text-anchor="middle">🔴 శత్రువులు (పాప పాలిత)</text>
+  <line x1="335" y1="110" x2="555" y2="110" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="345" y="145" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">12. గురువు (మీనం)</text>
+  <text x="345" y="185" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">1.  కుజుడు (మేషం)</text>
+  <text x="345" y="225" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">4.  చంద్రుడు (కర్కాటక)</text>
+  <text x="345" y="265" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">5.  సూర్యుడు (సింహ)</text>
+  <text x="345" y="305" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">8.  భూమి (వృశ్చిక)</text>
+  <text x="345" y="345" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">9.  కేతువు (ధనూ)</text>
+</svg>

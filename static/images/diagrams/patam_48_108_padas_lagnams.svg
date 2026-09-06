@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 550" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0a0e1a" rx="16"/>
+  <text x="350" y="35" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">48వ పటము: 12 లగ్నములలో 108 నక్షత్ర పాదముల సంపూర్ణ అమరిక</text>
+  
+  <rect x="30" y="60" width="640" height="450" fill="rgba(15, 23, 42, 0.9)" stroke="#38bdf8" stroke-width="2" rx="12"/>
+  
+  <!-- 4 Columns, 3 Rows grid of Lagnams -->
+  <g font-family="'Outfit', sans-serif" font-size="13" fill="#e2e8f0">
+    <!-- Row 1 -->
+    <rect x="45" y="75" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="115" y="95" font-size="15" font-weight="bold" fill="#ef4444" text-anchor="middle">మేషం (9 పాదాలు)</text>
+    <text x="55" y="120" fill="#a7f3d0">• అశ్విని: 4</text>
+    <text x="55" y="140" fill="#a7f3d0">• భరణి: 4</text>
+    <text x="55" y="160" fill="#a7f3d0">• కృత్తిక: 1</text>
+
+    <rect x="195" y="75" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="265" y="95" font-size="15" font-weight="bold" fill="#38bdf8" text-anchor="middle">వృషభం (9 పాదాలు)</text>
+    <text x="205" y="120" fill="#a7f3d0">• కృత్తిక: 3</text>
+    <text x="205" y="140" fill="#a7f3d0">• రోహిణి: 4</text>
+    <text x="205" y="160" fill="#a7f3d0">• మృగశిర: 2</text>
+
+    <rect x="345" y="75" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="415" y="95" font-size="15" font-weight="bold" fill="#fbbf24" text-anchor="middle">మిథునం (9 పాదాలు)</text>
+    <text x="355" y="120" fill="#a7f3d0">• మృగశిర: 2</text>
+    <text x="355" y="140" fill="#a7f3d0">• ఆరుద్ర: 4</text>
+    <text x="355" y="160" fill="#a7f3d0">• పునర్వసు: 3</text>
+
+    <rect x="495" y="75" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="565" y="95" font-size="15" font-weight="bold" fill="#34d399" text-anchor="middle">కర్కాటకం (9 పాదాలు)</text>
+    <text x="505" y="120" fill="#a7f3d0">• పునర్వసు: 1</text>
+    <text x="505" y="140" fill="#a7f3d0">• పుష్యమి: 4</text>
+    <text x="505" y="160" fill="#a7f3d0">• ఆశ్లేష: 4</text>
+
+    <!-- Row 2 -->
+    <rect x="45" y="210" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="115" y="230" font-size="15" font-weight="bold" fill="#f59e0b" text-anchor="middle">సింహం (9 పాదాలు)</text>
+    <text x="55" y="255" fill="#a7f3d0">• మఖ: 4</text>
+    <text x="55" y="275" fill="#a7f3d0">• పుబ్బ: 4</text>
+    <text x="55" y="295" fill="#a7f3d0">• ఉత్తర: 1</text>
+
+    <rect x="195" y="210" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="265" y="230" font-size="15" font-weight="bold" fill="#34d399" text-anchor="middle">కన్య (9 పాదాలు)</text>
+    <text x="205" y="255" fill="#a7f3d0">• ఉత్తర: 3</text>
+    <text x="205" y="275" fill="#a7f3d0">• హస్త: 4</text>
+    <text x="205" y="295" fill="#a7f3d0">• చిత్త: 2</text>
+
+    <rect x="345" y="210" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="415" y="230" font-size="15" font-weight="bold" fill="#ec4899" text-anchor="middle">తుల (9 పాదాలు)</text>
+    <text x="355" y="255" fill="#a7f3d0">• చిత్త: 2</text>
+    <text x="355" y="275" fill="#a7f3d0">• స్వాతి: 4</text>
+    <text x="355" y="295" fill="#a7f3d0">• విశాఖ: 3</text>
+
+    <rect x="495" y="210" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="565" y="230" font-size="15" font-weight="bold" fill="#38bdf8" text-anchor="middle">వృశ్చికం (9 పాదాలు)</text>
+    <text x="505" y="255" fill="#a7f3d0">• విశాఖ: 1</text>
+    <text x="505" y="275" fill="#a7f3d0">• అనురాధ: 4</text>
+    <text x="505" y="295" fill="#a7f3d0">• జ్యేష్ఠ: 4</text>
+
+    <!-- Row 3 -->
+    <rect x="45" y="345" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="115" y="365" font-size="15" font-weight="bold" fill="#a855f7" text-anchor="middle">ధనస్సు (9 పాదాలు)</text>
+    <text x="55" y="390" fill="#a7f3d0">• మూల: 4</text>
+    <text x="55" y="410" fill="#a7f3d0">• పూర్వాషాఢ: 4</text>
+    <text x="55" y="430" fill="#a7f3d0">• ఉత్తరాషాఢ: 1</text>
+
+    <rect x="195" y="345" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="265" y="365" font-size="15" font-weight="bold" fill="#6366f1" text-anchor="middle">మకరం (9 పాదాలు)</text>
+    <text x="205" y="390" fill="#a7f3d0">• ఉత్తరాషాఢ: 3</text>
+    <text x="205" y="410" fill="#a7f3d0">• శ్రవణం: 4</text>
+    <text x="205" y="430" fill="#a7f3d0">• ధనిష్ఠ: 2</text>
+
+    <rect x="345" y="345" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="415" y="365" font-size="15" font-weight="bold" fill="#94a3b8" text-anchor="middle">కుంభం (9 పాదాలు)</text>
+    <text x="355" y="390" fill="#a7f3d0">• ధనిష్ఠ: 2</text>
+    <text x="355" y="410" fill="#a7f3d0">• శతభిషం: 4</text>
+    <text x="355" y="430" fill="#a7f3d0">• పూర్వాభాద్ర: 3</text>
+
+    <rect x="495" y="345" width="140" height="120" fill="rgba(30,41,59,0.8)" stroke="#334155" rx="6"/>
+    <text x="565" y="365" font-size="15" font-weight="bold" fill="#34d399" text-anchor="middle">మీనం (9 పాదాలు)</text>
+    <text x="505" y="390" fill="#a7f3d0">• పూర్వాభాద్ర: 1</text>
+    <text x="505" y="410" fill="#a7f3d0">• ఉత్తరాభాద్ర: 4</text>
+    <text x="505" y="430" fill="#a7f3d0">• రేవతి: 4</text>
+  </g>
+</svg>

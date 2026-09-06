@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 550" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0f172a" rx="16"/>
+  <text x="300" y="35" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">50వ పటము: గ్రహముల సంచార దిశలు (10 సవ్య, రాహు-కేతు అపసవ్య)</text>
+  
+  <rect x="50" y="60" width="500" height="440" fill="rgba(15, 23, 42, 0.9)" stroke="#38bdf8" stroke-width="2"/>
+  
+  <!-- Clockwise Arrow Ring (Blue) -->
+  <path d="M 120 120 L 480 120 L 480 440 L 120 440 Z" fill="none" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10,6"/>
+  <polygon points="480,120 465,110 465,130" fill="#38bdf8"/>
+  <polygon points="480,440 490,425 470,425" fill="#38bdf8"/>
+  <polygon points="120,440 135,450 135,430" fill="#38bdf8"/>
+  <polygon points="120,120 110,135 130,135" fill="#38bdf8"/>
+  
+  <text x="300" y="105" font-family="'Outfit', sans-serif" font-size="16" font-weight="bold" fill="#38bdf8" text-anchor="middle">10 గ్రహాలు: సవ్య సంచారము (Clockwise ➔)</text>
+
+  <!-- Counter-Clockwise Arrow Ring (Red) for Rahu & Kethu -->
+  <path d="M 180 180 L 420 180 L 420 380 L 180 380 Z" fill="none" stroke="#ef4444" stroke-width="4"/>
+  <polygon points="180,180 195,170 195,190" fill="#ef4444"/>
+  <polygon points="180,380 170,365 190,365" fill="#ef4444"/>
+  <polygon points="420,380 405,390 405,370" fill="#ef4444"/>
+  <polygon points="420,180 430,195 410,195" fill="#ef4444"/>
+
+  <text x="300" y="210" font-family="'Outfit', sans-serif" font-size="16" font-weight="bold" fill="#f87171" text-anchor="middle">రాహు-కేతువులు: అపసవ్య సంచారము (Inspector Checkers ⬅)</text>
+  
+  <rect x="210" y="250" width="180" height="90" fill="rgba(30, 41, 59, 0.95)" stroke="#fbbf24" stroke-width="2" rx="10"/>
+  <text x="300" y="285" font-family="'Outfit', sans-serif" font-size="18" font-weight="bold" fill="#fbbf24" text-anchor="middle">కాలచక్ర గమనం</text>
+  <text x="300" y="315" font-family="'Outfit', sans-serif" font-size="13" fill="#a7f3d0" text-anchor="middle">ఏకీకృత కర్మ తనిఖీ</text>
+</svg>

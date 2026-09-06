@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 550" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0a0e1a" rx="16"/>
+  <text x="275" y="35" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">47వ పటము: గ్రహ కిరణ ప్రసార విధానము (Focus Light Beam)</text>
+  
+  <!-- Tier 1: Kaala Chakra Disc & Planet Light -->
+  <ellipse cx="275" cy="110" rx="180" ry="35" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="3"/>
+  <text x="275" y="90" font-family="'Outfit', sans-serif" font-size="16" font-weight="bold" fill="#38bdf8" text-anchor="middle">కాలచక్రము (లగ్నము - గ్రహము)</text>
+  <circle cx="360" cy="115" r="14" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
+  <text x="400" y="120" font-family="'Outfit', sans-serif" font-size="14" font-weight="bold" fill="#fbbf24">గ్రహము (Light Source)</text>
+
+  <!-- Light Beam Cone -->
+  <polygon points="360,115 180,260 380,260" fill="rgba(251, 191, 36, 0.2)" stroke="rgba(251, 191, 36, 0.5)" stroke-width="1.5"/>
+
+  <!-- Tier 2: Karma Chakra Disc & Karma Rashi -->
+  <ellipse cx="275" cy="260" rx="180" ry="35" fill="rgba(239, 68, 68, 0.15)" stroke="#ef4444" stroke-width="3"/>
+  <text x="275" y="240" font-family="'Outfit', sans-serif" font-size="16" font-weight="bold" fill="#f87171" text-anchor="middle">కర్మచక్రము (రాశి - కర్మ లిఖితం)</text>
+
+  <!-- Karma Ray Projection Cone to Tier 3 -->
+  <polygon points="280,260 200,410 320,410" fill="rgba(236, 72, 153, 0.25)" stroke="rgba(236, 72, 153, 0.5)" stroke-width="1.5"/>
+
+  <!-- Tier 3: Guna Chakra Disc & Jeeva -->
+  <ellipse cx="275" cy="410" rx="180" ry="35" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="3"/>
+  <text x="275" y="390" font-family="'Outfit', sans-serif" font-size="16" font-weight="bold" fill="#34d399" text-anchor="middle">గుణచక్రము (గుణభాగము - జీవుడు)</text>
+  <circle cx="260" cy="415" r="14" fill="#34d399" stroke="#ffffff" stroke-width="2"/>
+  <text x="260" y="445" font-family="'Outfit', sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">జీవుడు (Karma Experience)</text>
+</svg>

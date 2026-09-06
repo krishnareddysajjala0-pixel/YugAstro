@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0b0f19" rx="16"/>
+  <text x="300" y="40" font-family="'Outfit', sans-serif" font-size="22" font-weight="bold" fill="#fbbf24" text-anchor="middle">15వ పటము: 2:1 సూత్రము ప్రకారం గ్రహముల విభజన</text>
+  
+  <!-- Left Side: Guru Party (Green Box) -->
+  <rect x="30" y="70" width="250" height="380" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="2" rx="12"/>
+  <text x="155" y="105" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#34d399" text-anchor="middle">🟢 గురు వర్గము (Guru Party)</text>
+  <text x="155" y="130" font-family="'Outfit', sans-serif" font-size="14" fill="#a7f3d0" text-anchor="middle">(పుణ్య పాలిత - 6 గ్రహాలు)</text>
+  <line x1="45" y1="145" x2="265" y2="145" stroke="#10b981" stroke-width="1.5"/>
+  
+  <text x="55" y="180" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">12, 1 : గురు, కుజ (మీన, మేష)</text>
+  <text x="55" y="225" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">4, 5  : చంద్ర, రవి (కర్కాట, సింహ)</text>
+  <text x="55" y="270" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">8, 9  : భూమి, కేతు (వృశ్చిక, ధనూ)</text>
+  
+  <rect x="45" y="300" width="220" height="130" fill="rgba(0,0,0,0.3)" rx="8" stroke="rgba(16,185,129,0.3)"/>
+  <text x="155" y="325" font-family="'Outfit', sans-serif" font-size="15" font-weight="bold" fill="#34d399" text-anchor="middle">గురు వర్గం నాయకుడు: గురువు</text>
+  <text x="55" y="355" font-family="'Outfit', sans-serif" font-size="14" fill="#cbd5e1">• రవి, చంద్ర, కుజ, గురు</text>
+  <text x="55" y="380" font-family="'Outfit', sans-serif" font-size="14" fill="#cbd5e1">• కేతు, భూమి</text>
+
+  <!-- Right Side: Shani Party (Red/Purple Box) -->
+  <rect x="320" y="70" width="250" height="380" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" stroke-width="2" rx="12"/>
+  <text x="445" y="105" font-family="'Outfit', sans-serif" font-size="20" font-weight="bold" fill="#f87171" text-anchor="middle">🔴 శని వర్గము (Shani Party)</text>
+  <text x="445" y="130" font-family="'Outfit', sans-serif" font-size="14" fill="#fecaca" text-anchor="middle">(పాప పాలిత - 6 గ్రహాలు)</text>
+  <line x1="335" y1="145" x2="555" y2="145" stroke="#ef4444" stroke-width="1.5"/>
+  
+  <text x="345" y="180" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">2, 3   : మిత్ర, చిత్ర (వృషభ, మిథున)</text>
+  <text x="345" y="225" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">6, 7   : బుధ, శుక్ర (కన్య, తుల)</text>
+  <text x="345" y="270" font-family="'Outfit', sans-serif" font-size="16" fill="#ffffff">10, 11 : రాహు, శని (మకర, కుంభ)</text>
+
+  <rect x="335" y="300" width="220" height="130" fill="rgba(0,0,0,0.3)" rx="8" stroke="rgba(239,68,68,0.3)"/>
+  <text x="445" y="325" font-family="'Outfit', sans-serif" font-size="15" font-weight="bold" fill="#f87171" text-anchor="middle">శని వర్గం నాయకుడు: శని</text>
+  <text x="345" y="355" font-family="'Outfit', sans-serif" font-size="14" fill="#cbd5e1">• శని, రాహు, శుక్ర, బుధ</text>
+  <text x="345" y="380" font-family="'Outfit', sans-serif" font-size="14" fill="#cbd5e1">• మిత్ర, చిత్ర</text>
+</svg>
