@@ -472,3 +472,4 @@
 445. [15-Sep-2026 04:07:57] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-15, TOB: 09:37, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 446. [16-Sep-2026 14:01:49] Name: collector award, Mobile: +91 8897165741, DOB: 2026-05-18, TOB: 14:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 447. [20-Sep-2026 13:56:53] Name: rajeswaeri, Mobile: N/A, DOB: 1989-02-05, TOB: 22:30, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
+448. [25-Sep-2026 02:49:19] Name: UPENDRAKUMAR (Compare 1), Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, ప్రొద్దుటూరు, YSR Kadapa, Andhra Pradesh, 516360, India
