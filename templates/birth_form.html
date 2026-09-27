@@ -3726,449 +3726,7 @@
 
 
 
-
-
-/* ===== YUGASTRO UNIQUE CONTENT STYLES ===== */
-    .home-section-header {
-      text-align: center !important;
-      margin: 40px auto 26px auto !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 100% !important;
-    }
-
-    .home-section-tag {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      background: rgba(251, 191, 36, 0.12);
-      color: #fbbf24;
-      border: 1px solid rgba(251, 191, 36, 0.35);
-      padding: 6px 20px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin: 0 auto 12px auto !important;
-      text-transform: uppercase;
-      text-align: center !important;
-    }
-
-    .home-section-heading {
-      font-size: 1.95rem;
-      color: #ffffff;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      text-align: center !important;
-      margin: 0 auto 8px auto !important;
-      width: 100% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 10px !important;
-    }
-
-    /* Symmetric 2x2 Grid Layout */
-    .home-grid-2x2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin-bottom: 50px;
-    }
-
-    @media (max-width: 768px) {
-      .home-grid-2x2 {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-    }
-
-    /* Glassmorphism Equal-Height Cards */
-    .premium-card {
-      background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: 20px;
-      padding: 28px;
-      text-decoration: none;
-      color: #ffffff;
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 230px;
-    }
-
-    .premium-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #fbbf24, #f59e0b);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .premium-card:hover::before {
-      opacity: 1;
-    }
-
-    .premium-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(251, 191, 36, 0.6);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.15);
-    }
-
-    .card-top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .card-icon-wrapper {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.45rem;
-      color: #fbbf24;
-      transition: transform 0.3s ease;
-    }
-
-    .premium-card:hover .card-icon-wrapper {
-      transform: scale(1.08) rotate(4deg);
-      background: rgba(251, 191, 36, 0.22);
-    }
-
-    .card-pill-tag {
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 12px;
-      background: rgba(99, 102, 241, 0.2);
-      color: #818cf8;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .card-desc {
-      font-size: 0.92rem;
-      color: #94a3b8;
-      line-height: 1.55;
-      margin-bottom: 20px;
-    }
-
-    .card-action-link {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #fbbf24;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: auto;
-    }
-
-    .card-action-link i {
-      transition: transform 0.2s ease;
-    }
-
-    .premium-card:hover .card-action-link i {
-      transform: translateX(5px);
-    }
-
-    /* Paid Report Promo Banner */
-    .report-promo-banner {
-      background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
-      border: 1px solid rgba(251, 191, 36, 0.4);
-      border-radius: 24px;
-      padding: 32px 36px;
-      margin-bottom: 50px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .report-promo-content h3 {
-      font-size: 1.45rem;
-      color: #fbbf24;
-      margin-bottom: 8px;
-      font-weight: 800;
-    }
-
-    .report-promo-content p {
-      color: #cbd5e1;
-      font-size: 0.96rem;
-      line-height: 1.55;
-      max-width: 600px;
-    }
-
-    .report-promo-btn {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #020617;
-      font-weight: 800;
-      padding: 14px 30px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 0.98rem;
-      box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35);
-      transition: transform 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-
-    .report-promo-btn:hover {
-      transform: translateY(-3px);
-    }
-
-    /* Trust Grid */
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-bottom: 40px;
-    }
-
-    @media (max-width: 768px) {
-      .trust-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .trust-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px 16px;
-      text-align: center;
-    }
-
-    .trust-card i {
-      font-size: 1.8rem;
-      color: #818cf8;
-      margin-bottom: 10px;
-    }
-
-    .trust-card h4 {
-      font-size: 0.95rem;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .trust-card p {
-      font-size: 0.8rem;
-      color: #94a3b8;
-      line-height: 1.35;
-    }
-
-    /* Redesigned Footer */
-    .luxury-footer {
-      background: rgba(2, 6, 23, 0.95);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 50px 20px 80px 20px;
-      margin-top: 60px;
-    }
-
-    .footer-grid {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .footer-brand h4 {
-      color: #fbbf24;
-      font-size: 1.3rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .footer-column h5 {
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .footer-column ul {
-      list-style: none;
-    }
-
-    .footer-column li {
-      margin-bottom: 10px;
-    }
-
-    .footer-column a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.88rem;
-      transition: color 0.2s ease;
-    }
-
-    .footer-column a:hover {
-      color: #fbbf24;
-    }
-    .home-section-heading {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #0f172a;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      text-align: center !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 10px !important;
-      width: 100% !important;
-    }
-    .home-section-header p {
-      font-size: 1.05rem;
-      color: #334155;
-      font-weight: 600;
-      margin-top: 8px;
-      line-height: 1.5;
-      text-align: center !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    [data-theme="cosmic"] .home-section-heading,
-    [data-theme="sunset"] .home-section-heading,
-    [data-theme="luxury"] .home-section-heading,
-    [data-theme="cyberpunk"] .home-section-heading,
-    [data-theme="solar"] .home-section-heading,
-    [data-theme="mandala"] .home-section-heading,
-    [data-theme="twilight"] .home-section-heading,
-    [data-theme="aurora"] .home-section-heading {
-      color: #ffffff !important;
-    }
-
-    [data-theme="cosmic"] .home-section-header p,
-    [data-theme="sunset"] .home-section-header p,
-    [data-theme="luxury"] .home-section-header p,
-    [data-theme="cyberpunk"] .home-section-header p,
-    [data-theme="solar"] .home-section-header p,
-    [data-theme="mandala"] .home-section-header p,
-    [data-theme="twilight"] .home-section-header p,
-    [data-theme="aurora"] .home-section-header p {
-      color: #c7d2fe !important;
-    }
-
-    .thraitha-visual-strip {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-    .strip-item {
-      background: rgba(15, 23, 42, 0.88);
-      border: 1px solid #fbbf24;
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #fbbf24;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    .lagnam-ring-card {
-      background: rgba(15, 23, 42, 0.92) !important;
-      border: 1px solid rgba(251, 191, 36, 0.3) !important;
-      border-radius: 12px;
-      padding: 12px 10px;
-      text-align: center;
-      text-decoration: none;
-      color: #ffffff !important;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.25s ease;
-    }
-    .lagnam-ring-card strong {
-      font-size: 0.92rem;
-      color: #ffffff !important;
-    }
-    .lagnam-ring-card small {
-      font-size: 0.78rem;
-      color: var(--accent-gold);
-      margin-top: 2px;
-    }
-    .lagnam-ring-card:hover {
-      border-color: var(--accent-gold);
-      transform: translateY(-2px);
-    }
-    .nak-mini-card {
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      transition: all 0.25s ease;
-    }
-    .nak-mini-card strong {
-      font-size: 0.95rem;
-      color: var(--accent-gold);
-    }
-    .nak-mini-card small {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin: 2px 0 6px 0;
-    }
-    .nak-mini-card .letters-tag {
-      font-size: 0.75rem;
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      padding: 2px 6px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-    .nak-mini-card:hover {
-      border-color: #818cf8;
-      transform: translateY(-2px);
-    }
-    @media (prefers-reduced-motion: reduce), (max-width: 640px) {
-      .floating-planets, .planet, .planet1, .planet2, .planet3, .planet4 {
-        animation: none !important;
-        transform: none !important;
-      }
-      .premium-card, .lagnam-ring-card, .nak-mini-card {
-        transition: none !important;
-      }
-    }
-  </style>
-
-  <link rel="stylesheet" href="/static/css/theme-fonts.css">
+</style>
 
 
 
@@ -4177,34 +3735,27 @@
 
 
 <style>
-/* Top Control Bar Wrapper & Top Bar - Consistent with all pages */
-.top-control-bar-wrapper {
-  width: 100% !important;
-  background: rgba(15, 23, 42, 0.95) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 10005 !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-}
-
+/* Fix Top Control Bar - Expand ALL Buttons (including Theme) to Fill Screen Space on Mobile */
 .top-control-bar {
   display: flex !important;
   flex-direction: row !important;
+  flex-wrap: nowrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 12px !important;
+  gap: 6px !important;
   width: 100% !important;
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 8px 16px !important;
+  max-width: 100% !important;
+  padding: 8px 6px !important;
   box-sizing: border-box !important;
   position: relative !important;
-  z-index: 10006 !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1000 !important;
+  margin-bottom: 8px !important;
 }
 
-/* Expand the buttons background for Theme and Language */
+/* Make every direct child container / button of top-control-bar expand equally */
 .top-control-bar > *,
 .top-control-bar .theme-switcher,
 .top-control-bar .language-switcher {
@@ -4214,7 +3765,21 @@
   width: 100% !important;
 }
 
-.top-control-bar .ctrl-btn {
+.top-control-bar .ctrl-btn,
+.top-control-bar #karmaBtn,
+.top-control-bar #chupuluBtn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  float: none !important;
+  margin: 0 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -4228,10 +3793,9 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35) !important;
   transition: all 0.25s ease !important;
   height: 40px !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
   border: none !important;
+  line-height: 1 !important;
+  text-align: center !important;
 }
 
 .top-control-bar .top-btn-theme {
@@ -4258,148 +3822,13 @@
   box-shadow: 0 6px 20px rgba(13, 148, 136, 0.65) !important;
 }
 
-.theme-switcher,
-.language-switcher {
+.theme-switcher, .language-switcher {
   position: relative !important;
-  overflow: visible !important;
-  width: 100% !important;
-  flex: 1 1 0% !important;
-}
-
-/* Dynamic Theme-Specific Backgrounds for the Expanded Top Buttons */
-[data-theme="cosmic"] .top-btn-theme { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45) !important; }
-[data-theme="cosmic"] .top-btn-lang { background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(6, 182, 212, 0.45) !important; }
-
-[data-theme="sunset"] .top-btn-theme { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(244, 63, 94, 0.45) !important; }
-[data-theme="sunset"] .top-btn-lang { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(251, 146, 60, 0.45) !important; }
-
-[data-theme="luxury"] .top-btn-theme { background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(217, 119, 6, 0.45) !important; }
-[data-theme="luxury"] .top-btn-lang { background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(234, 179, 8, 0.45) !important; }
-
-[data-theme="cyberpunk"] .top-btn-theme { background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(236, 72, 153, 0.45) !important; }
-[data-theme="cyberpunk"] .top-btn-lang { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(6, 182, 212, 0.45) !important; }
-
-[data-theme="solar"] .top-btn-theme { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(234, 88, 12, 0.45) !important; }
-[data-theme="solar"] .top-btn-lang { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.45) !important; }
-
-[data-theme="mandala"] .top-btn-theme { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(139, 92, 246, 0.45) !important; }
-[data-theme="mandala"] .top-btn-lang { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(236, 72, 153, 0.45) !important; }
-
-[data-theme="twilight"] .top-btn-theme { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45) !important; }
-[data-theme="twilight"] .top-btn-lang { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(168, 85, 247, 0.45) !important; }
-
-[data-theme="aurora"] .top-btn-theme { background: linear-gradient(135deg, #10b981 0%, #047857 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.45) !important; }
-[data-theme="aurora"] .top-btn-lang { background: linear-gradient(135deg, #06b6d4 0%, #0e7490 100%) !important; color: #fff !important; box-shadow: 0 4px 16px rgba(6, 182, 212, 0.45) !important; }
-
-/* Dropdown Menus */
-.top-control-bar .theme-options,
-.top-control-bar .lang-options {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute !important;
-  top: calc(100% + 8px) !important;
-  border-radius: 14px !important;
-  padding: 8px !important;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95) !important;
-  z-index: 999999 !important;
-  gap: 6px !important;
-  transition: opacity 0.2s ease;
-}
-
-/* Theme Dropdown - Aligns Left under Theme button */
-.theme-switcher.expanded .theme-options,
-#theme-switcher-container.expanded .theme-options {
-  display: flex !important;
-  flex-direction: column !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  width: 200px !important;
-  left: 0 !important;
-  right: auto !important;
-  background: #0f172a !important;
-  border: 1.5px solid #6366f1 !important;
-}
-
-/* Language Dropdown - Aligns Right under Language button */
-.language-switcher.expanded .lang-options {
-  display: flex !important;
-  flex-direction: column !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  width: 170px !important;
-  right: 0 !important;
+  top: auto !important;
   left: auto !important;
-  background: #0f172a !important;
-  border: 1.5px solid #0d9488 !important;
-}
-
-/* Header & Navigation Bar */
-header {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--card-border);
-  position: sticky;
-  top: 48px;
-  z-index: 1000;
-  padding: 0;
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text-main);
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.brand-logo i {
-  color: var(--accent-gold);
-  font-size: 1.6rem;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.nav-links a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.nav-links a:hover, .nav-links a.active {
-  color: var(--accent-gold);
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
+  right: auto !important;
+  margin: 0 !important;
+  max-width: none !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -5207,9 +4636,9 @@ body {
     <div class="loading-text" id="typing-text-main"></div>
   </div>
 
-  <!-- Top Control Row Bar (Theme First on Left, Language Last on Right - Placed at Top of Page) -->
-  <div class="top-control-bar-wrapper print-hide">
-    <div class="top-control-bar">
+  <div class="container">
+    <!-- Top Control Row Bar (Theme First, Language Last in Single Line at Top) -->
+    <div class="top-control-bar print-hide">
       <!-- 1. Theme Switcher (FIRST / LEFT) -->
       <div class="theme-switcher" id="theme-switcher-container">
         <button class="top-btn-theme ctrl-btn" onclick="toggleThemeMenu(event)" title="Change Theme">
@@ -5246,502 +4675,440 @@ body {
         </div>
       </div>
     </div>
+
+    <div class="card" id="birthForm">
+      <div class="header">
+
+
+
+        <style>
+
+
+
+          .title-emblem {
+
+
+
+            width: 40px;
+
+
+
+            height: 40px;
+
+
+
+            vertical-align: middle;
+
+
+
+            margin: 0 10px;
+
+
+
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+
+
+
+          }
+
+
+
+        </style>
+
+
+
+        <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;"> 
+
+
+
+          <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="height: 26px; width: auto; object-fit: contain; vertical-align: middle;">
+
+
+
+          {{ _('జాఫతకము') }} 
+
+
+
+          <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="height: 26px; width: auto; object-fit: contain; vertical-align: middle;">
+
+
+
+        </h2>
+
+
+
+        <div class="subtitle">{{ _('ప్రారబ్దకర్మ పత్రము') }}</div>
+
+
+
+        <div style="font-size: 12px; font-weight: 700; margin-top: 6px; animation: rainbow-text 7s linear infinite; text-shadow: 0 0 8px rgba(255,255,255,0.2);">
+
+
+
+          {{ _('పుట్టినప్పుడే నిర్ణయించబడిన పతకము కావున దీనిని జాఫతకము అంటున్నాము.') }}
+
+
+
+        </div>
+
+
+
+        <div style="font-size: 11px; color: var(--text-muted); opacity: 0.7; margin-top: 5px;">
+
+
+
+          {{ _('ద్వాదశ గ్రహములతో కూడిన జ్యోతిష్య శాస్త్రము ఆధారముగా మీ జాఫతకము నిర్ణయించబడుతుంది.') }}
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <form action="/chart" method="post" id="mainForm">
+
+
+
+
+
+
+
+        <!-- ===== TWO-COLUMN FORM GRID ===== -->
+
+
+
+        <div class="form-grid">
+
+
+
+          <!-- Column 1 -->
+
+
+
+          <div class="form-group">
+
+
+
+            <label for="name" class="required-field">
+
+
+
+              <i class="fas fa-user"></i> {{ _('పేరు') }}
+
+
+
+            </label>
+
+
+
+            <div class="input-container">
+
+
+
+              <div class="input-icon"><i class="fas fa-user-circle"></i></div>
+
+
+
+              <input type="text" id="name" name="name" required placeholder="{{ _('మీ పూర్తి పేరు') }}">
+
+
+
+            </div>
+
+
+
+            <div class="error-message">{{ _('దయచేసి పేరు నమోదు చేయండి') }}</div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Column 2 -->
+
+
+
+          <div class="form-group">
+
+
+
+            <label for="dob" class="required-field">
+
+
+
+              <i class="fas fa-calendar-alt"></i> {{ _('జన్మ తేది') }}
+
+
+
+            </label>
+
+
+
+            <div class="input-container">
+
+
+
+              <div class="input-icon"><i class="fas fa-birthday-cake"></i></div>
+
+
+
+              <input type="date" id="dob" name="dob" required>
+
+
+
+            </div>
+
+
+
+            <div class="error-message">{{ _('దయచేసి జన్మ తేది ఎంచుకోండి') }}</div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Column 1 -->
+
+
+
+          <div class="form-group">
+
+
+
+            <label for="tob" class="required-field">
+
+
+
+              <i class="fas fa-clock"></i> {{ _('జన్మ సమయం') }}
+
+
+
+            </label>
+
+
+
+            <div class="input-container">
+
+
+
+              <div class="input-icon"><i class="fas fa-history"></i></div>
+
+
+
+              <input type="time" id="tob" name="tob" required>
+
+
+
+            </div>
+
+
+
+            <div class="error-message">{{ _('దయచేసి సమయం ఎంచుకోండి') }}</div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <!-- Column 2 - Placeholder for layout balance -->
+
+
+
+          <div></div>
+
+
+
+
+
+
+
+          <!-- Full width place input -->
+
+
+
+          <div class="form-group place-container">
+
+
+
+            <label for="place" class="required-field">
+
+
+
+              <i class="fas fa-map-marker-alt"></i> {{ _('జన్మ స్థలం') }}
+
+
+
+            </label>
+
+
+
+            <div class="input-container">
+
+
+
+              <div class="input-icon"><i class="fas fa-globe-asia"></i></div>
+
+
+
+              <input type="text" id="place" name="place" autocomplete="off" required
+
+
+
+                placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
+
+
+
+              <div id="suggestions"></div>
+
+
+
+            </div>
+
+
+
+            <div class="error-message">{{ _('దయచేసి జాబితా నుండి స్థలం ఎంచుకోండి') }}</div>
+
+
+
+
+
+
+
+            <!-- Location buttons -->
+
+
+
+            <div class="location-buttons">
+
+
+
+              <button type="button" class="location-btn" onclick="getCurrentLocation()">
+
+
+
+                <i class="fas fa-location-crosshairs"></i> {{ _('ప్రస్తుత స్థానం') }}
+
+
+
+              </button>
+
+
+
+              <button type="button" class="location-btn" onclick="clearLocation()">
+
+
+
+                <i class="fas fa-eraser"></i> {{ _('క్లియర్') }}
+
+
+
+              </button>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <input type="hidden" name="lat" id="lat">
+
+
+
+        <input type="hidden" name="lon" id="lon">
+
+
+
+
+
+
+
+        <!-- Main Action Buttons -->
+        <div class="btn-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+          <!-- Top Row: Button 1 (Save & Show) + Button 2 (Show Kundali) in SAME LINE -->
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <!-- 1. Save & Show Kundali Button (FIRST) -->
+            <button type="button" onclick="saveUserProfile(true)" class="btn btn-submit btn-save-show" style="flex: 1; min-width: 0; color: #ffffff; font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-save"></i> <span>{{ _('సేవ్ & కుండలి') }}</span>
+            </button>
+
+            <!-- 2. Show Kundali Button (SECOND) -->
+            <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 1; min-width: 0; color: #ffffff; font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-chart-pie"></i> <span>{{ _('కుండలి') }}</span>
+            </button>
+          </div>
+
+          <!-- Second Row: Button 3 (Nakshatra Pada Kundali) + Button 4 (Saved Data) in SAME LINE -->
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <!-- 3. Nakshatra Pada Kundali Button -->
+            <button type="submit" formaction="/nakshatra_chart" class="btn btn-nakshatra" style="flex: 1; min-width: 0; color: #ffffff; font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-star"></i> <span>{{ _('నక్షత్ర కుండలి') }}</span>
+            </button>
+
+            <!-- 4. Saved Data Button -->
+            <button type="button" onclick="openSavedProfilesModal()" class="btn btn-saved-data" style="flex: 1; min-width: 0; color: #ffffff; font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-folder-open"></i> <span>{{ _('సేవ్ డేటా') }}</span> <span id="saved-profiles-count">(0)</span>
+            </button>
+          </div>
+        </div>
+
+
+
+      </form>
+
+
+
+    </div>
+
+
+
   </div>
 
-<!-- ===== YUGASTRO UNIQUE CONTENT SECTIONS ===== -->
-  <div class="home-sections-container" style="max-width: 1200px; margin: 30px auto 0 auto; padding: 0 16px; position: relative;">
-    <!-- Section 1: Thraitha Siddhantha Jyothisyam -->
-    <div class="home-section-header" style="position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 40px auto 25px auto;">
-      <h2 class="home-section-heading" style="text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px;">
-        <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="height: 32px; width: auto; object-fit: contain;">
-        <span>{{ _('త్రైత సిద్ధాంత జ్యోతిష్యం') }}</span>
-        <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="height: 32px; width: auto; object-fit: contain;">
-      </h2>
-      <p style="font-size: 1.15rem; color: #ffd700; margin: 10px auto 16px auto; max-width: 800px; line-height: 1.6; text-align: center; font-weight: 700;">{{ _('ద్వాదశ గ్రహములతో కూడిన త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రము ఆధారముగా మీ జాఫతకము నిర్ణయించబడుతుంది.') }}</p>
 
-      <!-- 2. Three-Item Telugu Visual Strip -->
-      <div class="thraitha-visual-strip" style="justify-content: center;">
-        <div class="strip-item"><i class="fas fa-globe-asia"></i> <span>{{ _('ద్వాదశ గ్రహాలు') }}</span></div>
-        <div class="strip-item"><i class="fas fa-compass"></i> <span>{{ _('12 లగ్నాలు') }}</span></div>
-        <div class="strip-item"><i class="fas fa-star"></i> <span>{{ _('27 నక్షత్రాలు') }}</span></div>
-      </div>
-    </div>
-
-    <!-- Bhagavan Ravana Brahma 12-Grahas Showcase Banner -->
-    <div class="ravana-brahma-banner" style="margin: 20px 0 24px 0; text-align: center; position: relative; z-index: 2;">
-      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--accent-gold); border-radius: 18px; padding: 10px; box-shadow: 0 8px 32px rgba(251, 191, 36, 0.25); overflow: hidden; max-width: 100%;">
-        <img src="/static/images/home_banner_8x4.jpg" alt="భగవాన్ రావణబ్రహ్మ ద్వాదశ గ్రహ కుండలి - RAVAN ASTRO" style="width: 100%; height: auto; border-radius: 12px; display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));" class="hero-showcase-img">
-      </div>
-    </div>
-
-    <!-- Author & Grantham Dedication Showcase Card -->
-    <div class="author-tribute-card" style="margin: 0 0 28px 0; background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%); border: 2px solid var(--accent-gold); border-radius: 18px; padding: 24px 28px; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.25); text-align: center; position: relative; z-index: 2;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: #fbbf24; letter-spacing: 1px; margin-bottom: 10px; background: rgba(251, 191, 36, 0.15); display: inline-block; padding: 4px 18px; border-radius: 20px; border: 1px solid rgba(251, 191, 36, 0.4);">
-        <i class="fas fa-feather-alt" style="margin-right: 6px;"></i> గ్రంథకర్త & త్రైత సిద్ధాంత ఆదికర్త
-      </div>
-      <div style="font-size: 1.1rem; color: #fbbf24; margin-bottom: 12px; font-weight: 700;">
-        జ్యోతిష్య శాస్త్రము గ్రంథకర్త:
-      </div>
-      <div style="font-size: 1.15rem; color: #fbbf24; font-weight: 700; line-height: 1.8; margin-bottom: 10px;">
-        త్రిమత ఏకైక గురువు<br>
-        ఆధ్యాత్మిక సామ్రాజ్య చక్రవర్తి, శతాధిక గ్రంథకర్త<br>
-        ఇందూ జ్ఞాన ధర్మప్రదాత, సంచలనాత్మక రచయిత, త్రైత సిద్ధాంత ఆదికర్త
-      </div>
-      <h2 style="font-size: 1.5rem; color: #ffffff; font-weight: 800; text-shadow: 0 2px 12px rgba(251, 191, 36, 0.6); margin-top: 10px; margin-bottom: 4px; letter-spacing: 0.5px;">
-        శ్రీశ్రీశ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరులు
-      </h2>
-    </div>
-
-    <!-- 6. Today Panchangam Highlight Card (Real Data Only) -->
-    {% if today_panchangam %}
-    <div class="today-panchangam-card" style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; margin-bottom: 28px; position: relative; z-index: 2;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
-        <span style="font-weight: 800; font-size: 1.05rem; color: var(--accent-gold);"><i class="fas fa-calendar-day"></i> నేటి దిన పంచాంగం (Today's Panchangam)</span>
-        <a href="/daily_panchangam" style="font-size: 0.85rem; color: #818cf8; text-decoration: none; font-weight: 600;">సంపూర్ణ వివరాలు &rarr;</a>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; text-align: center;">
-        <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; border: 1px solid var(--card-border);">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">తిథి</div>
-          <div style="font-weight: 700; font-size: 0.9rem; color: #ffffff; margin-top: 2px;">{{ today_panchangam.tithi_full }}</div>
-        </div>
-        <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; border: 1px solid var(--card-border);">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">వారము</div>
-          <div style="font-weight: 700; font-size: 0.9rem; color: #ffffff; margin-top: 2px;">{{ today_panchangam.vara }}</div>
-        </div>
-        <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; border: 1px solid var(--card-border);">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">నక్షత్రము</div>
-          <div style="font-weight: 700; font-size: 0.9rem; color: #ffffff; margin-top: 2px;">{{ today_panchangam.nakshatra }} ({{ today_panchangam.nak_padam }})</div>
-        </div>
-        <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; border: 1px solid var(--card-border);">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">యోగము / కరణము</div>
-          <div style="font-weight: 700; font-size: 0.88rem; color: #ffffff; margin-top: 2px;">{{ today_panchangam.yoga }} / {{ today_panchangam.karana1 }}</div>
-        </div>
-        <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; border: 1px solid var(--card-border);">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">సూర్యోదయం - అస్తమయం</div>
-          <div style="font-weight: 700; font-size: 0.85rem; color: #fbbf24; margin-top: 2px;">{{ today_panchangam.sunrise }} - {{ today_panchangam.sunset }}</div>
-        </div>
-      </div>
-    </div>
-    {% endif %}
-
-    <div class="home-grid-2x2" style="position: relative; z-index: 2;">
-      <a href="/birth_form" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);"><i class="fas fa-edit"></i></div>
-            <span class="card-pill-tag" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);">జనన నమోదు ఫారమ్</span>
-          </div>
-          <div class="card-title">జన్మ కుండలి చక్రం</div>
-          <div class="card-desc">మీ పేరు, పుట్టిన తేదీ, సమయం మరియు స్థలం వివరాలు నమోదు చేసి ఖచ్చితమైన జన్మ కుండలి చక్రాన్ని లెక్కించండి.</div>
-        </div>
-        <div class="card-action-link" style="color: #fbbf24; font-weight: 700;">జనన వివరాల ఫారమ్ తెరవండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/compare_kundali" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(236, 72, 153, 0.12); border-color: rgba(236, 72, 153, 0.3); color: #ec4899;"><i class="fas fa-heart"></i></div>
-            <span class="card-pill-tag" style="background: rgba(236, 72, 153, 0.15); color: #ec4899; border-color: rgba(236, 72, 153, 0.3);">వివాహ పొంతన</span>
-          </div>
-          <div class="card-title">కుండలి పొంతన (గుణ మేళనం)</div>
-          <div class="card-desc">వివాహ అనుకూలత, అష్టకూట 36 గుణ మేళన పాయింట్లు మరియు దోషాల తనిఖీ.</div>
-        </div>
-        <div class="card-action-link" style="color: #ec4899;">పొంతన చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/marana_dasa" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b;"><i class="fas fa-hourglass-end"></i></div>
-            <span class="card-pill-tag" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">త్రైత సిద్ధాంతం</span>
-          </div>
-          <div class="card-title">మరణ కాల దశా విశ్లేషణ</div>
-          <div class="card-desc">భవిష్యత్ మరణ సమయ దశా భుక్తులు & పునర్జన్మ ప్రారంభ దశా గణన.</div>
-        </div>
-        <div class="card-action-link" style="color: #f59e0b;">లెక్కించండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/daily_panchangam" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #10b981;"><i class="fas fa-sun"></i></div>
-            <span class="card-pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">రోజువారీ</span>
-          </div>
-          <div class="card-title">దిన పంచాంగం</div>
-          <div class="card-desc">నేటి తిథి, నక్షత్రం, యోగం, కరణం, రాహుకాలం మరియు వర్జ్యం సమయాలు.</div>
-        </div>
-        <div class="card-action-link" style="color: #10b981;">పంచాంగం చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/calendar_view" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.3); color: #3b82f6;"><i class="fas fa-calendar-alt"></i></div>
-            <span class="card-pill-tag" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border-color: rgba(59, 130, 246, 0.3);">పండుగలు</span>
-          </div>
-          <div class="card-title">పండుగల క్యాలెండర్</div>
-          <div class="card-desc">తెలుగు ముఖ్యమైన పండుగలు, ఏకాదశి, పౌర్ణమి మరియు అమావాస్య సమయాలు.</div>
-        </div>
-        <div class="card-action-link" style="color: #3b82f6;">క్యాలెండర్ తెరవండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/dwadasa_graha_visheshalu" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.3); color: #a855f7;"><i class="fas fa-globe"></i></div>
-            <span class="card-pill-tag" style="background: rgba(168, 85, 247, 0.15); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);">12 గ్రహాలు</span>
-          </div>
-          <div class="card-title">ద్వాదశ గ్రహ విశేషాలు</div>
-          <div class="card-desc">త్రైత సిద్ధాంతం ప్రకారం 12 గ్రహాల ఆధిపత్యం, గురు/శని వర్గ విభజన మరియు విశేష గుణముల వివరాలు.</div>
-        </div>
-        <div class="card-action-link" style="color: #a855f7;">వివరాలు చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-    </div>
-
-    <!-- 4. Accessible 12-Lagnam Circular/Grid Navigation Section -->
-    <div style="margin-top: 36px; position: relative; z-index: 2;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--accent-gold);"><i class="fas fa-compass"></i> 12 లగ్నాలు (12 Lagnams Navigation)</h3>
-        <a href="/rashulu" style="color: #818cf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">అన్ని వివరాలు &rarr;</a>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
-        <a href="/rashi/mesha" class="lagnam-ring-card"><strong>1. మేషం</strong><small>కుజుడు</small></a>
-        <a href="/rashi/vrishabha" class="lagnam-ring-card"><strong>2. వృషభం</strong><small>మిత్ర</small></a>
-        <a href="/rashi/mithuna" class="lagnam-ring-card"><strong>3. మిథునం</strong><small>చిత్ర</small></a>
-        <a href="/rashi/karkataka" class="lagnam-ring-card"><strong>4. కర్కాటకం</strong><small>చంద్రుడు</small></a>
-        <a href="/rashi/simha" class="lagnam-ring-card"><strong>5. సింహం</strong><small>సూర్యుడు</small></a>
-        <a href="/rashi/kanya" class="lagnam-ring-card"><strong>6. కన్య</strong><small>బుధుడు</small></a>
-        <a href="/rashi/tula" class="lagnam-ring-card"><strong>7. తులా</strong><small>శుక్రుడు</small></a>
-        <a href="/rashi/vrischika" class="lagnam-ring-card"><strong>8. వృశ్చికం</strong><small>భూమి</small></a>
-        <a href="/rashi/dhanus" class="lagnam-ring-card"><strong>9. ధనూ</strong><small>కేతువు</small></a>
-        <a href="/rashi/makara" class="lagnam-ring-card"><strong>10. మకరం</strong><small>రాహువు</small></a>
-        <a href="/rashi/kumbha" class="lagnam-ring-card"><strong>11. కుంభం</strong><small>శని</small></a>
-        <a href="/rashi/meena" class="lagnam-ring-card"><strong>12. మీనం</strong><small>గురుడు</small></a>
-      </div>
-    </div>
-
-    <!-- 5. Compact Preview Grid for 9 Nakshatras with link to /nakshatrams -->
-    <div style="margin-top: 36px; position: relative; z-index: 2;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--accent-gold);"><i class="fas fa-star"></i> నక్షత్రాలు (Nakshatrams Preview)</h3>
-        <a href="/nakshatrams" style="color: #818cf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">అన్ని 27 నక్షత్రాలు చూడండి &rarr;</a>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-        <a href="/nakshatram/ashwini" class="nak-mini-card"><strong>అశ్విని</strong><small>అధిపతి: కేతువు</small><span class="letters-tag">చు, చే, చో, లా</span></a>
-        <a href="/nakshatram/bharani" class="nak-mini-card"><strong>భరణి</strong><small>అధిపతి: శుక్రుడు</small><span class="letters-tag">లీ, లూ, లే, లో</span></a>
-        <a href="/nakshatram/krittika" class="nak-mini-card"><strong>కృత్తిక</strong><small>అధిపతి: సూర్యుడు</small><span class="letters-tag">అ, ఈ, ఊ, ఏ</span></a>
-        <a href="/nakshatram/rohini" class="nak-mini-card"><strong>రోహిణి</strong><small>అధిపతి: చంద్రుడు</small><span class="letters-tag">ఓ, వా, వీ, వూ</span></a>
-        <a href="/nakshatram/mrigashira" class="nak-mini-card"><strong>మృగశిర</strong><small>అధిపతి: కుజుడు</small><span class="letters-tag">వే, వో, కా, కీ</span></a>
-        <a href="/nakshatram/ardra" class="nak-mini-card"><strong>ఆర్ద్ర</strong><small>అధిపతి: రాహువు</small><span class="letters-tag">కూ, ఘం, జ్ఞా, ఛా</span></a>
-        <a href="/nakshatram/punarvasu" class="nak-mini-card"><strong>పునర్వసు</strong><small>అధిపతి: గురుడు</small><span class="letters-tag">కే, కో, హా, హీ</span></a>
-        <a href="/nakshatram/pushya" class="nak-mini-card"><strong>పుష్యమి</strong><small>అధిపతి: శని</small><span class="letters-tag">హూ, హే, హో, డా</span></a>
-        <a href="/nakshatram/ashlesha" class="nak-mini-card"><strong>ఆశ్లేష</strong><small>అధిపతి: బుధుడు</small><span class="letters-tag">డీ, డూ, డే, డో</span></a>
-      </div>
-    </div>
-
-
-
-    <!-- Section 2: Learn Astrology (Symmetric 2x2 Grid) -->
-    <div class="home-section-header" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 45px auto 25px auto; width: 100%;">
-      <span class="home-section-tag" style="margin: 0 auto 12px auto;">జ్యోతిష్య విజ్ఞానం</span>
-      <h2 class="home-section-heading" style="text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;">
-        <i class="fas fa-graduation-cap" style="color: #fbbf24; font-size: 1.5rem;"></i>
-        <span>త్రైత సిద్ధాంత జ్యోతిష్యం నేర్చుకోండి</span>
-      </h2>
-      <p style="font-size: 1.05rem; color: #94a3b8; margin: 6px auto 0 auto; max-width: 750px; text-align: center;">
-        27 నక్షత్రాలు, 12 లగ్నాలు, కాల చక్రము, కర్మ చక్రము మరియు సమస్త జ్యోతిష్య రహస్యాలు
-      </p>
-    </div>
-
-    <div class="home-grid-2x2">
-      <a href="/nakshatrams" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper"><i class="fas fa-moon"></i></div>
-            <span class="card-pill-tag">27 నక్షత్రాలు</span>
-          </div>
-          <div class="card-title">27 నక్షత్రాలు (27 Nakshatras)</div>
-          <div class="card-desc">అశ్విని నుండి రేవతి వరకు 27 నక్షత్రాల స్వభావం, అధిపతులు, నామాక్షరములు మరియు 4 పాదాల వివరాలు.</div>
-        </div>
-        <div class="card-action-link">నక్షత్రాలు చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/rashulu" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper"><i class="fas fa-compass"></i></div>
-            <span class="card-pill-tag">12 లగ్నాలు</span>
-          </div>
-          <div class="card-title">12 లగ్నాలు (12 Lagnams)</div>
-          <div class="card-desc">త్రైత సిద్ధాంతం ప్రకారం  మేషం నుండి మీనం వరకు 12 లగ్నాలు, లగ్నాధిపతులు మరియు 12 గ్రహాల ఫలితాలు.</div>
-        </div>
-        <div class="card-action-link">లగ్నాల వివరాలు <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/gocharalu" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper"><i class="fas fa-globe-asia"></i></div>
-            <span class="card-pill-tag">2026 గోచారం</span>
-          </div>
-          <div class="card-title">గ్రహ గోచారాలు 2026</div>
-          <div class="card-desc">శని, గురు, రాహు-కేతువుల ప్రస్తుత లగ్న మార్పులు మరియు మీ లగ్నంపై వాటి ప్రభావం.</div>
-        </div>
-        <div class="card-action-link">గోచారం చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/jyotishyam-basics" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper"><i class="fas fa-question-circle"></i></div>
-            <span class="card-pill-tag">34 ప్రశ్నలు-జవాబులు</span>
-          </div>
-          <div class="card-title">జ్యోతిష్య ప్రాథమిక పాఠాలు & 34 Q&A</div>
-          <div class="card-desc">ముహూర్తము, వివాహ యోగాలు, 12 గ్రహాల సత్యము, రోడ్డు ప్రమాదాలు మరియు రావణ బ్రహ్మ కాలజ్ఞానముపై 34 ముఖ్యమైన ప్రశ్నలు-జవాబులు.</div>
-        </div>
-        <div class="card-action-link">34 ప్రశ్నలు & పాఠాలు చదవండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/kaala_chakramu" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #10b981;"><i class="fas fa-clock"></i></div>
-            <span class="card-pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">కాల చక్రము</span>
-          </div>
-          <div class="card-title">కాల చక్రము (Kaala Chakramu)</div>
-          <div class="card-desc">త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో కాల చక్రము మరియు ద్వాదశ లగ్నముల కాల గమన విశ్లేషణ.</div>
-        </div>
-        <div class="card-action-link" style="color: #10b981;">కాల చక్రం చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="/karma_chakramu" class="premium-card">
-        <div>
-          <div class="card-top-header">
-            <div class="card-icon-wrapper" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b;"><i class="fas fa-dharmachakra"></i></div>
-            <span class="card-pill-tag" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">కర్మ చక్రము</span>
-          </div>
-          <div class="card-title">కర్మ చక్రము (Karma Chakramu)</div>
-          <div class="card-desc">త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో పుణ్య, పాప, మిశ్రమ కర్మల చక్రము మరియు ద్వాదశ భావముల కర్మ ప్రభావం.</div>
-        </div>
-        <div class="card-action-link" style="color: #f59e0b;">కర్మ చక్రం చూడండి <i class="fas fa-arrow-right"></i></div>
-      </a>
-    </div>
-
-    <!-- 3 Ancient Planets (Bhumi, Chitra, Mitra) Highlight Banner -->
-    <div class="home-section-header" style="margin-top: 50px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-      <span class="home-section-tag" style="background: rgba(129, 140, 248, 0.15); color: #818cf8; border-color: rgba(129, 140, 248, 0.35); margin: 0 auto 12px auto;">సృష్టి ఆరంభ నిత్య గ్రహాలు</span>
-      <h2 class="home-section-heading" style="text-align: center; display: flex; align-items: center; justify-content: center; width: 100%;">త్రైత సిద్ధాంత జ్యోతిష్యం ప్రత్యేకత: భూమి, చిత్ర, మిత్ర</h2>
-      <p style="font-size: 1.05rem; color: #94a3b8; margin: 8px auto 0 auto; line-height: 1.5; max-width: 850px; text-align: center;">
-        సృష్టి ఆరంభం నుండి ఉనికిలో ఉన్న నిత్య గ్రహాలైన <strong>భూమి, చిత్ర, మిత్ర</strong> లను ద్వాదశ గ్రహములలో చేర్చి గణించడం వల్ల త్రైత సిద్ధాంత జ్యోతిష్యం అత్యంత ఖచ్చితమైన ఫలితాలను అందిస్తుంది.
-      </p>
-    </div>
-
-    <div class="ancient-planets-grid">
-      <div class="ancient-planet-card">
-        <div class="planet-badge-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);"><i class="fas fa-globe-asia"></i></div>
-        <h3>1. భూమి (Bhumi / Earth)</h3>
-        <p class="planet-role">వృశ్చిక లగ్నాధిపతి & భూతత్వ కారక గ్రహం</p>
-        <p class="planet-desc">సృష్టి ఆరంభం నుండి సమస్త ప్రాణికోటికి ఆధారమైన నిత్య గ్రహం. త్రైత సిద్ధాంతంలో వృశ్చిక లగ్నానికి ఆధిపత్యం వహిస్తూ జాతకంలో స్థిరత్వం మరియు భూమి కారకత్వాన్ని ఇస్తుంది.</p>
-      </div>
-
-      <div class="ancient-planet-card">
-        <div class="planet-badge-icon" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);"><i class="fas fa-magic"></i></div>
-        <h3>2. చిత్ర (Chitra)</h3>
-        <p class="planet-role">మిథున లగ్నాధిపతి & విజ్ఞాన కారక గ్రహం</p>
-        <p class="planet-desc">సృష్టి ఆరంభం నుండి ఉన్న తేజోవంతమైన నిత్య గ్రహం. త్రైత సిద్ధాంతంలో మిథున లగ్నానికి ఆధిపత్యం వహిస్తూ సూక్ష్మ శరీరం, జ్ఞాన విచారణ మరియు అదృశ్య విజ్ఞానాన్ని ప్రసాదిస్తుంది.</p>
-      </div>
-
-      <div class="ancient-planet-card">
-        <div class="planet-badge-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border-color: rgba(59, 130, 246, 0.3);"><i class="fas fa-star"></i></div>
-        <h3>3. మిత్ర (Mitra)</h3>
-        <p class="planet-role">వృషభ లగ్నాధిపతి & శాంతి సామరస్య గ్రహం</p>
-        <p class="planet-desc">సృష్టి ఆరంభం నుండి మిత్రత్వము మరియు శాంతిని అందించే నిత్య గ్రహం. త్రైత సిద్ధాంతంలో వృషభ లగ్నానికి ఆధిపత్యం వహిస్తూ కలతలు లేని నిద్ర, మిత్ర బలం మరియు ఆత్మజ్ఞానాన్ని ఇస్తుంది.</p>
-      </div>
-    </div>
-
-    <style>
-      .ancient-planets-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 22px;
-        margin-bottom: 50px;
-      }
-      .ancient-planet-card {
-        background: rgba(15, 23, 42, 0.85);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(129, 140, 248, 0.3);
-        border-radius: 20px;
-        padding: 24px;
-        color: #ffffff;
-        transition: all 0.3s ease;
-      }
-      .ancient-planet-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(251, 191, 36, 0.5);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      }
-      .planet-badge-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
-        border: 1px solid;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        margin-bottom: 16px;
-      }
-      .ancient-planet-card h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #fbbf24;
-        margin-bottom: 6px;
-      }
-      .planet-role {
-        font-size: 0.84rem;
-        font-weight: 700;
-        color: #818cf8;
-        margin-bottom: 12px;
-      }
-      .planet-desc {
-        font-size: 0.9rem;
-        color: #cbd5e1;
-        line-height: 1.55;
-      }
-    </style>
-
-    <!-- Trust Highlights (Symmetric 4 Column Row) -->
-    <div class="home-section-header" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 45px auto 25px auto; width: 100%;">
-      <span class="home-section-tag" style="margin: 0 auto 12px auto;">రావణ ఆస్ట్రో నమ్మకం</span>
-      <h2 class="home-section-heading" style="text-align: center; display: flex; align-items: center; justify-content: center; width: 100%;">ఎందుకు రావణ ఆస్ట్రో?</h2>
-    </div>
-
-    <div class="trust-grid">
-      <div class="trust-card">
-        <i class="fas fa-dharmachakra"></i>
-        <h4>లహిరి అయనాంశ</h4>
-        <p>స్విస్ ఎఫెమరిస్ ఖగోళ డేటాతో సెకను ఖచ్చితత్వం.</p>
-      </div>
-
-      <div class="trust-card">
-        <i class="fas fa-map-marked-alt"></i>
-        <h4>5.6L+ ప్రదేశాలు</h4>
-        <p>భారతదేశంలోని ప్రతి గ్రామానికి ఖచ్చితమైన జియో-కోడింగ్.</p>
-      </div>
-
-      <div class="trust-card">
-        <i class="fas fa-user-shield"></i>
-        <h4>100% గోప్యత</h4>
-        <p>మీ జన్మ వివరాలు ఎవరికీ విక్రయించబడవు.</p>
-      </div>
-
-      <div class="trust-card">
-        <i class="fas fa-mobile-alt"></i>
-        <h4>రెస్పాన్సివ్ డిజైన్</h4>
-        <p>ఏ ఫోన్ లేదా ట్యాబ్ లోనైనా సులభమైన అనుభూతి.</p>
-      </div>
-    </div>
 
   </div>
 
-  <!-- Ultra-Compact Space-Efficient Footer -->
-  <style>
-    .compact-footer {
-      background: rgba(2, 6, 23, 0.95);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 24px 20px 70px 20px;
-      margin-top: 40px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.86rem;
-      color: #94a3b8;
-    }
-    .compact-footer-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
-    .compact-footer-brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .compact-footer-brand strong {
-      color: #fbbf24;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-    }
-    .compact-footer-links {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px 14px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .compact-footer-links a {
-      color: #cbd5e1;
-      text-decoration: none;
-      transition: color 0.2s ease;
-      white-space: nowrap;
-    }
-    .compact-footer-links a:hover {
-      color: #fbbf24;
-    }
-    .compact-footer-divider {
-      color: rgba(255, 255, 255, 0.2);
-    }
-    .compact-footer-bottom {
-      font-size: 0.8rem;
-      color: #64748b;
-      margin-top: 4px;
-    }
-  </style>
-
-  <footer class="compact-footer">
-    <div class="compact-footer-container">
-      <div class="compact-footer-brand">
-        <strong>RAVAN ASTRO</strong>
-        <span class="compact-footer-divider">|</span>
-        <span>ఖచ్చితమైన త్రైత జ్యోతిష్య పంచాంగం, జన్మ కుండలి గణనలు మరియు గుణ మేళన సమాచారం.</span>
-      </div>
-
-      <div class="compact-footer-links">
-        <a href="/">జన్మ కుండలి</a> <span class="compact-footer-divider">•</span>
-        <a href="/compare_kundali">కుండలి పొంతన</a> <span class="compact-footer-divider">•</span>
-        <a href="/daily_panchangam">దిన పంచాంగం</a> <span class="compact-footer-divider">•</span>
-        <a href="/calendar_view">పండుగల క్యాలెండర్</a> <span class="compact-footer-divider">•</span>
-        <a href="/nakshatrams">27 నక్షత్రాలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/rashulu">12 లగ్నాలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/gocharalu">గోచారాలు 2026</a> <span class="compact-footer-divider">•</span>
-        <a href="/jyotishyam-basics">జ్యోతిష్య పాఠాలు</a>
-      </div>
-
-      <div class="compact-footer-links">
-        <a href="/about">మా గురించి</a> <span class="compact-footer-divider">•</span>
-        <a href="/contact">సంప్రదించండి</a> <span class="compact-footer-divider">•</span>
-        <a href="/privacy-policy">గోప్యతా విధానం</a> <span class="compact-footer-divider">•</span>
-        <a href="/terms">నిబంధనలు</a> <span class="compact-footer-divider">•</span>
-        <a href="/disclaimer">నిరాకరణ</a>
-      </div>
-
-      <div class="compact-footer-bottom">
-        &copy; 2026 RAVAN ASTRO. All rights reserved. | ravanastro.vercel.app
-      </div>
-    </div>
-  </footer>
 
 
-<!-- Saved User Profiles Modal -->
+
+
+
+
+  <!-- Saved User Profiles Modal -->
 
 
 
@@ -6391,26 +5758,6 @@ body {
 
 
 
-    function showBirthForm(e) {
-      if (e && e.preventDefault) {
-        e.preventDefault();
-      }
-      window.location.href = '/birth_form';
-    }
-    window.showBirthForm = showBirthForm;
-
-    function checkHashForBirthForm() {
-      if (window.location.hash === '#birthForm' || window.location.hash.toLowerCase().includes('birth')) {
-        window.location.href = '/birth_form';
-      }
-    }
-    if (document.readyState === 'loading') {
-      window.addEventListener('DOMContentLoaded', checkHashForBirthForm);
-    } else {
-      checkHashForBirthForm();
-    }
-    window.addEventListener('hashchange', checkHashForBirthForm);
-
     // Show loading screen
 
 
@@ -6763,30 +6110,107 @@ body {
 
 
 
-    if (mainForm) {
-      mainForm.addEventListener("submit", (e) => {
-      // Ensure robust fallbacks so Kundali page always opens without blocking
-      if (nameInput && (!nameInput.value || !nameInput.value.trim())) {
-        nameInput.value = "జాతకుడు";
-      }
-      if (dobInput && !dobInput.value) {
-        const today = new Date().toISOString().split('T')[0];
-        dobInput.value = today;
-      }
-      if (tobInput && !tobInput.value) {
-        tobInput.value = "12:00";
-      }
+    mainForm.addEventListener("submit", (e) => {
+
+
+
+      // Check if lat/lon are set
+
+
+
       if (!latInput.value || !lonInput.value) {
-        if (placeInput && (!placeInput.value || !placeInput.value.trim())) {
-          placeInput.value = "హైదరాబాద్, తెలంగాణ, భారతదేశం";
+
+
+
+        e.preventDefault();
+
+
+
+
+
+
+
+        placeInput.style.borderColor = "#ff6b6b";
+
+
+
+        placeInput.style.animation = "shake 0.5s";
+
+
+
+
+
+
+
+        let errorMsg = placeInput.parentNode.querySelector('.location-error');
+
+
+
+        if (!errorMsg) {
+
+
+
+          errorMsg = document.createElement('div');
+
+
+
+          errorMsg.className = 'error-message location-error';
+
+
+
+          errorMsg.style.display = 'block';
+
+
+
+          errorMsg.textContent = '{{ _("దయచేసి జాబితా నుండి ఒక స్థలాన్ని ఎంచుకోండి") }}';
+
+
+
+          placeInput.parentNode.appendChild(errorMsg);
+
+
+
         }
-        latInput.value = "17.3850";
-        lonInput.value = "78.4867";
+
+
+
+
+
+
+
+        setTimeout(() => {
+
+
+
+          placeInput.style.animation = "";
+
+
+
+        }, 500);
+
+
+
+
+
+
+
+        return;
+
+
+
       }
 
+
+
+
+
+
+
       showLoading();
+
+
+
     });
-    }
 
 
 
@@ -6947,18 +6371,30 @@ body {
 
 
     // Populate Date
-    const dobEl = document.getElementById('dob');
-    if (dobEl) {
-      dobEl.value = `${year}-${month}-${day}`;
-    }
+
+
+
+    document.getElementById('dob').value = `${year}-${month}-${day}`;
+
+
+
+
+
+
 
     // Populate Time (24 Hour Format)
+
+
+
     const currentHour = now.getHours().toString().padStart(2, '0');
+
+
+
     const currentMinute = now.getMinutes().toString().padStart(2, '0');
-    const tobEl = document.getElementById('tob');
-    if (tobEl) {
-      tobEl.value = `${currentHour}:${currentMinute}`;
-    }
+
+
+
+    document.getElementById('tob').value = `${currentHour}:${currentMinute}`;
 
 
 
@@ -7336,20 +6772,15 @@ body {
 
 
 
-      let place = placeInput ? placeInput.value.trim() : '';
-      let lat = latInput ? latInput.value : '';
-      let lon = lonInput ? lonInput.value : '';
+      const place = placeInput ? placeInput.value.trim() : '';
 
-      if (!lat || !lon) {
-        lat = "17.3850";
-        lon = "78.4867";
-        if (latInput) latInput.value = lat;
-        if (lonInput) lonInput.value = lon;
-        if (!place) {
-          place = "హైదరాబాద్, తెలంగాణ, భారతదేశం";
-          if (placeInput) placeInput.value = place;
-        }
-      }
+
+
+      const lat = latInput ? latInput.value : '';
+
+
+
+      const lon = lonInput ? lonInput.value : '';
 
 
 
@@ -7541,7 +6972,6 @@ body {
         const form = document.getElementById('mainForm');
         if (form) {
           form.action = '/chart';
-          showLoading();
           form.submit();
         }
       } else {

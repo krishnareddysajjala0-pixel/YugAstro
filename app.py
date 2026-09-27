@@ -983,8 +983,190 @@ def get_planet_icon(planet_name):
 
 # ---------------- ROUTES ----------------
 
+@app.route('/log_user_data', methods=['POST'])
+def log_user_data_endpoint():
+    try:
+        data = request.get_json(silent=True) or {}
+        name = data.get('name', '')
+        dob = data.get('dob', '')
+        tob = data.get('tob', '')
+        place = data.get('place', '')
+        mobile = data.get('mobile', None)
+        req_telegram = data.get('req_telegram', 'no')
+        if name and dob:
+            log_user_to_github(name, dob, tob, place, mobile=mobile, req_telegram=req_telegram)
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+
+IP_LOCATION_CACHE = {"data": None, "timestamp": 0}
+
+def get_server_ip_location():
+    import time
+    now = time.time()
+    if IP_LOCATION_CACHE["data"] and (now - IP_LOCATION_CACHE["timestamp"]) < 3600:
+        return IP_LOCATION_CACHE["data"]
+    try:
+        url = "https://ipapi.co/json/"
+        resp = requests.get(url, headers={"User-Agent": "RavanAstroApp/1.0"}, timeout=2.5)
+        if resp.status_code == 200:
+            d = resp.json()
+            city = d.get("city") or ""
+            region = d.get("region") or ""
+            country = d.get("country_name") or ""
+            lat = d.get("latitude")
+            lon = d.get("longitude")
+            if lat is not None and lon is not None:
+                disp = ", ".join([p for p in [city, region, country] if p]) or f"Location ({lat:.2f}, {lon:.2f})"
+                loc = {
+                    "available": True,
+                    "latitude": float(lat),
+                    "longitude": float(lon),
+                    "city": city,
+                    "region": region,
+                    "country": country,
+                    "display_name": disp
+                }
+                IP_LOCATION_CACHE["data"] = loc
+                IP_LOCATION_CACHE["timestamp"] = now
+                return loc
+    except Exception:
+        pass
+    return None
+
+@app.route("/api/device_location", methods=["GET", "POST"])
+@app.route("/api/ip_location", methods=["GET", "POST"])
+def api_device_location():
+    lat = os.environ.get("DEVICE_LAT", "").strip()
+    lon = os.environ.get("DEVICE_LON", "").strip()
+    if lat and lon:
+        try:
+            return jsonify({
+                "available": True,
+                "latitude": float(lat),
+                "longitude": float(lon),
+                "lat": float(lat),
+                "lon": float(lon),
+                "display_name": os.environ.get("DEVICE_PLACE", "")
+            })
+        except ValueError:
+            pass
+
+    loc = get_server_ip_location()
+    if loc:
+        return jsonify(loc)
+
+    return jsonify({
+        "available": False,
+        "latitude": None,
+        "longitude": None
+    })
+
+LOCAL_CITIES = [
+    {"display_name": "Hyderabad, Telangana, India", "lat": 17.3850, "lon": 78.4867},
+    {"display_name": "Secunderabad, Telangana, India", "lat": 17.4399, "lon": 78.4983},
+    {"display_name": "Vijayawada, Andhra Pradesh, India", "lat": 16.5062, "lon": 80.6480},
+    {"display_name": "Visakhapatnam, Andhra Pradesh, India", "lat": 17.6868, "lon": 83.2185},
+    {"display_name": "Guntur, Andhra Pradesh, India", "lat": 16.3067, "lon": 80.4365},
+    {"display_name": "Tirupati, Andhra Pradesh, India", "lat": 13.6288, "lon": 79.4192},
+    {"display_name": "Kurnool, Andhra Pradesh, India", "lat": 15.8281, "lon": 78.0373},
+    {"display_name": "Nellore, Andhra Pradesh, India", "lat": 14.4426, "lon": 79.9865},
+    {"display_name": "Rajahmundry, Andhra Pradesh, India", "lat": 17.0005, "lon": 81.8040},
+    {"display_name": "Kakinada, Andhra Pradesh, India", "lat": 16.9891, "lon": 82.2475},
+    {"display_name": "Warangal, Telangana, India", "lat": 17.9689, "lon": 79.5941},
+    {"display_name": "Karimnagar, Telangana, India", "lat": 18.4386, "lon": 79.1288},
+    {"display_name": "Nizamabad, Telangana, India", "lat": 18.6725, "lon": 78.0941},
+    {"display_name": "Khammam, Telangana, India", "lat": 17.2473, "lon": 80.1514},
+    {"display_name": "Anantapur, Andhra Pradesh, India", "lat": 14.6819, "lon": 77.6006},
+    {"display_name": "Kadapa (Cuddapah), Andhra Pradesh, India", "lat": 14.4673, "lon": 78.8242},
+    {"display_name": "Vizianagaram, Andhra Pradesh, India", "lat": 18.1067, "lon": 83.3956},
+    {"display_name": "Eluru, Andhra Pradesh, India", "lat": 16.7107, "lon": 81.0952},
+    {"display_name": "Ongole, Andhra Pradesh, India", "lat": 15.5057, "lon": 80.0499},
+    {"display_name": "Nandyal, Andhra Pradesh, India", "lat": 15.4886, "lon": 78.4836},
+    {"display_name": "Machilipatnam, Andhra Pradesh, India", "lat": 16.1875, "lon": 81.1389},
+    {"display_name": "Tenali, Andhra Pradesh, India", "lat": 16.2437, "lon": 80.6400},
+    {"display_name": "Chittoor, Andhra Pradesh, India", "lat": 13.2172, "lon": 79.1003},
+    {"display_name": "Hindupur, Andhra Pradesh, India", "lat": 13.8292, "lon": 77.4916},
+    {"display_name": "Bhimavaram, Andhra Pradesh, India", "lat": 16.5449, "lon": 81.5212},
+    {"display_name": "Madanapalle, Andhra Pradesh, India", "lat": 13.5560, "lon": 78.5010},
+    {"display_name": "Srikakulam, Andhra Pradesh, India", "lat": 18.2949, "lon": 83.8938},
+    {"display_name": "Gudivada, Andhra Pradesh, India", "lat": 16.4410, "lon": 80.9926},
+    {"display_name": "Mahbubnagar, Telangana, India", "lat": 16.7488, "lon": 78.0035},
+    {"display_name": "Nalgonda, Telangana, India", "lat": 17.0575, "lon": 79.2684},
+    {"display_name": "Suryapet, Telangana, India", "lat": 17.1439, "lon": 79.6239},
+    {"display_name": "Siddipet, Telangana, India", "lat": 18.1018, "lon": 78.8520},
+    {"display_name": "Mancherial, Telangana, India", "lat": 18.8679, "lon": 79.4639},
+    {"display_name": "Adilabad, Telangana, India", "lat": 19.6641, "lon": 78.5320},
+    {"display_name": "Bengaluru (Bangalore), Karnataka, India", "lat": 12.9716, "lon": 77.5946},
+    {"display_name": "Chennai (Madras), Tamil Nadu, India", "lat": 13.0827, "lon": 80.2707},
+    {"display_name": "Mumbai (Bombay), Maharashtra, India", "lat": 19.0760, "lon": 72.8777},
+    {"display_name": "New Delhi, Delhi, India", "lat": 28.6139, "lon": 77.2090},
+    {"display_name": "Kolkata (Calcutta), West Bengal, India", "lat": 22.5726, "lon": 88.3639},
+    {"display_name": "Pune, Maharashtra, India", "lat": 18.5204, "lon": 73.8567},
+    {"display_name": "Ahmedabad, Gujarat, India", "lat": 23.0225, "lon": 72.5714},
+    {"display_name": "Jaipur, Rajasthan, India", "lat": 26.9124, "lon": 75.7873},
+    {"display_name": "Bhubaneswar, Odisha, India", "lat": 20.2961, "lon": 85.8245},
+    {"display_name": "Cuttack, Odisha, India", "lat": 20.4625, "lon": 85.8828},
+    {"display_name": "Puri, Odisha, India", "lat": 19.8135, "lon": 85.8312},
+    {"display_name": "Kochi, Kerala, India", "lat": 9.9312, "lon": 76.2673},
+    {"display_name": "Thiruvananthapuram, Kerala, India", "lat": 8.5241, "lon": 76.9366},
+    {"display_name": "Coimbatore, Tamil Nadu, India", "lat": 11.0168, "lon": 76.9558},
+    {"display_name": "Madurai, Tamil Nadu, India", "lat": 9.9252, "lon": 78.1198},
+    {"display_name": "Mysuru (Mysore), Karnataka, India", "lat": 12.2958, "lon": 76.6394},
+    {"display_name": "Dubai, United Arab Emirates", "lat": 25.2048, "lon": 55.2708},
+    {"display_name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278},
+    {"display_name": "New York, NY, USA", "lat": 40.7128, "lon": -74.0060},
+    {"display_name": "San Francisco, CA, USA", "lat": 37.7749, "lon": -122.4194},
+    {"display_name": "Dallas, TX, USA", "lat": 32.7767, "lon": -96.7970},
+    {"display_name": "Chicago, IL, USA", "lat": 41.8781, "lon": -87.6298},
+    {"display_name": "Toronto, Ontario, Canada", "lat": 43.6532, "lon": -79.3832},
+    {"display_name": "Sydney, NSW, Australia", "lat": -33.8688, "lon": 151.2093},
+    {"display_name": "Singapore", "lat": 1.3521, "lon": 103.8198}
+]
+
+@app.route("/api/reverse_geocode")
+def api_reverse_geocode():
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    if not lat or not lon:
+        return jsonify({"display_name": "Unknown Location"})
+    
+    try:
+        lat_f = float(lat)
+        lon_f = float(lon)
+    except ValueError:
+        return jsonify({"display_name": "Unknown Location"})
+
+    try:
+        url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat_f}&lon={lon_f}&zoom=10&addressdetails=1"
+        headers = {"User-Agent": "RavanAstroApp/1.0 (info@ravanastro.com)"}
+        resp = requests.get(url, headers=headers, timeout=2.5)
+        if resp.status_code == 200:
+            data = resp.json()
+            addr = data.get("address", {})
+            city = addr.get("city") or addr.get("town") or addr.get("village") or addr.get("county") or ""
+            state = addr.get("state") or ""
+            country = addr.get("country") or ""
+            place = ", ".join([p for p in [city, state, country] if p])
+            if place:
+                return jsonify({"display_name": place, "city": city, "state": state, "country": country})
+    except Exception:
+        pass
+
+    # Fallback to closest local city or coordinates
+    best_name = f"Location ({lat_f:.2f}, {lon_f:.2f})"
+    min_dist = 999999
+    for c in LOCAL_CITIES:
+        dist = abs(c["lat"] - lat_f) + abs(c["lon"] - lon_f)
+        if dist < min_dist and dist < 0.6:
+            min_dist = dist
+            best_name = c["display_name"]
+    return jsonify({"display_name": best_name})
+
 @app.route("/api/search_place")
+@app.route("/api/search_location")
 def api_search_place():
+
     import sqlite3
     import urllib.request
     import urllib.parse
@@ -1774,23 +1956,18 @@ def build_nakshatra_pada_boxes(data):
 @app.route("/chart", methods=["GET", "POST"])
 def chart():
     if request.method == "POST":
-        name = request.form.get("name","")
-        dob = request.form.get("dob","")
-        tob = request.form.get("tob","")
-        place = request.form.get("place","")
+        name = request.form.get("name", "").strip()
+        dob = request.form.get("dob", "").strip()
+        tob = request.form.get("tob", "").strip()
+        place = request.form.get("place", "").strip()
         lat = request.form.get("lat")
         lon = request.form.get("lon")
-        mobile_num = request.form.get("mobile", "")
+        mobile_num = request.form.get("mobile", "").strip()
         country_code = request.form.get("countryCode", "+91")
         mobile = f"{country_code} {mobile_num}" if mobile_num else ""
         req_telegram = request.form.get("req_telegram", "no")
-        
-        session['chart_form'] = {
-            'name': name, 'dob': dob, 'tob': tob, 'place': place,
-            'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
-        }
     else:
-        form_data = session.get('chart_form', {})
+        form_data = session.get('chart_form', {}) or session.get('birth_info', {})
         name = form_data.get('name', '')
         dob = form_data.get('dob', '')
         tob = form_data.get('tob', '')
@@ -1800,11 +1977,42 @@ def chart():
         mobile = form_data.get('mobile', '')
         req_telegram = form_data.get('req_telegram', 'no')
 
-    if not name or not dob or not lat or not lon:
-        return redirect(url_for('index'))
+    # Safe defaults so Kundali page NEVER fails to open
+    if not name:
+        name = "జాతకుడు"
+    if not dob:
+        dob = datetime.date.today().strftime("%Y-%m-%d")
+    if not tob:
+        tob = "12:00"
+    if not place:
+        place = "హైదరాబాద్, తెలంగాణ, భారతదేశం"
 
-    lat = float(lat)
-    lon = float(lon)
+    # Auto-resolve coordinates if missing or empty
+    if not lat or not lon:
+        p_lower = str(place).lower().strip()
+        found_c = False
+        for c in LOCAL_CITIES:
+            c_name = c["display_name"].lower()
+            if p_lower in c_name or c_name in p_lower:
+                lat = c["lat"]
+                lon = c["lon"]
+                found_c = True
+                break
+        if not found_c:
+            lat = 17.3850
+            lon = 78.4867
+
+    try:
+        lat = float(lat)
+        lon = float(lon)
+    except (ValueError, TypeError):
+        lat = 17.3850
+        lon = 78.4867
+
+    session['chart_form'] = {
+        'name': name, 'dob': dob, 'tob': tob, 'place': place,
+        'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
+    }
     
     # Log User query to GitHub
     log_user_to_github(name, dob, tob, place, mobile, req_telegram)
@@ -1821,6 +2029,7 @@ def chart():
     jathaka_results = evaluate_kundali_results(data, dasha_data if isinstance(dasha_data, dict) else {})
 
     return render_template("chart.html", **data, **dasha_data, jathaka_results=jathaka_results)
+
 
 @app.route("/nakshatra_chart", methods=["GET", "POST"])
 def nakshatra_chart():
@@ -1887,6 +2096,127 @@ def nakshatra_chart():
         nakshatra_boxes=nakshatra_boxes
     )
 
+def compute_birth_transit_comparison(birth_info, transit_planet_positions):
+    """
+    Computes matches and comparison between Birth Chart and Transit Chart:
+    1. Same planet in same nakshatra & same padam
+    2. Same planet in same rashi/lagna or aspect
+    3. Full 1 to 12 Bhavas aligned comparison
+    """
+    if not isinstance(birth_info, dict):
+        return [], [], []
+
+    birth_planet_positions = birth_info.get('planet_positions', [])
+    birth_lagna = birth_info.get('lagna', '')
+    birth_bhavas = birth_info.get('bhavas_list', [])
+
+    same_nakshatra_pada_matches = []
+    same_rashi_planet_matches = []
+    comparison_bhavas = []
+
+    if birth_planet_positions and transit_planet_positions:
+        # 1. Exact Same Planet in Same Nakshatra and Same Pada Matches
+        seen_nak_matches = set()
+        for tp in transit_planet_positions:
+            for bp in birth_planet_positions:
+                if tp.get("name") == bp.get("name") and tp.get("nakshatra") == bp.get("nakshatra") and tp.get("padam") == bp.get("padam"):
+                    nak_key = (tp.get("name"), tp.get("lagna"), tp.get("nakshatra"), tp.get("padam"), tp.get("is_hand"), bp.get("is_hand"))
+                    if nak_key in seen_nak_matches:
+                        continue
+                    seen_nak_matches.add(nak_key)
+
+                    same_nakshatra_pada_matches.append({
+                        "planet": tp.get("name"),
+                        "transit_planet": tp.get("name"),
+                        "transit_is_hand": tp.get("is_hand", False),
+                        "transit_degree": tp.get("degree", ""),
+                        "transit_rashi": tp.get("lagna", ""),
+                        "transit_color": tp.get("color", "#ffffff"),
+                        "birth_planet": bp.get("name"),
+                        "birth_is_hand": bp.get("is_hand", False),
+                        "birth_degree": bp.get("degree", ""),
+                        "birth_rashi": bp.get("lagna", ""),
+                        "birth_color": bp.get("color", "#ffffff"),
+                        "nakshatra": tp.get("nakshatra", ""),
+                        "padam": tp.get("padam", 1),
+                        "is_both_direct": (not tp.get("is_hand") and not bp.get("is_hand"))
+                    })
+
+        # 2. Same Planet in Same Rashi / Lagna (Deduplicated)
+        seen_rashi_matches = set()
+        for tp in transit_planet_positions:
+            for bp in birth_planet_positions:
+                if tp.get("is_hand") and bp.get("is_hand"):
+                    continue
+                if tp.get("name") == bp.get("name") and tp.get("lagna") == bp.get("lagna"):
+                    rashi_key = (tp.get("name"), tp.get("lagna"), tp.get("is_hand"), bp.get("is_hand"))
+                    if rashi_key in seen_rashi_matches:
+                        continue
+                    seen_rashi_matches.add(rashi_key)
+
+                    if not tp.get("is_hand") and not bp.get("is_hand"):
+                        match_type = "ఒకే రాశిలో గ్రహ స్థితి"
+                    elif tp.get("is_hand") and not bp.get("is_hand"):
+                        match_type = "జన్మ గ్రహంపై గోచార దృష్టి"
+                    else:
+                        match_type = "జన్మ దృష్టిపై గోచార గ్రహం"
+
+                    same_rashi_planet_matches.append({
+                        "planet": tp.get("name"),
+                        "rashi": tp.get("lagna", ""),
+                        "match_type": match_type,
+                        "transit_is_hand": tp.get("is_hand", False),
+                        "transit_degree": tp.get("degree", ""),
+                        "transit_nakshatra": tp.get("nakshatra", ""),
+                        "transit_padam": tp.get("padam", 1),
+                        "transit_color": tp.get("color", "#ffffff"),
+                        "birth_is_hand": bp.get("is_hand", False),
+                        "birth_degree": bp.get("degree", ""),
+                        "birth_nakshatra": bp.get("nakshatra", ""),
+                        "birth_padam": bp.get("padam", 1),
+                        "birth_color": bp.get("color", "#ffffff"),
+                        "is_both_direct": (not tp.get("is_hand") and not bp.get("is_hand")),
+                        "is_exact_nakshatra_pada": (tp.get("nakshatra") == bp.get("nakshatra") and tp.get("padam") == bp.get("padam"))
+                    })
+
+        # 3. Side-by-Side 12 Bhavas Comparison (aligned to Birth Chart Bhavas)
+        birth_start_idx = LAGNA_NAMES_TELUGU.index(birth_lagna) if birth_lagna in LAGNA_NAMES_TELUGU else 0
+        for h_no in range(1, 13):
+            r_name = LAGNA_NAMES_TELUGU[(birth_start_idx + h_no - 1) % 12]
+
+            b_direct = [p for p in birth_planet_positions if p.get("lagna") == r_name and not p.get("is_hand")]
+            b_hands = [p for p in birth_planet_positions if p.get("lagna") == r_name and p.get("is_hand")]
+
+            t_direct = [p for p in transit_planet_positions if p.get("lagna") == r_name and not p.get("is_hand")]
+            t_hands = [p for p in transit_planet_positions if p.get("lagna") == r_name and p.get("is_hand")]
+
+            bhava_matches = []
+            for td in t_direct:
+                for bd in b_direct:
+                    if td.get("name") == bd.get("name"):
+                        bhava_matches.append(f"🪐 {td['name']} జన్మ స్థితిపై గోచారం")
+                    if td.get("nakshatra") == bd.get("nakshatra") and td.get("padam") == bd.get("padam"):
+                        bhava_matches.append(f"✨ {td['name']} & {bd['name']}: {td['nakshatra']}-{td['padam']}వ పాదం")
+
+            for th in t_hands:
+                for bd in b_direct:
+                    if th.get("nakshatra") == bd.get("nakshatra") and th.get("padam") == bd.get("padam"):
+                        bhava_matches.append(f"👁️ {th['name']}👉 దృష్టి & {bd['name']}: {th['nakshatra']}-{th['padam']}వ పాదం")
+
+            comparison_bhavas.append({
+                "bhava_num": h_no,
+                "bhava_name": f"{h_no}వ భావం",
+                "rashi": r_name,
+                "is_birth_lagna": (h_no == 1),
+                "birth_direct": b_direct,
+                "birth_hands": b_hands,
+                "transit_direct": t_direct,
+                "transit_hands": t_hands,
+                "highlights": bhava_matches
+            })
+
+    return same_nakshatra_pada_matches, same_rashi_planet_matches, comparison_bhavas
+
 @app.route("/nakshatra_transit_chart", methods=["POST"])
 def nakshatra_transit_chart():
     lat = request.form.get("lat")
@@ -1913,15 +2243,24 @@ def nakshatra_transit_chart():
     transit_dasha = get_dasha_info(transit_data)
     transit_boxes = build_nakshatra_pada_boxes(transit_data)
 
+    birth_info = session.get('birth_info', {})
+    same_nak_matches, same_rashi_matches, comp_bhavas = compute_birth_transit_comparison(
+        birth_info, transit_data.get('planet_positions', [])
+    )
+
     return render_template(
         "nakshatra_transit_partial.html",
         **transit_data,
         **transit_dasha,
         nakshatra_boxes=transit_boxes,
+        same_nakshatra_pada_matches=same_nak_matches,
+        same_rashi_planet_matches=same_rashi_matches,
+        comparison_bhavas=comp_bhavas,
+        birth_lagna=birth_info.get('lagna', '') if isinstance(birth_info, dict) else '',
         today_formatted=local_dt.strftime("%d-%m-%Y %I:%M %p")
     )
 
-@app.route("/results")
+@app.route("/results-report")
 @app.route("/go-to-results")
 def results_page():
     birth_info = session.get('birth_info', {})
@@ -1930,7 +2269,8 @@ def results_page():
     
     dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
     report = evaluate_kundali_results(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
-    return render_template("results.html", report=report)
+    return render_template("full_report.html", report=report)
+
 
 @app.route("/api/jathaka-results", methods=["GET", "POST"])
 def api_jathaka_results():
@@ -2006,13 +2346,24 @@ def compare_results():
     p1_full = {**data1, **dasha_data1}
     p2_full = {**data2, **dasha_data2}
 
+    # Store p1 in session as reference for transit calculations
+    session['birth_info'] = data1
+
+    # Comparison analysis between Person 1 and Person 2
+    p1_p2_same_nak, p1_p2_same_rashi, p1_p2_bhavas = compute_birth_transit_comparison(
+        data1, data2.get('planet_positions', [])
+    )
+
     return render_template(
         "compare_results.html",
         p1=p1_full,
         p2=p2_full,
         nakshatra_boxes1=nakshatra_boxes1,
         nakshatra_boxes2=nakshatra_boxes2,
-        chart_type=chart_type
+        chart_type=chart_type,
+        p1_p2_same_nak=p1_p2_same_nak,
+        p1_p2_same_rashi=p1_p2_same_rashi,
+        p1_p2_bhavas=p1_p2_bhavas
     )
 
 @app.route("/transit_chart", methods=["POST"])
@@ -2022,7 +2373,10 @@ def transit_chart():
     timezone_str = request.form.get("timezone", "Asia/Kolkata")
     
     if not lat or not lon:
-        return "❌ Location not provided", 400
+        birth_info = session.get('birth_info', {})
+        lat = birth_info.get('lat', 17.3850)
+        lon = birth_info.get('lon', 78.4867)
+        timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
 
     lat = float(lat)
     lon = float(lon)
@@ -2215,116 +2569,10 @@ def transit_chart():
 
     # --- Birth vs Transit Comparison Engine ---
     birth_info = session.get('birth_info', {})
-    birth_planet_positions = birth_info.get('planet_positions', [])
-    birth_lagna = birth_info.get('lagna', '')
-    birth_bhavas = birth_info.get('bhavas_list', [])
-
-    same_nakshatra_pada_matches = []
-    same_rashi_planet_matches = []
-    comparison_bhavas = []
-
-    if birth_planet_positions:
-        # 1. Exact Same Planet in Same Nakshatra and Same Pada Matches (ఒకే గ్రహం - ఒకే నక్షత్రం & ఒకే పాదం)
-        seen_nak_matches = set()
-        for tp in planet_positions:
-            for bp in birth_planet_positions:
-                if tp["name"] == bp["name"] and tp["nakshatra"] == bp["nakshatra"] and tp["padam"] == bp["padam"]:
-                    nak_key = (tp["name"], tp["lagna"], tp["nakshatra"], tp["padam"], tp["is_hand"], bp["is_hand"])
-                    if nak_key in seen_nak_matches:
-                        continue
-                    seen_nak_matches.add(nak_key)
-
-                    same_nakshatra_pada_matches.append({
-                        "planet": tp["name"],
-                        "transit_planet": tp["name"],
-                        "transit_is_hand": tp["is_hand"],
-                        "transit_degree": tp["degree"],
-                        "transit_rashi": tp["lagna"],
-                        "transit_color": tp["color"],
-                        "birth_planet": bp["name"],
-                        "birth_is_hand": bp["is_hand"],
-                        "birth_degree": bp["degree"],
-                        "birth_rashi": bp["lagna"],
-                        "birth_color": bp["color"],
-                        "nakshatra": tp["nakshatra"],
-                        "padam": tp["padam"],
-                        "is_both_direct": (not tp["is_hand"] and not bp["is_hand"])
-                    })
-
-        # 2. Same Planet in Same Rashi / Lagna (Deduplicated - Direct or Transit Aspect on Birth Planet)
-        seen_rashi_matches = set()
-        for tp in planet_positions:
-            for bp in birth_planet_positions:
-                # Exclude aspect-to-aspect matches to eliminate duplicate clutter
-                if tp["is_hand"] and bp["is_hand"]:
-                    continue
-                if tp["name"] == bp["name"] and tp["lagna"] == bp["lagna"]:
-                    rashi_key = (tp["name"], tp["lagna"], tp["is_hand"], bp["is_hand"])
-                    if rashi_key in seen_rashi_matches:
-                        continue
-                    seen_rashi_matches.add(rashi_key)
-
-                    if not tp["is_hand"] and not bp["is_hand"]:
-                        match_type = "ఒకే రాశిలో గ్రహ స్థితి"
-                    elif tp["is_hand"] and not bp["is_hand"]:
-                        match_type = "జన్మ గ్రహంపై గోచార దృష్టి"
-                    else:
-                        match_type = "జన్మ దృష్టిపై గోచార గ్రహం"
-
-                    same_rashi_planet_matches.append({
-                        "planet": tp["name"],
-                        "rashi": tp["lagna"],
-                        "match_type": match_type,
-                        "transit_is_hand": tp["is_hand"],
-                        "transit_degree": tp["degree"],
-                        "transit_nakshatra": tp["nakshatra"],
-                        "transit_padam": tp["padam"],
-                        "transit_color": tp["color"],
-                        "birth_is_hand": bp["is_hand"],
-                        "birth_degree": bp["degree"],
-                        "birth_nakshatra": bp["nakshatra"],
-                        "birth_padam": bp["padam"],
-                        "birth_color": bp["color"],
-                        "is_both_direct": (not tp["is_hand"] and not bp["is_hand"]),
-                        "is_exact_nakshatra_pada": (tp["nakshatra"] == bp["nakshatra"] and tp["padam"] == bp["padam"])
-                    })
-
-        # 3. Side-by-Side 12 Bhavas Comparison (aligned to Birth Chart Bhavas)
-        birth_start_idx = LAGNA_NAMES_TELUGU.index(birth_lagna) if birth_lagna in LAGNA_NAMES_TELUGU else 0
-        for h_no in range(1, 13):
-            r_name = LAGNA_NAMES_TELUGU[(birth_start_idx + h_no - 1) % 12]
-
-            b_direct = [p for p in birth_planet_positions if p["lagna"] == r_name and not p["is_hand"]]
-            b_hands = [p for p in birth_planet_positions if p["lagna"] == r_name and p["is_hand"]]
-
-            t_direct = [p for p in planet_positions if p["lagna"] == r_name and not p["is_hand"]]
-            t_hands = [p for p in planet_positions if p["lagna"] == r_name and p["is_hand"]]
-
-            # Check highlights for this bhava
-            bhava_matches = []
-            for td in t_direct:
-                for bd in b_direct:
-                    if td["name"] == bd["name"]:
-                        bhava_matches.append(f"🪐 {td['name']} జన్మ స్థితిపై గోచారం")
-                    if td["nakshatra"] == bd["nakshatra"] and td["padam"] == bd["padam"]:
-                        bhava_matches.append(f"✨ {td['name']} & {bd['name']}: {td['nakshatra']}-{td['padam']}వ పాదం")
-
-            for th in t_hands:
-                for bd in b_direct:
-                    if th["nakshatra"] == bd["nakshatra"] and th["padam"] == bd["padam"]:
-                        bhava_matches.append(f"👁️ {th['name']}👉 దృష్టి & {bd['name']}: {th['nakshatra']}-{th['padam']}వ పాదం")
-
-            comparison_bhavas.append({
-                "bhava_num": h_no,
-                "bhava_name": f"{h_no}వ భావం",
-                "rashi": r_name,
-                "is_birth_lagna": (h_no == 1),
-                "birth_direct": b_direct,
-                "birth_hands": b_hands,
-                "transit_direct": t_direct,
-                "transit_hands": t_hands,
-                "highlights": bhava_matches
-            })
+    same_nakshatra_pada_matches, same_rashi_planet_matches, comparison_bhavas = compute_birth_transit_comparison(
+        birth_info, planet_positions
+    )
+    birth_lagna = birth_info.get('lagna', '') if isinstance(birth_info, dict) else ''
 
     return render_template(
         "transit_partial.html",
@@ -2823,13 +3071,20 @@ def get_marana_dasa_analysis(birth_info, target_date_str=None, target_time_str=N
     return active_match, timeline, target_display, target_date_val, target_time_val, reverse_info, future_matches
 
 
+@app.route("/birthForm")
+@app.route("/birth-form")
+@app.route("/birth_form")
+def birth_form_direct():
+    return render_template("birth_form.html")
+
+
 @app.route("/marana_dasa")
 def marana_dasa():
     birth_info = session.get('birth_info', {})
 
     if not birth_info:
-        # Redirect to birth form on home page if no birth chart generated yet
-        return redirect("/#birthForm")
+        # Redirect to birth form if no birth chart generated yet
+        return redirect("/birth_form")
 
     target_date_val = datetime.datetime.now().strftime("%Y-%m-%d")
     target_time_val = datetime.datetime.now().strftime("%H:%M")
@@ -2863,7 +3118,19 @@ def chart2():
     nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
 
     if not dob:
-        return "❌ No birth info found"
+        today_s = datetime.date.today().strftime("%Y-%m-%d")
+        data = get_kundali_data("జాతకుడు", today_s, "12:00", "హైదరాబాద్, తెలంగాణ, భారతదేశం", 17.3850, 78.4867)
+        session['birth_info'] = data
+        birth_info = data
+        dob = birth_info.get('dob', today_s)
+        tob = birth_info.get('tob', '12:00')
+        name = birth_info.get('name', 'జాతకుడు')
+        place = birth_info.get('place', 'హైదరాబాద్, తెలంగాణ, భారతదేశం')
+        day_name = birth_info.get('day_name', '')
+        nakshatra = birth_info.get('nakshatra', '')
+        padam = birth_info.get('padam', 1)
+        nak_elapsed = birth_info.get('nak_elapsed', '0గం 0ని')
+        nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
 
     dasha_data = get_dasha_info(birth_info)
 
@@ -3010,12 +3277,18 @@ def chart3():
         friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
         enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
 
+    name = birth_info.get('name', '') if birth_info else ''
+    selected_lang = session.get('lang') or request.cookies.get('lang') or 'te'
+    title = f"{name} {tr('ద్వాదశ గ్రహములు', selected_lang)}".strip() if name else tr('ద్వాదశ గ్రహములు', selected_lang)
     return render_template("chart3.html", 
+                           name=name,
+                           title=title,
                            current_year=current_year, 
                            lagna=lagna,
                            native_party=native_party,
                            friends=friends,
                            enemies=enemies)
+
 
 @app.route("/go-to-birth-chart")
 def go_to_birth_chart():
