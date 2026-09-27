@@ -187,7 +187,6 @@
 177. [07-Jul-2026 17:48:17] Name: Krishna Reddy sajjala, Mobile: +91 5555555555, DOB: 2026-07-07, TOB: 23:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 178. [08-Jul-2026 02:40:10] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 1988-10-25, TOB: 01:02, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 179. [08-Jul-2026 03:18:21] Name: OKKKKKK, Mobile: +91 2222222222, DOB: 2026-07-08, TOB: 08:47, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-<<<<<<< HEAD
 180. [08-Jul-2026 13:09:38] Name: rfffffff, Mobile: +91 3333333333, DOB: 2026-07-08, TOB: 13:09, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 181. [08-Jul-2026 13:12:08] Name: rfffffff, Mobile: +91 3333333333, DOB: 2026-07-08, TOB: 13:09, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 182. [08-Jul-2026 13:18:21] Name: rfffffff, Mobile: +91 3333333333, DOB: 2026-07-08, TOB: 13:09, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
@@ -202,12 +201,10 @@
 191. [08-Jul-2026 14:06:49] Name: 22222222222, Mobile: +91 2222222222, DOB: 2026-07-08, TOB: 14:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 192. [08-Jul-2026 14:18:50] Name: sssssssssssssssssssssssss, Mobile: +91 2222222222, DOB: 2026-07-08, TOB: 14:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 193. [08-Jul-2026 14:46:55] Name: okdddd, Mobile: +91 3333333333, DOB: 2026-07-08, TOB: 14:46, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-=======
 180. [08-Jul-2026 07:32:28] Name: reddy, Mobile: +91 5555555555, DOB: 2026-07-08, TOB: 13:02, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 181. [08-Jul-2026 07:34:45] Name: Krishna Reddy sajjala, Mobile: +91 5555555555, DOB: 2026-07-08, TOB: 13:04, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 182. [08-Jul-2026 07:36:18] Name: ddddd, Mobile: +91 2222222222, DOB: 2026-07-08, TOB: 13:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 183. [08-Jul-2026 07:37:14] Name: ddddd, Mobile: N/A, DOB: 2026-07-08, TOB: 13:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
->>>>>>> d1c9f16ecd7ec6bb702842b14351e2a9d1a3a5f9
 184. [08-Jul-2026 19:58:52] Name: okkkkkkkkkkk, Mobile: +91 2222222222, DOB: 2026-07-08, TOB: 19:58, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 185. [08-Jul-2026 20:19:09] Name: reddy, Mobile: +91 5555555555, DOB: 2026-07-08, TOB: 20:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 186. [08-Jul-2026 20:30:52] Name: reddy, Mobile: +91 5555555555, DOB: 2026-07-08, TOB: 20:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
@@ -472,57 +469,74 @@
 445. [15-Sep-2026 04:07:57] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-15, TOB: 09:37, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 446. [16-Sep-2026 14:01:49] Name: collector award, Mobile: +91 8897165741, DOB: 2026-05-18, TOB: 14:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 447. [20-Sep-2026 13:56:53] Name: rajeswaeri, Mobile: N/A, DOB: 1989-02-05, TOB: 22:30, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
-448. [27-Sep-2026 15:34:53] Name: Krishna Test, Mobile: N/A, DOB: 1990-05-15, TOB: 10:30, Place: Hyderabad, Telangana, India
-449. [27-Sep-2026 15:35:04] Name: Person One (Compare 1), Mobile: N/A, DOB: 1992-04-10, TOB: 08:15, Place: Hyderabad
-450. [27-Sep-2026 15:35:04] Name: Person Two (Compare 2), Mobile: N/A, DOB: 1994-08-20, TOB: 14:45, Place: Vijayawada
-451. [27-Sep-2026 15:45:51] Name: 1 (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
-452. [27-Sep-2026 15:45:51] Name: 5 (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
-453. [27-Sep-2026 15:46:14] Name: 1 (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
-454. [27-Sep-2026 15:46:14] Name: 5 (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
-455. [27-Sep-2026 15:52:18] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-456. [27-Sep-2026 15:52:24] Name: రాము, Mobile: N/A, DOB: 1990-01-01, TOB: 10:30, Place: Hyderabad
-457. [27-Sep-2026 15:55:09] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-458. [27-Sep-2026 16:03:28] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-459. [27-Sep-2026 16:17:15] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-460. [27-Sep-2026 16:17:32] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-461. [27-Sep-2026 16:18:37] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-462. [27-Sep-2026 16:21:13] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-463. [27-Sep-2026 16:21:32] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-464. [27-Sep-2026 16:21:55] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-465. [27-Sep-2026 16:22:07] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-466. [27-Sep-2026 16:22:18] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-467. [27-Sep-2026 16:42:49] Name: OK, Mobile: N/A, DOB: 2026-09-27, TOB: 16:42, Place: Kandukur, Andhra Pradesh, India
-468. [27-Sep-2026 16:43:56] Name: gf, Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
-469. [27-Sep-2026 16:43:56] Name: gf, Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
-470. [27-Sep-2026 16:52:57] Name: gopal reddy, Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
-471. [27-Sep-2026 16:52:57] Name: gopal reddy, Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
-472. [27-Sep-2026 21:43:56] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:43, Place: Guntur, Andhra Pradesh, India
-473. [27-Sep-2026 21:47:21] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:47, Place: Kandukur, Andhra Pradesh, India
-474. [27-Sep-2026 21:48:36] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-475. [27-Sep-2026 21:48:36] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-476. [27-Sep-2026 21:53:13] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-477. [27-Sep-2026 21:53:13] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-478. [27-Sep-2026 21:54:37] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-479. [27-Sep-2026 21:54:37] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-480. [27-Sep-2026 21:55:30] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-481. [27-Sep-2026 21:55:30] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
-482. [27-Sep-2026 21:56:00] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
-483. [27-Sep-2026 21:56:22] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
-484. [27-Sep-2026 21:56:38] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
-485. [27-Sep-2026 21:56:44] Name: రాము (Compare 1), Mobile: N/A, DOB: 1992-04-10, TOB: 10:00, Place: Hyderabad
-486. [27-Sep-2026 21:56:44] Name: సీత (Compare 2), Mobile: N/A, DOB: 1995-08-20, TOB: 14:30, Place: Vijayawada
-487. [27-Sep-2026 21:56:53] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 21:56, Place: Kandukur, Andhra Pradesh, India
-488. [27-Sep-2026 22:00:29] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:58, Place: Guntur, Andhra Pradesh, India
-489. [27-Sep-2026 22:01:06] Name: dddd (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 22:00, Place: Kandukur, Andhra Pradesh, India
-490. [27-Sep-2026 22:01:06] Name: dddd (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 22:00, Place: Kandukur, Andhra Pradesh, India
-491. [27-Sep-2026 22:08:53] Name: Test User, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-492. [27-Sep-2026 22:09:06] Name: Test User, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-493. [27-Sep-2026 22:10:05] Name: రాము, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
-494. [27-Sep-2026 22:10:10] Name: వరుడు (Compare 1), Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: 
-495. [27-Sep-2026 22:10:10] Name: వధువు (Compare 2), Mobile: N/A, DOB: 1998-08-20, TOB: 14:15, Place: 
-496. [27-Sep-2026 22:10:23] Name: వరుడు (Compare 1), Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: 
-497. [27-Sep-2026 22:10:23] Name: వధువు (Compare 2), Mobile: N/A, DOB: 1998-08-20, TOB: 14:15, Place: 
-498. [27-Sep-2026 22:11:13] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Kandukur, Andhra Pradesh, India
-499. [27-Sep-2026 22:12:39] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
-500. [27-Sep-2026 22:12:56] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
-501. [27-Sep-2026 22:13:09] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
+448. [25-Sep-2026 02:49:19] Name: UPENDRAKUMAR (Compare 1), Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, ప్రొద్దుటూరు, YSR Kadapa, Andhra Pradesh, 516360, India
+449. [25-Sep-2026 02:49:20] Name: marriage (Compare 2), Mobile: N/A, DOB: 2010-12-17, TOB: 09:05, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+450. [25-Sep-2026 03:04:00] Name: UPENDRAKUMAR (Compare 1), Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, ప్రొద్దుటూరు, YSR Kadapa, Andhra Pradesh, 516360, India
+451. [25-Sep-2026 03:04:01] Name: marriage (Compare 2), Mobile: N/A, DOB: 2010-12-17, TOB: 09:05, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+452. [25-Sep-2026 03:11:34] Name: venu (Compare 1), Mobile: N/A, DOB: 1994-01-24, TOB: 12:00, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+453. [25-Sep-2026 03:11:34] Name: marriage (Compare 2), Mobile: N/A, DOB: 2024-12-14, TOB: 08:10, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+454. [25-Sep-2026 03:13:42] Name: venu (Compare 1), Mobile: N/A, DOB: 1994-01-24, TOB: 12:00, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+455. [25-Sep-2026 03:13:43] Name: marriage (Compare 2), Mobile: N/A, DOB: 2024-12-14, TOB: 08:10, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+456. [26-Sep-2026 03:03:47] Name: PULICHERLA UPENDRA KUMAR, Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, ప్రొద్దుటూరు, YSR Kadapa, Andhra Pradesh, 516360, India
+457. [26-Sep-2026 03:45:05] Name: Ok, Mobile: N/A, DOB: 2026-09-26, TOB: 09:14, Place: Tadpatri, Anantapuram, Andhra Pradesh, India
+458. [26-Sep-2026 04:28:30] Name: Hhh, Mobile: N/A, DOB: 1906-09-26, TOB: 09:57, Place: Tadpatri, Anantapuram, Andhra Pradesh, India
+459. [27-Sep-2026 09:37:53] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 15:07, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+460. [27-Sep-2026 09:38:21] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 15:07, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+461. [27-Sep-2026 09:42:18] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 15:12, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+462. [27-Sep-2026 09:43:27] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 15:12, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+463. [27-Sep-2026 10:20:10] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 15:12, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+464. [27-Sep-2026 16:12:07] Name: Krishna Reddy sajjala, Mobile: +91 9700836368, DOB: 2026-09-27, TOB: 21:41, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+465. [27-Sep-2026 15:34:53] Name: Krishna Test, Mobile: N/A, DOB: 1990-05-15, TOB: 10:30, Place: Hyderabad, Telangana, India
+466. [27-Sep-2026 15:35:04] Name: Person One (Compare 1), Mobile: N/A, DOB: 1992-04-10, TOB: 08:15, Place: Hyderabad
+467. [27-Sep-2026 15:35:04] Name: Person Two (Compare 2), Mobile: N/A, DOB: 1994-08-20, TOB: 14:45, Place: Vijayawada
+468. [27-Sep-2026 15:45:51] Name: 1 (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
+469. [27-Sep-2026 15:45:51] Name: 5 (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
+470. [27-Sep-2026 15:46:14] Name: 1 (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
+471. [27-Sep-2026 15:46:14] Name: 5 (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 15:45, Place: Kandukur, Andhra Pradesh, India
+472. [27-Sep-2026 15:52:18] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+473. [27-Sep-2026 15:52:24] Name: రాము, Mobile: N/A, DOB: 1990-01-01, TOB: 10:30, Place: Hyderabad
+474. [27-Sep-2026 15:55:09] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+475. [27-Sep-2026 16:03:28] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+476. [27-Sep-2026 16:17:15] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+477. [27-Sep-2026 16:17:32] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+478. [27-Sep-2026 16:18:37] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+479. [27-Sep-2026 16:21:13] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+480. [27-Sep-2026 16:21:32] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+481. [27-Sep-2026 16:21:55] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+482. [27-Sep-2026 16:22:07] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+483. [27-Sep-2026 16:22:18] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-27, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+484. [27-Sep-2026 16:42:49] Name: OK, Mobile: N/A, DOB: 2026-09-27, TOB: 16:42, Place: Kandukur, Andhra Pradesh, India
+485. [27-Sep-2026 16:43:56] Name: gf, Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
+486. [27-Sep-2026 16:43:56] Name: gf, Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
+487. [27-Sep-2026 16:52:57] Name: gopal reddy, Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
+488. [27-Sep-2026 16:52:57] Name: gopal reddy, Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
+489. [27-Sep-2026 21:43:56] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:43, Place: Guntur, Andhra Pradesh, India
+490. [27-Sep-2026 21:47:21] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:47, Place: Kandukur, Andhra Pradesh, India
+491. [27-Sep-2026 21:48:36] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+492. [27-Sep-2026 21:48:36] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+493. [27-Sep-2026 21:53:13] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+494. [27-Sep-2026 21:53:13] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+495. [27-Sep-2026 21:54:37] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+496. [27-Sep-2026 21:54:37] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+497. [27-Sep-2026 21:55:30] Name: yh (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+498. [27-Sep-2026 21:55:30] Name: yyy (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 21:48, Place: Kandukur, Andhra Pradesh, India
+499. [27-Sep-2026 21:56:00] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
+500. [27-Sep-2026 21:56:22] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
+501. [27-Sep-2026 21:56:38] Name: కృష్ణ, Mobile: N/A, DOB: 1995-05-15, TOB: 06:30, Place: Hyderabad
+502. [27-Sep-2026 21:56:44] Name: రాము (Compare 1), Mobile: N/A, DOB: 1992-04-10, TOB: 10:00, Place: Hyderabad
+503. [27-Sep-2026 21:56:44] Name: సీత (Compare 2), Mobile: N/A, DOB: 1995-08-20, TOB: 14:30, Place: Vijayawada
+504. [27-Sep-2026 21:56:53] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 21:56, Place: Kandukur, Andhra Pradesh, India
+505. [27-Sep-2026 22:00:29] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 21:58, Place: Guntur, Andhra Pradesh, India
+506. [27-Sep-2026 22:01:06] Name: dddd (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 22:00, Place: Kandukur, Andhra Pradesh, India
+507. [27-Sep-2026 22:01:06] Name: dddd (Compare 2), Mobile: N/A, DOB: 2026-09-27, TOB: 22:00, Place: Kandukur, Andhra Pradesh, India
+508. [27-Sep-2026 22:08:53] Name: Test User, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+509. [27-Sep-2026 22:09:06] Name: Test User, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+510. [27-Sep-2026 22:10:05] Name: రాము, Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+511. [27-Sep-2026 22:10:10] Name: వరుడు (Compare 1), Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: 
+512. [27-Sep-2026 22:10:10] Name: వధువు (Compare 2), Mobile: N/A, DOB: 1998-08-20, TOB: 14:15, Place: 
+513. [27-Sep-2026 22:10:23] Name: వరుడు (Compare 1), Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: 
+514. [27-Sep-2026 22:10:23] Name: వధువు (Compare 2), Mobile: N/A, DOB: 1998-08-20, TOB: 14:15, Place: 
+515. [27-Sep-2026 22:11:13] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Kandukur, Andhra Pradesh, India
+516. [27-Sep-2026 22:12:39] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
+517. [27-Sep-2026 22:12:56] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
+518. [27-Sep-2026 22:13:09] Name: reddy, Mobile: N/A, DOB: 2026-09-27, TOB: 22:11, Place: Guntur, Andhra Pradesh, India
