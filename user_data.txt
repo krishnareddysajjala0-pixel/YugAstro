@@ -576,3 +576,4 @@
 552. [30-Sep-2026 05:58:31] Name: GANGARAJU ACCIDENT, Mobile: N/A, DOB: 2025-07-23, TOB: 12:20, Place: Krishnarājpur, Punjab, India
 553. [30-Sep-2026 05:58:55] Name: GANGARAJU ACCIDENT, Mobile: N/A, DOB: 2025-07-23, TOB: 12:20, Place: Krishnarājpur, Punjab, India
 554. [30-Sep-2026 06:24:31] Name: GANGARAJU ACCIDENT, Mobile: N/A, DOB: 2025-07-23, TOB: 12:20, Place: Krishnarājpur, Punjab, India
+555. [30-Sep-2026 13:39:24] Name: PULICHERLA UPENDRAKUMAR, Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, India
