@@ -584,3 +584,4 @@
 560. [30-Sep-2026 14:00:15] Name: జాతకుడు, Mobile: N/A, DOB: 2026-09-30, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
 561. [30-Sep-2026 14:00:51] Name: UPENDRA KUMAR, Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, Andhra Pradesh, India
 562. [30-Sep-2026 14:02:31] Name: PULICHERLA UPENDRAKUMAR, Mobile: +91 8897165741, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, India
+563. [30-Sep-2026 14:05:15] Name: PULICHERLA UPENDRAKUMAR, Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, India
