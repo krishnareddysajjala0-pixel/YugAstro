@@ -3143,6 +3143,239 @@ def chart2():
     )
 
 
+def compute_dtime_timeline(birth_info):
+    """
+    Computes exact monthly dates & times from birth to 120 years in future
+    when transiting Moon matches the continuously advancing Dasa Degree.
+    """
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL
+
+    dob = birth_info.get('dob', '')
+    tob = birth_info.get('tob', '')
+    timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
+    try:
+        local_tz = pytz.timezone(timezone_str)
+    except Exception:
+        local_tz = pytz.timezone('Asia/Kolkata')
+
+    try:
+        birth_dt = local_tz.localize(datetime.datetime.strptime(f"{dob} {tob}", "%Y-%m-%d %H:%M"))
+    except Exception:
+        try:
+            birth_dt = local_tz.localize(datetime.datetime.strptime(f"{dob} {tob}", "%d-%m-%Y %H:%M"))
+        except Exception:
+            birth_dt = datetime.datetime.now(local_tz)
+
+    utc_dt = birth_dt.astimezone(pytz.utc)
+    jd_birth = swe.julday(
+        utc_dt.year, utc_dt.month, utc_dt.day,
+        utc_dt.hour + utc_dt.minute/60.0 + utc_dt.second/3600.0
+    )
+
+    # Accurate Moon Longitude at birth
+    m_info = swe.calc_ut(jd_birth, swe.MOON, flags)
+    birth_moon_lon = m_info[0][0]
+
+    # Predefined Dasa Setup based on birth moon
+    nak_size = 13.333333333333334
+    nak_idx = int(birth_moon_lon / nak_size)
+    rem_deg = birth_moon_lon - (nak_idx * nak_size)
+    pada = int(rem_deg / (nak_size / 4.0)) + 1
+    global_pada = nak_idx * 4 + pada
+    if global_pada == 0: global_pada = 108
+    while global_pada > 108: global_pada -= 108
+
+    dasa_idx = ((global_pada - 1) // 9) % 12
+    padas_in_dasa = (global_pada - 1) % 9
+    frac_pada = (rem_deg - (pada - 1) * (nak_size / 4.0)) / (nak_size / 4.0)
+    frac_dasa_spent = (padas_in_dasa + frac_pada) / 9.0
+
+    start_dasa_name = DASA_ORDER[dasa_idx]
+    first_dasa_years = DASA_YEARS.get(start_dasa_name, 10)
+    spent_days = frac_dasa_spent * first_dasa_years * 365.2425
+    jd_first_dasa_start = jd_birth - spent_days
+
+    # Build 12 Dasa segments & 144 Bhuktis timeline
+    dasa_timeline = []
+    curr_jd_s = jd_first_dasa_start
+    for i in range(12):
+        m_i = (dasa_idx + i) % 12
+        m_name = DASA_ORDER[m_i]
+        m_yrs = DASA_YEARS.get(m_name, 10)
+        m_start_jd = curr_jd_s
+        m_base_lon = (m_i * 30.0) % 360.0
+
+        bhuktis = []
+        curr_b_jd = m_start_jd
+        curr_b_lon = m_base_lon
+        for j in range(12):
+            b_i = (m_i + j) % 12
+            b_name = DASA_ORDER[b_i]
+            b_yrs = DASA_YEARS.get(b_name, 10)
+            b_dur_days = (m_yrs * b_yrs / 120.0) * 365.2425
+            b_deg_span = 30.0 * (b_yrs / 120.0)
+            bhuktis.append({
+                'b_idx': b_i,
+                'name': b_name,
+                'start_jd': curr_b_jd,
+                'end_jd': curr_b_jd + b_dur_days,
+                'start_lon': curr_b_lon,
+                'end_lon': curr_b_lon + b_deg_span
+            })
+            curr_b_jd += b_dur_days
+            curr_b_lon = (curr_b_lon + b_deg_span) % 360.0
+
+        m_end_jd = curr_b_jd
+        dasa_timeline.append({
+            'm_idx': m_i,
+            'name': m_name,
+            'years': m_yrs,
+            'start_jd': m_start_jd,
+            'end_jd': m_end_jd,
+            'start_lon': m_base_lon,
+            'bhuktis': bhuktis
+        })
+        curr_jd_s = m_end_jd
+
+    total_cycle_days = dasa_timeline[-1]['end_jd'] - dasa_timeline[0]['start_jd']
+
+    def get_dasa_info_at_jd(jd):
+        wrapped_jd = dasa_timeline[0]['start_jd'] + ((jd - dasa_timeline[0]['start_jd']) % total_cycle_days)
+        for m in dasa_timeline:
+            if m['start_jd'] <= wrapped_jd <= m['end_jd']:
+                m_frac = (wrapped_jd - m['start_jd']) / (m['end_jd'] - m['start_jd'])
+                deg = (m['start_lon'] + m_frac * 30.0) % 360.0
+                active_bhukti = m['bhuktis'][-1]['name']
+                for b in m['bhuktis']:
+                    if b['start_jd'] <= wrapped_jd <= b['end_jd']:
+                        active_bhukti = b['name']
+                        break
+                return deg, m['name'], active_bhukti
+        return birth_moon_lon, DASA_ORDER[dasa_idx], DASA_ORDER[dasa_idx]
+
+    now_dt = datetime.datetime.now(local_tz)
+    now_utc = now_dt.astimezone(pytz.utc)
+    jd_now = swe.julday(now_utc.year, now_utc.month, now_utc.day,
+                        now_utc.hour + now_utc.minute/60.0 + now_utc.second/3600.0)
+
+    end_jd_120 = jd_birth + 120.0 * 365.2425
+    curr_jd = jd_birth
+    round_no = 0
+    matches = []
+    current_match_idx = 0
+    min_diff_to_now = 999999.0
+
+    while curr_jd <= end_jd_120 and round_no < 1620:
+        if round_no == 0:
+            match_jd = jd_birth
+            target_deg, m_name, b_name = get_dasa_info_at_jd(match_jd)
+        else:
+            for it in range(15):
+                m_lon = swe.calc_ut(curr_jd, swe.MOON, flags)[0][0]
+                target_deg, m_name, b_name = get_dasa_info_at_jd(curr_jd)
+                diff = (target_deg - m_lon) % 360.0
+                if diff > 180: diff -= 360.0
+                if abs(diff) < 0.00001:
+                    break
+                curr_jd += diff / 13.168
+            match_jd = curr_jd
+            target_deg, m_name, b_name = get_dasa_info_at_jd(match_jd)
+
+        # Convert to local time
+        y, m, d, h_dec = swe.revjul(match_jd)
+        h = int(h_dec)
+        m_mins = (h_dec - h) * 60.0
+        mn = int(m_mins)
+        sec = int((m_mins - mn) * 60.0)
+        dt_utc_obj = datetime.datetime(y, m, d, h, mn, sec, tzinfo=pytz.utc)
+        dt_local = dt_utc_obj.astimezone(local_tz)
+
+        # Position details
+        rasi_i = int(target_deg // 30) % 12
+        deg_in_rasi = target_deg % 30
+        d_int = int(deg_in_rasi)
+        m_int = int((deg_in_rasi - d_int) * 60)
+        s_int = int((((deg_in_rasi - d_int) * 60) - m_int) * 60)
+
+        nak_i = int(target_deg / nak_size) % 27
+        deg_in_nak = target_deg - (int(target_deg / nak_size) * nak_size)
+        pada_no = int(deg_in_nak / (nak_size / 4.0)) + 1
+
+        days_from_birth = (dt_local - birth_dt).total_seconds() / 86400.0
+        if round_no == 0 or days_from_birth < 0:
+            age_y, age_m = 0, 0
+        else:
+            age_y = int(days_from_birth // 365.25)
+            rem_d = days_from_birth - (age_y * 365.25)
+            age_m = int(rem_d // 30.4375)
+
+        diff_now = abs(match_jd - jd_now)
+        if diff_now < min_diff_to_now:
+            min_diff_to_now = diff_now
+            current_match_idx = round_no
+
+        matches.append({
+            'round': round_no,
+            'dt_str': dt_local.strftime('%d-%m-%Y %H:%M:%S'),
+            'date_str': dt_local.strftime('%d-%m-%Y'),
+            'time_str': dt_local.strftime('%H:%M:%S'),
+            'degree_str': f"{d_int}° {m_int:02d}′ {s_int:02d}″",
+            'total_degree': round(target_deg, 4),
+            'rasi': LAGNA_NAMES_TELUGU[rasi_i] if rasi_i < len(LAGNA_NAMES_TELUGU) else "",
+            'nakshatra': NAKSHATRAS_TELUGU[nak_i],
+            'padam': pada_no,
+            'mahadasha': m_name,
+            'bhukti': b_name,
+            'age_y': age_y,
+            'age_m': age_m,
+            'age_str': f"{age_y} సం. {age_m} నెలలు",
+            'is_current': False,
+            'is_birth': (round_no == 0),
+            'status': 'జన్మ' if round_no == 0 else ('గతం' if match_jd < jd_now else 'భవిష్యత్తు')
+        })
+
+        curr_jd = match_jd + 25.0
+        round_no += 1
+
+    if matches and 0 <= current_match_idx < len(matches):
+        matches[current_match_idx]['is_current'] = True
+        matches[current_match_idx]['status'] = 'ప్రస్తుతం'
+
+    b_rasi_i = int(birth_moon_lon // 30) % 12
+    b_deg_rasi = birth_moon_lon % 30
+    b_d_int = int(b_deg_rasi)
+    b_m_int = int((b_deg_rasi - b_d_int) * 60)
+    b_s_int = int((((b_deg_rasi - b_d_int) * 60) - b_m_int) * 60)
+    b_rasi_name = LAGNA_NAMES_TELUGU[b_rasi_i] if b_rasi_i < len(LAGNA_NAMES_TELUGU) else ""
+    birth_moon_str = f"{b_d_int}° {b_m_int:02d}′ {b_s_int:02d}″ ({b_rasi_name})"
+
+    return matches, birth_moon_str, current_match_idx
+
+
+@app.route("/dtime")
+def dtime():
+    birth_info = session.get('birth_info', {})
+    if not birth_info or not birth_info.get('dob'):
+        today_s = datetime.date.today().strftime("%Y-%m-%d")
+        data = get_kundali_data("జాతకుడు", today_s, "12:00", "హైదరాబాద్, తెలంగాణ, భారతదేశం", 17.3850, 78.4867)
+        session['birth_info'] = data
+        birth_info = data
+
+    matches, birth_moon_str, current_match_idx = compute_dtime_timeline(birth_info)
+    current_match = matches[current_match_idx] if (matches and 0 <= current_match_idx < len(matches)) else None
+
+    return render_template(
+        "dtime.html",
+        birth_info=birth_info,
+        matches=matches,
+        birth_moon_str=birth_moon_str,
+        current_match=current_match,
+        total_rounds=len(matches),
+        page_title='D-Time — 120 Years Moon Transit Degree Timeline | YugAstro'
+    )
+
+
 @app.route("/compare_dasha", methods=["GET", "POST"])
 def compare_dasha():
     if request.method == "POST":

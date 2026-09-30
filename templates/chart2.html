@@ -7535,6 +7535,26 @@ body {
       
 
 
+      <!-- D-Time Button -->
+      <a href="/dtime" class="top-btn-dtime ctrl-btn" id="top-btn-dtime" title="D-Time: 120 Years Moon Transit Degree Timeline" style="
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+          color: #ffffff;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-weight: 700;
+          font-size: 13px;
+          border: 1px solid rgba(186, 230, 253, 0.4);
+          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+          transition: all 0.2s ease;
+      ">
+        <i class="fas fa-clock" style="color: #fef08a;"></i>
+        <span>dtime</span>
+      </a>
+
       <!-- 2. Language Switcher (LAST / RIGHT) -->
 
 
@@ -8040,25 +8060,47 @@ body {
 
             <div class="dasa-header-row" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
                 <div class="section-title" style="margin: 0; text-align: left;">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
-                <button class="expand-all-btn print-hide" onclick="toggleExpandAllDasas(this)" title="Toggle Anthara Dasalu" style="
-                    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-                    color: #ffffff;
-                    border: 1px solid rgba(199, 210, 254, 0.4);
-                    padding: 7px 16px;
-                    border-radius: 12px;
-                    font-size: 13px;
-                    font-weight: 700;
-                    cursor: pointer;
-                    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.4);
-                    transition: all 0.2s ease;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 6px;
-                    white-space: nowrap;
-                ">
-                    <i class="fas fa-list-ul"></i>
-                    <span>{{ _('అంతర్దశలు') }}</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <a href="/dtime" class="dtime-btn print-hide" title="D-Time: 120 Years Moon Transit Degree Timeline" style="
+                        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+                        color: #ffffff;
+                        text-decoration: none;
+                        border: 1px solid rgba(186, 230, 253, 0.4);
+                        padding: 7px 16px;
+                        border-radius: 12px;
+                        font-size: 13px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        box-shadow: 0 3px 10px rgba(2, 132, 199, 0.4);
+                        transition: all 0.2s ease;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    ">
+                        <i class="fas fa-clock" style="color: #fef08a;"></i>
+                        <span>dtime</span>
+                    </a>
+                    <button class="expand-all-btn print-hide" onclick="toggleExpandAllDasas(this)" title="Toggle Anthara Dasalu" style="
+                        background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+                        color: #ffffff;
+                        border: 1px solid rgba(199, 210, 254, 0.4);
+                        padding: 7px 16px;
+                        border-radius: 12px;
+                        font-size: 13px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        box-shadow: 0 3px 10px rgba(99, 102, 241, 0.4);
+                        transition: all 0.2s ease;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    ">
+                        <i class="fas fa-list-ul"></i>
+                        <span>{{ _('అంతర్దశలు') }}</span>
+                    </button>
+                </div>
             </div>
 
 
@@ -8673,6 +8715,9 @@ body {
         </button>
         <button class="float-btn btn-kundali" onclick="window.location.href='/go-to-birth-chart'">
             <i class="fas fa-dharmachakra"></i> <span>{{ _('కుండలి') }}</span>
+        </button>
+        <button class="float-btn btn-dtime" onclick="window.location.href='/dtime'" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;">
+            <i class="fas fa-clock" style="color: #fef08a;"></i> <span>dtime</span>
         </button>
         <button class="float-btn btn-planets" onclick="window.location.href='/chart3'">
             <i class="fas fa-star"></i> <span>{{ _('ద్వాదశ గ్రహములు') }}</span>

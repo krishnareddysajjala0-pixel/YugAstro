@@ -1,0 +1,681 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+<style>
+  .dtime-container {
+    max-width: 1200px;
+    margin: 20px auto 100px auto;
+    padding: 0 16px;
+    font-family: var(--font-main, 'Inter', sans-serif);
+  }
+
+  /* Back & Breadcrumb Navigation */
+  .dtime-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .dtime-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.7);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .dtime-back-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+  }
+
+  /* Main Title Banner */
+  .dtime-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .dtime-badge {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  .dtime-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-main, #ffffff);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .dtime-subtitle {
+    font-size: 1.02rem;
+    color: var(--text-muted, #94a3b8);
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Native Info Box */
+  .dtime-native-box {
+    background: var(--card-bg, rgba(15, 23, 42, 0.9));
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .dtime-native-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #fbbf24;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .dtime-native-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 4px;
+  }
+  .dtime-native-details {
+    font-size: 0.9rem;
+    color: var(--text-muted, #cbd5e1);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* Summary Metrics Cards */
+  .dtime-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .dtime-metric-card {
+    background: var(--card-bg, rgba(15, 23, 42, 0.85));
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.12));
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .dtime-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+  }
+  .dtime-metric-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .dtime-metric-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-top: 6px;
+  }
+  .dtime-metric-sub {
+    font-size: 0.82rem;
+    color: #38bdf8;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* Controls & Search Toolbar */
+  .dtime-toolbar {
+    background: var(--card-bg, rgba(15, 23, 42, 0.95));
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  .dtime-search-wrap {
+    flex: 1 1 280px;
+    position: relative;
+  }
+  .dtime-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    background: rgba(2, 6, 23, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 0.92rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .dtime-search-input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+  }
+  .dtime-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.9rem;
+  }
+  .dtime-filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .dtime-filter-btn {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    padding: 7px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dtime-filter-btn:hover {
+    background: rgba(51, 65, 85, 0.9);
+    color: #ffffff;
+  }
+  .dtime-filter-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #38bdf8;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+  }
+  .dtime-jump-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    padding: 7px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dtime-jump-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(16, 185, 129, 0.5);
+  }
+
+  /* Table Container */
+  .dtime-table-card {
+    background: var(--card-bg, rgba(15, 23, 42, 0.95));
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  }
+  .dtime-table-scroll {
+    overflow-x: auto;
+    max-height: 750px;
+    position: relative;
+  }
+  .dtime-table-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .dtime-table-scroll::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 4px;
+  }
+  .dtime-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+
+  .dtime-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .dtime-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #0f172a;
+    color: #38bdf8;
+    font-weight: 800;
+    padding: 13px 10px;
+    border-bottom: 2px solid #0284c7;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+  .dtime-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background 0.15s ease;
+  }
+  .dtime-table tbody tr:hover {
+    background: rgba(56, 189, 248, 0.08) !important;
+  }
+  .dtime-table tbody td {
+    padding: 11px 10px;
+    vertical-align: middle;
+    color: var(--text-main, #e2e8f0);
+    white-space: nowrap;
+  }
+
+  /* Status Badges */
+  .badge-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge-current {
+    background: #10b981;
+    color: #020617;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    animation: pulseGlow 2s infinite;
+  }
+  .badge-birth {
+    background: #fbbf24;
+    color: #020617;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+  }
+  .badge-past {
+    background: rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+  .badge-future {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+  }
+
+  /* Current Active Row Glow */
+  .row-current {
+    background: rgba(16, 185, 129, 0.18) !important;
+    border-left: 4px solid #10b981 !important;
+  }
+  .row-current td {
+    font-weight: 700 !important;
+    color: #ffffff !important;
+  }
+  .row-birth {
+    background: rgba(251, 191, 36, 0.12) !important;
+    border-left: 4px solid #fbbf24 !important;
+  }
+
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  /* Fixed Bottom Action Bar */
+  .dtime-bottom-bar {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  .dtime-bottom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .dtime-bottom-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+  }
+
+  @media screen and (max-width: 768px) {
+    .dtime-title { font-size: 1.6rem; }
+    .dtime-subtitle { font-size: 0.9rem; }
+    .dtime-toolbar { flex-direction: column; align-items: stretch; }
+    .dtime-table-scroll { max-height: 600px; }
+  }
+</style>
+
+<div class="dtime-container">
+
+  <!-- Top Navigation & Return Links -->
+  <div class="dtime-nav-row print-hide">
+    <a href="/chart2" class="dtime-back-btn">
+      <i class="fas fa-arrow-left"></i>
+      <span>{{ _('దశాచారమునకు తిరిగి వెళ్ళు') }}</span>
+    </a>
+    <div style="display: flex; gap: 8px;">
+      <a href="/chart" class="dtime-back-btn" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.4);">
+        <i class="fas fa-dharmachakra"></i>
+        <span>{{ _('జన్మ కుండలి') }}</span>
+      </a>
+      <a href="/marana_dasa" class="dtime-back-btn" style="color: #a855f7; border-color: rgba(168, 85, 247, 0.4);">
+        <i class="fas fa-hourglass-half"></i>
+        <span>{{ _('మరణ కాల దశ') }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Title Header -->
+  <div class="dtime-header">
+    <div class="dtime-badge">
+      <i class="fas fa-history"></i>
+      <span>{{ _('త్రైత సిద్ధాంత దశా-గోచార కాల సమన్వయము') }}</span>
+    </div>
+    <h1 class="dtime-title">
+      {{ _('D-Time — 120 సంవత్సరాల చంద్ర సంచార సరిపోలిక సమయాలు') }}
+    </h1>
+    <p class="dtime-subtitle">
+      {{ _('జన్మ సమయం నుండి ప్రతి నెలా గోచార చంద్రుడు రాశిచక్రాన్ని ప్రదక్షిణ చేస్తూ, దశా ప్రగమన బిందువును (Dasa Degree) సరిగ్గా తాకే ఖచ్చితమైన తేదీ & సమయాల సమగ్ర కాల పట్టిక (120 సంవత్సరాలు).') }}
+    </p>
+  </div>
+
+  <!-- Native Birth Details Box -->
+  <div class="dtime-native-box">
+    <div>
+      <div class="dtime-native-title">
+        <i class="fas fa-id-card"></i> {{ _('జాతకుని వివరాలు (Native Birth Info)') }}
+      </div>
+      <div class="dtime-native-name">
+        {{ birth_info.name }} <span style="font-size: 0.95rem; color: #94a3b8; font-weight: 600;">({{ birth_info.place }})</span>
+      </div>
+      <div class="dtime-native-details">
+        {{ _('జన్మ తేది:') }} <strong>{{ birth_info.dob }}</strong> {{ _('| సమయం:') }} <strong>{{ birth_info.tob }}</strong> {{ _('| నక్షత్రం:') }} <strong>{{ birth_info.nakshatra }} ({{ birth_info.padam }} {{ _('వ పాదం') }})</strong>
+      </div>
+    </div>
+    <div>
+      <div style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); padding: 10px 18px; border-radius: 14px; text-align: center;">
+        <div style="font-size: 0.78rem; font-weight: 700; color: #38bdf8; text-transform: uppercase;">
+          {{ _('జన్మ చంద్రుని డిగ్రీ (Birth Moon Degree)') }}
+        </div>
+        <div style="font-size: 1.25rem; font-weight: 800; color: #fbbf24; margin-top: 2px;">
+          {{ birth_moon_str }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Metrics Grid -->
+  <div class="dtime-metrics-grid">
+    <div class="dtime-metric-card">
+      <div class="dtime-metric-label">{{ _('మొత్తం రౌండ్లు (నెలలు)') }}</div>
+      <div class="dtime-metric-val">{{ total_rounds }} {{ _('రౌండ్లు') }}</div>
+      <div class="dtime-metric-sub">{{ _('ప్రతి రౌండ్‌కు డిగ్రీ మారుతుంది') }}</div>
+    </div>
+
+    <div class="dtime-metric-card">
+      <div class="dtime-metric-label">{{ _('కాల చక్ర విస్తీర్ణం') }}</div>
+      <div class="dtime-metric-val">120 {{ _('సంవత్సరాలు') }}</div>
+      <div class="dtime-metric-sub">360° {{ _('రాశిచక్ర పూర్తి ప్రదక్షిణ') }}</div>
+    </div>
+
+    {% if current_match %}
+    <div class="dtime-metric-card" style="border-color: rgba(16, 185, 129, 0.4);">
+      <div class="dtime-metric-label" style="color: #34d399;">{{ _('ప్రస్తుత రౌండ్ (ఈ రోజు సమీపం)') }}</div>
+      <div class="dtime-metric-val" style="color: #34d399;">#{{ current_match.round }} ({{ current_match.date_str }})</div>
+      <div class="dtime-metric-sub" style="color: #fef08a;">
+        {{ current_match.mahadasha }} - {{ current_match.bhukti }} ({{ current_match.age_str }})
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="dtime-metric-card">
+      <div class="dtime-metric-label">{{ _('గణన సూత్రం') }}</div>
+      <div class="dtime-metric-val" style="font-size: 1.05rem;">M(t) = D(t) Match</div>
+      <div class="dtime-metric-sub">{{ _('ఖగోళ ఖచ్చితత్వంతో కూడిన సమయాలు') }}</div>
+    </div>
+  </div>
+
+  <!-- Controls & Search Toolbar -->
+  <div class="dtime-toolbar print-hide">
+    <div class="dtime-search-wrap">
+      <i class="fas fa-search dtime-search-icon"></i>
+      <input type="text" id="dtime-search" class="dtime-search-input" placeholder="{{ _('సంవత్సరం (Year), దశ, భుక్తి, నక్షత్రం లేదా రౌండ్ సంఖ్యను శోధించండి...') }}" onkeyup="filterDtimeTable()">
+    </div>
+
+    <div class="dtime-filter-buttons">
+      <button class="dtime-filter-btn active" data-filter="all" onclick="setDtimeFilter('all', this)">
+        <i class="fas fa-list"></i> {{ _('అన్నీ') }} ({{ total_rounds }})
+      </button>
+      <button class="dtime-filter-btn" data-filter="current" onclick="setDtimeFilter('current', this)">
+        <i class="fas fa-dot-circle" style="color:#10b981;"></i> {{ _('ప్రస్తుతం') }}
+      </button>
+      <button class="dtime-filter-btn" data-filter="past" onclick="setDtimeFilter('past', this)">
+        <i class="fas fa-history"></i> {{ _('గతం') }}
+      </button>
+      <button class="dtime-filter-btn" data-filter="future" onclick="setDtimeFilter('future', this)">
+        <i class="fas fa-forward"></i> {{ _('భవిష్యత్తు') }}
+      </button>
+      <button class="dtime-jump-btn" onclick="scrollToCurrentMatch()">
+        <i class="fas fa-crosshairs"></i> {{ _('ప్రస్తుతం వద్దకు వెళ్ళు') }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Timeline Data Table -->
+  <div class="dtime-table-card">
+    <div class="dtime-table-scroll" id="dtime-table-container">
+      <table class="dtime-table" id="dtime-table">
+        <thead>
+          <tr>
+            <th>{{ _('రౌండ్ (#)') }}</th>
+            <th>{{ _('సరిపోలిన తేదీ & సమయం (Date & Time)') }}</th>
+            <th>{{ _('చంద్రుని డిగ్రీ (Moon Degree)') }}</th>
+            <th>{{ _('రాశి (Rasi)') }}</th>
+            <th>{{ _('నక్షత్రము - పాదము') }}</th>
+            <th>{{ _('దశ - అంతర్దశ (భుక్తి)') }}</th>
+            <th>{{ _('వయస్సు (Age)') }}</th>
+            <th>{{ _('స్థితి (Status)') }}</th>
+          </tr>
+        </thead>
+        <tbody id="dtime-tbody">
+          {% for m in matches %}
+          <tr class="dtime-row {% if m.is_current %}row-current{% elif m.is_birth %}row-birth{% endif %}"
+              id="match-row-{{ m.round }}"
+              data-round="{{ m.round }}"
+              data-year="{{ m.date_str[-4:] }}"
+              data-dasa="{{ m.mahadasha }}"
+              data-bhukti="{{ m.bhukti }}"
+              data-nakshatra="{{ m.nakshatra }}"
+              data-rasi="{{ m.rasi }}"
+              data-status="{% if m.is_current %}current{% elif m.is_birth %}birth{% elif m.status == 'గతం' %}past{% else %}future{% endif %}"
+              style="{% if loop.index % 2 == 0 %}background: rgba(255, 255, 255, 0.02);{% endif %}">
+            
+            <!-- Round Number -->
+            <td style="font-weight: 800; color: #94a3b8;">
+              {% if m.is_birth %}
+                <span style="color: #fbbf24;">0 ({{ _('జన్మ') }})</span>
+              {% else %}
+                #{{ m.round }}
+              {% endif %}
+            </td>
+
+            <!-- Date & Time -->
+            <td style="font-weight: 800; font-size: 0.95rem; color: {% if m.is_current %}#34d399{% elif m.is_birth %}#fbbf24{% else %}#f8fafc{% endif %};">
+              <i class="far fa-calendar-alt" style="margin-right: 5px; color: #38bdf8; font-size: 0.82rem;"></i>
+              {{ m.dt_str }}
+            </td>
+
+            <!-- Moon Degree -->
+            <td style="font-weight: 700; color: #fef08a;">
+              {{ m.degree_str }}
+            </td>
+
+            <!-- Rasi -->
+            <td style="font-weight: 700; color: #e2e8f0;">
+              {{ m.rasi }}
+            </td>
+
+            <!-- Nakshatra & Pada -->
+            <td style="font-weight: 600; color: #cbd5e1;">
+              {{ m.nakshatra }} ({{ m.padam }} {{ _('వ పాదం') }})
+            </td>
+
+            <!-- Dasa - Bhukti -->
+            <td>
+              <span style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-weight: 700; padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25);">
+                {{ m.mahadasha }} - {{ m.bhukti }}
+              </span>
+            </td>
+
+            <!-- Age -->
+            <td style="color: #94a3b8; font-weight: 600;">
+              {{ m.age_str }}
+            </td>
+
+            <!-- Status Badge -->
+            <td>
+              {% if m.is_current %}
+                <span class="badge-status badge-current">{{ _('ప్రస్తుతం') }}</span>
+              {% elif m.is_birth %}
+                <span class="badge-status badge-birth">{{ _('జన్మ') }}</span>
+              {% elif m.status == 'గతం' %}
+                <span class="badge-status badge-past">{{ _('గతం') }}</span>
+              {% else %}
+                <span class="badge-status badge-future">{{ _('భవిష్యత్తు') }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Fixed Floating Bottom Action Bar -->
+<div class="dtime-bottom-bar print-hide">
+  <a href="/chart2" class="dtime-bottom-btn" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+    <i class="fas fa-calendar-alt"></i> <span>{{ _('దశాచారము') }}</span>
+  </a>
+  <a href="/chart" class="dtime-bottom-btn" style="background: linear-gradient(135deg, #4f46e5, #4338ca);">
+    <i class="fas fa-dharmachakra"></i> <span>{{ _('కుండలి') }}</span>
+  </a>
+  <button class="dtime-bottom-btn" onclick="scrollToCurrentMatch()" style="background: linear-gradient(135deg, #10b981, #059669);">
+    <i class="fas fa-crosshairs"></i> <span>{{ _('ప్రస్తుతం') }}</span>
+  </button>
+  <button class="dtime-bottom-btn" onclick="window.print()" style="background: linear-gradient(135deg, #e11d48, #be123c);">
+    <i class="fas fa-print"></i> <span>{{ _('ప్రింట్') }}</span>
+  </button>
+</div>
+
+<script>
+  let currentActiveFilter = 'all';
+
+  function filterDtimeTable() {
+    const input = document.getElementById('dtime-search').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.dtime-row');
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      const status = row.getAttribute('data-status');
+      
+      const matchesSearch = (!input || text.includes(input));
+      let matchesFilter = true;
+      if (currentActiveFilter === 'current') {
+        matchesFilter = (status === 'current');
+      } else if (currentActiveFilter === 'past') {
+        matchesFilter = (status === 'past' || status === 'birth');
+      } else if (currentActiveFilter === 'future') {
+        matchesFilter = (status === 'future');
+      }
+
+      if (matchesSearch && matchesFilter) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function setDtimeFilter(filterType, btn) {
+    currentActiveFilter = filterType;
+    document.querySelectorAll('.dtime-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    filterDtimeTable();
+  }
+
+  function scrollToCurrentMatch() {
+    // Clear filter first to ensure current row is visible
+    setDtimeFilter('all', document.querySelector('.dtime-filter-btn[data-filter="all"]'));
+    document.getElementById('dtime-search').value = '';
+    filterDtimeTable();
+
+    const currentElem = document.querySelector('.row-current');
+    if (currentElem) {
+      currentElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      currentElem.style.transition = 'all 0.5s ease';
+      currentElem.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.8)';
+      setTimeout(() => {
+        currentElem.style.boxShadow = '';
+      }, 3000);
+    }
+  }
+
+  // Auto-scroll on initial load after small delay
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(scrollToCurrentMatch, 600);
+  });
+</script>
+{% endblock %}
