@@ -606,3 +606,4 @@
 582. [02-Oct-2026 13:38:02] Name: PULICHERLA MOKSHAA, Mobile: N/A, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, Andhra Pradesh, India
 583. [03-Oct-2026 04:20:41] Name: UPENDRA KUMAR, Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, Andhra Pradesh, India
 584. [03-Oct-2026 04:20:47] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-03, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+585. [03-Oct-2026 04:55:13] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-03, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
