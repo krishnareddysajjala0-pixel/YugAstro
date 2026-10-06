@@ -2457,6 +2457,75 @@ def compare_results():
         p1_p2_bhavas=p1_p2_bhavas
     )
 
+@app.route("/marriage_ponthana", methods=["GET", "POST"])
+def marriage_ponthana():
+    if request.method == "POST":
+        name1 = request.form.get("name1", "")
+        dob1 = request.form.get("dob1", "")
+        tob1 = request.form.get("tob1", "")
+        place1 = request.form.get("place1", "")
+        lat1 = request.form.get("lat1")
+        lon1 = request.form.get("lon1")
+
+        name2 = request.form.get("name2", "")
+        dob2 = request.form.get("dob2", "")
+        tob2 = request.form.get("tob2", "")
+        place2 = request.form.get("place2", "")
+        lat2 = request.form.get("lat2")
+        lon2 = request.form.get("lon2")
+
+        groom_is_p1 = request.form.get("groom_is_p1", "true").lower() == "true"
+
+        session['compare_form'] = {
+            'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2,
+            'groom_is_p1': groom_is_p1
+        }
+    else:
+        form_data = session.get('compare_form', {})
+        name1 = form_data.get('name1', '')
+        dob1 = form_data.get('dob1', '')
+        tob1 = form_data.get('tob1', '')
+        place1 = form_data.get('place1', '')
+        lat1 = form_data.get('lat1')
+        lon1 = form_data.get('lon1')
+
+        name2 = form_data.get('name2', '')
+        dob2 = form_data.get('dob2', '')
+        tob2 = form_data.get('tob2', '')
+        place2 = form_data.get('place2', '')
+        lat2 = form_data.get('lat2')
+        lon2 = form_data.get('lon2')
+
+        groom_is_p1 = form_data.get('groom_is_p1', True)
+        if 'swap' in request.args:
+            groom_is_p1 = not groom_is_p1
+            form_data['groom_is_p1'] = groom_is_p1
+            session['compare_form'] = form_data
+
+    if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
+        return redirect(url_for('compare_kundali'))
+
+    data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
+    data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
+
+    dasha_data1 = get_dasha_info(data1) if isinstance(data1, dict) else {}
+    dasha_data2 = get_dasha_info(data2) if isinstance(data2, dict) else {}
+
+    p1_full = {**data1, **dasha_data1}
+    p2_full = {**data2, **dasha_data2}
+
+    import marriage_engine
+    report = marriage_engine.generate_marriage_report(p1_full, p2_full, groom_is_p1=groom_is_p1)
+
+    return render_template(
+        "marriage_ponthana.html",
+        report=report,
+        p1=p1_full,
+        p2=p2_full,
+        groom_is_p1=groom_is_p1
+    )
+
 @app.route("/transit_chart", methods=["POST"])
 def transit_chart():
     lat = request.form.get("lat")

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang if current_lang else 'te' }}" class="notranslate">
+
+<head>
+  <meta name="google" content="notranslate">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{{ _('వివాహ దశకూట పొంతన ఫలితం') }}</title>
+
+  <!-- PWA & Mobile settings -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1A1A1D">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('preferred-theme') || 'cosmic';
+      if (savedTheme !== 'default') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+
+    window.handleMarriagePrint = function() {
+      window.print();
+    };
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #0c0c0c !important;
+    }
+
+    :root {
+      --bg-primary: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b0f19 60%, #030712 100%);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --card-bg: rgba(15, 23, 42, 0.90);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --box-border: rgba(255, 255, 255, 0.15);
+      --header-bg: linear-gradient(45deg, #f59e0b, #ef4444);
+      --shadow-color: rgba(0, 0, 0, 0.4);
+      --color-pos: #10b981;
+      --color-neg: #ef4444;
+      --color-warn: #f59e0b;
+    }
+
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(25, 25, 35, 0.85);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --header-bg: linear-gradient(45deg, #ffd700, #ff6b6b);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="luxury"] {
+      --bg-primary: radial-gradient(ellipse at 30% 20%, #2a1f00 0%, #0a0908 60%, #1a0f00 100%);
+      --text-main: #f5f5f4;
+      --text-muted: #d97706;
+      --card-bg: rgba(28, 25, 23, 0.96);
+      --card-border: rgba(217, 119, 6, 0.45);
+      --header-bg: linear-gradient(45deg, #fbbf24, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.9);
+    }
+
+    [data-theme="cyberpunk"] {
+      --bg-primary: linear-gradient(170deg, #04080f 0%, #090d18 60%, #0a0512 100%);
+      --text-main: #f0fdfa;
+      --text-muted: #ff007f;
+      --card-bg: rgba(8, 12, 22, 0.97);
+      --card-border: rgba(255, 0, 127, 0.55);
+      --header-bg: linear-gradient(45deg, #00ffff, #ff007f);
+      --shadow-color: rgba(0, 255, 255, 0.2);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 16px 12px 100px 12px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    /* Top Control Bar */
+    .top-control-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-btn {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      border-color: #ffd700;
+      transform: translateY(-1px);
+    }
+
+    /* Page Header */
+    .header-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff416c, #ff4b2b, #ffd700);
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 800;
+      background: var(--header-bg);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 12px auto;
+    }
+
+    .swap-badge-container {
+      margin-top: 10px;
+    }
+
+    .swap-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #ffd700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .swap-btn:hover {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: #ffd700;
+      transform: scale(1.03);
+    }
+
+    /* Couple Cards Grid */
+    .couple-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .couple-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .person-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 15px var(--shadow-color);
+      position: relative;
+    }
+
+    .person-card.groom {
+      border-top: 3px solid #3b82f6;
+    }
+
+    .person-card.bride {
+      border-top: 3px solid #ec4899;
+    }
+
+    .person-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .person-role {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .person-card.groom .person-role {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .person-card.bride .person-role {
+      background: rgba(236, 72, 153, 0.2);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+    }
+
+    .person-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .person-attr-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 14px;
+      font-size: 13px;
+    }
+
+    .attr-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .attr-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .attr-value {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .attr-highlight {
+      color: #ffd700;
+      font-weight: 700;
+    }
+
+    /* Overall Verdict Section */
+    .verdict-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 25px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .verdict-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .score-badge-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .score-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, rgba(255, 65, 108, 0.1) 100%);
+      border: 3px solid #ffd700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    .score-val {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffd700;
+      line-height: 1;
+    }
+
+    .score-max {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .verdict-title-box h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .verdict-status-pill {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .verdict-status-pill.verdict-excellent {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .verdict-status-pill.verdict-good {
+      background: linear-gradient(135deg, #059669, #0284c7);
+    }
+
+    .verdict-status-pill.verdict-average {
+      background: linear-gradient(135deg, #d97706, #b45309);
+    }
+
+    .verdict-status-pill.verdict-weak {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .verdict-status-pill.verdict-critical {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+    }
+
+    .verdict-progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .verdict-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+      border-radius: 5px;
+      transition: width 0.8s ease;
+    }
+
+    .verdict-desc {
+      font-size: 14px;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 14px;
+      border-radius: 10px;
+      border-left: 4px solid #ffd700;
+    }
+
+    .verdict-guidance {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Critical Warnings Banner */
+    .warnings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .warn-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    .warn-card.critical-alert {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .warn-card.success-clear {
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .warn-icon {
+      font-size: 20px;
+      margin-top: 2px;
+    }
+
+    .warn-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .warn-content p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Table Container */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 20px var(--shadow-color);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffd700;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .ponthana-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .ponthana-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffd700;
+      padding: 12px 10px;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+    }
+
+    .ponthana-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .ponthana-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .score-pill {
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .score-pill.full {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .score-pill.half {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .score-pill.zero {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Analysis Grid */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .analysis-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .analysis-box h4 {
+      font-size: 14px;
+      color: #ffd700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .analysis-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .analysis-item .label {
+      color: var(--text-muted);
+    }
+
+    .analysis-item .val {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Action Buttons */
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 60, 114, 0.6);
+    }
+
+    .btn-action.btn-print {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Fixed Bottom Bar Nav */
+    .fixed-bottom-bar-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 999;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .fixed-bottom-bar-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 10px;
+      gap: 4px;
+      flex: 1;
+      height: 100%;
+    }
+
+    .fixed-bottom-bar-nav .nav-item.active {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .fixed-bottom-bar-nav .nav-item i {
+      font-size: 18px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+
+      .top-control-bar,
+      .fixed-bottom-bar-nav,
+      .action-bar,
+      .swap-btn {
+        display: none !important;
+      }
+
+      .header-card,
+      .person-card,
+      .verdict-card,
+      .warn-card,
+      .section-card {
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+      }
+
+      .page-title {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+      }
+
+      .score-circle {
+        border-color: #000 !important;
+        box-shadow: none !important;
+      }
+
+      .score-val {
+        color: #000 !important;
+      }
+
+      .ponthana-table th {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+      }
+
+      .ponthana-table td {
+        color: #000 !important;
+        border-color: #ddd !important;
+      }
+
+      .verdict-desc {
+        background: #f9f9f9 !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Top Control Bar -->
+    <div class="top-control-bar">
+      <div style="display: flex; gap: 8px;">
+        <a href="/" class="ctrl-btn"><i class="fas fa-home"></i> {{ _('హోమ్') }}</a>
+        <a href="/compare_kundali" class="ctrl-btn"><i class="fas fa-arrow-left"></i> {{ _('కుండలి పొంతన') }}</a>
+      </div>
+      <div>
+        <button onclick="handleMarriagePrint()" class="ctrl-btn" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5);">
+          <i class="fas fa-print"></i> {{ _('ప్రింట్ / PDF') }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Header Card -->
+    <div class="header-card">
+      <h1 class="page-title">💍 {{ _('వివాహ దశకూట పొంతన ఫలితం') }}</h1>
+      <p class="page-subtitle">
+        {{ _('దక్షిణ భారత / తెలుగు జ్యోతిష్య సంప్రదాయం ప్రకారం 10 పొంతనలు, రజ్జు-వేధ పరిశీలన, కుజదోష సామ్యం & సప్తమ భావ విశ్లేషణ.') }}
+      </p>
+
+      <div class="swap-badge-container">
+        <a href="/marriage_ponthana?swap=1" class="swap-btn" title="వరుడు మరియు వధువు స్థానాలను మార్చండి">
+          <i class="fas fa-sync-alt"></i> {{ _('పాత్రలను మార్చండి (Swap Groom ↔ Bride)') }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Couple Details Cards -->
+    <div class="couple-grid">
+      <!-- Groom Card -->
+      <div class="person-card groom">
+        <div class="person-header">
+          <span class="person-name">{{ report.groom.name }}</span>
+          <span class="person-role">🤵 {{ _('వరుడు (Groom)') }}</span>
+        </div>
+        <div class="person-attr-grid">
+          <div class="attr-item">
+            <span class="attr-label">{{ _('జన్మ నక్షత్రం') }}</span>
+            <span class="attr-value attr-highlight">{{ report.groom.nakshatra }} ({{ report.groom.padam }}వ పాదం)</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('చంద్ర రాశి') }}</span>
+            <span class="attr-value">{{ report.groom.rasi }} ({{ report.groom.rasi_lord }})</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('లగ్నం') }}</span>
+            <span class="attr-value">{{ report.groom.lagna }}</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('గణము') }}</span>
+            <span class="attr-value">{{ report.groom.gana }} గణం</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('యోని') }}</span>
+            <span class="attr-value">{{ report.groom.yoni }} యోని</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('రజ్జు') }}</span>
+            <span class="attr-value">{{ report.groom.rajju }} రజ్జు</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('నాడి') }}</span>
+            <span class="attr-value">{{ report.groom.nadi }} నాడి</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('జన్మ తేది & సమయం') }}</span>
+            <span class="attr-value" style="font-size: 11px;">{{ report.groom.dob }} | {{ report.groom.tob }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bride Card -->
+      <div class="person-card bride">
+        <div class="person-header">
+          <span class="person-name">{{ report.bride.name }}</span>
+          <span class="person-role">👰 {{ _('వధువు (Bride)') }}</span>
+        </div>
+        <div class="person-attr-grid">
+          <div class="attr-item">
+            <span class="attr-label">{{ _('జన్మ నక్షత్రం') }}</span>
+            <span class="attr-value attr-highlight">{{ report.bride.nakshatra }} ({{ report.bride.padam }}వ పాదం)</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('చంద్ర రాశి') }}</span>
+            <span class="attr-value">{{ report.bride.rasi }} ({{ report.bride.rasi_lord }})</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('లగ్నం') }}</span>
+            <span class="attr-value">{{ report.bride.lagna }}</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('గణము') }}</span>
+            <span class="attr-value">{{ report.bride.gana }} గణం</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('యోని') }}</span>
+            <span class="attr-value">{{ report.bride.yoni }} యోని</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('రజ్జు') }}</span>
+            <span class="attr-value">{{ report.bride.rajju }} రజ్జు</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('నాడి') }}</span>
+            <span class="attr-value">{{ report.bride.nadi }} నాడి</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-label">{{ _('జన్మ తేది & సమయం') }}</span>
+            <span class="attr-value" style="font-size: 11px;">{{ report.bride.dob }} | {{ report.bride.tob }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall Verdict Card -->
+    <div class="verdict-card">
+      <div class="verdict-top">
+        <div class="score-badge-box">
+          <div class="score-circle">
+            <span class="score-val">{{ report.total_score }}</span>
+            <span class="score-max">/ 10</span>
+          </div>
+          <div class="verdict-title-box">
+            <h3>{{ _('మొత్తం పొంతన ఫలితం') }}</h3>
+            <span class="verdict-status-pill {{ report.verdict.badge_class }}">
+              {{ report.verdict.grade }}
+            </span>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <span style="font-size: 13px; color: var(--text-muted);">{{ _('పొంతన శాతం') }}:</span>
+          <span style="font-size: 18px; font-weight: 800; color: #ffd700; margin-left: 6px;">{{ report.score_percentage }}%</span>
+        </div>
+      </div>
+
+      <div class="verdict-progress-bar">
+        <div class="verdict-progress-fill" style="width: {{ report.score_percentage }}%;"></div>
+      </div>
+
+      <div class="verdict-desc">
+        <p>{{ report.verdict.summary_te }}</p>
+      </div>
+
+      <p class="verdict-guidance">{{ report.verdict.guidance_te }}</p>
+    </div>
+
+    <!-- Critical Warnings & Dosha Alerts -->
+    <div class="warnings-grid">
+      <!-- Rajju Check -->
+      <div class="warn-card {% if report.poruthams[8].has_dosha %}critical-alert{% else %}success-clear{% endif %}">
+        <div class="warn-icon">
+          {% if report.poruthams[8].has_dosha %}🔴{% else %}🟢{% endif %}
+        </div>
+        <div class="warn-content">
+          <h4>{{ _('రజ్జు పరిశీలన') }}</h4>
+          <p>
+            {% if report.poruthams[8].has_dosha %}
+              <b style="color: #ef4444;">రజ్జు దోషం ఉంది!</b> {{ report.poruthams[8].rajju_name }} రజ్జు. ప్రత్యక్ష పరిశీలన అవసరం.
+            {% else %}
+              <b style="color: #10b981;">రజ్జు దోషం లేదు.</b> శుభప్రదం.
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Vedha Check -->
+      <div class="warn-card {% if report.poruthams[9].has_dosha %}critical-alert{% else %}success-clear{% endif %}">
+        <div class="warn-icon">
+          {% if report.poruthams[9].has_dosha %}🔴{% else %}🟢{% endif %}
+        </div>
+        <div class="warn-content">
+          <h4>{{ _('వేధ పరిశీలన') }}</h4>
+          <p>
+            {% if report.poruthams[9].has_dosha %}
+              <b style="color: #ef4444;">వేధ దోషం ఉంది!</b> పరస్పర నక్షత్ర వేధ.
+            {% else %}
+              <b style="color: #10b981;">వేధ దోషం లేదు.</b> శుభప్రదం.
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Nadi Check -->
+      <div class="warn-card {% if report.nadi.has_dosha and not report.nadi.bhanga %}critical-alert{% else %}success-clear{% endif %}">
+        <div class="warn-icon">{{ report.nadi.icon }}</div>
+        <div class="warn-content">
+          <h4>{{ _('నాడి పరిశీలన') }}</h4>
+          <p>{{ report.nadi.status }}.</p>
+        </div>
+      </div>
+
+      <!-- Kuja Samyam Check -->
+      <div class="warn-card {% if not report.kuja_comparison.is_balanced %}critical-alert{% else %}success-clear{% endif %}">
+        <div class="warn-icon">{{ report.kuja_comparison.icon }}</div>
+        <div class="warn-content">
+          <h4>{{ _('కుజదోష సామ్యం') }}</h4>
+          <p>{{ report.kuja_comparison.status }}.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashakootam (10 Poruthams) Table -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-list-check"></i> {{ _('దశకూట పొంతన పట్టిక (10 Poruthams Details)') }}</h3>
+
+      <div class="table-responsive">
+        <table class="ponthana-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>{{ _('కూటం పేరు') }}</th>
+              <th>{{ _('వధువు') }}</th>
+              <th>{{ _('వరుడు') }}</th>
+              <th>{{ _('మార్కులు') }}</th>
+              <th>{{ _('స్థితి') }}</th>
+              <th>{{ _('శాస్త్రీయ వివరణ / కారణం') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in report.poruthams %}
+            <tr>
+              <td style="font-weight: 700; color: var(--text-muted);">{{ loop.index }}</td>
+              <td style="font-weight: 700;">
+                <div>{{ p.name_te }}</div>
+                <small style="color: var(--text-muted); font-size: 11px;">{{ p.name_en }}</small>
+              </td>
+              <td style="color: #f472b6; font-weight: 600;">{{ p.bride_val }}</td>
+              <td style="color: #60a5fa; font-weight: 600;">{{ p.groom_val }}</td>
+              <td>
+                {% if p.score == 1.0 %}
+                  <span class="score-pill full">1.0 / 1.0</span>
+                {% elif p.score == 0.5 %}
+                  <span class="score-pill half">0.5 / 1.0</span>
+                {% else %}
+                  <span class="score-pill zero">0.0 / 1.0</span>
+                {% endif %}
+              </td>
+              <td>
+                <span>{{ p.icon }} {{ p.status }}</span>
+              </td>
+              <td style="font-size: 12px; max-width: 300px;">
+                {{ p.details }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Kuja Dosha Comparison Details -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-fire"></i> {{ _('కుజ దోష సమగ్ర విశ్లేషణ (Mangal Dosha Analysis)') }}</h3>
+
+      <div class="analysis-grid">
+        <!-- Groom Kuja -->
+        <div class="analysis-box">
+          <h4>🤵 {{ _('వరుని కుజ స్థితి') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('కుజ రాశి') }}:</span>
+            <span class="val">{{ report.groom_kuja.mars_rasi }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('లగ్నం నుండి') }}:</span>
+            <span class="val">{% if report.groom_kuja.from_lagna %}{{ report.groom_kuja.house_from_lagna }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('చంద్రుని నుండి') }}:</span>
+            <span class="val">{% if report.groom_kuja.from_moon %}{{ report.groom_kuja.house_from_moon }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('శుక్రుని నుండి') }}:</span>
+            <span class="val">{% if report.groom_kuja.from_venus %}{{ report.groom_kuja.house_from_venus }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('దోష తీవ్రత') }}:</span>
+            <span class="val" style="color: #ffd700;">{{ report.groom_kuja.intensity }}</span>
+          </div>
+          {% if report.groom_kuja.bhanga_reasons %}
+          <div style="font-size: 11px; color: #10b981; margin-top: 6px;">
+            <b>పరిహార కారణాలు:</b> {{ report.groom_kuja.bhanga_reasons | join(', ') }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Bride Kuja -->
+        <div class="analysis-box">
+          <h4>👰 {{ _('వధువు కుజ స్థితి') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('కుజ రాశి') }}:</span>
+            <span class="val">{{ report.bride_kuja.mars_rasi }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('లగ్నం నుండి') }}:</span>
+            <span class="val">{% if report.bride_kuja.from_lagna %}{{ report.bride_kuja.house_from_lagna }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('చంద్రుని నుండి') }}:</span>
+            <span class="val">{% if report.bride_kuja.from_moon %}{{ report.bride_kuja.house_from_moon }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('శుక్రుని నుండి') }}:</span>
+            <span class="val">{% if report.bride_kuja.from_venus %}{{ report.bride_kuja.house_from_venus }}వ స్థానం (దోషం){% else %}దోష స్థానం కాదు{% endif %}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('దోష తీవ్రత') }}:</span>
+            <span class="val" style="color: #ffd700;">{{ report.bride_kuja.intensity }}</span>
+          </div>
+          {% if report.bride_kuja.bhanga_reasons %}
+          <div style="font-size: 11px; color: #10b981; margin-top: 6px;">
+            <b>పరిహార కారణాలు:</b> {{ report.bride_kuja.bhanga_reasons | join(', ') }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 13px;">
+        <b>{{ _('కుజ సామ్య నిర్ణయం') }}:</b> {{ report.kuja_comparison.details }}
+      </div>
+    </div>
+
+    <!-- 7th House & Navamsa Analysis -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-ring"></i> {{ _('సప్తమ భావ & నవాంశ (D9) విశ్లేషణ') }}</h3>
+
+      <div class="analysis-grid">
+        <!-- Groom 7th -->
+        <div class="analysis-box">
+          <h4>🤵 {{ _('వరుని సప్తమ స్థానం (దాంపత్య భావం)') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('సప్తమ రాశి') }}:</span>
+            <span class="val">{{ report.jathaka_7th.groom_7th.h7_rasi }} (అధిపతి: {{ report.jathaka_7th.groom_7th.h7_lord }})</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('సప్తమంలో గ్రహాలు') }}:</span>
+            <span class="val">{{ report.jathaka_7th.groom_7th.h7_occupants | join(', ') }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('శుక్రుని స్థితి (కళత్రకారకుడు)') }}:</span>
+            <span class="val">{{ report.jathaka_7th.groom_7th.venus_pos }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('గురుని స్థితి') }}:</span>
+            <span class="val">{{ report.jathaka_7th.groom_7th.jupiter_pos }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('నవాంశ (D9) చంద్రుడు') }}:</span>
+            <span class="val">{{ report.jathaka_7th.groom_7th.d9_moon_rasi }}</span>
+          </div>
+        </div>
+
+        <!-- Bride 7th -->
+        <div class="analysis-box">
+          <h4>👰 {{ _('వధువు సప్తమ స్థానం (దాంపత్య భావం)') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('సప్తమ రాశి') }}:</span>
+            <span class="val">{{ report.jathaka_7th.bride_7th.h7_rasi }} (అధిపతి: {{ report.jathaka_7th.bride_7th.h7_lord }})</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('సప్తమంలో గ్రహాలు') }}:</span>
+            <span class="val">{{ report.jathaka_7th.bride_7th.h7_occupants | join(', ') }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('శుక్రుని స్థితి') }}:</span>
+            <span class="val">{{ report.jathaka_7th.bride_7th.venus_pos }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('గురుని స్థితి (పతికారకుడు)') }}:</span>
+            <span class="val">{{ report.jathaka_7th.bride_7th.jupiter_pos }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('నవాంశ (D9) చంద్రుడు') }}:</span>
+            <span class="val">{{ report.jathaka_7th.bride_7th.d9_moon_rasi }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 13px;">
+        <b>{{ _('నవాంశ సంబంధం') }}:</b> {{ report.jathaka_7th.d9_icon }} {{ report.jathaka_7th.d9_details }}
+      </div>
+    </div>
+
+    <!-- Dasha Compatibility Section -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-hourglass-half"></i> {{ _('ప్రస్తుత దశా-భుక్తి సమయపాలన') }}</h3>
+
+      <div class="analysis-grid">
+        <div class="analysis-box">
+          <h4>🤵 {{ _('వరుని ప్రస్తుత దశ') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('మహాదశ') }}:</span>
+            <span class="val" style="color: #ffd700;">{{ report.dasha_comp.groom_maha }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('అంతర్దశ') }}:</span>
+            <span class="val">{{ report.dasha_comp.groom_anthara }}</span>
+          </div>
+        </div>
+
+        <div class="analysis-box">
+          <h4>👰 {{ _('వధువు ప్రస్తుత దశ') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('మహాదశ') }}:</span>
+            <span class="val" style="color: #ffd700;">{{ report.dasha_comp.bride_maha }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('అంతర్దశ') }}:</span>
+            <span class="val">{{ report.dasha_comp.bride_anthara }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 13px;">
+        <b>{{ _('దశా అనుకూలత') }}:</b> {{ report.dasha_comp.icon }} {{ report.dasha_comp.details }}
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-bar">
+      <a href="/compare_kundali" class="btn-action">
+        <i class="fas fa-edit"></i> {{ _('వివరాలను మార్చండి') }}
+      </a>
+      <a href="/compare_results" class="btn-action" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+        <i class="fas fa-chart-pie"></i> {{ _('రెండు కుండలులు పోల్చండి (Charts)') }}
+      </a>
+      <button onclick="handleMarriagePrint()" class="btn-action btn-print">
+        <i class="fas fa-print"></i> {{ _('ప్రింట్ / సేవ్ PDF') }}
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Fixed Bottom Bar -->
+  <div class="fixed-bottom-bar-nav">
+    <a href="/" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>{{ _('హోమ్') }}</span>
+    </a>
+    <a href="/compare_kundali" class="nav-item">
+      <i class="fas fa-balance-scale"></i>
+      <span>{{ _('పొంతన') }}</span>
+    </a>
+    <a href="/marriage_ponthana" class="nav-item active">
+      <i class="fas fa-heart"></i>
+      <span>{{ _('ఫలితం') }}</span>
+    </a>
+    <a href="/daily_panchangam" class="nav-item">
+      <i class="fas fa-om"></i>
+      <span>{{ _('పంచాంగం') }}</span>
+    </a>
+  </div>
+
+</body>
+</html>

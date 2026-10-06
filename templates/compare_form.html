@@ -1953,11 +1953,19 @@ body {
 
         <div class="btn-container" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
 
-          <button type="submit" name="chart_type" value="standard" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #fff; box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);">
+          <button type="submit" name="chart_type" value="standard" onclick="document.getElementById('mainForm').action='/compare_results';" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #fff; box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);">
 
             <span class="btn-icon">⚖️</span>
 
             {{ _('కుండలి పోల్చండి') }}
+
+          </button>
+
+          <button type="submit" formaction="/marriage_ponthana" onclick="document.getElementById('mainForm').action='/marriage_ponthana';" class="btn btn-show btn-result" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);" title="{{ _('వివాహ దశకూట పొంతన ఫలితం') }}">
+
+            <span class="btn-icon">💍</span>
+
+            {{ _('Result') }}
 
           </button>
 
