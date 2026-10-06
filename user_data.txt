@@ -610,3 +610,4 @@
 586. [03-Oct-2026 04:57:56] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-03, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
 587. [04-Oct-2026 03:40:57] Name: Lakshmi, Mobile: N/A, DOB: 1996-09-08, TOB: 13:30, Place: Kandukur, Andhra Pradesh, India
 588. [04-Oct-2026 17:12:23] Name: PULICHERLA UPENDRAKUMAR, Mobile: N/A, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, India
+589. [06-Oct-2026 03:22:04] Name: Krishna Reddy sajjala, Mobile: N/A, DOB: 1988-10-25, TOB: 01:35, Place: Kandukur, Andhra Pradesh, India
