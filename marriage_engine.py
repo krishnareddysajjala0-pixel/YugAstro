@@ -1,7 +1,10 @@
 """
-Marriage Compatibility Engine (దక్షిణ భారత / తెలుగు వివాహ దశకూట పొంతన)
-===================================================================
-Self-contained calculation engine for South Indian Telugu Dashakoota Porutham.
+Marriage Compatibility Engine (దక్షిణ భారత / తెలుగు వివాహ దశకూట & ద్వాదశకూట పొంతన)
+===================================================================================
+Self-contained calculation engine for South Indian Telugu Dashakoota Porutham,
+Special Nakshatra Doshas, Lagna Compatibility, 8th House Mangalya Bhagyam,
+Rahu-Ketu 1/7 Axis Balance, and Detailed Shadashtaka.
+
 Does NOT modify or affect any existing Kundali, Dasacharam, or general chart pages.
 """
 
@@ -333,6 +336,51 @@ VEDHA_PAIRS = {
     ("హస్త", "శతభిషం"), ("శతభిషం", "హస్త")
 }
 
+# Vriksha (Sacred Trees) & Milky Sap Mapping
+VRIKSHA_DATA = {
+    "అశ్విని": {"tree": "విషముష్టి", "is_milky": False},
+    "భరణి": {"tree": "ఉసిరి", "is_milky": False},
+    "కృత్తిక": {"tree": "అత్తి / మేడి", "is_milky": True},
+    "రోహిణి": {"tree": "నేరేడు", "is_milky": False},
+    "మృగశిర": {"tree": "చండ్ర", "is_milky": False},
+    "ఆర్ద్ర": {"tree": "తింత్రిణి (చింత)", "is_milky": False},
+    "పునర్వసు": {"tree": "వెదురు", "is_milky": False},
+    "పుష్యమి": {"tree": "రావి", "is_milky": True},
+    "ఆశ్లేష": {"tree": "నాగకేసరి", "is_milky": False},
+    "మఖ": {"tree": "మర్రి", "is_milky": True},
+    "పూర్వఫల్గుణి": {"tree": "మోదుగ", "is_milky": False},
+    "ఉత్తరఫల్గుణి": {"tree": "జువ్వి", "is_milky": True},
+    "హస్త": {"tree": "జమ్మి", "is_milky": False},
+    "చిత్ర": {"tree": "తాటి", "is_milky": False},
+    "స్వాతి": {"tree": "మద్ది", "is_milky": False},
+    "విశాఖ": {"tree": "వెలగ", "is_milky": False},
+    "అనూరాధ": {"tree": "పొగడ", "is_milky": False},
+    "జ్యేష్ఠ": {"tree": "విరిగి / దేవదారు", "is_milky": False},
+    "మూల": {"tree": "మద్ది (సాల)", "is_milky": False},
+    "పూర్వాషాఢ": {"tree": "అశోక", "is_milky": False},
+    "ఉత్తరాషాఢ": {"tree": "పనస", "is_milky": True},
+    "శ్రవణం": {"tree": "జిల్లేడు", "is_milky": True},
+    "ధనిష్ఠ": {"tree": "జమ్మి", "is_milky": False},
+    "శతభిషం": {"tree": "కదంబ", "is_milky": False},
+    "పూర్వాభాద్ర": {"tree": "మామిడి", "is_milky": False},
+    "ఉత్తరాభాద్ర": {"tree": "వేప", "is_milky": False},
+    "రేవతి": {"tree": "ఇప్ప", "is_milky": True},
+}
+
+# 5 Elements (Pancha Bhoota) Mapping
+BHOOTA_MAP = {
+    # Prithvi (భూమి)
+    "అశ్విని": "భూమి", "భరణి": "భూమి", "కృత్తిక": "భూమి", "రోహిణి": "భూమి", "మృగశిర": "భూమి",
+    # Jala (జలం)
+    "ఆర్ద్ర": "జలం", "పునర్వసు": "జలం", "పుష్యమి": "జలం", "ఆశ్లేష": "జలం", "మఖ": "జలం", "పూర్వఫల్గుణి": "జలం",
+    # Agni (అగ్ని)
+    "ఉత్తరఫల్గుణి": "అగ్ని", "హస్త": "అగ్ని", "చిత్ర": "అగ్ని", "స్వాతి": "అగ్ని", "విశాఖ": "అగ్ని", "అనూరాధ": "అగ్ని",
+    # Vayu (వాయువు)
+    "జ్యేష్ఠ": "వాయువు", "మూల": "వాయువు", "పూర్వాషాఢ": "వాయువు", "ఉత్తరాషాఢ": "వాయువు", "శ్రవణం": "వాయువు",
+    # Akasa (ఆకాశం)
+    "ధనిష్ఠ": "ఆకాశం", "శతభిషం": "ఆకాశం", "పూర్వాభాద్ర": "ఆకాశం", "ఉత్తరాభాద్ర": "ఆకాశం", "రేవతి": "ఆకాశం"
+}
+
 # Planetary Relationships
 PLANET_FRIENDS = {
     "సూర్యుడు": {
@@ -400,7 +448,6 @@ def _get_rasi_name(val):
 def calculate_dina(bride, groom):
     """
     1. Dina Porutham (దిన పొంతన).
-    Accepts person dicts or nakshatra names.
     Count inclusive: Bride Star (1) to Groom Star.
     """
     b_name = _get_nak_name(bride)
@@ -583,6 +630,51 @@ def calculate_yoni(bride, groom):
     }
 
 
+def classify_shadashtaka(b_rasi, g_rasi):
+    """Classify 6/8 Shadashtaka relationship into Preethi, Sama, or Mrityu."""
+    b_norm = _get_rasi_name(b_rasi)
+    g_norm = _get_rasi_name(g_rasi)
+
+    pair = tuple(sorted([b_norm, g_norm]))
+
+    # 1. Preethi / Mitra Shadashtaka (Same Lord - Mars or Venus)
+    if pair in {("మేషం", "వృశ్చికం"), ("తుల", "వృషభం")}:
+        lord = "కుజుడు" if "మేషం" in pair else "శుక్రుడు"
+        return {
+            "type": "ప్రీతి షడాష్టకం",
+            "score": 0.5,
+            "severity": "శుభం / దోష భంగం",
+            "icon": "🟢",
+            "details": f"ఇద్దరి రాశ్యాధిపతి ఒకరే ({lord}). 'ప్రీతి షడాష్టకం' వల్ల దోష భంగం కలిగి అనుకూలత చేకూరింది."
+        }
+    # 2. Neutral Shadashtaka
+    elif pair in {("మిథునం", "మకరం"), ("ధనుస్సు", "వృషభం"), ("కన్య", "కుంభం")}:
+        return {
+            "type": "సమ షడాష్టకం",
+            "score": 0.25,
+            "severity": "మధ్యమం",
+            "icon": "🟡",
+            "details": "రాశ్యాధిపతుల మధ్య శత్రుత్వం లేనందున సర్దుబాటుతో ఆమోదయోగ్యమైనది."
+        }
+    # 3. Mrityu / Arishta Shadashtaka (Enemy Lords: Sun-Saturn, Moon-Saturn)
+    elif pair in {("మకరం", "సింహం"), ("కర్కాటకం", "కుంభం"), ("మీనం", "సింహం")}:
+        return {
+            "type": "మృత్యు / అరిష్ట షడాష్టకం",
+            "score": 0.0,
+            "severity": "తీవ్ర దోషం",
+            "icon": "🔴",
+            "details": "రాశ్యాధిపతుల మధ్య నైసర్గిక వైరం కలదు. తీవ్ర షడాష్టక దోషం - ప్రత్యేక శాంతి లేదా ప్రత్యక్ష పరిశీలన అవసరం."
+        }
+    else:
+        return {
+            "type": "సాధారణ షడాష్టకం",
+            "score": 0.0,
+            "severity": "జాగ్రత్త",
+            "icon": "⚠️",
+            "details": "6/8 రాశి సంబంధం - అభిప్రాయ భేదాలు రాకుండా పరస్పర అవగాహన అవసరం."
+        }
+
+
 def calculate_rasi(bride, groom):
     """6. Rasi Porutham (రాశి పొంతన)."""
     b_rasi = _get_rasi_name(bride)
@@ -592,6 +684,7 @@ def calculate_rasi(bride, groom):
     g_idx = RASHIS.index(g_rasi) if g_rasi in RASHIS else 0
 
     rel_pos = ((g_idx - b_idx) % 12) + 1
+    shadashtaka_info = None
 
     if rel_pos == 1:
         score = 1.0
@@ -630,20 +723,12 @@ def calculate_rasi(bride, groom):
         rel_str = "2/12 (ద్విర్ద్వాదశ)"
         details = "2/12 ద్విర్ద్వాదశ సంబంధం. ధనవ్యయం లేదా పరస్పర అవగాహన లోపాలు రావచ్చు."
     elif rel_pos in {6, 8}:
-        b_lord = RASHI_LORDS.get(b_rasi, "")
-        g_lord = RASHI_LORDS.get(g_rasi, "")
-        if b_lord == g_lord:
-            score = 0.5
-            status = "మధ్యమం"
-            icon = "⚠️"
-            rel_str = "6/8 (ప్రీతి షడాష్టకం)"
-            details = f"6/8 సంబంధం అయినప్పటికీ ఇద్దరి రాశ్యాధిపతి ఒకరే ({b_lord}). ప్రీతి షడాష్టకం వల్ల దోష భంగం కలిగి మధ్యమ శుభం."
-        else:
-            score = 0.0
-            status = "బలహీనము"
-            icon = "❌"
-            rel_str = "6/8 (షడాష్టక దోషం)"
-            details = "6/8 షడాష్టక సంబంధం. కలహాలు, ఆరోగ్య సమస్యలు లేదా అభిప్రాయ భేదాలు రావచ్చు."
+        shadashtaka_info = classify_shadashtaka(b_rasi, g_rasi)
+        score = shadashtaka_info["score"]
+        status = shadashtaka_info["severity"]
+        icon = shadashtaka_info["icon"]
+        rel_str = f"6/8 ({shadashtaka_info['type']})"
+        details = shadashtaka_info["details"]
     else:
         score = 0.5
         status = "మధ్యమం"
@@ -660,6 +745,7 @@ def calculate_rasi(bride, groom):
         "status": status,
         "icon": icon,
         "relationship": rel_str,
+        "shadashtaka_info": shadashtaka_info,
         "details": details,
         "bride_val": b_rasi,
         "groom_val": f"{g_rasi} ({rel_str})"
@@ -839,8 +925,102 @@ def calculate_vedha(bride, groom):
     }
 
 
+def calculate_vriksha(bride, groom):
+    """11. Vriksha Porutham (వృక్ష పొంతన - ద్వాదశ కూటం)."""
+    b_name = _get_nak_name(bride)
+    g_name = _get_nak_name(groom)
+
+    b_tree_info = VRIKSHA_DATA.get(b_name, {"tree": "వృక్షం", "is_milky": False})
+    g_tree_info = VRIKSHA_DATA.get(g_name, {"tree": "వృక్షం", "is_milky": False})
+
+    b_milky = b_tree_info["is_milky"]
+    g_milky = g_tree_info["is_milky"]
+
+    if b_milky and g_milky:
+        score = 1.0
+        status = "ఉత్తమం"
+        icon = "✅"
+        details = f"ఇద్దరి నక్షత్రాలూ క్షీర వృక్షాలు (పాల చెట్లు: {b_tree_info['tree']} & {g_tree_info['tree']}). సంతాన సమృద్ధి, కుటుంబ సుఖం కలుగును."
+    elif b_milky or g_milky:
+        score = 0.5
+        status = "మధ్యమం"
+        icon = "✅"
+        details = f"ఒకరు క్షీర వృక్షం ({b_tree_info['tree'] if b_milky else g_tree_info['tree']}). ఆమోదయోగ్యమైన పొంతన."
+    else:
+        score = 0.5
+        status = "సాధారణం"
+        icon = "⚪"
+        details = f"వధువు వృక్షం: {b_tree_info['tree']}, వరుని వృక్షం: {g_tree_info['tree']}. సాధారణ పొంతన."
+
+    return {
+        "id": "vriksha",
+        "name_te": "వృక్ష పొంతన",
+        "name_en": "Vriksha Porutham",
+        "score": score,
+        "max_score": 1.0,
+        "status": status,
+        "icon": icon,
+        "details": details,
+        "bride_val": f"{b_tree_info['tree']} ({'పాల చెట్టు' if b_milky else 'సాధారణ'})",
+        "groom_val": f"{g_tree_info['tree']} ({'పాల చెట్టు' if g_milky else 'సాధారణ'})"
+    }
+
+
+def calculate_bhoota(bride, groom):
+    """12. Bhoota Porutham (పంచభూత పొంతన - ద్వాదశ కూటం)."""
+    b_name = _get_nak_name(bride)
+    g_name = _get_nak_name(groom)
+
+    b_bhoota = BHOOTA_MAP.get(b_name, "భూమి")
+    g_bhoota = BHOOTA_MAP.get(g_name, "భూమి")
+
+    if b_bhoota == g_bhoota:
+        score = 1.0
+        status = "ఉత్తమం"
+        icon = "✅"
+        details = f"ఇద్దరిదీ సమాన పంచభూత తత్వం ({b_bhoota} తత్వం). పరిపూర్ణ మానసిక సామరస్యం."
+    elif (b_bhoota in {"భూమి", "జలం"} and g_bhoota in {"భూమి", "జలం"}):
+        score = 1.0
+        status = "ఉత్తమం"
+        icon = "✅"
+        details = f"భూమి మరియు జల తత్వాల మైత్రి ({b_bhoota} + {g_bhoota}). సస్యశ్యామల వృద్ధి, కుటుంబ సుఖం."
+    elif (b_bhoota in {"అగ్ని", "వాయువు"} and g_bhoota in {"అగ్ని", "వాయువు"}):
+        score = 1.0
+        status = "ఉత్తమం"
+        icon = "✅"
+        details = f"అగ్ని మరియు వాయు తత్వాల మైత్రి ({b_bhoota} + {g_bhoota}). పరస్పర ప్రోత్సాహం, ఉన్నతి."
+    elif b_bhoota == "ఆకాశం" or g_bhoota == "ఆకాశం":
+        score = 0.5
+        status = "మధ్యమం"
+        icon = "✅"
+        details = f"ఆకాశ తత్వ సమన్వయం ({b_bhoota} & {g_bhoota}). శాంతియుతమైన సంబంధం."
+    elif (b_bhoota == "అగ్ని" and g_bhoota == "జలం") or (b_bhoota == "జలం" and g_bhoota == "అగ్ని"):
+        score = 0.0
+        status = "బలహీనము"
+        icon = "❌"
+        details = f"అగ్ని ↔ జల పరస్పర శత్రు తత్వాలు. సహజ భావోద్వేగ వ్యత్యాసాలు రావచ్చు."
+    else:
+        score = 0.5
+        status = "మధ్యమం"
+        icon = "⚠️"
+        details = f"వధువు {b_bhoota} తత్వం, వరుడు {g_bhoota} తత్వం. మధ్యమ అనుకూలత."
+
+    return {
+        "id": "bhoota",
+        "name_te": "పంచభూత పొంతన",
+        "name_en": "Bhoota Porutham",
+        "score": score,
+        "max_score": 1.0,
+        "status": status,
+        "icon": icon,
+        "details": details,
+        "bride_val": f"{b_bhoota} తత్వం",
+        "groom_val": f"{g_bhoota} తత్వం"
+    }
+
+
 def calculate_nadi(bride, groom, bride_padam=1, groom_padam=1, bride_rasi="", groom_rasi=""):
-    """11. Nadi Analysis (నాడి పరిశీలన)."""
+    """Nadi Analysis (నాడి పరిశీలన)."""
     b_name = _get_nak_name(bride)
     g_name = _get_nak_name(groom)
 
@@ -901,6 +1081,236 @@ def calculate_nadi(bride, groom, bride_padam=1, groom_padam=1, bride_rasi="", gr
             "groom_nadi": g_nadi,
             "details": f"ఇద్దరిదీ సమాన నాడి ({b_nadi} నాడి). సంప్రదాయం ప్రకారం నాడి దోష సూచన ఉన్నది. వైద్య / జాతక పరిశీలన మంచిది."
         }
+
+
+def check_special_nakshatra_doshas(bride_data, groom_data):
+    """Special Nakshatra Doshas (జ్యేష్ఠ, మూల, ఆశ్లేష, విశాఖ)."""
+    b_nak = _get_nak_name(bride_data.get("nakshatra", ""))
+    g_nak = _get_nak_name(groom_data.get("nakshatra", ""))
+    b_pada = bride_data.get("padam", bride_data.get("pada", 1))
+    g_pada = groom_data.get("padam", groom_data.get("pada", 1))
+
+    doshas = []
+
+    # 1. Jyeshtha Dosha
+    if b_nak == "జ్యేష్ఠ":
+        doshas.append({
+            "name": "జ్యేష్ఠా కన్యక (Jyeshtha Kanya)",
+            "severity": "మధ్యమం / శాంతి అవసరం",
+            "icon": "⚠️",
+            "details": "వధువు జ్యేష్ఠా నక్షత్రం. వరుడు కుటుంబంలో పెద్ద కుమారుడు (జ్యేష్ఠ పుత్రుడు) అయినచో వివాహానికి ముందు జ్యేష్ఠా శాంతి లేదా హోమం చేయించడం సంప్రదాయం."
+        })
+    if g_nak == "జ్యేష్ఠ" and b_nak == "జ్యేష్ఠ":
+        doshas.append({
+            "name": "ఉభయ జ్యేష్ఠా నక్షత్రం",
+            "severity": "తీవ్రం",
+            "icon": "🔴",
+            "details": "ఇద్దరిదీ జ్యేష్ఠా నక్షత్రం. సంప్రదాయం ప్రకారం ప్రత్యేక నక్షత్ర శాంతి చేయించాలి."
+        })
+
+    # 2. Moola Dosha
+    if b_nak == "మూల":
+        pada_msgs = {
+            1: "మూల 1వ పాదం: మామగారికి గండ సూచన (మూలా శాంతి హోమం అవసరం).",
+            2: "మూల 2వ పాదం: అత్తగారికి గండ సూచన (మూలా శాంతి పూజ అవసరం).",
+            3: "మూల 3వ పాదం: ధన వ్యయ సూచన (సాధారణ పరిహారం).",
+            4: "మూల 4వ పాదం: దోషం లేదు, అత్యంత శుభప్రదం."
+        }
+        doshas.append({
+            "name": f"వధువు మూలా నక్షత్రం ({b_pada}వ పాదం)",
+            "severity": "తీవ్రం" if b_pada in {1, 2} else "సాధారణం",
+            "icon": "🔴" if b_pada in {1, 2} else "🟢",
+            "details": pada_msgs.get(b_pada, "మూలా శాంతి పరిశీలన అవసరం.")
+        })
+
+    # 3. Aslesha Dosha
+    if b_nak == "ఆశ్లేష":
+        aslesha_msgs = {
+            1: "ఆశ్లేష 1వ పాదం: శుభప్రదం (దోషం లేదు).",
+            2: "ఆశ్లేష 2వ పాదం: ధనహాని సూచన.",
+            3: "ఆశ్లేష 3వ పాదం: అత్తగారికి గండ సూచన (ఆశ్లేషా బలి / నాగపూజ అవసరం).",
+            4: "ఆశ్లేష 4వ పాదం: మామగారికి గండ సూచన (శాంతి పూజ అవసరం)."
+        }
+        doshas.append({
+            "name": f"వధువు ఆశ్లేషా నక్షత్రం ({b_pada}వ పాదం)",
+            "severity": "తీవ్రం" if b_pada in {3, 4} else "సాధారణం",
+            "icon": "🔴" if b_pada in {3, 4} else "🟢",
+            "details": aslesha_msgs.get(b_pada, "ఆశ్లేషా శాంతి పూజ అవసరం.")
+        })
+
+    # 4. Visakha Dosha
+    if b_nak == "విశాఖ" and b_pada == 4:
+        doshas.append({
+            "name": "విశాఖా 4వ పాదం (మరిది దోషం)",
+            "severity": "మధ్యమం",
+            "icon": "⚠️",
+            "details": "వధువు విశాఖ 4వ పాదం. వరునికి తమ్ముడు (మరిది) ఉన్నచో విశాఖా శాంతి పూజ చేయించడం శ్రేయస్కరం."
+        })
+
+    return {
+        "has_special_doshas": any(d["icon"] in {"🔴", "⚠️"} for d in doshas),
+        "doshas_list": doshas
+    }
+
+
+def calculate_lagna_compatibility(bride_data, groom_data):
+    """Lagna-to-Lagna Compatibility (లగ్న మైత్రి)."""
+    b_lagna = _get_rasi_name(bride_data.get("lagna", ""))
+    g_lagna = _get_rasi_name(groom_data.get("lagna", ""))
+
+    b_idx = RASHIS.index(b_lagna) if b_lagna in RASHIS else 0
+    g_idx = RASHIS.index(g_lagna) if g_lagna in RASHIS else 0
+
+    rel_pos = ((g_idx - b_idx) % 12) + 1
+
+    if rel_pos == 7:
+        score = 1.0
+        status = "సమసప్తక లగ్నాలు (అత్యుత్తమం)"
+        icon = "🟢"
+        details = f"వధువు లగ్నం {b_lagna}, వరుని లగ్నం {g_lagna} (7/7 సమసప్తకం). జీవిత భాగస్వామ్యంలో పరస్పర ఆకర్షణ, పరిపూర్ణ సమన్వయం కలదు."
+    elif rel_pos in {5, 9}:
+        score = 1.0
+        status = "త్రికోణ లగ్నాలు (చాలా మంచిది)"
+        icon = "🟢"
+        details = f"త్రికోణ లగ్న సంబంధం ({rel_pos}వ స్థానం). ధర్మం, సంస్కారాలు మరియు జీవన లక్ష్యాలలో సహజ ఐక్యత ఉండును."
+    elif rel_pos == 1:
+        score = 1.0
+        status = "ఏక లగ్నం (మంచిది)"
+        icon = "🟢"
+        details = f"ఇద్దరిదీ ఒకే లగ్నం ({b_lagna}). ప్రాపంచిక దృక్పథం, వ్యక్తిత్వ శైలి సమానంగా ఉండును."
+    elif rel_pos in {3, 11, 4, 10}:
+        score = 0.8
+        status = "కేంద్ర-లాభ లగ్నాలు (అనుకూలం)"
+        icon = "🟢"
+        details = f"కేంద్ర-లాభ లగ్న సంబంధం ({rel_pos}వ స్థానం). సాంఘిక గౌరవం, పరస్పర పురోగతి లభించును."
+    elif rel_pos in {2, 12}:
+        score = 0.5
+        status = "ద్విర్ద్వాదశ లగ్నాలు (సాధారణం)"
+        icon = "🟡"
+        details = "ద్విర్ద్వాదశ లగ్నాలు (2/12). వ్యక్తిగత అభిప్రాయాలు, ఖర్చుల విషయంలో భిన్న దృక్పథాలు ఉండవచ్చు."
+    elif rel_pos in {6, 8}:
+        score = 0.2
+        status = "షడాష్టక లగ్నాలు (జాగ్రత్త)"
+        icon = "🔴"
+        details = "లగ్నాలు 6/8 షడాష్టక స్థితిలో ఉన్నవి. నిత్య జీవితంలో అలవాట్లు, పనితీరులో సర్దుబాటు అవసరం."
+    else:
+        score = 0.5
+        status = "సాధారణ లగ్న సంబంధం"
+        icon = "🟡"
+        details = f"లగ్న సంబంధం: {rel_pos}వ స్థానం."
+
+    return {
+        "score": score,
+        "status": status,
+        "icon": icon,
+        "relationship": f"{rel_pos}వ స్థానం",
+        "bride_lagna": b_lagna,
+        "groom_lagna": g_lagna,
+        "details": details
+    }
+
+
+def analyze_8th_and_2nd_houses(bride_data, groom_data):
+    """8th House Mangalya & 2nd House Kutumba Analysis."""
+    b_lagna = _get_rasi_name(bride_data.get("lagna", ""))
+    b_lagna_idx = RASHIS.index(b_lagna) if b_lagna in RASHIS else 0
+    b_h8_rasi = RASHIS[(b_lagna_idx + 7) % 12]
+    b_h8_lord = RASHI_LORDS.get(b_h8_rasi, "")
+
+    b_planets = [p for p in bride_data.get("planet_positions", []) if not p.get("is_hand")]
+    b_h8_occupants = [p.get("name") for p in b_planets if _get_rasi_name(p.get("lagna")) == b_h8_rasi]
+
+    has_benefic_8th = any(p in {"గురుడు", "శుక్రుడు", "బుధుడు", "చంద్రుడు"} for p in b_h8_occupants)
+    has_malefic_8th = any(p in {"శని", "కుజుడు", "రాహు", "కేతు"} for p in b_h8_occupants)
+
+    if has_benefic_8th:
+        b_mangalya_status = "దీర్ఘ సుమంగళీ యోగం (శుభం)"
+        b_mangalya_icon = "🟢"
+        b_mangalya_details = f"అష్టమ స్థానంలో ({b_h8_rasi}) శుభగ్రహాల ప్రభావం ఉన్నది. మాంగల్య బలం మరియు దాంపత్య సౌభాగ్యం శుభప్రదం."
+    elif has_malefic_8th:
+        b_mangalya_status = "మాంగల్య స్థానంలో గ్రహ ప్రభావం (శాంతి సూచన)"
+        b_mangalya_icon = "🟡"
+        b_mangalya_details = f"అష్టమ స్థానంలో ({b_h8_rasi}) పాపగ్రహాల స్థితి కలదు. మంగళ గౌరీ పూజ లేదా శాంతి సూచించడమైనది."
+    else:
+        b_mangalya_status = "సాధారణ మాంగల్య బలం (శుభం)"
+        b_mangalya_icon = "🟢"
+        b_mangalya_details = f"అష్టమ భావం ({b_h8_rasi}) నిర్మలంగా ఉన్నది (అధిపతి: {b_h8_lord})."
+
+    # 2nd House = Kutumba Sthanam
+    b_h2_rasi = RASHIS[(b_lagna_idx + 1) % 12]
+    g_lagna = _get_rasi_name(groom_data.get("lagna", ""))
+    g_lagna_idx = RASHIS.index(g_lagna) if g_lagna in RASHIS else 0
+    g_h2_rasi = RASHIS[(g_lagna_idx + 1) % 12]
+
+    return {
+        "bride_mangalya": {
+            "h8_rasi": b_h8_rasi,
+            "h8_lord": b_h8_lord,
+            "occupants": b_h8_occupants if b_h8_occupants else ["గ్రహాలు లేవు (నిర్మలం)"],
+            "status": b_mangalya_status,
+            "icon": b_mangalya_icon,
+            "details": b_mangalya_details
+        },
+        "kutumba_bhavas": {
+            "bride_h2": b_h2_rasi,
+            "groom_h2": g_h2_rasi,
+            "status": "కుటుంబ స్థానాల సమతుల్యత",
+            "details": f"వధువు 2వ భావం: {b_h2_rasi}, వరుని 2వ భావం: {g_h2_rasi}. కుటుంబ జీవన సామరస్యం."
+        }
+    }
+
+
+def analyze_rahu_ketu_axis(bride_data, groom_data):
+    """1/7 Axis Rahu-Ketu and Sarpa Dosha Balance."""
+    def get_rk_houses(data):
+        lagna = _get_rasi_name(data.get("lagna", ""))
+        l_idx = RASHIS.index(lagna) if lagna in RASHIS else 0
+        planets = [p for p in data.get("planet_positions", []) if not p.get("is_hand")]
+
+        rahu_h = None
+        ketu_h = None
+        for p in planets:
+            pname = p.get("name")
+            p_rasi = _get_rasi_name(p.get("lagna"))
+            p_idx = RASHIS.index(p_rasi) if p_rasi in RASHIS else 0
+            h_num = ((p_idx - l_idx) % 12) + 1
+            if pname == "రాహు":
+                rahu_h = h_num
+            elif pname == "కేతు":
+                ketu_h = h_num
+        return rahu_h, ketu_h
+
+    b_rahu, b_ketu = get_rk_houses(bride_data)
+    g_rahu, g_ketu = get_rk_houses(groom_data)
+
+    b_has_1_7 = (b_rahu in {1, 7} or b_ketu in {1, 7})
+    g_has_1_7 = (g_rahu in {1, 7} or g_ketu in {1, 7})
+
+    if b_has_1_7 and g_has_1_7:
+        status = "సర్పదోష సామ్యం (శుభం)"
+        icon = "🟢"
+        details = "ఇద్దరి జాతకాలలోనూ 1/7 స్థానాలలో రాహు-కేతువులు ఉన్నందున 'సర్పదోష సామ్యం' కలిగి దోష పరిహారమైంది."
+        is_balanced = True
+    elif b_has_1_7 or g_has_1_7:
+        side = "వధువు" if b_has_1_7 else "వరుని"
+        status = "సప్తమ రాహు/కేతు ప్రభావం (పరిశీలన)"
+        icon = "🟡"
+        details = f"{side} జాతకంలో 1/7 అక్షంలో రాహు-కేతు ప్రభావం ఉన్నది. శ్రీ కాళహస్తి క్షేత్రంలో పూజ లేదా శాంతి సూచించడమైనది."
+        is_balanced = False
+    else:
+        status = "దోషం లేదు (శుభం)"
+        icon = "🟢"
+        details = "ఇద్దరి జాతకాలలోనూ 1/7 అక్షంలో రాహు-కేతు దోషం లేదు. వైవాహిక బంధం సుస్థిరం."
+        is_balanced = True
+
+    return {
+        "status": status,
+        "icon": icon,
+        "is_balanced": is_balanced,
+        "bride_rahu_h": b_rahu,
+        "groom_rahu_h": g_rahu,
+        "details": details
+    }
 
 
 def calculate_kuja_dosha(chart_data):
@@ -1057,7 +1467,7 @@ def compare_kuja_samyam(b_kuja, g_kuja):
             "status": "కుజదోష అసమతుల్యత (జాగ్రత్త)",
             "icon": "🔴",
             "is_balanced": False,
-            "details": f"{side_with_dosha} కుజ ప్రభావం ఉన్నది, {side_without} లేదు. పరిహారాలు లేదా పెద్దల పరిశీలన అవసరం."
+            "details": f"{side_with_dosha} కుజ ప్రభావం ఉన్నది, {side_without} లేదు. పెద్దల / జ్యోతిష్యుల పరిశీలన అవసరం."
         }
 
 
@@ -1176,7 +1586,16 @@ def analyze_dasha_compatibility(p1_data, p2_data, groom_is_p1=True):
 
 def generate_marriage_report(p1_data, p2_data, groom_is_p1=True):
     """
-    Generate complete South Indian Telugu Marriage Ponthana report.
+    Generate complete South Indian Telugu Marriage Ponthana report with:
+    - 10 Dashakootam Poruthams
+    - 2 Bonus Dvadasakootam Poruthams (Vriksha & Bhoota)
+    - Special Nakshatra Doshas (Jyeshtha, Moola, Aslesha, Visakha)
+    - Lagna-to-Lagna Compatibility
+    - 8th House Mangalya & 2nd House Kutumba Analysis
+    - Rahu-Ketu 1/7 Axis Balance
+    - Kuja Dosha & Kuja Samyam
+    - 7th House & D9 Navamsa
+    - Current Dasha-Bhukti Compatibility
     """
     groom_data = p1_data if groom_is_p1 else p2_data
     bride_data = p2_data if groom_is_p1 else p1_data
@@ -1198,7 +1617,7 @@ def generate_marriage_report(p1_data, p2_data, groom_is_p1=True):
     else:
         g_rasi_name = _get_rasi_name(groom_data.get("rashi", groom_data.get("rasi", groom_data.get("lagna", "మేషం"))))
 
-    # Calculate 10 Poruthams using exact function calls
+    # 1. Calculate 10 Poruthams (Dashakootam)
     dina = calculate_dina(b_nak_name, g_nak_name)
     gana = calculate_gana(b_nak_name, g_nak_name)
     mahendra = calculate_mahendra(b_nak_name, g_nak_name)
@@ -1214,18 +1633,35 @@ def generate_marriage_report(p1_data, p2_data, groom_is_p1=True):
     total_score = sum(p["score"] for p in poruthams)
     score_percentage = round((total_score / 10.0) * 100, 1)
 
-    # Nadi Analysis
+    # 2. Bonus Dvadasakootam Poruthams (Vriksha & Bhoota)
+    vriksha = calculate_vriksha(b_nak_name, g_nak_name)
+    bhoota = calculate_bhoota(b_nak_name, g_nak_name)
+    extra_poruthams = [vriksha, bhoota]
+
+    # 3. Special Nakshatra Doshas (Jyeshtha, Moola, Aslesha, Visakha)
+    special_doshas = check_special_nakshatra_doshas(bride_data, groom_data)
+
+    # 4. Lagna Compatibility
+    lagna_comp = calculate_lagna_compatibility(bride_data, groom_data)
+
+    # 5. 8th House Mangalya & 2nd House Kutumba
+    mangalya_kutumba = analyze_8th_and_2nd_houses(bride_data, groom_data)
+
+    # 6. Rahu-Ketu 1/7 Axis
+    rahu_ketu_axis = analyze_rahu_ketu_axis(bride_data, groom_data)
+
+    # 7. Nadi Analysis
     nadi = calculate_nadi(b_nak_name, g_nak_name, bride_padam, groom_padam, b_rasi_name, g_rasi_name)
 
-    # Kuja Dosha Analysis
+    # 8. Kuja Dosha Analysis
     b_kuja = calculate_kuja_dosha(bride_data)
     g_kuja = calculate_kuja_dosha(groom_data)
     kuja_comparison = compare_kuja_samyam(b_kuja, g_kuja)
 
-    # 7th House & D9 Analysis
+    # 9. 7th House & D9 Analysis
     jathaka_7th = analyze_7th_and_d9(p1_data, p2_data, groom_is_p1)
 
-    # Dasha Compatibility
+    # 10. Dasha Compatibility
     dasha_comp = analyze_dasha_compatibility(p1_data, p2_data, groom_is_p1)
 
     # Critical Checks & Overrides
@@ -1260,7 +1696,7 @@ def generate_marriage_report(p1_data, p2_data, groom_is_p1=True):
         badge_class = "verdict-weak"
         summary_te = f"దశకూట పొంతనలో {total_score}/10 మార్కులు మాత్రమే వచ్చినవి. పలు ముఖ్యమైన కూటములలో పొంతన తక్కువగా ఉన్నది."
 
-    guidance_te = "గమనిక: కేవలం నక్షత్ర పొంతన మాత్రమే వివాహానికి ప్రాతిపదిక కాదు. సప్తమ భావ బలం, ఆయుష్షు, గురు-శుక్రుల స్థితి మరియు ప్రస్తుత దశా-భుక్తులను సమగ్రంగా పరిశీలించి పెద్దల ఆశీస్సులతో శుభ నిర్ణయం తీసుకోవాలి."
+    guidance_te = "గమనిక: కేవలం నక్షత్ర పొంతన మాత్రమే వివాహానికి ప్రాతిపదిక కాదు. సప్తమ భావ బలం, ఆయుష్షు, లగ్న మైత్రి, గురు-శుక్రుల స్థితి మరియు ప్రస్తుత దశా-భుక్తులను సమగ్రంగా పరిశీలించి పెద్దల ఆశీస్సులతో శుభ నిర్ణయం తీసుకోవాలి."
 
     g_info = NAKSHATRA_DATA.get(g_nak_name, {})
     b_info = NAKSHATRA_DATA.get(b_nak_name, {})
@@ -1303,6 +1739,11 @@ def generate_marriage_report(p1_data, p2_data, groom_is_p1=True):
         "total_score": total_score,
         "max_total_score": 10.0,
         "score_percentage": score_percentage,
+        "extra_poruthams": extra_poruthams,
+        "special_doshas": special_doshas,
+        "lagna_comp": lagna_comp,
+        "mangalya_kutumba": mangalya_kutumba,
+        "rahu_ketu_axis": rahu_ketu_axis,
         "nadi": nadi,
         "groom_kuja": g_kuja,
         "bride_kuja": b_kuja,

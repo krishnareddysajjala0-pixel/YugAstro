@@ -453,20 +453,7 @@
             0% { color: #ff4444; } 25% { color: #ffeb3b; } 50% { color: #4caf50; } 75% { color: #2196f3; } 100% { color: #ff4444; }
         }
 
-        .fixed-bottom-bar-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex; justify-content: space-around;
-            padding: 12px 0; z-index: 10000;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
-        }
-        .nav-item.active { color: #ffd700; }
-        .nav-item i { font-size: 20px; }
+
         
         .nav-home i, .nav-panch i, .nav-cal i, .nav-compare i { animation: rainbow-glow 3s infinite linear; }
 
@@ -1061,9 +1048,7 @@ body {
 .top-control-bar, .top-btn-row, .header-container {
   margin-top: 2px !important;
 }
-.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
-}
+/* bottom-nav padding handled centrally in theme-fonts.css */
 </style>
 </head>
 <body>

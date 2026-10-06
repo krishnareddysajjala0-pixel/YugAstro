@@ -628,3 +628,31 @@
 604. [06-Oct-2026 05:24:26] Name: Lakshmi, Mobile: N/A, DOB: 1996-09-08, TOB: 13:30, Place: Tangutur, Andhra Pradesh, India
 605. [06-Oct-2026 05:25:44] Name: Rishika, Mobile: N/A, DOB: 2015-07-23, TOB: 19:15, Place: Tangutur, Andhra Pradesh, India
 606. [06-Oct-2026 05:26:58] Name: Rishika, Mobile: N/A, DOB: 2015-07-23, TOB: 19:15, Place: Tangutur, Andhra Pradesh, India
+607. [06-Oct-2026 19:04:18] Name: gf (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
+608. [06-Oct-2026 19:04:18] Name: gopal reddy (Compare 2), Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
+609. [06-Oct-2026 19:05:00] Name: gf (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
+610. [06-Oct-2026 19:05:00] Name: gopal reddy (Compare 2), Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
+611. [06-Oct-2026 19:05:13] Name: gf (Compare 1), Mobile: N/A, DOB: 2026-09-27, TOB: 16:43, Place: Kandukur, Andhra Pradesh, India
+612. [06-Oct-2026 19:05:13] Name: gopal reddy (Compare 2), Mobile: N/A, DOB: 2026-09-19, TOB: 15:47, Place: Kandukur, Andhra Pradesh, India
+613. [06-Oct-2026 19:13:11] Name: kkkkkkkkk, Mobile: N/A, DOB: 2026-10-06, TOB: 19:12, Place: Kandukur, Andhra Pradesh, India
+614. [06-Oct-2026 19:13:14] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-06, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+615. [06-Oct-2026 19:13:21] Name: lllllllllll, Mobile: N/A, DOB: 2026-10-06, TOB: 19:12, Place: Kandukur, Andhra Pradesh, India
+616. [06-Oct-2026 19:16:10] Name: kkkk, Mobile: N/A, DOB: 2026-10-06, TOB: 19:15, Place: Kandukur, Andhra Pradesh, India
+617. [06-Oct-2026 19:39:18] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-06, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+618. [06-Oct-2026 19:40:59] Name: ik, Mobile: N/A, DOB: 2026-10-06, TOB: 19:40, Place: Kandukur, Andhra Pradesh, India
+619. [06-Oct-2026 19:48:26] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-06, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+620. [06-Oct-2026 19:56:23] Name: ggg (Compare 1), Mobile: N/A, DOB: 2026-10-06, TOB: 19:56, Place: Kandukur, Andhra Pradesh, India
+621. [06-Oct-2026 19:56:23] Name: eeee (Compare 2), Mobile: N/A, DOB: 2026-10-06, TOB: 19:56, Place: Kandukur, Andhra Pradesh, India
+622. [06-Oct-2026 19:56:49] Name: ggg (Compare 1), Mobile: N/A, DOB: 2026-10-06, TOB: 19:56, Place: Kandukur, Andhra Pradesh, India
+623. [06-Oct-2026 19:56:49] Name: eeee (Compare 2), Mobile: N/A, DOB: 2026-10-06, TOB: 19:56, Place: Kandukur, Andhra Pradesh, India
+624. [06-Oct-2026 19:58:11] Name: d (Compare 1), Mobile: N/A, DOB: 2026-10-06, TOB: 19:57, Place: Kandukur, Andhra Pradesh, India
+625. [06-Oct-2026 19:58:11] Name: s (Compare 2), Mobile: N/A, DOB: 2026-10-06, TOB: 19:57, Place: Kandukur, Andhra Pradesh, India
+626. [06-Oct-2026 20:10:29] Name: yyyy, Mobile: N/A, DOB: 2026-10-06, TOB: 20:10, Place: Kandukur, Andhra Pradesh, India
+627. [06-Oct-2026 20:11:00] Name: yyyy, Mobile: N/A, DOB: 2026-10-06, TOB: 20:10, Place: Kandukur, Andhra Pradesh, India
+628. [06-Oct-2026 20:14:12] Name: Boy (Compare 1), Mobile: N/A, DOB: 1995-05-15, TOB: 10:30, Place: Hyderabad
+629. [06-Oct-2026 20:14:12] Name: Girl (Compare 2), Mobile: N/A, DOB: 1998-08-20, TOB: 14:15, Place: Vijayawada
+630. [06-Oct-2026 20:17:19] Name: f (Compare 1), Mobile: N/A, DOB: 2026-10-06, TOB: 20:17, Place: Kandukur, Andhra Pradesh, India
+631. [06-Oct-2026 20:17:19] Name: gg (Compare 2), Mobile: N/A, DOB: 2026-10-06, TOB: 20:17, Place: Kandukur, Andhra Pradesh, India
+632. [06-Oct-2026 20:35:22] Name: ddd, Mobile: N/A, DOB: 2026-10-06, TOB: 20:35, Place: Kandukur, Andhra Pradesh, India
+633. [06-Oct-2026 20:36:19] Name: reddy (Compare 1), Mobile: N/A, DOB: 2026-10-06, TOB: 20:36, Place: Kandukur, Andhra Pradesh, India
+634. [06-Oct-2026 20:36:20] Name: gggg (Compare 2), Mobile: N/A, DOB: 2026-10-06, TOB: 20:36, Place: Kandukur, Andhra Pradesh, India

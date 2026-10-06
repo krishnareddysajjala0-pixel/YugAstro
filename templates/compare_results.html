@@ -749,40 +749,6 @@
 
 
 
-    /* Bottom Navbar */
-
-    .fixed-bottom-bar-nav {
-
-        position: fixed; bottom: 0; left: 0; width: 100%;
-
-        background: rgba(15, 12, 41, 0.95);
-
-        backdrop-filter: blur(10px);
-
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-
-        display: flex; justify-content: space-around;
-
-        padding: 12px 0; z-index: 10000;
-
-    }
-
-    .nav-item {
-
-        display: flex; flex-direction: column; align-items: center;
-
-        color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
-
-        transition: all 0.3s ease;
-
-    }
-
-    .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
-
-    .nav-item i { font-size: 20px; transition: all 0.3s ease; }
-
-    .nav-item:hover { color: #fff; }
-
 
 
     /* Always glow for Home, Panchangam and Calendar */
@@ -3005,13 +2971,14 @@
 <style>
 /* Position Floating Bottom Bar Downside Close to Bottom Edge */
 .fixed-bottom-bar {
-  bottom: 12px !important;
+  bottom: 8px !important;
 }
 @media screen and (max-width: 768px) {
   .fixed-bottom-bar {
-    bottom: 10px !important;
+    bottom: 6px !important;
   }
 }
+
 </style>
 <style>
 
@@ -3932,9 +3899,7 @@ body {
 .top-control-bar, .top-btn-row, .header-container {
   margin-top: 2px !important;
 }
-.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
-}
+/* bottom-nav padding handled centrally in theme-fonts.css */
 </style>
 
 <style>
@@ -5035,9 +5000,8 @@ body {
 
 
     <!-- Single Line Bottom Action Bar -->
-
-    <div class="no-print" id="compare-action-bar" style="position: fixed; bottom: calc(max(env(safe-area-inset-bottom, 0px), 25px) + 68px); left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 35px; padding: 6px 14px; backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0,0,0,0.6); max-width: 95%; flex-wrap: nowrap; overflow-x: auto;">
-    <button type="button" onclick="toggleCompareView()" id="btn-view-toggle" class="compare-tab-btn" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
+    <div class="no-print" id="compare-action-bar" style="position: fixed; bottom: calc(max(env(safe-area-inset-bottom, 0px), 5px) + 48px); left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 25px; padding: 4px 10px; backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(0,0,0,0.6); max-width: 95%; flex-wrap: nowrap; overflow-x: auto;">
+    <button type="button" onclick="toggleCompareView()" id="btn-view-toggle" class="compare-tab-btn" style="white-space: nowrap; font-size: 11.5px; padding: 5px 12px;">
       {% if chart_type == 'nakshatra' %}
         ⚖️ {{ _('సాధారణ కుండలుల పొంతన') }}
       {% else %}
@@ -5045,7 +5009,11 @@ body {
       {% endif %}
     </button>
 
-    <button type="button" onclick="goToCompareDasha()" class="compare-tab-btn" style="white-space: nowrap; font-size: 13px; padding: 7px 14px; background: linear-gradient(135deg, #f59e0b, #b45309); color: #fff; border: 1px solid #fbbf24;">
+    <button type="button" onclick="goToMarriagePonthana()" class="compare-tab-btn btn-result" style="white-space: nowrap; font-size: 11.5px; padding: 5px 12px; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; color: #fff !important; box-shadow: 0 3px 12px rgba(255, 65, 108, 0.45) !important; border: 1px solid rgba(255, 255, 255, 0.35) !important;" title="{{ _('వివాహ దశకూట పొంతన ఫలితం') }}">
+      💍 {{ _('Result') }}
+    </button>
+
+    <button type="button" onclick="goToCompareDasha()" class="compare-tab-btn" style="white-space: nowrap; font-size: 11.5px; padding: 5px 12px; background: linear-gradient(135deg, #f59e0b, #b45309); color: #fff; border: 1px solid #fbbf24;">
       📊 {{ _('దశాచార పొంతన') }}
     </button>
   </div>
@@ -5193,6 +5161,64 @@ body {
         }
 
 
+
+        document.body.appendChild(form);
+
+        form.submit();
+
+      }
+
+      function goToMarriagePonthana() {
+
+        const form = document.createElement('form');
+
+        form.method = 'POST';
+
+        form.action = '/marriage_ponthana';
+
+        form.style.display = 'none';
+
+        const fields = {
+
+            'name1': '{{ p1.name }}',
+
+            'dob1': '{{ p1.dob }}',
+
+            'tob1': '{{ p1.tob }}',
+
+            'place1': '{{ p1.place }}',
+
+            'lat1': '{{ p1.lat }}',
+
+            'lon1': '{{ p1.lon }}',
+
+            'name2': '{{ p2.name }}',
+
+            'dob2': '{{ p2.dob }}',
+
+            'tob2': '{{ p2.tob }}',
+
+            'place2': '{{ p2.place }}',
+
+            'lat2': '{{ p2.lat }}',
+
+            'lon2': '{{ p2.lon }}'
+
+        };
+
+        for (const [key, value] of Object.entries(fields)) {
+
+            const input = document.createElement('input');
+
+            input.type = 'hidden';
+
+            input.name = key;
+
+            input.value = value;
+
+            form.appendChild(input);
+
+        }
 
         document.body.appendChild(form);
 

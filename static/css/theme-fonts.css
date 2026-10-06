@@ -1107,252 +1107,267 @@ body.mobile-pdf-rendering #loading-overlay {
 
 
 
-/* ===== UNIFIED BOTTOM NAVIGATION BUTTON PILL STYLES ===== */
+
+/* ===== CUSTOM ASTRO DIALOG OVERLAY (REPLACES BROWSER DOMAIN HEADER ALERTS) ===== */
+.custom-dialog-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  animation: dialog-fade-in 0.2s ease-out !important;
+}
+
+@keyframes dialog-fade-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.custom-dialog-card {
+  background: var(--card-bg, rgba(20, 20, 30, 0.96)) !important;
+  border: 1px solid var(--card-border, rgba(255, 215, 0, 0.35)) !important;
+  border-radius: 16px !important;
+  padding: 24px 28px !important;
+  max-width: 420px !important;
+  width: 90% !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+  text-align: center !important;
+  color: var(--text-main, #ffffff) !important;
+  font-family: inherit !important;
+}
+
+.custom-dialog-message {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  margin-bottom: 20px !important;
+  color: var(--text-main, #ffffff) !important;
+  word-break: break-word !important;
+}
+
+.custom-dialog-actions {
+  display: flex !important;
+  gap: 12px !important;
+  justify-content: center !important;
+}
+
+.custom-dialog-btn {
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 90px !important;
+}
+
+.custom-dialog-btn.ok-btn {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4) !important;
+}
+
+.custom-dialog-btn.cancel-btn {
+  background: linear-gradient(135deg, #475569 0%, #334155 100%) !important;
+  color: #ffffff !important;
+}
+
+.custom-dialog-btn:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.15) !important;
+}
+
+
+/* Guaranteed NO underline on language buttons and theme buttons across all states */
+.lang-options,
+.lang-options *,
+.lang-options a,
+.lang-options .lang-btn,
+.lang-options a.lang-btn,
+.lang-options a:link,
+.lang-options a:visited,
+.lang-options a:hover,
+.lang-options a:active,
+.lang-options a:focus,
+.lang-options span,
+.lang-btn,
+.lang-btn:link,
+.lang-btn:visited,
+.lang-btn:hover,
+.lang-btn:active,
+.lang-btn:focus,
+.theme-options,
+.theme-options *,
+.theme-options button,
+.theme-options .theme-btn,
+.theme-options span,
+.theme-btn,
+.top-control-bar a,
+.top-control-bar button {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  -webkit-text-decoration-line: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+}
+
+/* ==========================================================================
+   UNIFIED PREMIUM BOTTOM BUTTONS & NAVIGATION (MATCHING TOP BAR STYLES)
+   Transforms ALL bottom navigation bars, floating action bars, and bottom
+   buttons across ALL pages to match the elegant glassmorphic pill style,
+   radiant cosmic gradients, sleek proportions, glowing borders, and smooth
+   hover effects of the top bar buttons (.top-control-bar .ctrl-btn).
+   ========================================================================== */
+
+/* 1. Universal Fixed Bottom Navigation Bar (.fixed-bottom-bar-nav) */
 .fixed-bottom-bar-nav {
   position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  background: rgba(10, 10, 15, 0.92) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  bottom: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 16px) !important;
+  max-width: 900px !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: var(--card-bg, rgba(15, 23, 42, 0.96)) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 2px solid #ffd700 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 215, 0, 0.45) !important;
   display: flex !important;
-  justify-content: space-around !important;
+  flex-direction: row !important;
   align-items: center !important;
-  padding: 8px 10px !important;
-  z-index: 9999 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+  justify-content: space-between !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+  z-index: 10000 !important;
   box-sizing: border-box !important;
 }
 
+/* Nav Item Pill Buttons: Background EXPANDS like top buttons, Symbol and Name SIDE BY SIDE */
 .fixed-bottom-bar-nav .nav-item,
+.fixed-bottom-bar-nav a,
 .nav-item.nav-home,
 .nav-item.nav-compare,
 .nav-item.nav-panch,
 .nav-item.nav-cal,
 .nav-item.nav-dasa {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 6px 14px !important;
-  border-radius: 12px !important;
-  margin: 0 2px !important;
-  min-width: 68px !important;
-  text-decoration: none !important;
-  transition: all 0.25s ease !important;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-}
-
-.fixed-bottom-bar-nav .nav-item i,
-.fixed-bottom-bar-nav .nav-item span,
-.nav-item *,
-.nav-home *,
-.nav-compare *,
-.nav-panch *,
-.nav-cal *,
-.nav-dasa * {
-  color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-}
-
-.fixed-bottom-bar-nav .nav-item:hover,
-.fixed-bottom-bar-nav .nav-item.active {
-  transform: translateY(-2px) scale(1.04) !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* 1. Default / Bright Mode */
-:root .nav-home, :root .nav-item:nth-child(1), [data-theme="default"] .nav-home, [data-theme="default"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-}
-:root .nav-compare, :root .nav-item:nth-child(2), [data-theme="default"] .nav-compare, [data-theme="default"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
-}
-:root .nav-panch, :root .nav-item:nth-child(3), [data-theme="default"] .nav-panch, [data-theme="default"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
-}
-:root .nav-cal, :root .nav-dasa, :root .nav-item:nth-child(4), [data-theme="default"] .nav-cal, [data-theme="default"] .nav-dasa, [data-theme="default"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
-}
-
-/* 2. Cosmic Mode */
-[data-theme="cosmic"] .nav-home, [data-theme="cosmic"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #4338ca 0%, #312e81 100%) !important;
-}
-[data-theme="cosmic"] .nav-compare, [data-theme="cosmic"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important;
-}
-[data-theme="cosmic"] .nav-panch, [data-theme="cosmic"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%) !important;
-}
-[data-theme="cosmic"] .nav-cal, [data-theme="cosmic"] .nav-dasa, [data-theme="cosmic"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%) !important;
-}
-
-/* 3. Sunset Mode */
-[data-theme="sunset"] .nav-home, [data-theme="sunset"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important;
-}
-[data-theme="sunset"] .nav-compare, [data-theme="sunset"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="sunset"] .nav-panch, [data-theme="sunset"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #9f1239 0%, #881337 100%) !important;
-}
-[data-theme="sunset"] .nav-cal, [data-theme="sunset"] .nav-dasa, [data-theme="sunset"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #881337 0%, #4c0519 100%) !important;
-}
-
-/* 4. Luxury Obsidian Gold Mode */
-[data-theme="luxury"] .nav-home, [data-theme="luxury"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="luxury"] .nav-compare, [data-theme="luxury"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ca8a04 0%, #854d0e 100%) !important;
-}
-[data-theme="luxury"] .nav-panch, [data-theme="luxury"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #854d0e 0%, #543109 100%) !important;
-}
-[data-theme="luxury"] .nav-cal, [data-theme="luxury"] .nav-dasa, [data-theme="luxury"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%) !important;
-}
-
-/* 5. Neo Cyberpunk Mode */
-[data-theme="cyberpunk"] .nav-home, [data-theme="cyberpunk"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #0e7490 0%, #155e75 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-compare, [data-theme="cyberpunk"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-panch, [data-theme="cyberpunk"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #4d7c0f 0%, #365314 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-cal, [data-theme="cyberpunk"] .nav-dasa, [data-theme="cyberpunk"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%) !important;
-}
-
-/* 6. Solar Amber Mode */
-[data-theme="solar"] .nav-home, [data-theme="solar"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="solar"] .nav-compare, [data-theme="solar"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ea580c 0%, #9a3412 100%) !important;
-}
-[data-theme="solar"] .nav-panch, [data-theme="solar"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #a16207 0%, #713f12 100%) !important;
-}
-[data-theme="solar"] .nav-cal, [data-theme="solar"] .nav-dasa, [data-theme="solar"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #9a3412 0%, #7c2d12 100%) !important;
-}
-
-/* 7. Royal Mandala Mode */
-[data-theme="mandala"] .nav-home, [data-theme="mandala"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important;
-}
-[data-theme="mandala"] .nav-compare, [data-theme="mandala"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
-}
-[data-theme="mandala"] .nav-panch, [data-theme="mandala"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%) !important;
-}
-[data-theme="mandala"] .nav-cal, [data-theme="mandala"] .nav-dasa, [data-theme="mandala"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #115e59 0%, #134e4a 100%) !important;
-}
-
-/* 8. Twilight Fusion Mode */
-[data-theme="twilight"] .nav-home, [data-theme="twilight"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
-}
-[data-theme="twilight"] .nav-compare, [data-theme="twilight"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #c026d3 0%, #701a75 100%) !important;
-}
-[data-theme="twilight"] .nav-panch, [data-theme="twilight"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%) !important;
-}
-[data-theme="twilight"] .nav-cal, [data-theme="twilight"] .nav-dasa, [data-theme="twilight"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important;
-}
-
-/* 9. Divine Aurora Mode */
-[data-theme="aurora"] .nav-home, [data-theme="aurora"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
-}
-[data-theme="aurora"] .nav-compare, [data-theme="aurora"] .nav-item:nth-child(2) {
-
-
-
-/* ===== UNIFIED BOTTOM NAVIGATION BUTTON PILL STYLES ===== */
-.fixed-bottom-bar-nav {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
+  flex: 1 1 0px !important;
   width: 100% !important;
-  background: rgba(10, 10, 15, 0.92) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  display: flex !important;
-  justify-content: space-around !important;
-  align-items: center !important;
-  padding: 8px 10px !important;
-  z-index: 9999 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-sizing: border-box !important;
-}
-
-.fixed-bottom-bar-nav .nav-item,
-.nav-item.nav-home,
-.nav-item.nav-compare,
-.nav-item.nav-panch,
-.nav-item.nav-cal,
-.nav-item.nav-dasa {
-  display: flex !important;
-  flex-direction: column !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  flex-direction: row !important; /* STRICTLY SIDE BY SIDE, NOT UP AND DOWN */
   align-items: center !important;
   justify-content: center !important;
-  padding: 6px 14px !important;
+  gap: 6px !important;
+  padding: 0 10px !important;
   border-radius: 12px !important;
-  margin: 0 2px !important;
-  min-width: 68px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
   text-decoration: none !important;
-  transition: all 0.25s ease !important;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  white-space: nowrap !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
 }
 
 .fixed-bottom-bar-nav .nav-item i,
-.fixed-bottom-bar-nav .nav-item span,
-.nav-item *,
-.nav-home *,
-.nav-compare *,
-.nav-panch *,
-.nav-cal *,
-.nav-dasa * {
+.nav-item.nav-home i,
+.nav-item.nav-compare i,
+.nav-item.nav-panch i,
+.nav-item.nav-cal i,
+.nav-item.nav-dasa i {
+  font-size: 14px !important;
+  line-height: 1 !important;
   color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
 }
 
+.fixed-bottom-bar-nav .nav-item span,
+.nav-item.nav-home span,
+.nav-item.nav-compare span,
+.nav-item.nav-panch span,
+.nav-item.nav-cal span,
+.nav-item.nav-dasa span {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+}
+
+/* Hover & Active States */
 .fixed-bottom-bar-nav .nav-item:hover,
-.fixed-bottom-bar-nav .nav-item.active {
-  transform: translateY(-2px) scale(1.04) !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
+.nav-item.nav-home:hover,
+.nav-item.nav-compare:hover,
+.nav-item.nav-panch:hover,
+.nav-item.nav-cal:hover,
+.nav-item.nav-dasa:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.18) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5) !important;
 }
 
+.fixed-bottom-bar-nav .nav-item.active,
+.nav-item.nav-home.active,
+.nav-item.nav-compare.active,
+.nav-item.nav-panch.active,
+.nav-item.nav-cal.active,
+.nav-item.nav-dasa.active {
+  border: 1.5px solid #ffd700 !important;
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  filter: brightness(1.2) !important;
+}
+
+/* Nav Pill Color Gradients Matching Themes */
 /* 1. Default / Bright Mode */
 :root .nav-home, :root .nav-item:nth-child(1), [data-theme="default"] .nav-home, [data-theme="default"] .nav-item:nth-child(1) {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.45) !important;
+  border-color: rgba(191, 219, 254, 0.35) !important;
 }
 :root .nav-compare, :root .nav-item:nth-child(2), [data-theme="default"] .nav-compare, [data-theme="default"] .nav-item:nth-child(2) {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+  box-shadow: 0 3px 12px rgba(217, 119, 6, 0.45) !important;
+  border-color: rgba(254, 215, 170, 0.35) !important;
 }
 :root .nav-panch, :root .nav-item:nth-child(3), [data-theme="default"] .nav-panch, [data-theme="default"] .nav-item:nth-child(3) {
   background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  box-shadow: 0 3px 12px rgba(13, 148, 136, 0.45) !important;
+  border-color: rgba(153, 246, 228, 0.35) !important;
 }
 :root .nav-cal, :root .nav-dasa, :root .nav-item:nth-child(4), [data-theme="default"] .nav-cal, [data-theme="default"] .nav-dasa, [data-theme="default"] .nav-item:nth-child(4) {
   background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
+  box-shadow: 0 3px 12px rgba(124, 58, 237, 0.45) !important;
+  border-color: rgba(221, 214, 254, 0.35) !important;
 }
 
 /* 2. Cosmic Mode */
@@ -1467,112 +1482,403 @@ body.mobile-pdf-rendering #loading-overlay {
   background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
 }
 
-/* ===== CUSTOM ASTRO DIALOG OVERLAY (REPLACES BROWSER DOMAIN HEADER ALERTS) ===== */
-.custom-dialog-overlay {
+/* Mobile Responsive: Always SIDE BY SIDE, height matches mobile top buttons (36px / 34px) */
+@media (max-width: 600px) {
+  .fixed-bottom-bar-nav {
+    bottom: max(env(safe-area-inset-bottom, 0px), 6px) !important;
+    width: calc(100% - 12px) !important;
+    max-width: 900px !important;
+    padding: 3px 5px !important;
+    gap: 3px !important;
+    border: 2px solid #ffd700 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 215, 0, 0.45) !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+    margin: 0 !important;
+  }
+  .fixed-bottom-bar-nav .nav-item,
+  .fixed-bottom-bar-nav a,
+  .nav-item.nav-home,
+  .nav-item.nav-compare,
+  .nav-item.nav-panch,
+  .nav-item.nav-cal,
+  .nav-item.nav-dasa {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    display: inline-flex !important;
+    flex-direction: row !important; /* STRICTLY SIDE BY SIDE */
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    padding: 0 4px !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+  }
+  .fixed-bottom-bar-nav .nav-item i,
+  .nav-item.nav-home i,
+  .nav-item.nav-compare i,
+  .nav-item.nav-panch i,
+  .nav-item.nav-cal i,
+  .nav-item.nav-dasa i {
+    font-size: 12px !important;
+    flex-shrink: 0 !important;
+  }
+  .fixed-bottom-bar-nav .nav-item span,
+  .nav-item.nav-home span,
+  .nav-item.nav-compare span,
+  .nav-item.nav-panch span,
+  .nav-item.nav-cal span,
+  .nav-item.nav-dasa span {
+    font-size: 10.5px !important;
+    letter-spacing: -0.2px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .fixed-bottom-bar-nav {
+    bottom: max(env(safe-area-inset-bottom, 0px), 4px) !important;
+    width: calc(100% - 8px) !important;
+    padding: 3px 4px !important;
+    gap: 2px !important;
+    border: 2px solid #ffd700 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 215, 0, 0.4) !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 !important;
+  }
+  .fixed-bottom-bar-nav .nav-item,
+  .fixed-bottom-bar-nav a,
+  .nav-item.nav-home,
+  .nav-item.nav-compare,
+  .nav-item.nav-panch,
+  .nav-item.nav-cal,
+  .nav-item.nav-dasa {
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    display: inline-flex !important;
+    flex-direction: row !important; /* STRICTLY SIDE BY SIDE */
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    padding: 0 2px !important;
+    border-radius: 8px !important;
+    font-size: 10px !important;
+  }
+  .fixed-bottom-bar-nav .nav-item i,
+  .nav-item.nav-home i,
+  .nav-item.nav-compare i,
+  .nav-item.nav-panch i,
+  .nav-item.nav-cal i,
+  .nav-item.nav-dasa i {
+    font-size: 11px !important;
+    flex-shrink: 0 !important;
+  }
+  .fixed-bottom-bar-nav .nav-item span,
+  .nav-item.nav-home span,
+  .nav-item.nav-compare span,
+  .nav-item.nav-panch span,
+  .nav-item.nav-cal span,
+  .nav-item.nav-dasa span {
+    font-size: 9.5px !important;
+    letter-spacing: -0.3px !important;
+  }
+}
+
+/* 2. Floating Bottom Action Bars (.fixed-bottom-bar, #action-bar, #compare-action-bar) */
+.fixed-bottom-bar,
+#action-bar,
+.action-bar-floating {
   position: fixed !important;
-  inset: 0 !important;
-  z-index: 2147483647 !important;
-  background: rgba(0, 0, 0, 0.75) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  bottom: max(env(safe-area-inset-bottom, 0px), 12px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 10000 !important;
   display: flex !important;
+  flex-direction: row !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 16px !important;
-  animation: dialog-fade-in 0.2s ease-out !important;
+  gap: 8px !important;
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(255, 215, 0, 0.35) !important;
+  border-radius: 20px !important;
+  padding: 5px 8px !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55) !important;
+  max-width: 95% !important;
+  box-sizing: border-box !important;
 }
 
-@keyframes dialog-fade-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.custom-dialog-card {
-  background: var(--card-bg, rgba(20, 20, 30, 0.96)) !important;
-  border: 1px solid var(--card-border, rgba(255, 215, 0, 0.35)) !important;
-  border-radius: 16px !important;
-  padding: 24px 28px !important;
-  max-width: 420px !important;
-  width: 90% !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
-  text-align: center !important;
-  color: var(--text-main, #ffffff) !important;
-  font-family: inherit !important;
-}
-
-.custom-dialog-message {
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  line-height: 1.5 !important;
-  margin-bottom: 20px !important;
-  color: var(--text-main, #ffffff) !important;
-  word-break: break-word !important;
-}
-
-.custom-dialog-actions {
+#compare-action-bar {
+  position: fixed !important;
+  bottom: calc(max(env(safe-area-inset-bottom, 0px), 8px) + 60px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 10000 !important;
   display: flex !important;
-  gap: 12px !important;
+  flex-direction: row !important;
+  align-items: center !important;
   justify-content: center !important;
+  gap: 8px !important;
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(255, 215, 0, 0.35) !important;
+  border-radius: 20px !important;
+  padding: 5px 8px !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55) !important;
+  max-width: 95% !important;
+  box-sizing: border-box !important;
 }
 
-.custom-dialog-btn {
-  padding: 10px 22px !important;
-  border-radius: 10px !important;
-  font-size: 14.5px !important;
+.fixed-bottom-bar .float-btn,
+.fixed-bottom-bar button,
+#action-bar .float-btn,
+#action-bar button,
+#compare-action-bar .compare-tab-btn {
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 16px !important;
+  font-size: 13px !important;
   font-weight: 700 !important;
-  border: none !important;
+  color: #ffffff !important;
+  gap: 6px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35) !important;
+  display: inline-flex !important;
+  flex-direction: row !important; /* SIDE BY SIDE */
+  align-items: center !important;
+  justify-content: center !important;
   cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  min-width: 90px !important;
+  white-space: nowrap !important;
+  transition: all 0.25s ease !important;
+  box-sizing: border-box !important;
 }
 
-.custom-dialog-btn.ok-btn {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+.fixed-bottom-bar .float-btn i,
+.fixed-bottom-bar button i,
+#action-bar .float-btn i,
+#action-bar button i {
+  font-size: 14px !important;
+  line-height: 1 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4) !important;
 }
 
-.custom-dialog-btn.cancel-btn {
-  background: linear-gradient(135deg, #475569 0%, #334155 100%) !important;
-  color: #ffffff !important;
-}
-
-.custom-dialog-btn:hover {
+.fixed-bottom-bar .float-btn:hover,
+.fixed-bottom-bar button:hover,
+#action-bar .float-btn:hover,
+#action-bar button:hover,
+#compare-action-bar .compare-tab-btn:hover {
   transform: translateY(-2px) !important;
-  filter: brightness(1.15) !important;
+  filter: brightness(1.18) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5) !important;
 }
 
+/* Floating Action Button Gradients */
+.fixed-bottom-bar .nav-planets,
+.fixed-bottom-bar .btn-planets,
+#action-bar .btn-planets {
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
+  box-shadow: 0 3px 12px rgba(124, 58, 237, 0.45) !important;
+}
 
-/* Guaranteed NO underline on language buttons and theme buttons across all states */
-.lang-options,
-.lang-options *,
-.lang-options a,
-.lang-options .lang-btn,
-.lang-options a.lang-btn,
-.lang-options a:link,
-.lang-options a:visited,
-.lang-options a:hover,
-.lang-options a:active,
-.lang-options a:focus,
-.lang-options span,
-.lang-btn,
-.lang-btn:link,
-.lang-btn:visited,
-.lang-btn:hover,
-.lang-btn:active,
-.lang-btn:focus,
-.theme-options,
-.theme-options *,
-.theme-options button,
-.theme-options .theme-btn,
-.theme-options span,
-.theme-btn,
-.top-control-bar a,
-.top-control-bar button {
+.fixed-bottom-bar .nav-print,
+.fixed-bottom-bar .btn-print,
+#action-bar .btn-print {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.45) !important;
+}
+
+.fixed-bottom-bar .nav-chart,
+.fixed-bottom-bar .btn-chart,
+#action-bar .btn-chart {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.45) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar,
+  #action-bar,
+  .action-bar-floating {
+    bottom: max(env(safe-area-inset-bottom, 0px), 10px) !important;
+    padding: 4px 6px !important;
+    gap: 6px !important;
+    border-radius: 18px !important;
+  }
+
+  #compare-action-bar {
+    bottom: calc(max(env(safe-area-inset-bottom, 0px), 6px) + 54px) !important;
+    padding: 4px 6px !important;
+    gap: 6px !important;
+    border-radius: 18px !important;
+  }
+
+  .fixed-bottom-bar .float-btn,
+  .fixed-bottom-bar button,
+  #action-bar .float-btn,
+  #action-bar button,
+  #compare-action-bar .compare-tab-btn {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 10px !important;
+    font-size: 11.5px !important;
+    gap: 4px !important;
+    border-radius: 12px !important;
+  }
+
+  .fixed-bottom-bar .float-btn i,
+  .fixed-bottom-bar button i,
+  #action-bar .float-btn i,
+  #action-bar button i {
+    font-size: 12px !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .fixed-bottom-bar .float-btn,
+  .fixed-bottom-bar button,
+  #action-bar .float-btn,
+  #action-bar button,
+  #compare-action-bar .compare-tab-btn {
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 8px !important;
+    font-size: 10.5px !important;
+    gap: 3px !important;
+    border-radius: 10px !important;
+  }
+}
+
+/* 3. Action Buttons & Form Submit Buttons in Bottom Container */
+.btn-action,
+.action-bar .btn-action,
+.action-bar a,
+.action-bar button {
+  display: inline-flex !important;
+  flex-direction: row !important; /* SIDE BY SIDE */
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 20px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  border-radius: 16px !important;
   text-decoration: none !important;
-  text-decoration-line: none !important;
-  -webkit-text-decoration-line: none !important;
-  border-bottom: none !important;
-  outline: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
 }
+
+.btn-action:hover,
+.action-bar .btn-action:hover,
+.action-bar a:hover,
+.action-bar button:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.18) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.btn-action.btn-print {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.45) !important;
+}
+
+.btn-container .btn-show,
+.btn-container .btn-submit,
+.btn-container .btn-nakshatra,
+.btn-container .btn-saved-data,
+.btn-container .btn-result {
+  display: inline-flex !important;
+  flex-direction: row !important; /* SIDE BY SIDE */
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 20px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-container .btn-show:hover,
+.btn-container .btn-submit:hover,
+.btn-container .btn-nakshatra:hover,
+.btn-container .btn-saved-data:hover,
+.btn-container .btn-result:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.18) !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55) !important;
+}
+
+@media screen and (max-width: 600px) {
+  .btn-action,
+  .action-bar .btn-action,
+  .action-bar a,
+  .action-bar button {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    border-radius: 14px !important;
+    gap: 5px !important;
+  }
+  .btn-container .btn-show,
+  .btn-container .btn-submit,
+  .btn-container .btn-nakshatra,
+  .btn-container .btn-saved-data,
+  .btn-container .btn-result {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    border-radius: 14px !important;
+    gap: 5px !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .btn-action,
+  .action-bar .btn-action,
+  .action-bar a,
+  .action-bar button {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+    border-radius: 12px !important;
+    gap: 4px !important;
+  }
+  .btn-container .btn-show,
+  .btn-container .btn-submit,
+  .btn-container .btn-nakshatra,
+  .btn-container .btn-saved-data,
+  .btn-container .btn-result {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+    border-radius: 12px !important;
+    gap: 4px !important;
+  }
+}
+
 

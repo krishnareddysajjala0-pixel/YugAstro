@@ -686,43 +686,8 @@
 
         
 
-        /* Bottom Navbar */
-
-        .fixed-bottom-bar-nav {
-
-            position: fixed; bottom: 0; left: 0; width: 100%;
-
-            background: rgba(15, 12, 41, 0.95);
-
-            backdrop-filter: blur(10px);
-
-            border-top: 1px solid var(--card-border);
-
-            display: flex; justify-content: space-around;
-
-            padding: 12px 0; z-index: 10000;
-
-        }
-
-        .nav-item {
-
-            display: flex; flex-direction: column; align-items: center;
-
-            color: var(--text-muted); text-decoration: none; font-size: 12px; gap: 5px;
-
-            transition: all 0.3s ease;
-
-        }
-
-        .nav-item i { font-size: 20px; transition: all 0.3s ease; }
-
         /* Always glow for Home, Panchangam and Calendar */
-
         .nav-home i, .nav-panch i, .nav-cal i, .nav-compare i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
-
-        
-
-        .nav-item:hover { color: #fff; }
 
         .nav-item span { color: #ffd700; font-weight: 600; }
 
@@ -1024,11 +989,7 @@
 
             .rainbow-text-glow { font-size: 16px; margin-left: 5px; }
 
-            .fixed-bottom-bar-nav { padding: 8px 0; }
 
-            .nav-item i { font-size: 18px; }
-
-            .nav-item span { font-size: 11px; }
 
             .btn, .btn-locate { padding: 12px 18px; font-size: 14px; }
 
@@ -1284,9 +1245,7 @@ body {
 .top-control-bar, .top-btn-row, .header-container {
   margin-top: 2px !important;
 }
-.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
-}
+/* bottom-nav padding handled centrally in theme-fonts.css */
 </style>
 
 <style>

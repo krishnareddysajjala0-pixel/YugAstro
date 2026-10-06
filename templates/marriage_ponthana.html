@@ -12,6 +12,7 @@
   <meta name="theme-color" content="#1A1A1D">
   <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/theme-fonts.css">
 
   <script>
     (function () {
@@ -86,7 +87,7 @@
       background: var(--bg-primary);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 16px 12px 100px 12px;
+      padding: 16px 12px 75px 12px;
       line-height: 1.6;
     }
 
@@ -583,69 +584,33 @@
     .btn-action {
       background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
       color: #fff;
-      padding: 12px 22px;
+      padding: 9px 18px;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
+      box-shadow: 0 4px 12px rgba(30, 60, 114, 0.4);
       transition: all 0.2s;
     }
 
     .btn-action:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(30, 60, 114, 0.6);
+      box-shadow: 0 6px 16px rgba(30, 60, 114, 0.6);
     }
 
     .btn-action.btn-print {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
     }
 
-    /* Fixed Bottom Bar Nav */
-    .fixed-bottom-bar-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 999;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
 
-    .fixed-bottom-bar-nav .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 10px;
-      gap: 4px;
-      flex: 1;
-      height: 100%;
-    }
 
-    .fixed-bottom-bar-nav .nav-item.active {
-      color: #ffd700;
-      font-weight: bold;
-    }
 
-    .fixed-bottom-bar-nav .nav-item i {
-      font-size: 18px;
-    }
 
     /* Print Styles */
     @media print {
@@ -954,8 +919,169 @@
               </td>
             </tr>
             {% endfor %}
+
+            {% if report.extra_poruthams %}
+            <tr style="background: rgba(255, 215, 0, 0.06); border-top: 2px dashed rgba(255, 215, 0, 0.35);">
+              <td colspan="7" style="font-size: 12px; font-weight: 700; color: #ffd700; padding: 8px 10px;">
+                <i class="fas fa-sparkles"></i> {{ _('ద్వాదశ కూట విశేషములు (12 Dvadasakootam Bonus Poruthams)') }}
+              </td>
+            </tr>
+            {% for ep in report.extra_poruthams %}
+            <tr style="background: rgba(255, 255, 255, 0.02);">
+              <td style="font-weight: 700; color: #ffd700;">{{ 10 + loop.index }}</td>
+              <td style="font-weight: 700;">
+                <div>{{ ep.name_te }} <span style="font-size: 10px; color: #ffd700; background: rgba(255,215,0,0.15); padding: 1px 6px; border-radius: 8px;">+ద్వాదశ</span></div>
+                <small style="color: var(--text-muted); font-size: 11px;">{{ ep.name_en }}</small>
+              </td>
+              <td style="color: #f472b6; font-weight: 600;">{{ ep.bride_val }}</td>
+              <td style="color: #60a5fa; font-weight: 600;">{{ ep.groom_val }}</td>
+              <td>
+                {% if ep.score == 1.0 %}
+                  <span class="score-pill full">1.0 / 1.0</span>
+                {% elif ep.score == 0.5 %}
+                  <span class="score-pill half">0.5 / 1.0</span>
+                {% else %}
+                  <span class="score-pill zero">0.0 / 1.0</span>
+                {% endif %}
+              </td>
+              <td>
+                <span>{{ ep.icon }} {{ ep.status }}</span>
+              </td>
+              <td style="font-size: 12px; max-width: 300px;">
+                {{ ep.details }}
+              </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Lagna-to-Lagna Compatibility Card -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-compass"></i> {{ _('లగ్న-లగ్న మైత్రి విశ్లేషణ (Lagna Compatibility)') }}</h3>
+      <div class="analysis-grid">
+        <div class="analysis-box">
+          <h4>🤵 {{ _('వరుని లగ్నం') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('లగ్న రాశి') }}:</span>
+            <span class="val" style="color: #60a5fa; font-weight: 700;">{{ report.lagna_comp.groom_lagna }}</span>
+          </div>
+        </div>
+        <div class="analysis-box">
+          <h4>👰 {{ _('వధువు లగ్నం') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('లగ్న రాశి') }}:</span>
+            <span class="val" style="color: #f472b6; font-weight: 700;">{{ report.lagna_comp.bride_lagna }}</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 13px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <b>{{ _('లగ్న సంబంధం') }}:</b> {{ report.lagna_comp.icon }} <span style="color: #ffd700; font-weight: 700;">{{ report.lagna_comp.status }}</span> ({{ report.lagna_comp.relationship }})
+        </div>
+        <div>
+          <span class="score-pill {% if report.lagna_comp.score >= 0.8 %}full{% elif report.lagna_comp.score >= 0.5 %}half{% else %}zero{% endif %}">
+            {{ (report.lagna_comp.score * 100)|round|int }}% {{ _('అనుకూలత') }}
+          </span>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.5;">
+        {{ report.lagna_comp.details }}
+      </div>
+    </div>
+
+    <!-- Special Nakshatra Doshas Card -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-shield-halved"></i> {{ _('విశేష నక్షత్ర దోష పరిశీలన (Special Star Doshas)') }}</h3>
+      {% if report.special_doshas.doshas_list and report.special_doshas.doshas_list|length > 0 %}
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          {% for sd in report.special_doshas.doshas_list %}
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid {% if sd.icon == '🔴' %}rgba(239, 68, 68, 0.4){% else %}rgba(245, 158, 11, 0.4){% endif %}; border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="font-size: 20px;">{{ sd.icon }}</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                <b style="color: #ffd700; font-size: 14px;">{{ sd.name }}</b>
+                <span class="score-pill {% if sd.icon == '🔴' %}zero{% else %}half{% endif %}">{{ sd.severity }}</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">{{ sd.details }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+          <div style="font-size: 22px;">🟢</div>
+          <div>
+            <b style="color: #10b981; font-size: 14px;">{{ _('విశేష నక్షత్ర దోషాలు ఏవీ లేవు') }}</b>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
+              {{ _('జ్యేష్ఠా కన్యక, మూల గండం, ఆశ్లేషా గండం, విశాఖ మరిది దోషాలు ఈ జాతకాలలో లేవు. దాంపత్యం శుభప్రదం.') }}
+            </p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- 8th House Mangalya & 2nd House Kutumba Harmony Card -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-heart-pulse"></i> {{ _('అష్టమ భావ మాంగల్య బలం & కుటుంబ సౌఖ్యం (8th & 2nd House)') }}</h3>
+      <div class="analysis-grid">
+        <div class="analysis-box">
+          <h4>👰 {{ _('వధువు అష్టమ భావం (మాంగల్య స్థానం)') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('అష్టమ రాశి') }}:</span>
+            <span class="val">{{ report.mangalya_kutumba.bride_mangalya.h8_rasi }} (అధిపతి: {{ report.mangalya_kutumba.bride_mangalya.h8_lord }})</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('అష్టమంలో గ్రహాలు') }}:</span>
+            <span class="val">{{ report.mangalya_kutumba.bride_mangalya.occupants | join(', ') }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('మాంగల్య స్థితి') }}:</span>
+            <span class="val" style="color: #10b981;">{{ report.mangalya_kutumba.bride_mangalya.icon }} {{ report.mangalya_kutumba.bride_mangalya.status }}</span>
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">
+            {{ report.mangalya_kutumba.bride_mangalya.details }}
+          </div>
+        </div>
+
+        <div class="analysis-box">
+          <h4>👨‍👩‍👧 {{ _('కుటుంబ స్థానాలు (2వ భావం)') }}</h4>
+          <div class="analysis-item">
+            <span class="label">{{ _('వధువు 2వ భావం') }}:</span>
+            <span class="val">{{ report.mangalya_kutumba.kutumba_bhavas.bride_h2 }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('వరుని 2వ భావం') }}:</span>
+            <span class="val">{{ report.mangalya_kutumba.kutumba_bhavas.groom_h2 }}</span>
+          </div>
+          <div class="analysis-item">
+            <span class="label">{{ _('కుటుంబ సౌఖ్యం') }}:</span>
+            <span class="val" style="color: #ffd700;">🟢 {{ report.mangalya_kutumba.kutumba_bhavas.status }}</span>
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">
+            {{ report.mangalya_kutumba.kutumba_bhavas.details }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rahu-Ketu 1/7 Axis & Sarpa Dosha Balance Card -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fas fa-dragon"></i> {{ _('రాహు-కేతు 1/7 అక్షం & సర్పదోష సామ్యం (Rahu-Ketu Axis)') }}</h3>
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <b style="font-size: 15px; color: #ffd700;">
+            {{ report.rahu_ketu_axis.icon }} {{ report.rahu_ketu_axis.status }}
+          </b>
+          <span class="score-pill {% if report.rahu_ketu_axis.is_balanced %}full{% else %}half{% endif %}">
+            {% if report.rahu_ketu_axis.is_balanced %}{{ _('సామ్యం కలదు') }}{% else %}{{ _('పరిశీలన అవసరం') }}{% endif %}
+          </span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+          {{ report.rahu_ketu_axis.details }}
+        </p>
       </div>
     </div>
 
@@ -1126,6 +1252,8 @@
       </div>
     </div>
 
+
+
     <!-- Action Buttons -->
     <div class="action-bar">
       <a href="/compare_kundali" class="btn-action">
@@ -1143,21 +1271,21 @@
 
   <!-- Fixed Bottom Bar -->
   <div class="fixed-bottom-bar-nav">
-    <a href="/" class="nav-item">
+    <a href="/" class="nav-item nav-home">
       <i class="fas fa-home"></i>
       <span>{{ _('హోమ్') }}</span>
     </a>
-    <a href="/compare_kundali" class="nav-item">
+    <a href="/compare_kundali" class="nav-item nav-compare">
       <i class="fas fa-balance-scale"></i>
       <span>{{ _('పొంతన') }}</span>
     </a>
-    <a href="/marriage_ponthana" class="nav-item active">
-      <i class="fas fa-heart"></i>
-      <span>{{ _('ఫలితం') }}</span>
-    </a>
-    <a href="/daily_panchangam" class="nav-item">
+    <a href="/daily_panchangam" class="nav-item nav-panch">
       <i class="fas fa-om"></i>
       <span>{{ _('పంచాంగం') }}</span>
+    </a>
+    <a href="/calendar_view" class="nav-item nav-cal">
+      <i class="fas fa-calendar-alt"></i>
+      <span>{{ _('క్యాలెండర్') }}</span>
     </a>
   </div>
 
