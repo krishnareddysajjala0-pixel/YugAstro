@@ -158,7 +158,7 @@
     border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
     border-radius: 16px;
     padding: 16px 20px;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -243,7 +243,7 @@
     box-shadow: 0 5px 14px rgba(16, 185, 129, 0.5);
   }
 
-  /* Table Container */
+  /* Table Card & Container */
   .dtime-table-card {
     background: var(--card-bg, rgba(15, 23, 42, 0.95));
     border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
@@ -251,9 +251,127 @@
     overflow: hidden;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
   }
+
+  /* Pagination Bar */
+  .dtime-pagination-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 18px;
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .dtime-page-info {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #94a3b8;
+  }
+  .dtime-page-info span {
+    color: #38bdf8;
+    font-weight: 800;
+  }
+  .dtime-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .dtime-page-btn {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dtime-page-btn:hover:not(:disabled) {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #38bdf8;
+  }
+  .dtime-page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .dtime-page-current {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+  }
+  .dtime-page-input {
+    width: 48px;
+    height: 32px;
+    text-align: center;
+    background: rgba(2, 6, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+  .dtime-page-size-select {
+    height: 34px;
+    background: rgba(2, 6, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #e2e8f0;
+    padding: 0 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Decade Quick Jump Bar */
+  .dtime-decade-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 8px 18px 10px 18px;
+    background: rgba(15, 23, 42, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .dtime-decade-bar::-webkit-scrollbar {
+    height: 4px;
+  }
+  .dtime-decade-bar::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 2px;
+  }
+  .dtime-decade-btn {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .dtime-decade-btn:hover {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.3);
+  }
+
   .dtime-table-scroll {
     overflow-x: auto;
-    max-height: 750px;
+    max-height: 700px;
     position: relative;
   }
   .dtime-table-scroll::-webkit-scrollbar {
@@ -392,7 +510,8 @@
     .dtime-title { font-size: 1.6rem; }
     .dtime-subtitle { font-size: 0.9rem; }
     .dtime-toolbar { flex-direction: column; align-items: stretch; }
-    .dtime-table-scroll { max-height: 600px; }
+    .dtime-pagination-bar { flex-direction: column; align-items: stretch; }
+    .dtime-table-scroll { max-height: 550px; }
   }
 </style>
 
@@ -486,7 +605,7 @@
   <div class="dtime-toolbar print-hide">
     <div class="dtime-search-wrap">
       <i class="fas fa-search dtime-search-icon"></i>
-      <input type="text" id="dtime-search" class="dtime-search-input" placeholder="{{ _('సంవత్సరం (Year), దశ, భుక్తి, నక్షత్రం లేదా రౌండ్ సంఖ్యను శోధించండి...') }}" onkeyup="filterDtimeTable()">
+      <input type="text" id="dtime-search" class="dtime-search-input" placeholder="{{ _('సంవత్సరం (Year), దశ, భుక్తి, నక్షత్రం లేదా రౌండ్ సంఖ్యను శోధించండి...') }}" onkeyup="onSearchInput(this.value)">
     </div>
 
     <div class="dtime-filter-buttons">
@@ -508,8 +627,34 @@
     </div>
   </div>
 
-  <!-- Main Timeline Data Table -->
+  <!-- Main Timeline Data Table Card with High-Performance Pagination -->
   <div class="dtime-table-card">
+
+    <!-- Decade Jump Bar -->
+    <div class="dtime-decade-bar print-hide" id="dtime-decade-bar"></div>
+
+    <!-- Top Pagination Controls -->
+    <div class="dtime-pagination-bar print-hide">
+      <div class="dtime-page-info">
+        {{ _('చూపుతున్నది:') }} <span id="info-start">1</span> - <span id="info-end">50</span> / <span id="info-total">{{ total_rounds }}</span>
+      </div>
+      <div class="dtime-pagination-controls">
+        <button class="dtime-page-btn" id="btn-first" onclick="goToPage(1)" title="{{ _('మొదటి పేజీ') }}"><i class="fas fa-angle-double-left"></i></button>
+        <button class="dtime-page-btn" id="btn-prev" onclick="goToPage(currentPage - 1)" title="{{ _('మునుపటి పేజీ') }}"><i class="fas fa-chevron-left"></i></button>
+        <span class="dtime-page-current">
+          {{ _('పేజీ') }} <input type="number" id="input-page" class="dtime-page-input" min="1" max="1" value="1" onchange="onPageInputChange(this.value)"> / <span id="span-total-pages">1</span>
+        </span>
+        <button class="dtime-page-btn" id="btn-next" onclick="goToPage(currentPage + 1)" title="{{ _('తరువాతి పేజీ') }}"><i class="fas fa-chevron-right"></i></button>
+        <button class="dtime-page-btn" id="btn-last" onclick="goToPage(totalPages)" title="{{ _('చివరి పేజీ') }}"><i class="fas fa-angle-double-right"></i></button>
+        <select id="select-page-size" class="dtime-page-size-select" onchange="changePageSize(this.value)">
+          <option value="50" selected>50 {{ _('వరుసలు') }}</option>
+          <option value="100">100 {{ _('వరుసలు') }}</option>
+          <option value="250">250 {{ _('వరుసలు') }}</option>
+          <option value="1620">{{ _('అన్నీ (All 1604)') }}</option>
+        </select>
+      </div>
+    </div>
+
     <div class="dtime-table-scroll" id="dtime-table-container">
       <table class="dtime-table" id="dtime-table">
         <thead>
@@ -525,77 +670,24 @@
           </tr>
         </thead>
         <tbody id="dtime-tbody">
-          {% for m in matches %}
-          <tr class="dtime-row {% if m.is_current %}row-current{% elif m.is_birth %}row-birth{% endif %}"
-              id="match-row-{{ m.round }}"
-              data-round="{{ m.round }}"
-              data-year="{{ m.date_str[-4:] }}"
-              data-dasa="{{ m.mahadasha }}"
-              data-bhukti="{{ m.bhukti }}"
-              data-nakshatra="{{ m.nakshatra }}"
-              data-rasi="{{ m.rasi }}"
-              data-status="{% if m.is_current %}current{% elif m.is_birth %}birth{% elif m.status == 'గతం' %}past{% else %}future{% endif %}"
-              style="{% if loop.index % 2 == 0 %}background: rgba(255, 255, 255, 0.02);{% endif %}">
-            
-            <!-- Round Number -->
-            <td style="font-weight: 800; color: #94a3b8;">
-              {% if m.is_birth %}
-                <span style="color: #fbbf24;">0 ({{ _('జన్మ') }})</span>
-              {% else %}
-                #{{ m.round }}
-              {% endif %}
-            </td>
-
-            <!-- Date & Time -->
-            <td style="font-weight: 800; font-size: 0.95rem; color: {% if m.is_current %}#34d399{% elif m.is_birth %}#fbbf24{% else %}#f8fafc{% endif %};">
-              <i class="far fa-calendar-alt" style="margin-right: 5px; color: #38bdf8; font-size: 0.82rem;"></i>
-              {{ m.dt_str }}
-            </td>
-
-            <!-- Moon Degree -->
-            <td style="font-weight: 700; color: #fef08a;">
-              {{ m.degree_str }}
-            </td>
-
-            <!-- Rasi -->
-            <td style="font-weight: 700; color: #e2e8f0;">
-              {{ m.rasi }}
-            </td>
-
-            <!-- Nakshatra & Pada -->
-            <td style="font-weight: 600; color: #cbd5e1;">
-              {{ m.nakshatra }} ({{ m.padam }} {{ _('వ పాదం') }})
-            </td>
-
-            <!-- Dasa - Bhukti -->
-            <td>
-              <span style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-weight: 700; padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25);">
-                {{ m.mahadasha }} - {{ m.bhukti }}
-              </span>
-            </td>
-
-            <!-- Age -->
-            <td style="color: #94a3b8; font-weight: 600;">
-              {{ m.age_str }}
-            </td>
-
-            <!-- Status Badge -->
-            <td>
-              {% if m.is_current %}
-                <span class="badge-status badge-current">{{ _('ప్రస్తుతం') }}</span>
-              {% elif m.is_birth %}
-                <span class="badge-status badge-birth">{{ _('జన్మ') }}</span>
-              {% elif m.status == 'గతం' %}
-                <span class="badge-status badge-past">{{ _('గతం') }}</span>
-              {% else %}
-                <span class="badge-status badge-future">{{ _('భవిష్యత్తు') }}</span>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
+          <!-- Rendered dynamically by high-performance client script -->
         </tbody>
       </table>
     </div>
+
+    <!-- Bottom Pagination Controls -->
+    <div class="dtime-pagination-bar print-hide" style="border-top: 1px solid rgba(255, 255, 255, 0.08); border-bottom: none;">
+      <div class="dtime-page-info">
+        {{ _('మొత్తం రౌండ్లు:') }} <span id="info-bottom-total">{{ total_rounds }}</span>
+      </div>
+      <div class="dtime-pagination-controls">
+        <button class="dtime-page-btn" onclick="goToPage(1)"><i class="fas fa-angle-double-left"></i></button>
+        <button class="dtime-page-btn" onclick="goToPage(currentPage - 1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="dtime-page-btn" onclick="goToPage(currentPage + 1)"><i class="fas fa-chevron-right"></i></button>
+        <button class="dtime-page-btn" onclick="goToPage(totalPages)"><i class="fas fa-angle-double-right"></i></button>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -611,67 +703,239 @@
   <button class="dtime-bottom-btn" onclick="scrollToCurrentMatch()" style="background: linear-gradient(135deg, #10b981, #059669);">
     <i class="fas fa-crosshairs"></i> <span>{{ _('ప్రస్తుతం') }}</span>
   </button>
-  <button class="dtime-bottom-btn" onclick="window.print()" style="background: linear-gradient(135deg, #e11d48, #be123c);">
+  <button class="dtime-bottom-btn" onclick="printAllMatches()" style="background: linear-gradient(135deg, #e11d48, #be123c);">
     <i class="fas fa-print"></i> <span>{{ _('ప్రింట్') }}</span>
   </button>
 </div>
 
+<!-- Embedded Raw Matches Data in Compact JSON (~120 KB vs 3.14 MB HTML) -->
+<script id="dtime-raw-data" type="application/json">
+{{ matches|tojson|safe }}
+</script>
+
 <script>
+  const ALL_MATCHES = JSON.parse(document.getElementById('dtime-raw-data').textContent || '[]');
+  let filteredMatches = ALL_MATCHES.slice();
+  let currentPage = 1;
+  let pageSize = 50;
+  let totalPages = Math.max(1, Math.ceil(filteredMatches.length / pageSize));
   let currentActiveFilter = 'all';
+  let currentSearchQuery = '';
 
-  function filterDtimeTable() {
-    const input = document.getElementById('dtime-search').value.toLowerCase().trim();
-    const rows = document.querySelectorAll('.dtime-row');
+  function initDecadeBar() {
+    const decadeContainer = document.getElementById('dtime-decade-bar');
+    if (!decadeContainer || ALL_MATCHES.length === 0) return;
 
-    rows.forEach(row => {
-      const text = row.innerText.toLowerCase();
-      const status = row.getAttribute('data-status');
-      
-      const matchesSearch = (!input || text.includes(input));
-      let matchesFilter = true;
-      if (currentActiveFilter === 'current') {
-        matchesFilter = (status === 'current');
-      } else if (currentActiveFilter === 'past') {
-        matchesFilter = (status === 'past' || status === 'birth');
-      } else if (currentActiveFilter === 'future') {
-        matchesFilter = (status === 'future');
-      }
-
-      if (matchesSearch && matchesFilter) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
+    const decadesMap = new Map();
+    ALL_MATCHES.forEach(m => {
+      const year = parseInt(m.date_str.slice(-4), 10);
+      if (!isNaN(year)) {
+        const dec = Math.floor(year / 10) * 10;
+        if (!decadesMap.has(dec)) {
+          decadesMap.set(dec, m.round);
+        }
       }
     });
+
+    let barHtml = `<span style="font-size: 0.78rem; font-weight: 800; color: #38bdf8; align-self: center; margin-right: 4px;">{{ _('దశాబ్దాలు:') }}</span>`;
+    Array.from(decadesMap.keys()).sort((a,b)=>a-b).forEach(dec => {
+      const roundIdx = decadesMap.get(dec);
+      barHtml += `<button class="dtime-decade-btn" onclick="jumpToRound(${roundIdx})">${dec}s</button>`;
+    });
+    decadeContainer.innerHTML = barHtml;
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('dtime-tbody');
+    totalPages = Math.max(1, Math.ceil(filteredMatches.length / pageSize));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const startIdx = (currentPage - 1) * pageSize;
+    const endIdx = Math.min(startIdx + pageSize, filteredMatches.length);
+
+    document.getElementById('info-start').textContent = filteredMatches.length > 0 ? (startIdx + 1) : 0;
+    document.getElementById('info-end').textContent = endIdx;
+    document.getElementById('info-total').textContent = filteredMatches.length;
+    document.getElementById('info-bottom-total').textContent = filteredMatches.length;
+
+    document.getElementById('span-total-pages').textContent = totalPages;
+    const pageInput = document.getElementById('input-page');
+    pageInput.value = currentPage;
+    pageInput.max = totalPages;
+
+    document.getElementById('btn-first').disabled = (currentPage === 1);
+    document.getElementById('btn-prev').disabled = (currentPage === 1);
+    document.getElementById('btn-next').disabled = (currentPage >= totalPages);
+    document.getElementById('btn-last').disabled = (currentPage >= totalPages);
+
+    let rowsHtml = '';
+    for (let i = startIdx; i < endIdx; i++) {
+      const m = filteredMatches[i];
+      const isCur = m.is_current;
+      const isBirth = m.is_birth;
+      const rowClass = isCur ? 'row-current' : (isBirth ? 'row-birth' : '');
+      const dateColor = isCur ? '#34d399' : (isBirth ? '#fbbf24' : '#f8fafc');
+      const bgStyle = (i % 2 === 0) ? 'background: rgba(255, 255, 255, 0.02);' : '';
+
+      let badgeHtml = '';
+      if (isCur) {
+        badgeHtml = `<span class="badge-status badge-current">{{ _('ప్రస్తుతం') }}</span>`;
+      } else if (isBirth) {
+        badgeHtml = `<span class="badge-status badge-birth">{{ _('జన్మ') }}</span>`;
+      } else if (m.status === 'గతం') {
+        badgeHtml = `<span class="badge-status badge-past">{{ _('గతం') }}</span>`;
+      } else {
+        badgeHtml = `<span class="badge-status badge-future">{{ _('భవిష్యత్తు') }}</span>`;
+      }
+
+      const roundLabel = isBirth ? `<span style="color: #fbbf24;">0 ({{ _('జన్మ') }})</span>` : `#${m.round}`;
+
+      rowsHtml += `
+        <tr class="dtime-row ${rowClass}" id="match-row-${m.round}" style="${bgStyle}">
+          <td style="font-weight: 800; color: #94a3b8;">${roundLabel}</td>
+          <td style="font-weight: 800; font-size: 0.95rem; color: ${dateColor};">
+            <i class="far fa-calendar-alt" style="margin-right: 5px; color: #38bdf8; font-size: 0.82rem;"></i>
+            ${m.dt_str}
+          </td>
+          <td style="font-weight: 700; color: #fef08a;">${m.degree_str}</td>
+          <td style="font-weight: 700; color: #e2e8f0;">${m.rasi}</td>
+          <td style="font-weight: 600; color: #cbd5e1;">${m.nakshatra} (${m.padam} {{ _('వ పాదం') }})</td>
+          <td>
+            <span style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-weight: 700; padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25);">
+              ${m.mahadasha} - ${m.bhukti}
+            </span>
+          </td>
+          <td style="color: #94a3b8; font-weight: 600;">${m.age_str}</td>
+          <td>${badgeHtml}</td>
+        </tr>`;
+    }
+
+    if (filteredMatches.length === 0) {
+      rowsHtml = `<tr><td colspan="8" style="padding: 30px; text-align: center; color: #94a3b8; font-weight: 600;">{{ _('ఫలితాలు ఏవీ దొరకలేదు (No matching records found)') }}</td></tr>`;
+    }
+
+    tbody.innerHTML = rowsHtml;
+  }
+
+  function applyFilter() {
+    const q = currentSearchQuery.toLowerCase().trim();
+    filteredMatches = ALL_MATCHES.filter(m => {
+      let matchesSearch = true;
+      if (q) {
+        const text = `${m.round} ${m.dt_str} ${m.date_str} ${m.rasi} ${m.nakshatra} ${m.mahadasha} ${m.bhukti} ${m.age_str} ${m.status}`.toLowerCase();
+        matchesSearch = text.includes(q);
+      }
+      let matchesFilter = true;
+      if (currentActiveFilter === 'current') {
+        matchesFilter = m.is_current;
+      } else if (currentActiveFilter === 'past') {
+        matchesFilter = (m.status === 'గతం' || m.is_birth);
+      } else if (currentActiveFilter === 'future') {
+        matchesFilter = (m.status === 'భవిష్యత్తు');
+      }
+      return matchesSearch && matchesFilter;
+    });
+
+    currentPage = 1;
+    renderTable();
+  }
+
+  function onSearchInput(val) {
+    currentSearchQuery = val;
+    applyFilter();
   }
 
   function setDtimeFilter(filterType, btn) {
     currentActiveFilter = filterType;
     document.querySelectorAll('.dtime-filter-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    filterDtimeTable();
+    applyFilter();
   }
 
-  function scrollToCurrentMatch() {
-    // Clear filter first to ensure current row is visible
-    setDtimeFilter('all', document.querySelector('.dtime-filter-btn[data-filter="all"]'));
-    document.getElementById('dtime-search').value = '';
-    filterDtimeTable();
+  function goToPage(p) {
+    currentPage = p;
+    renderTable();
+    const cont = document.getElementById('dtime-table-container');
+    if (cont) cont.scrollTop = 0;
+  }
 
-    const currentElem = document.querySelector('.row-current');
-    if (currentElem) {
-      currentElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      currentElem.style.transition = 'all 0.5s ease';
-      currentElem.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.8)';
+  function onPageInputChange(val) {
+    const p = parseInt(val, 10);
+    if (!isNaN(p)) goToPage(p);
+  }
+
+  function changePageSize(sz) {
+    pageSize = parseInt(sz, 10) || 50;
+    currentPage = 1;
+    renderTable();
+  }
+
+  function jumpToRound(roundNum) {
+    currentActiveFilter = 'all';
+    currentSearchQuery = '';
+    document.getElementById('dtime-search').value = '';
+    document.querySelectorAll('.dtime-filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.dtime-filter-btn[data-filter="all"]')?.classList.add('active');
+    filteredMatches = ALL_MATCHES.slice();
+
+    const idx = filteredMatches.findIndex(m => m.round === roundNum);
+    if (idx !== -1) {
+      currentPage = Math.floor(idx / pageSize) + 1;
+      renderTable();
       setTimeout(() => {
-        currentElem.style.boxShadow = '';
-      }, 3000);
+        const row = document.getElementById(`match-row-${roundNum}`);
+        if (row) {
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          row.style.background = 'rgba(56, 189, 248, 0.25)';
+          setTimeout(() => { row.style.background = ''; }, 2500);
+        }
+      }, 80);
     }
   }
 
-  // Auto-scroll on initial load after small delay
+  function scrollToCurrentMatch() {
+    currentActiveFilter = 'all';
+    currentSearchQuery = '';
+    document.getElementById('dtime-search').value = '';
+    document.querySelectorAll('.dtime-filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.dtime-filter-btn[data-filter="all"]')?.classList.add('active');
+    filteredMatches = ALL_MATCHES.slice();
+
+    const curIdx = filteredMatches.findIndex(m => m.is_current);
+    if (curIdx !== -1) {
+      currentPage = Math.floor(curIdx / pageSize) + 1;
+      renderTable();
+
+      setTimeout(() => {
+        const currentElem = document.querySelector('.row-current');
+        if (currentElem) {
+          currentElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          currentElem.style.transition = 'all 0.5s ease';
+          currentElem.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.8)';
+          setTimeout(() => {
+            currentElem.style.boxShadow = '';
+          }, 3000);
+        }
+      }, 100);
+    }
+  }
+
+  function printAllMatches() {
+    const oldSize = pageSize;
+    pageSize = 1620;
+    renderTable();
+    setTimeout(() => {
+      window.print();
+      pageSize = oldSize;
+      renderTable();
+    }, 200);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(scrollToCurrentMatch, 600);
+    initDecadeBar();
+    renderTable();
+    setTimeout(scrollToCurrentMatch, 400);
   });
 </script>
 {% endblock %}

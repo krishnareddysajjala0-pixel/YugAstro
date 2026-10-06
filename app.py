@@ -29,6 +29,35 @@ import re
 
 # Cache loaded translation dictionaries
 from results_engine import evaluate_kundali_results
+from astral import LocationInfo
+from astral.sun import sun
+try:
+    from astral.moon import moonrise, moonset
+except Exception:
+    pass
+
+_GLOBAL_TF = None
+
+def get_timezone_for_coords(lat, lon):
+    """Fast-path timezone resolver. Instantly returns Asia/Kolkata for Indian coordinates (99.9% Vedic cases) without disk I/O."""
+    try:
+        lat_f = float(lat)
+        lon_f = float(lon)
+        # Indian subcontinent bounding box (approx 6.0° to 38.0° N, 68.0° to 98.0° E)
+        if 6.0 <= lat_f <= 38.0 and 68.0 <= lon_f <= 98.0:
+            return "Asia/Kolkata"
+    except (ValueError, TypeError):
+        return "Asia/Kolkata"
+
+    global _GLOBAL_TF
+    try:
+        if _GLOBAL_TF is None:
+            from timezonefinder import TimezoneFinder
+            _GLOBAL_TF = TimezoneFinder()
+        tz = _GLOBAL_TF.certain_timezone_at(lat=lat_f, lng=lon_f)
+        return tz or "Asia/Kolkata"
+    except Exception:
+        return "Asia/Kolkata"
 
 TRANSLATIONS_CACHE = {}
 
@@ -1001,14 +1030,25 @@ def log_user_data_endpoint():
 
 IP_LOCATION_CACHE = {"data": None, "timestamp": 0}
 
+DEFAULT_APP_LOCATION = {
+    "available": True,
+    "latitude": 17.3850,
+    "longitude": 78.4867,
+    "lat": 17.3850,
+    "lon": 78.4867,
+    "city": "Hyderabad",
+    "region": "Telangana",
+    "country": "India",
+    "display_name": "Hyderabad, Telangana, India"
+}
+
 def get_server_ip_location():
-    import time
     now = time.time()
     if IP_LOCATION_CACHE["data"] and (now - IP_LOCATION_CACHE["timestamp"]) < 3600:
         return IP_LOCATION_CACHE["data"]
     try:
         url = "https://ipapi.co/json/"
-        resp = requests.get(url, headers={"User-Agent": "RavanAstroApp/1.0"}, timeout=2.5)
+        resp = requests.get(url, headers={"User-Agent": "RavanAstroApp/1.0"}, timeout=0.8)
         if resp.status_code == 200:
             d = resp.json()
             city = d.get("city") or ""
@@ -1022,6 +1062,8 @@ def get_server_ip_location():
                     "available": True,
                     "latitude": float(lat),
                     "longitude": float(lon),
+                    "lat": float(lat),
+                    "lon": float(lon),
                     "city": city,
                     "region": region,
                     "country": country,
@@ -1037,6 +1079,7 @@ def get_server_ip_location():
 @app.route("/api/device_location", methods=["GET", "POST"])
 @app.route("/api/ip_location", methods=["GET", "POST"])
 def api_device_location():
+    # 1. Check explicit environment override
     lat = os.environ.get("DEVICE_LAT", "").strip()
     lon = os.environ.get("DEVICE_LON", "").strip()
     if lat and lon:
@@ -1047,20 +1090,44 @@ def api_device_location():
                 "longitude": float(lon),
                 "lat": float(lat),
                 "lon": float(lon),
-                "display_name": os.environ.get("DEVICE_PLACE", "")
+                "display_name": os.environ.get("DEVICE_PLACE", "") or "Hyderabad, Telangana, India"
             })
         except ValueError:
             pass
 
+    # 2. Check Edge / CDN Geolocation headers (Vercel & Cloudflare) - 0ms network latency!
+    v_city = request.headers.get("x-vercel-ip-city") or request.headers.get("cf-ipcity")
+    v_lat = request.headers.get("x-vercel-ip-latitude") or request.headers.get("cf-iplatitude")
+    v_lon = request.headers.get("x-vercel-ip-longitude") or request.headers.get("cf-iplongitude")
+    v_region = request.headers.get("x-vercel-ip-country-region")
+    v_country = request.headers.get("x-vercel-ip-country") or request.headers.get("cf-ipcountry") or "India"
+    if v_lat and v_lon:
+        try:
+            lat_f = float(v_lat)
+            lon_f = float(v_lon)
+            disp_parts = [v_city, v_region, v_country]
+            disp = ", ".join([p for p in disp_parts if p]) or f"Location ({lat_f:.2f}, {lon_f:.2f})"
+            return jsonify({
+                "available": True,
+                "latitude": lat_f,
+                "longitude": lon_f,
+                "lat": lat_f,
+                "lon": lon_f,
+                "city": v_city or "",
+                "region": v_region or "",
+                "country": v_country or "",
+                "display_name": disp
+            })
+        except ValueError:
+            pass
+
+    # 3. Cached / server-level IP lookup with quick timeout
     loc = get_server_ip_location()
     if loc:
         return jsonify(loc)
 
-    return jsonify({
-        "available": False,
-        "latitude": None,
-        "longitude": None
-    })
+    # 4. Instant safe fallback so client never hangs
+    return jsonify(DEFAULT_APP_LOCATION)
 
 LOCAL_CITIES = [
     {"display_name": "Hyderabad, Telangana, India", "lat": 17.3850, "lon": 78.4867},
@@ -1129,18 +1196,30 @@ def api_reverse_geocode():
     lat = request.args.get("lat")
     lon = request.args.get("lon")
     if not lat or not lon:
-        return jsonify({"display_name": "Unknown Location"})
+        return jsonify({"display_name": "Hyderabad, Telangana, India", "city": "Hyderabad"})
     
     try:
         lat_f = float(lat)
         lon_f = float(lon)
     except ValueError:
-        return jsonify({"display_name": "Unknown Location"})
+        return jsonify({"display_name": "Hyderabad, Telangana, India", "city": "Hyderabad"})
 
+    # 1. Fast-path: Check LOCAL_CITIES within 0.25 deg (~25 km) - Instant 0ms!
+    best_c = None
+    min_dist = 999999.0
+    for c in LOCAL_CITIES:
+        dist = abs(c["lat"] - lat_f) + abs(c["lon"] - lon_f)
+        if dist < min_dist:
+            min_dist = dist
+            best_c = c
+    if best_c and min_dist < 0.25:
+        return jsonify({"display_name": best_c["display_name"], "city": best_c["display_name"].split(",")[0]})
+
+    # 2. Try Nominatim with 0.8s timeout
     try:
         url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat_f}&lon={lon_f}&zoom=10&addressdetails=1"
         headers = {"User-Agent": "RavanAstroApp/1.0 (info@ravanastro.com)"}
-        resp = requests.get(url, headers=headers, timeout=2.5)
+        resp = requests.get(url, headers=headers, timeout=0.8)
         if resp.status_code == 200:
             data = resp.json()
             addr = data.get("address", {})
@@ -1153,15 +1232,10 @@ def api_reverse_geocode():
     except Exception:
         pass
 
-    # Fallback to closest local city or coordinates
-    best_name = f"Location ({lat_f:.2f}, {lon_f:.2f})"
-    min_dist = 999999
-    for c in LOCAL_CITIES:
-        dist = abs(c["lat"] - lat_f) + abs(c["lon"] - lon_f)
-        if dist < min_dist and dist < 0.6:
-            min_dist = dist
-            best_name = c["display_name"]
-    return jsonify({"display_name": best_name})
+    # 3. Fallback to closest local city or coordinates
+    if best_c and min_dist < 0.8:
+        return jsonify({"display_name": best_c["display_name"]})
+    return jsonify({"display_name": f"Location ({lat_f:.2f}, {lon_f:.2f})"})
 
 @app.route("/api/search_place")
 @app.route("/api/search_location")
@@ -1235,14 +1309,22 @@ def api_search_place():
     return jsonify(results)
 
 
+HOMEPAGE_PANCHANGAM_CACHE = {"key": None, "data": None}
+
 @app.route("/")
 def index():
     try:
         local_tz = pytz.timezone("Asia/Kolkata")
         today_dt = datetime.datetime.now(local_tz)
-        jd_today = swe.julday(today_dt.year, today_dt.month, today_dt.day, today_dt.hour + today_dt.minute/60.0)
-        local_midnight = today_dt.replace(hour=0, minute=0, second=0, microsecond=0)
-        today_panchangam = get_daily_panchangam_basic(jd_today, 17.3850, 78.4867, local_tz, local_midnight)
+        cache_key = (today_dt.year, today_dt.month, today_dt.day, today_dt.hour, today_dt.minute // 5)
+        if HOMEPAGE_PANCHANGAM_CACHE["key"] == cache_key and HOMEPAGE_PANCHANGAM_CACHE["data"]:
+            today_panchangam = HOMEPAGE_PANCHANGAM_CACHE["data"]
+        else:
+            jd_today = swe.julday(today_dt.year, today_dt.month, today_dt.day, today_dt.hour + today_dt.minute/60.0)
+            local_midnight = today_dt.replace(hour=0, minute=0, second=0, microsecond=0)
+            today_panchangam = get_daily_panchangam_basic(jd_today, 17.3850, 78.4867, local_tz, local_midnight)
+            HOMEPAGE_PANCHANGAM_CACHE["key"] = cache_key
+            HOMEPAGE_PANCHANGAM_CACHE["data"] = today_panchangam
     except Exception as e:
         print("Error getting today panchangam for homepage:", e)
         today_panchangam = None
@@ -1254,7 +1336,16 @@ def set_lang(lang):
         session['lang'] = lang
     return redirect(request.referrer or url_for('index'))
 
+KUNDALI_CACHE = {}
+
 def get_kundali_data(name, dob, tob, place, lat, lon):
+    k_cache_key = f"{dob}_{tob}_{lat}_{lon}"
+    if k_cache_key in KUNDALI_CACHE:
+        cached = KUNDALI_CACHE[k_cache_key].copy()
+        cached['name'] = name
+        cached['place'] = place
+        return cached
+
     # Ensure standard Lahiri Ayanamsa is used for all calculations
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     
@@ -1262,15 +1353,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     day_eng = datetime.datetime.strptime(dob, "%Y-%m-%d").strftime("%A")
     day_name = DAY_TELUGU.get(day_eng, day_eng)
 
-    # Determine Timezone based on Latitude and Longitude
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon)
-        if not timezone_str:
-            timezone_str = "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    # Determine Timezone based on Latitude and Longitude (Fast-path 0ms)
+    timezone_str = get_timezone_for_coords(lat, lon)
 
     # Time: Local Time → UTC
     local_tz = pytz.timezone(timezone_str)
@@ -1503,11 +1587,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     # Get local midnight to ensure sunrise/sunset are calculated for the birthday itself
     local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
     
-    # Using Astral for robust sunrise and sunset calculations instead of PySwisseph 
-    # to avoid errors on platforms where Ephemeris files are missing (like Render).
-    from astral import LocationInfo
-    from astral.sun import sun
-    
+    # Using Astral for robust sunrise and sunset calculations
     loc = LocationInfo("Local", "Region", timezone_str, lat, lon)
     
     try:
@@ -1719,7 +1799,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
             'has_occupants': bool(direct_planets or hand_aspects or (h_no == 1))
         })
 
-    return {
+    result = {
         'name': name,
         'dob': dob,
         'tob': tob,
@@ -1760,6 +1840,10 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'all_nakshatras': NAKSHATRAS_TELUGU,
         'nak_index': nak_index
     }
+    KUNDALI_CACHE[k_cache_key] = result
+    if len(KUNDALI_CACHE) > 30:
+        del KUNDALI_CACHE[next(iter(KUNDALI_CACHE))]
+    return result
 
 # ── 49వ చిత్రపటము: Nakshatra Pada Mapping for 12 Rashis (9 Padas per Rashi) ──
 RASHI_NAKSHATRA_PADA_MAP = {
@@ -2014,13 +2098,22 @@ def chart():
         'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
     }
     
-    # Log User query to GitHub
-    log_user_to_github(name, dob, tob, place, mobile, req_telegram)
+    # Log User query to GitHub asynchronously (0ms blocking time for user)
+    threading.Thread(target=log_user_to_github, args=(name, dob, tob, place, mobile, req_telegram), daemon=True).start()
 
     data = get_kundali_data(name, dob, tob, place, lat, lon)
 
-    # Store birth info in session for other pages
-    session['birth_info'] = data
+    # Store compact birth info in session (safely under 500 bytes to avoid browser cookie limits)
+    session['birth_info'] = {
+        'name': name, 'dob': dob, 'tob': tob, 'place': place,
+        'lat': lat, 'lon': lon, 'day_name': data.get('day_name', ''),
+        'nakshatra': data.get('nakshatra', ''), 'padam': data.get('padam', 1),
+        'nak_index': data.get('nak_index', 0),
+        'elapsed_h': data.get('elapsed_h', 0), 'elapsed_m': data.get('elapsed_m', 0),
+        'nak_elapsed': data.get('nak_elapsed', '0గం 0ని'),
+        'nak_remaining': data.get('nak_remaining', '0గం 0ని'),
+        'lagna': data.get('lagna', ''), 'timezone_str': data.get('timezone_str', 'Asia/Kolkata')
+    }
 
     # Calculate dasha data for the print Mahadasha table
     dasha_data = get_dasha_info(data)
@@ -2084,8 +2177,6 @@ def nakshatra_chart():
     lon = float(lon)
 
     data = get_kundali_data(name, dob, tob, place, lat, lon)
-    session['birth_info'] = data
-
     dasha_data = get_dasha_info(data)
     nakshatra_boxes = build_nakshatra_pada_boxes(data)
 
@@ -2590,7 +2681,15 @@ def transit_chart():
         tob=local_dt.strftime("%H:%M:%S")
     )
 
+DASHA_CACHE = {}
+
 def get_dasha_info(birth_info):
+    if not isinstance(birth_info, dict):
+        return {}
+    d_cache_key = f"{birth_info.get('dob')}_{birth_info.get('tob')}_{birth_info.get('nakshatra')}_{birth_info.get('padam')}"
+    if d_cache_key in DASHA_CACHE:
+        return DASHA_CACHE[d_cache_key]
+
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     dob = birth_info.get('dob', '')
     tob = birth_info.get('tob', '')
@@ -2833,7 +2932,7 @@ def get_dasha_info(birth_info):
     current_dasa_icon = PLANET_ICONS.get(current_maha_name, "☉")
 
    
-    return {
+    res = {
         "maha": current_maha_name,
         "maha_start": current_maha_start,
         "maha_end": current_maha_end,
@@ -2855,6 +2954,10 @@ def get_dasha_info(birth_info):
         "bhogya_str": bhogya_str,
         "current_anthara": current_anthara_name
     }
+    DASHA_CACHE[d_cache_key] = res
+    if len(DASHA_CACHE) > 30:
+        del DASHA_CACHE[next(iter(DASHA_CACHE))]
+    return res
 
 
 @app.route("/birthForm")
@@ -2886,12 +2989,21 @@ def chart2():
     if not dob:
         today_s = datetime.date.today().strftime("%Y-%m-%d")
         data = get_kundali_data("జాతకుడు", today_s, "12:00", "హైదరాబాద్, తెలంగాణ, భారతదేశం", 17.3850, 78.4867)
-        session['birth_info'] = data
-        birth_info = data
-        dob = birth_info.get('dob', today_s)
-        tob = birth_info.get('tob', '12:00')
-        name = birth_info.get('name', 'జాతకుడు')
-        place = birth_info.get('place', 'హైదరాబాద్, తెలంగాణ, భారతదేశం')
+        birth_info = {
+            'name': 'జాతకుడు', 'dob': today_s, 'tob': '12:00', 'place': 'హైదరాబాద్, తెలంగాణ, భారతదేశం',
+            'lat': 17.3850, 'lon': 78.4867, 'day_name': data.get('day_name', ''),
+            'nakshatra': data.get('nakshatra', ''), 'padam': data.get('padam', 1),
+            'nak_index': data.get('nak_index', 0),
+            'elapsed_h': data.get('elapsed_h', 0), 'elapsed_m': data.get('elapsed_m', 0),
+            'nak_elapsed': data.get('nak_elapsed', '0గం 0ని'),
+            'nak_remaining': data.get('nak_remaining', '0గం 0ని'),
+            'lagna': data.get('lagna', ''), 'timezone_str': data.get('timezone_str', 'Asia/Kolkata')
+        }
+        session['birth_info'] = birth_info
+        dob = today_s
+        tob = '12:00'
+        name = 'జాతకుడు'
+        place = 'హైదరాబాద్, తెలంగాణ, భారతదేశం'
         day_name = birth_info.get('day_name', '')
         nakshatra = birth_info.get('nakshatra', '')
         padam = birth_info.get('padam', 1)
@@ -2909,21 +3021,30 @@ def chart2():
     )
 
 
+DTIME_CACHE = {}
+
 def compute_dtime_timeline(birth_info):
     """
     Computes exact monthly dates & times from birth to 120 years in future
     when transiting Moon matches the continuously advancing Dasa Degree.
+    High-performance Newton-Raphson with exact Swiss Ephemeris Moon speed & LRU caching.
     """
     swe.set_sid_mode(swe.SIDM_LAHIRI)
-    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL
+    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED
 
-    dob = birth_info.get('dob', '')
-    tob = birth_info.get('tob', '')
+    dob = str(birth_info.get('dob', ''))
+    tob = str(birth_info.get('tob', ''))
+    lat = str(birth_info.get('lat', ''))
+    lon = str(birth_info.get('lon', ''))
     timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
     try:
         local_tz = pytz.timezone(timezone_str)
     except Exception:
         local_tz = pytz.timezone('Asia/Kolkata')
+
+    cache_key = f"{dob}_{tob}_{lat}_{lon}_{timezone_str}"
+    if cache_key in DTIME_CACHE:
+        return DTIME_CACHE[cache_key]
 
     try:
         birth_dt = local_tz.localize(datetime.datetime.strptime(f"{dob} {tob}", "%Y-%m-%d %H:%M"))
@@ -3037,14 +3158,16 @@ def compute_dtime_timeline(birth_info):
             match_jd = jd_birth
             target_deg, m_name, b_name = get_dasa_info_at_jd(match_jd)
         else:
-            for it in range(15):
-                m_lon = swe.calc_ut(curr_jd, swe.MOON, flags)[0][0]
+            for it in range(10):
+                res = swe.calc_ut(curr_jd, swe.MOON, flags)
+                m_lon = res[0][0]
+                m_spd = res[0][3] or 13.176
                 target_deg, m_name, b_name = get_dasa_info_at_jd(curr_jd)
                 diff = (target_deg - m_lon) % 360.0
                 if diff > 180: diff -= 360.0
-                if abs(diff) < 0.00001:
+                if abs(diff) < 0.000005:
                     break
-                curr_jd += diff / 13.168
+                curr_jd += diff / (m_spd - 0.0082)
             match_jd = curr_jd
             target_deg, m_name, b_name = get_dasa_info_at_jd(match_jd)
 
@@ -3101,7 +3224,7 @@ def compute_dtime_timeline(birth_info):
             'status': 'జన్మ' if round_no == 0 else ('గతం' if match_jd < jd_now else 'భవిష్యత్తు')
         })
 
-        curr_jd = match_jd + 25.0
+        curr_jd = match_jd + 27.2
         round_no += 1
 
     if matches and 0 <= current_match_idx < len(matches):
@@ -3116,7 +3239,11 @@ def compute_dtime_timeline(birth_info):
     b_rasi_name = LAGNA_NAMES_TELUGU[b_rasi_i] if b_rasi_i < len(LAGNA_NAMES_TELUGU) else ""
     birth_moon_str = f"{b_d_int}° {b_m_int:02d}′ {b_s_int:02d}″ ({b_rasi_name})"
 
-    return matches, birth_moon_str, current_match_idx
+    result = (matches, birth_moon_str, current_match_idx)
+    DTIME_CACHE[cache_key] = result
+    if len(DTIME_CACHE) > 20:
+        del DTIME_CACHE[next(iter(DTIME_CACHE))]
+    return result
 
 
 @app.route("/dtime")
@@ -3138,6 +3265,7 @@ def dtime():
         birth_moon_str=birth_moon_str,
         current_match=current_match,
         total_rounds=len(matches),
+        current_match_idx=current_match_idx,
         page_title='D-Time — 120 Years Moon Transit Degree Timeline | YugAstro'
     )
 
@@ -4181,12 +4309,7 @@ def daily_panchangam():
     lat = float(lat_str) if lat_str else 17.3850
     lon = float(lon_str) if lon_str else 78.4867
     
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon) or "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    timezone_str = get_timezone_for_coords(lat, lon)
         
     local_tz = pytz.timezone(timezone_str)
     try:
