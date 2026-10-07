@@ -4360,23 +4360,30 @@ def daily_panchangam():
     lat = 17.3850
     lon = 78.4867
 
-    # On GET request: return empty form so JS can auto-detect location
-    if request.method == "GET":
-        return render_template(
-            "daily_panchangam.html",
-            dob=dob, tob=tob, place=place, lat=lat, lon=lon,
-            panch=None
-        )
-
-    # On POST: use submitted values
-    dob = request.form.get("dob", dob)
-    tob = request.form.get("tob", tob)
-    place = request.form.get("place", place)
-    lat_str = request.form.get("lat")
-    lon_str = request.form.get("lon")
-    
-    lat = float(lat_str) if lat_str else 17.3850
-    lon = float(lon_str) if lon_str else 78.4867
+    if request.method == "POST":
+        dob = request.form.get("dob", dob)
+        tob = request.form.get("tob", tob)
+        place = request.form.get("place", place)
+        lat_str = request.form.get("lat")
+        lon_str = request.form.get("lon")
+        lat = float(lat_str) if lat_str else 17.3850
+        lon = float(lon_str) if lon_str else 78.4867
+    else:
+        dob = request.args.get("dob", dob)
+        tob = request.args.get("tob", tob)
+        place = request.args.get("place", place)
+        lat_str = request.args.get("lat")
+        lon_str = request.args.get("lon")
+        if lat_str:
+            try:
+                lat = float(lat_str)
+            except ValueError:
+                pass
+        if lon_str:
+            try:
+                lon = float(lon_str)
+            except ValueError:
+                pass
     
     timezone_str = get_timezone_for_coords(lat, lon)
         
