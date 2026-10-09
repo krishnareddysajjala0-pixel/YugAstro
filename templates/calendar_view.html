@@ -1148,12 +1148,6 @@
 
         
 
-        .theme-switcher.expanded 
-
-        .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
-
-        .theme-btn:hover { opacity: 1; transform: scale(1.1); }
-
     </style>
 
 <style>
@@ -2086,10 +2080,22 @@ body {
     collapseThemeMenu();
   }
 
+  let langMenuTimer = null;
   function toggleLangMenu(e) {
     if (e) e.stopPropagation();
     const ls = document.querySelector('.language-switcher');
-    if (ls) ls.classList.toggle('expanded');
+    if (ls) {
+      const isExpanded = ls.classList.toggle('expanded');
+      if (langMenuTimer) {
+        clearTimeout(langMenuTimer);
+        langMenuTimer = null;
+      }
+      if (isExpanded) {
+        langMenuTimer = setTimeout(() => {
+          ls.classList.remove('expanded');
+        }, 5000);
+      }
+    }
   }
 
   document.addEventListener('click', function(e) {
@@ -2098,7 +2104,13 @@ body {
     }
     if (!e.target.closest('.language-switcher')) {
       const ls = document.querySelector('.language-switcher');
-      if (ls) ls.classList.remove('expanded');
+      if (ls) {
+        ls.classList.remove('expanded');
+        if (langMenuTimer) {
+          clearTimeout(langMenuTimer);
+          langMenuTimer = null;
+        }
+      }
     }
   });
 

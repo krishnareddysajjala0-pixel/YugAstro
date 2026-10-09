@@ -1001,7 +1001,7 @@
       const isExp = ls.classList.toggle('expanded');
       if (langTimeout) clearTimeout(langTimeout);
       if (isExp) {
-        langTimeout = setTimeout(() => { ls.classList.remove('expanded'); }, 12000);
+        langTimeout = setTimeout(() => { ls.classList.remove('expanded'); }, 5000);
       }
     }
 
@@ -1013,6 +1013,7 @@
       if (!e.target.closest('.language-switcher')) {
         const ls = document.querySelector('.language-switcher');
         if (ls) ls.classList.remove('expanded');
+        if (langTimeout) { clearTimeout(langTimeout); langTimeout = null; }
       }
     });
 

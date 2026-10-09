@@ -446,9 +446,6 @@
         
         .theme-toggle-btn { background: transparent; border: none; color: gold; font-size: 20px; cursor: pointer; min-width: 30px; animation: rainbow-glow 3s infinite linear; }
         
-        /* .theme-switcher.expanded */ .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
-        .theme-btn:hover { opacity: 1; transform: scale(1.1); }
-
         @keyframes rainbow-glow {
             0% { color: #ff4444; } 25% { color: #ffeb3b; } 50% { color: #4caf50; } 75% { color: #2196f3; } 100% { color: #ff4444; }
         }
@@ -1446,6 +1443,7 @@ body {
     if (switcher) switcher.classList.toggle('expanded');
   }
 
+  let langMenuTimer = null;
   function toggleLangMenu(e) {
     if (e) {
       if (e.stopPropagation) e.stopPropagation();
@@ -1455,7 +1453,18 @@ body {
     const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
     
     if (switcher) switcher.classList.remove('expanded');
-    if (langSwitcher) langSwitcher.classList.toggle('expanded');
+    if (langSwitcher) {
+      const isExpanded = langSwitcher.classList.toggle('expanded');
+      if (langMenuTimer) {
+        clearTimeout(langMenuTimer);
+        langMenuTimer = null;
+      }
+      if (isExpanded) {
+        langMenuTimer = setTimeout(() => {
+          langSwitcher.classList.remove('expanded');
+        }, 5000);
+      }
+    }
   }
 
   function collapseThemeMenu() {
@@ -1465,7 +1474,13 @@ body {
 
   function collapseLangMenu() {
     const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
-    if (langSwitcher) langSwitcher.classList.remove('expanded');
+    if (langSwitcher) {
+      langSwitcher.classList.remove('expanded');
+      if (langMenuTimer) {
+        clearTimeout(langMenuTimer);
+        langMenuTimer = null;
+      }
+    }
   }
 
   function setTheme(themeName) {

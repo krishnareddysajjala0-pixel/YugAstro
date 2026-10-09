@@ -1652,64 +1652,6 @@
 
 
 
-        .theme-switcher.expanded 
-
-
-
-        .theme-btn {
-
-            background: transparent;
-
-            border: none;
-
-            font-size: 16px;
-
-            padding: 8px;
-
-            border-radius: 50%;
-
-            cursor: pointer;
-
-            transition: all 0.3s ease;
-
-            opacity: 0.5;
-
-            width: 40px;
-
-            height: 40px;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-        }
-
-
-
-        .theme-btn:hover {
-
-            opacity: 0.8;
-
-            transform: scale(1.1);
-
-        }
-
-
-
-        .theme-btn.active {
-
-            opacity: 1;
-
-            background: rgba(120, 120, 120, 0.2);
-
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-
-        }
-
-
-
         /* ===== PRINT ===== */
 
         @media print {
@@ -2755,10 +2697,22 @@ body {
     collapseThemeMenu();
   }
 
+  let langMenuTimer = null;
   function toggleLangMenu(e) {
     if (e) e.stopPropagation();
     const ls = document.querySelector('.language-switcher');
-    if (ls) ls.classList.toggle('expanded');
+    if (ls) {
+      const isExpanded = ls.classList.toggle('expanded');
+      if (langMenuTimer) {
+        clearTimeout(langMenuTimer);
+        langMenuTimer = null;
+      }
+      if (isExpanded) {
+        langMenuTimer = setTimeout(() => {
+          ls.classList.remove('expanded');
+        }, 5000);
+      }
+    }
   }
 
   document.addEventListener('click', function(e) {
@@ -2767,7 +2721,13 @@ body {
     }
     if (!e.target.closest('.language-switcher')) {
       const ls = document.querySelector('.language-switcher');
-      if (ls) ls.classList.remove('expanded');
+      if (ls) {
+        ls.classList.remove('expanded');
+        if (langMenuTimer) {
+          clearTimeout(langMenuTimer);
+          langMenuTimer = null;
+        }
+      }
     }
   });
 

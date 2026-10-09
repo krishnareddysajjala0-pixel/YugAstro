@@ -654,42 +654,6 @@
 
 
 
-    .theme-switcher.expanded 
-
-
-
-    .theme-btn {
-
-      background: transparent;
-
-      border: none;
-
-      font-size: 15px;
-
-      padding: 6px;
-
-      border-radius: 50%;
-
-      cursor: pointer;
-
-      transition: all 0.2s ease;
-
-      color: var(--text-main);
-
-    }
-
-
-
-    .theme-btn:hover {
-
-      transform: scale(1.15);
-
-      background: rgba(120, 120, 120, 0.2);
-
-    }
-
-
-
     /* Chart Grid Layout */
 
     .chart-container {
@@ -3212,10 +3176,22 @@ body {
     collapseThemeMenu();
   }
 
+  let langMenuTimer = null;
   function toggleLangMenu(e) {
     if (e) e.stopPropagation();
     const ls = document.querySelector('.language-switcher');
-    if (ls) ls.classList.toggle('expanded');
+    if (ls) {
+      const isExpanded = ls.classList.toggle('expanded');
+      if (langMenuTimer) {
+        clearTimeout(langMenuTimer);
+        langMenuTimer = null;
+      }
+      if (isExpanded) {
+        langMenuTimer = setTimeout(() => {
+          ls.classList.remove('expanded');
+        }, 5000);
+      }
+    }
   }
 
   document.addEventListener('click', function(e) {
@@ -3224,7 +3200,13 @@ body {
     }
     if (!e.target.closest('.language-switcher')) {
       const ls = document.querySelector('.language-switcher');
-      if (ls) ls.classList.remove('expanded');
+      if (ls) {
+        ls.classList.remove('expanded');
+        if (langMenuTimer) {
+          clearTimeout(langMenuTimer);
+          langMenuTimer = null;
+        }
+      }
     }
   });
 
