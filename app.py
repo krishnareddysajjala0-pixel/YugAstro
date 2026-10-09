@@ -1950,6 +1950,7 @@ def build_nakshatra_pada_boxes(data):
     houses = data.get('houses', {})
 
     lagna_pada_in_rashi = None
+    lagna_deg_only = ""
     if lagna_deg_str:
         try:
             deg_part = float(lagna_deg_str.split('°')[0])
@@ -1957,8 +1958,10 @@ def build_nakshatra_pada_boxes(data):
             total_rashi_deg = deg_part + min_part / 60.0
             lagna_pada_in_rashi = int(total_rashi_deg / 3.3333333333333335) + 1
             if lagna_pada_in_rashi > 9: lagna_pada_in_rashi = 9
+            lagna_deg_only = f"{int(deg_part)}°"
         except Exception:
             lagna_pada_in_rashi = 1
+            lagna_deg_only = (lagna_deg_str.split('°')[0] + "°") if '°' in lagna_deg_str else ""
 
     boxes = {}
     for rashi, nak_list in RASHI_NAKSHATRA_PADA_MAP.items():
@@ -1988,6 +1991,7 @@ def build_nakshatra_pada_boxes(data):
                     occupants.append({
                         "name": "లగ్నం",
                         "degree": lagna_deg_str,
+                        "deg_only": lagna_deg_only,
                         "is_lagna": True,
                         "is_hand": False,
                         "color": "gold"
@@ -2006,9 +2010,17 @@ def build_nakshatra_pada_boxes(data):
                             p_pada_calc = 1
 
                         if p_pada_calc == r_pada:
+                            raw_deg = p.get("degree", "")
+                            try:
+                                deg_int = int(float(raw_deg.split('°')[0])) if '°' in raw_deg else int(float(raw_deg))
+                                p_deg_only = f"{deg_int}°"
+                            except Exception:
+                                p_deg_only = (raw_deg.split('°')[0] + "°") if '°' in raw_deg else raw_deg
+
                             occupants.append({
                                 "name": p["name"],
-                                "degree": p["degree"],
+                                "degree": raw_deg,
+                                "deg_only": p_deg_only,
                                 "is_lagna": False,
                                 "is_hand": p.get("is_hand", False),
                                 "color": p.get("color", "#38bdf8")

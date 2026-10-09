@@ -1173,6 +1173,16 @@
 
     }
 
+    .planet-deg-suffix {
+      font-size: 8.5px;
+      font-weight: normal;
+      opacity: 0.88;
+      margin-left: 1.5px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
 
 
     .hide-hands .aspect-hand {
@@ -1810,6 +1820,14 @@
 
         padding: 0 2px !important;
 
+      }
+
+      .planet-deg-suffix {
+        font-size: 8px !important;
+        font-weight: 700 !important;
+        opacity: 0.9 !important;
+        margin-left: 1.5px !important;
+        line-height: 1 !important;
       }
 
 
@@ -2811,21 +2829,14 @@ body {
               <span class="occupants-wrap">
 
                 {% for occ in p.occupants %}
-
+                  {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
                   {% if occ.is_lagna %}
-
-                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}</span>
-
+                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% elif occ.is_hand %}
-
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}</span>
-
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% else %}
-
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}</span>
-
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% endif %}
-
                 {% endfor %}
 
               </span>

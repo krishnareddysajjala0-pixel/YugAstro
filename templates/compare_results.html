@@ -2853,6 +2853,7 @@
     .lagna-occupant { background: #b45309; color: #ffffff; border: 1px solid #fbbf24; }
 
     .planet-name-pill { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .planet-deg-suffix { font-size: 8px; font-weight: normal; opacity: 0.88; margin-left: 1.5px; line-height: 1; display: inline-block; vertical-align: baseline; }
 
     .center-box { grid-column: 2 / 4; grid-row: 2 / 4; display: flex; align-items: center; justify-content: center; text-align: center; border: 2px solid var(--box-border, #334155); border-radius: 12px; background: var(--card-bg, rgba(15, 23, 42, 0.9)); padding: 10px; }
 
@@ -5009,7 +5010,7 @@ body {
       {% endif %}
     </button>
 
-    <button type="button" onclick="goToMarriagePonthana()" class="compare-tab-btn btn-result" style="white-space: nowrap; font-size: 11.5px; padding: 5px 12px; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; color: #fff !important; box-shadow: 0 3px 12px rgba(255, 65, 108, 0.45) !important; border: 1px solid rgba(255, 255, 255, 0.35) !important;" title="{{ _('వివాహ దశకూట పొంతన ఫలితం') }}">
+    <button type="button" onclick="promptResultPassword()" class="compare-tab-btn btn-result" style="white-space: nowrap; font-size: 11.5px; padding: 5px 12px; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; color: #fff !important; box-shadow: 0 3px 12px rgba(255, 65, 108, 0.45) !important; border: 1px solid rgba(255, 255, 255, 0.35) !important;" title="{{ _('వివాహ దశకూట పొంతన ఫలితం') }}">
       💍 {{ _('Result') }}
     </button>
 
@@ -5166,6 +5167,79 @@ body {
 
         form.submit();
 
+      }
+
+      function promptResultPassword() {
+        let modal = document.getElementById('result-password-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'result-password-modal';
+          modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:2147483647; display:none; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;';
+          modal.innerHTML = `
+            <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%); border:2px solid #ffd700; border-radius:18px; padding:24px 28px; max-width:400px; width:92%; box-shadow:0 12px 40px rgba(0,0,0,0.85); text-align:center; color:#ffffff; font-family:inherit; box-sizing:border-box;">
+              <div style="font-size:28px; margin-bottom:8px;">🔒</div>
+              <div style="font-size:16px; font-weight:700; line-height:1.4; margin-bottom:6px; color:#ffd700;">
+                {{ _('వివాహ పొంతన ఫలితం') }}
+              </div>
+              <div style="font-size:13px; opacity:0.85; margin-bottom:14px; color:#e2e8f0;">
+                {{ _('ఫలితం చూడటానికి పాస్‌వర్డ్ నమోదు చేయండి') }}
+              </div>
+              <input type="password" id="result-pass-input" placeholder="{{ _('Password') }}..." style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:10px; border:1.5px solid #ffd700; background:rgba(15,23,42,0.9); color:#ffffff; font-size:15px; outline:none; margin-bottom:10px; text-align:center; letter-spacing:2px;" autocomplete="off">
+              <div id="result-pass-err" style="color:#ef4444; font-size:12.5px; font-weight:bold; min-height:18px; margin-bottom:12px; display:none;">
+                {{ _('పాస్‌వర్డ్ తప్పు! దయచేసి సరైన పాస్‌వర్డ్ నమోదు చేయండి.') }}
+              </div>
+              <div style="display:flex; gap:12px; justify-content:center; align-items:center;">
+                <button type="button" id="result-pass-cancel" style="padding:9px 20px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; min-width:85px; background:linear-gradient(135deg,#475569 0%,#334155 100%); color:#ffffff;">{{ _('రద్దు') }}</button>
+                <button type="button" id="result-pass-submit" style="padding:9px 20px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; min-width:85px; background:linear-gradient(135deg,#059669 0%,#047857 100%); color:#ffffff;">{{ _('సరే') }}</button>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(modal);
+
+          const input = document.getElementById('result-pass-input');
+          const err = document.getElementById('result-pass-err');
+          const cancelBtn = document.getElementById('result-pass-cancel');
+          const submitBtn = document.getElementById('result-pass-submit');
+
+          function closePassModal() {
+            modal.style.display = 'none';
+            input.value = '';
+            err.style.display = 'none';
+          }
+
+          function checkPassword() {
+            const val = input.value ? input.value.trim() : '';
+            if (val === 'Reddy') {
+              closePassModal();
+              goToMarriagePonthana();
+            } else {
+              err.style.display = 'block';
+              input.value = '';
+              input.focus();
+            }
+          }
+
+          cancelBtn.addEventListener('click', closePassModal);
+          submitBtn.addEventListener('click', checkPassword);
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) closePassModal();
+          });
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              checkPassword();
+            } else if (e.key === 'Escape') {
+              closePassModal();
+            }
+          });
+        }
+
+        const input = document.getElementById('result-pass-input');
+        const err = document.getElementById('result-pass-err');
+        if (err) err.style.display = 'none';
+        if (input) input.value = '';
+        modal.style.display = 'flex';
+        setTimeout(() => { if (input) input.focus(); }, 100);
       }
 
       function goToMarriagePonthana() {
@@ -7239,6 +7313,14 @@ body {
 
       }
 
+      .planet-deg-suffix {
+        font-size: 8px !important;
+        font-weight: 700 !important;
+        opacity: 0.9 !important;
+        margin-left: 1.5px !important;
+        line-height: 1 !important;
+      }
+
 
 
       /* Print Colors: Punyam (Green), Papam (Red), Mixed (Green+Red), Lagna (Gold + Thick Border) */
@@ -7521,21 +7603,14 @@ body {
               <span class="occupants-wrap">
 
                 {% for occ in p.occupants %}
-
+                  {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
                   {% if occ.is_lagna %}
-
-                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}</span>
-
+                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% elif occ.is_hand %}
-
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}</span>
-
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% else %}
-
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}</span>
-
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                   {% endif %}
-
                 {% endfor %}
 
               </span>
