@@ -673,3 +673,4 @@
 649. [09-Oct-2026 12:37:00] Name: hhh, Mobile: N/A, DOB: 2026-10-09, TOB: 18:06, Place: Kandukur, Andhra Pradesh, India
 650. [09-Oct-2026 12:45:17] Name: hhh, Mobile: N/A, DOB: 2026-10-09, TOB: 18:06, Place: Kandukur, Andhra Pradesh, India
 651. [09-Oct-2026 13:57:48] Name: llll, Mobile: N/A, DOB: 2026-10-09, TOB: 19:27, Place: Kandukur, Andhra Pradesh, India
+652. [09-Oct-2026 16:08:35] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-09, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
