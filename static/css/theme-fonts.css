@@ -517,109 +517,137 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 }
 
 
-/* ===== DISTINCT INDIVIDUAL COLORS FOR THEME LIST ITEMS ===== */
+/* ==========================================================================
+   DROPDOWN MENU ITEMS: VIBRANT INDIVIDUAL COLORS FOR THEMES & LANGUAGES
+   Guaranteed high specificity so they NEVER get overwritten by theme rules
+   ========================================================================== */
 .theme-options .theme-btn[data-theme-btn="default"],
-.theme-options .theme-btn[onclick*="'default'"] {
+.theme-options .theme-btn[onclick*="'default'"],
+#theme-options-dropdown button[data-theme-btn="default"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="default"] {
   background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important;
   color: #ffffff !important;
-  border: 1px solid rgba(254, 240, 138, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="cosmic"],
-.theme-options .theme-btn[onclick*="'cosmic'"] {
-  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(199, 210, 254, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="sunset"],
-.theme-options .theme-btn[onclick*="'sunset'"] {
-  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(254, 205, 211, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="luxury"],
-.theme-options .theme-btn[onclick*="'luxury'"] {
-  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(253, 230, 138, 0.4) !important;
+  border: 1px solid rgba(254, 240, 138, 0.5) !important;
 }
 .theme-options .theme-btn[data-theme-btn="cyberpunk"],
-.theme-options .theme-btn[onclick*="'cyberpunk'"] {
-  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important;
+.theme-options .theme-btn[onclick*="'cyberpunk'"],
+#theme-options-dropdown button[data-theme-btn="cyberpunk"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="cyberpunk"] {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
   color: #ffffff !important;
-  border: 1px solid rgba(240, 230, 254, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="solar"],
-.theme-options .theme-btn[onclick*="'solar'"] {
-  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(253, 230, 138, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="mandala"],
-.theme-options .theme-btn[onclick*="'mandala'"] {
-  background: linear-gradient(135deg, #ea580c 0%, #991b1b 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(254, 215, 170, 0.4) !important;
-}
-.theme-options .theme-btn[data-theme-btn="twilight"],
-.theme-options .theme-btn[onclick*="'twilight'"] {
-  background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(233, 213, 255, 0.4) !important;
+  border: 1px solid rgba(165, 243, 252, 0.5) !important;
 }
 .theme-options .theme-btn[data-theme-btn="aurora"],
-.theme-options .theme-btn[onclick*="'aurora'"] {
-  background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important;
+.theme-options .theme-btn[onclick*="'aurora'"],
+#theme-options-dropdown button[data-theme-btn="aurora"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="aurora"] {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: #ffffff !important;
-  border: 1px solid rgba(153, 246, 228, 0.4) !important;
+  border: 1px solid rgba(167, 243, 208, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="twilight"],
+.theme-options .theme-btn[onclick*="'twilight'"],
+#theme-options-dropdown button[data-theme-btn="twilight"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="twilight"] {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(221, 214, 254, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="mandala"],
+.theme-options .theme-btn[onclick*="'mandala'"],
+#theme-options-dropdown button[data-theme-btn="mandala"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="mandala"] {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 202, 202, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="luxury"],
+.theme-options .theme-btn[onclick*="'luxury'"],
+#theme-options-dropdown button[data-theme-btn="luxury"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="luxury"] {
+  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="solar"],
+.theme-options .theme-btn[onclick*="'solar'"],
+#theme-options-dropdown button[data-theme-btn="solar"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="solar"] {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 215, 170, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="sunset"],
+.theme-options .theme-btn[onclick*="'sunset'"],
+#theme-options-dropdown button[data-theme-btn="sunset"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="sunset"] {
+  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 205, 211, 0.5) !important;
+}
+.theme-options .theme-btn[data-theme-btn="cosmic"],
+.theme-options .theme-btn[onclick*="'cosmic'"],
+#theme-options-dropdown button[data-theme-btn="cosmic"],
+.fixed-bottom-bar-nav .theme-options button[data-theme-btn="cosmic"] {
+  background: linear-gradient(135deg, #4338ca 0%, #312e81 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(199, 210, 254, 0.5) !important;
 }
 
-/* ===== DISTINCT INDIVIDUAL COLORS FOR LANGUAGE LIST ITEMS ===== */
+/* Language list items */
 .lang-options a.lang-btn[href*="/set_lang/te"],
 .lang-options .lang-btn[data-lang="te"],
-.lang-options .lang-btn[onclick*="'te'"] {
+.lang-options .lang-btn[onclick*="'te'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/te"] {
   background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(254, 202, 202, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/en"],
 .lang-options .lang-btn[data-lang="en"],
-.lang-options .lang-btn[onclick*="'en'"] {
+.lang-options .lang-btn[onclick*="'en'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/en"] {
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(191, 219, 254, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/kn"],
 .lang-options .lang-btn[data-lang="kn"],
-.lang-options .lang-btn[onclick*="'kn'"] {
+.lang-options .lang-btn[onclick*="'kn'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/kn"] {
   background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(253, 230, 138, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/hi"],
 .lang-options .lang-btn[data-lang="hi"],
-.lang-options .lang-btn[onclick*="'hi'"] {
-  background: linear-gradient(135deg, #059669 0%, #065f46 100%) !important;
+.lang-options .lang-btn[onclick*="'hi'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/hi"] {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(167, 243, 208, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/ta"],
 .lang-options .lang-btn[data-lang="ta"],
-.lang-options .lang-btn[onclick*="'ta'"] {
-  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
+.lang-options .lang-btn[onclick*="'ta'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/ta"] {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(221, 214, 254, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/ml"],
 .lang-options .lang-btn[data-lang="ml"],
-.lang-options .lang-btn[onclick*="'ml'"] {
-  background: linear-gradient(135deg, #0891b2 0%, #155e75 100%) !important;
+.lang-options .lang-btn[onclick*="'ml'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/ml"] {
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(165, 243, 252, 0.4) !important;
 }
 .lang-options a.lang-btn[href*="/set_lang/or"],
 .lang-options .lang-btn[data-lang="or"],
-.lang-options .lang-btn[onclick*="'or'"] {
-  background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important;
+.lang-options .lang-btn[onclick*="'or'"],
+.fixed-bottom-bar-nav .lang-options a[href*="/set_lang/or"] {
+  background: linear-gradient(135deg, #db2777 0%, #be123c 100%) !important;
   color: #ffffff !important;
   border: 1px solid rgba(251, 207, 232, 0.4) !important;
 }
@@ -630,22 +658,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    1. DEFAULT / BRIGHT THEME
    ========================================================================== */
-:root .nav-item.nav-home, :root .top-btn-home, :root .btn-home, :root .fixed-bottom-bar .btn-home, :root .fixed-bottom-bar-nav > a:nth-of-type(1), :root .fixed-bottom-bar-nav .nav-item:nth-child(1), [data-theme="default"] .nav-item.nav-home, [data-theme="default"] .top-btn-home, [data-theme="default"] .btn-home, [data-theme="default"] .fixed-bottom-bar .btn-home, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="default"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+:root .nav-item.nav-home, :root .top-btn-home, :root .btn-home, :root .fixed-bottom-bar .btn-home, :root .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="default"] .nav-item.nav-home, [data-theme="default"] .top-btn-home, [data-theme="default"] .btn-home, [data-theme="default"] .fixed-bottom-bar .btn-home, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important; color: #ffffff !important; border: 1px solid rgba(191, 219, 254, 0.5) !important;
 }
-:root .nav-item.nav-dasha, :root .nav-item.nav-compare, :root .btn-dasa, :root .fixed-bottom-bar .btn-dasa, :root .fixed-bottom-bar-nav > a:nth-of-type(2), :root .fixed-bottom-bar-nav .nav-item:nth-child(2), [data-theme="default"] .nav-item.nav-dasha, [data-theme="default"] .nav-item.nav-compare, [data-theme="default"] .btn-dasa, [data-theme="default"] .fixed-bottom-bar .btn-dasa, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="default"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+:root .nav-item.nav-dasha, :root .nav-item.nav-compare, :root .btn-dasa, :root .fixed-bottom-bar .btn-dasa, :root .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="default"] .nav-item.nav-dasha, [data-theme="default"] .nav-item.nav-compare, [data-theme="default"] .btn-dasa, [data-theme="default"] .fixed-bottom-bar .btn-dasa, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-:root .nav-item.nav-planets, :root .nav-item.nav-panchangam, :root .nav-item.nav-panch, :root .btn-planets, :root .fixed-bottom-bar .btn-planets, :root .btn-nakshatra, :root .btn-compare-dasha, :root .compare-tab-btn.btn-compare-dasha, :root .fixed-bottom-bar-nav > a:nth-of-type(3), :root .fixed-bottom-bar-nav .nav-item:nth-child(3), [data-theme="default"] .nav-item.nav-planets, [data-theme="default"] .nav-item.nav-panchangam, [data-theme="default"] .nav-item.nav-panch, [data-theme="default"] .btn-planets, [data-theme="default"] .fixed-bottom-bar .btn-planets, [data-theme="default"] .btn-nakshatra, [data-theme="default"] .btn-compare-dasha, [data-theme="default"] .compare-tab-btn.btn-compare-dasha, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="default"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+:root .nav-item.nav-planets, :root .nav-item.nav-panchangam, :root .nav-item.nav-panch, :root .btn-planets, :root .fixed-bottom-bar .btn-planets, :root .btn-nakshatra, :root .btn-compare-dasha, :root .compare-tab-btn.btn-compare-dasha, :root .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="default"] .nav-item.nav-planets, [data-theme="default"] .nav-item.nav-panchangam, [data-theme="default"] .nav-item.nav-panch, [data-theme="default"] .btn-planets, [data-theme="default"] .fixed-bottom-bar .btn-planets, [data-theme="default"] .btn-nakshatra, [data-theme="default"] .btn-compare-dasha, [data-theme="default"] .compare-tab-btn.btn-compare-dasha, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-:root .nav-item.nav-print, :root .nav-item.nav-calendar, :root .nav-item.nav-cal, :root .top-btn-print, :root .btn-print, :root .fixed-bottom-bar .btn-print, :root .fixed-bottom-bar-nav > a:nth-of-type(4), :root .fixed-bottom-bar-nav .nav-item:nth-child(4), [data-theme="default"] .nav-item.nav-print, [data-theme="default"] .nav-item.nav-calendar, [data-theme="default"] .nav-item.nav-cal, [data-theme="default"] .top-btn-print, [data-theme="default"] .btn-print, [data-theme="default"] .fixed-bottom-bar .btn-print, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="default"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+:root .nav-item.nav-print, :root .nav-item.nav-calendar, :root .nav-item.nav-cal, :root .top-btn-print, :root .btn-print, :root .fixed-bottom-bar .btn-print, :root .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="default"] .nav-item.nav-print, [data-theme="default"] .nav-item.nav-calendar, [data-theme="default"] .nav-item.nav-cal, [data-theme="default"] .top-btn-print, [data-theme="default"] .btn-print, [data-theme="default"] .fixed-bottom-bar .btn-print, [data-theme="default"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-:root .top-btn-theme, :root #theme-toggle-btn, :root .theme-switcher-toggle, :root .nav-item.nav-theme, :root .theme-switcher > button, :root #theme-switcher-container button, :root .fixed-bottom-bar-nav > *:nth-child(5) > button, :root .fixed-bottom-bar-nav > *:nth-child(5), [data-theme="default"] .top-btn-theme, [data-theme="default"] #theme-toggle-btn, [data-theme="default"] .theme-switcher-toggle, [data-theme="default"] .nav-item.nav-theme, [data-theme="default"] .theme-switcher > button, [data-theme="default"] #theme-switcher-container button, [data-theme="default"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="default"] .fixed-bottom-bar-nav > *:nth-child(5) {
+:root .nav-item.nav-theme, :root .fixed-bottom-bar-nav .nav-theme, :root .theme-switcher > button.nav-theme, :root .top-btn-theme, :root #theme-toggle-btn, :root .theme-switcher-toggle, [data-theme="default"] .nav-item.nav-theme, [data-theme="default"] .fixed-bottom-bar-nav .nav-theme, [data-theme="default"] .theme-switcher > button.nav-theme, [data-theme="default"] .top-btn-theme, [data-theme="default"] #theme-toggle-btn, [data-theme="default"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-:root .top-btn-lang, :root #lang-toggle-btn, :root .language-switcher-toggle, :root .nav-item.nav-lang, :root .language-switcher > button, :root #language-switcher-container button, :root .fixed-bottom-bar-nav > *:nth-child(6) > button, :root .fixed-bottom-bar-nav > *:nth-child(6), [data-theme="default"] .top-btn-lang, [data-theme="default"] #lang-toggle-btn, [data-theme="default"] .language-switcher-toggle, [data-theme="default"] .nav-item.nav-lang, [data-theme="default"] .language-switcher > button, [data-theme="default"] #language-switcher-container button, [data-theme="default"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="default"] .fixed-bottom-bar-nav > *:nth-child(6) {
+:root .nav-item.nav-lang, :root .fixed-bottom-bar-nav .nav-lang, :root .language-switcher > button.nav-lang, :root .top-btn-lang, :root #lang-toggle-btn, :root .language-switcher-toggle, [data-theme="default"] .nav-item.nav-lang, [data-theme="default"] .fixed-bottom-bar-nav .nav-lang, [data-theme="default"] .language-switcher > button.nav-lang, [data-theme="default"] .top-btn-lang, [data-theme="default"] #lang-toggle-btn, [data-theme="default"] .language-switcher-toggle {
   background: linear-gradient(135deg, #c026d3 0%, #9333ea 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 :root .btn-submit, :root .btn-show, :root #mainForm button[type="submit"], :root .btn-calculate, :root .btn-result, :root button.btn-result, :root form button[type="submit"], :root .top-btn-back, [data-theme="default"] .btn-submit, [data-theme="default"] .btn-show, [data-theme="default"] #mainForm button[type="submit"], [data-theme="default"] .btn-calculate, [data-theme="default"] .btn-result, [data-theme="default"] button.btn-result, [data-theme="default"] form button[type="submit"], [data-theme="default"] .top-btn-back {
@@ -657,7 +685,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 :root .btn-clear, :root #btn-clear, :root .btn-modal-clear-loc, :root .location-btn.btn-clear, :root .btn-modal-cancel, [data-theme="default"] .btn-clear, [data-theme="default"] #btn-clear, [data-theme="default"] .btn-modal-clear-loc, [data-theme="default"] .location-btn.btn-clear, [data-theme="default"] .btn-modal-cancel {
   background: linear-gradient(135deg, #475569 0%, #334155 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-:root #karmaBtn, :root .top-btn-karma, :root .btn-view-eng, :root .view-toggle-btn.btn-view-eng, :root .view-toggle-btn[onclick*="english"], :root .btn-saved-data, .btn-profile-save, [data-theme="default"] #karmaBtn, [data-theme="default"] .top-btn-karma, [data-theme="default"] .btn-view-eng, [data-theme="default"] .view-toggle-btn.btn-view-eng, [data-theme="default"] .view-toggle-btn[onclick*="english"], [data-theme="default"] .btn-saved-data, .btn-profile-save {
+:root #karmaBtn, :root .top-btn-karma, :root .btn-view-eng, :root .view-toggle-btn.btn-view-eng, :root .view-toggle-btn[onclick*="english"], :root .btn-saved-data, :root .btn-profile-save, [data-theme="default"] #karmaBtn, [data-theme="default"] .top-btn-karma, [data-theme="default"] .btn-view-eng, [data-theme="default"] .view-toggle-btn.btn-view-eng, [data-theme="default"] .view-toggle-btn[onclick*="english"], [data-theme="default"] .btn-saved-data, [data-theme="default"] .btn-profile-save {
   background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 :root #chupuluBtn, :root .top-btn-hands, :root .btn-view-tel, :root .view-toggle-btn.btn-view-tel, :root .view-toggle-btn[onclick*="telugu"], :root .btn-save-show, [data-theme="default"] #chupuluBtn, [data-theme="default"] .top-btn-hands, [data-theme="default"] .btn-view-tel, [data-theme="default"] .view-toggle-btn.btn-view-tel, [data-theme="default"] .view-toggle-btn[onclick*="telugu"], [data-theme="default"] .btn-save-show {
@@ -670,23 +698,23 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    2. COSMIC THEME
    ========================================================================== */
-[data-theme="cosmic"] .nav-item.nav-home, [data-theme="cosmic"] .top-btn-home, [data-theme="cosmic"] .btn-home, [data-theme="cosmic"] .fixed-bottom-bar .btn-home, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="cosmic"] .nav-item.nav-home, [data-theme="cosmic"] .top-btn-home, [data-theme="cosmic"] .btn-home, [data-theme="cosmic"] .fixed-bottom-bar .btn-home, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%) !important; color: #ffffff !important; border: 1px solid rgba(191, 219, 254, 0.5) !important;
 }
-[data-theme="cosmic"] .nav-item.nav-dasha, [data-theme="cosmic"] .nav-item.nav-compare, [data-theme="cosmic"] .btn-dasa, [data-theme="cosmic"] .fixed-bottom-bar .btn-dasa, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="cosmic"] .nav-item.nav-dasha, [data-theme="cosmic"] .nav-item.nav-compare, [data-theme="cosmic"] .btn-dasa, [data-theme="cosmic"] .fixed-bottom-bar .btn-dasa, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #065f46 0%, #064e3b 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="cosmic"] .nav-item.nav-planets, [data-theme="cosmic"] .nav-item.nav-panchangam, [data-theme="cosmic"] .nav-item.nav-panch, [data-theme="cosmic"] .btn-planets, [data-theme="cosmic"] .fixed-bottom-bar .btn-planets, [data-theme="cosmic"] .btn-nakshatra, [data-theme="cosmic"] .btn-compare-dasha, [data-theme="cosmic"] .compare-tab-btn.btn-compare-dasha, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="cosmic"] .nav-item.nav-planets, [data-theme="cosmic"] .nav-item.nav-panchangam, [data-theme="cosmic"] .nav-item.nav-panch, [data-theme="cosmic"] .btn-planets, [data-theme="cosmic"] .fixed-bottom-bar .btn-planets, [data-theme="cosmic"] .btn-nakshatra, [data-theme="cosmic"] .btn-compare-dasha, [data-theme="cosmic"] .compare-tab-btn.btn-compare-dasha, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #6b21a8 0%, #4c1d95 100%) !important; color: #ffffff !important; border: 1px solid rgba(216, 180, 254, 0.5) !important;
 }
-[data-theme="cosmic"] .nav-item.nav-print, [data-theme="cosmic"] .nav-item.nav-calendar, [data-theme="cosmic"] .nav-item.nav-cal, [data-theme="cosmic"] .top-btn-print, [data-theme="cosmic"] .btn-print, [data-theme="cosmic"] .fixed-bottom-bar .btn-print, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="cosmic"] .nav-item.nav-print, [data-theme="cosmic"] .nav-item.nav-calendar, [data-theme="cosmic"] .nav-item.nav-cal, [data-theme="cosmic"] .top-btn-print, [data-theme="cosmic"] .btn-print, [data-theme="cosmic"] .fixed-bottom-bar .btn-print, [data-theme="cosmic"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important; color: #ffffff !important; border: 1px solid rgba(251, 207, 232, 0.5) !important;
 }
-[data-theme="cosmic"] .top-btn-theme, [data-theme="cosmic"] #theme-toggle-btn, [data-theme="cosmic"] .theme-switcher-toggle, [data-theme="cosmic"] .nav-item.nav-theme, [data-theme="cosmic"] .theme-switcher > button, [data-theme="cosmic"] #theme-switcher-container button, [data-theme="cosmic"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="cosmic"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="cosmic"] .nav-item.nav-theme, [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-theme, [data-theme="cosmic"] .theme-switcher > button.nav-theme, [data-theme="cosmic"] .top-btn-theme, [data-theme="cosmic"] #theme-toggle-btn, [data-theme="cosmic"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="cosmic"] .top-btn-lang, [data-theme="cosmic"] #lang-toggle-btn, [data-theme="cosmic"] .language-switcher-toggle, [data-theme="cosmic"] .nav-item.nav-lang, [data-theme="cosmic"] .language-switcher > button, [data-theme="cosmic"] #language-switcher-container button, [data-theme="cosmic"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="cosmic"] .fixed-bottom-bar-nav > *:nth-child(6) {
-  background: linear-gradient(135deg, #7c3aed 0%, #581c87 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
+[data-theme="cosmic"] .nav-item.nav-lang, [data-theme="cosmic"] .fixed-bottom-bar-nav .nav-lang, [data-theme="cosmic"] .language-switcher > button.nav-lang, [data-theme="cosmic"] .top-btn-lang, [data-theme="cosmic"] #lang-toggle-btn, [data-theme="cosmic"] .language-switcher-toggle {
+  background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="cosmic"] .btn-submit, [data-theme="cosmic"] .btn-show, [data-theme="cosmic"] #mainForm button[type="submit"], [data-theme="cosmic"] .btn-calculate, [data-theme="cosmic"] .btn-result, [data-theme="cosmic"] button.btn-result, [data-theme="cosmic"] form button[type="submit"], [data-theme="cosmic"] .top-btn-back {
   background: linear-gradient(135deg, #be123c 0%, #881337 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
@@ -697,7 +725,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="cosmic"] .btn-clear, [data-theme="cosmic"] #btn-clear, [data-theme="cosmic"] .btn-modal-clear-loc, [data-theme="cosmic"] .location-btn.btn-clear, [data-theme="cosmic"] .btn-modal-cancel {
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="cosmic"] #karmaBtn, [data-theme="cosmic"] .top-btn-karma, [data-theme="cosmic"] .btn-view-eng, [data-theme="cosmic"] .view-toggle-btn.btn-view-eng, [data-theme="cosmic"] .view-toggle-btn[onclick*="english"], [data-theme="cosmic"] .btn-saved-data, .btn-profile-save {
+[data-theme="cosmic"] #karmaBtn, [data-theme="cosmic"] .top-btn-karma, [data-theme="cosmic"] .btn-view-eng, [data-theme="cosmic"] .view-toggle-btn.btn-view-eng, [data-theme="cosmic"] .view-toggle-btn[onclick*="english"], [data-theme="cosmic"] .btn-saved-data, [data-theme="cosmic"] .btn-profile-save {
   background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="cosmic"] #chupuluBtn, [data-theme="cosmic"] .top-btn-hands, [data-theme="cosmic"] .btn-view-tel, [data-theme="cosmic"] .view-toggle-btn.btn-view-tel, [data-theme="cosmic"] .view-toggle-btn[onclick*="telugu"], [data-theme="cosmic"] .btn-save-show {
@@ -710,22 +738,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    3. SUNSET THEME
    ========================================================================== */
-[data-theme="sunset"] .nav-item.nav-home, [data-theme="sunset"] .top-btn-home, [data-theme="sunset"] .btn-home, [data-theme="sunset"] .fixed-bottom-bar .btn-home, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="sunset"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="sunset"] .nav-item.nav-home, [data-theme="sunset"] .top-btn-home, [data-theme="sunset"] .btn-home, [data-theme="sunset"] .fixed-bottom-bar .btn-home, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; border: 1px solid rgba(186, 230, 253, 0.5) !important;
 }
-[data-theme="sunset"] .nav-item.nav-dasha, [data-theme="sunset"] .nav-item.nav-compare, [data-theme="sunset"] .btn-dasa, [data-theme="sunset"] .fixed-bottom-bar .btn-dasa, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="sunset"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="sunset"] .nav-item.nav-dasha, [data-theme="sunset"] .nav-item.nav-compare, [data-theme="sunset"] .btn-dasa, [data-theme="sunset"] .fixed-bottom-bar .btn-dasa, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="sunset"] .nav-item.nav-planets, [data-theme="sunset"] .nav-item.nav-panchangam, [data-theme="sunset"] .nav-item.nav-panch, [data-theme="sunset"] .btn-planets, [data-theme="sunset"] .fixed-bottom-bar .btn-planets, [data-theme="sunset"] .btn-nakshatra, [data-theme="sunset"] .btn-compare-dasha, [data-theme="sunset"] .compare-tab-btn.btn-compare-dasha, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="sunset"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="sunset"] .nav-item.nav-planets, [data-theme="sunset"] .nav-item.nav-panchangam, [data-theme="sunset"] .nav-item.nav-panch, [data-theme="sunset"] .btn-planets, [data-theme="sunset"] .fixed-bottom-bar .btn-planets, [data-theme="sunset"] .btn-nakshatra, [data-theme="sunset"] .btn-compare-dasha, [data-theme="sunset"] .compare-tab-btn.btn-compare-dasha, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="sunset"] .nav-item.nav-print, [data-theme="sunset"] .nav-item.nav-calendar, [data-theme="sunset"] .nav-item.nav-cal, [data-theme="sunset"] .top-btn-print, [data-theme="sunset"] .btn-print, [data-theme="sunset"] .fixed-bottom-bar .btn-print, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="sunset"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="sunset"] .nav-item.nav-print, [data-theme="sunset"] .nav-item.nav-calendar, [data-theme="sunset"] .nav-item.nav-cal, [data-theme="sunset"] .top-btn-print, [data-theme="sunset"] .btn-print, [data-theme="sunset"] .fixed-bottom-bar .btn-print, [data-theme="sunset"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="sunset"] .top-btn-theme, [data-theme="sunset"] #theme-toggle-btn, [data-theme="sunset"] .theme-switcher-toggle, [data-theme="sunset"] .nav-item.nav-theme, [data-theme="sunset"] .theme-switcher > button, [data-theme="sunset"] #theme-switcher-container button, [data-theme="sunset"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="sunset"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="sunset"] .nav-item.nav-theme, [data-theme="sunset"] .fixed-bottom-bar-nav .nav-theme, [data-theme="sunset"] .theme-switcher > button.nav-theme, [data-theme="sunset"] .top-btn-theme, [data-theme="sunset"] #theme-toggle-btn, [data-theme="sunset"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="sunset"] .top-btn-lang, [data-theme="sunset"] #lang-toggle-btn, [data-theme="sunset"] .language-switcher-toggle, [data-theme="sunset"] .nav-item.nav-lang, [data-theme="sunset"] .language-switcher > button, [data-theme="sunset"] #language-switcher-container button, [data-theme="sunset"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="sunset"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="sunset"] .nav-item.nav-lang, [data-theme="sunset"] .fixed-bottom-bar-nav .nav-lang, [data-theme="sunset"] .language-switcher > button.nav-lang, [data-theme="sunset"] .top-btn-lang, [data-theme="sunset"] #lang-toggle-btn, [data-theme="sunset"] .language-switcher-toggle {
   background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="sunset"] .btn-submit, [data-theme="sunset"] .btn-show, [data-theme="sunset"] #mainForm button[type="submit"], [data-theme="sunset"] .btn-calculate, [data-theme="sunset"] .btn-result, [data-theme="sunset"] button.btn-result, [data-theme="sunset"] form button[type="submit"], [data-theme="sunset"] .top-btn-back {
@@ -737,7 +765,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="sunset"] .btn-clear, [data-theme="sunset"] #btn-clear, [data-theme="sunset"] .btn-modal-clear-loc, [data-theme="sunset"] .location-btn.btn-clear, [data-theme="sunset"] .btn-modal-cancel {
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="sunset"] #karmaBtn, [data-theme="sunset"] .top-btn-karma, [data-theme="sunset"] .btn-view-eng, [data-theme="sunset"] .view-toggle-btn.btn-view-eng, [data-theme="sunset"] .view-toggle-btn[onclick*="english"], [data-theme="sunset"] .btn-saved-data, .btn-profile-save {
+[data-theme="sunset"] #karmaBtn, [data-theme="sunset"] .top-btn-karma, [data-theme="sunset"] .btn-view-eng, [data-theme="sunset"] .view-toggle-btn.btn-view-eng, [data-theme="sunset"] .view-toggle-btn[onclick*="english"], [data-theme="sunset"] .btn-saved-data, [data-theme="sunset"] .btn-profile-save {
   background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="sunset"] #chupuluBtn, [data-theme="sunset"] .top-btn-hands, [data-theme="sunset"] .btn-view-tel, [data-theme="sunset"] .view-toggle-btn.btn-view-tel, [data-theme="sunset"] .view-toggle-btn[onclick*="telugu"], [data-theme="sunset"] .btn-save-show {
@@ -750,22 +778,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    4. OBSIDIAN GOLD / LUXURY THEME
    ========================================================================== */
-[data-theme="luxury"] .nav-item.nav-home, [data-theme="luxury"] .top-btn-home, [data-theme="luxury"] .btn-home, [data-theme="luxury"] .fixed-bottom-bar .btn-home, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="luxury"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="luxury"] .nav-item.nav-home, [data-theme="luxury"] .top-btn-home, [data-theme="luxury"] .btn-home, [data-theme="luxury"] .fixed-bottom-bar .btn-home, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%) !important; color: #ffffff !important; border: 1px solid rgba(191, 219, 254, 0.5) !important;
 }
-[data-theme="luxury"] .nav-item.nav-dasha, [data-theme="luxury"] .nav-item.nav-compare, [data-theme="luxury"] .btn-dasa, [data-theme="luxury"] .fixed-bottom-bar .btn-dasa, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="luxury"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="luxury"] .nav-item.nav-dasha, [data-theme="luxury"] .nav-item.nav-compare, [data-theme="luxury"] .btn-dasa, [data-theme="luxury"] .fixed-bottom-bar .btn-dasa, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #064e3b 0%, #022c22 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="luxury"] .nav-item.nav-planets, [data-theme="luxury"] .nav-item.nav-panchangam, [data-theme="luxury"] .nav-item.nav-panch, [data-theme="luxury"] .btn-planets, [data-theme="luxury"] .fixed-bottom-bar .btn-planets, [data-theme="luxury"] .btn-nakshatra, [data-theme="luxury"] .btn-compare-dasha, [data-theme="luxury"] .compare-tab-btn.btn-compare-dasha, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="luxury"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="luxury"] .nav-item.nav-planets, [data-theme="luxury"] .nav-item.nav-panchangam, [data-theme="luxury"] .nav-item.nav-panch, [data-theme="luxury"] .btn-planets, [data-theme="luxury"] .fixed-bottom-bar .btn-planets, [data-theme="luxury"] .btn-nakshatra, [data-theme="luxury"] .btn-compare-dasha, [data-theme="luxury"] .compare-tab-btn.btn-compare-dasha, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #581c87 0%, #3b0764 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="luxury"] .nav-item.nav-print, [data-theme="luxury"] .nav-item.nav-calendar, [data-theme="luxury"] .nav-item.nav-cal, [data-theme="luxury"] .top-btn-print, [data-theme="luxury"] .btn-print, [data-theme="luxury"] .fixed-bottom-bar .btn-print, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="luxury"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="luxury"] .nav-item.nav-print, [data-theme="luxury"] .nav-item.nav-calendar, [data-theme="luxury"] .nav-item.nav-cal, [data-theme="luxury"] .top-btn-print, [data-theme="luxury"] .btn-print, [data-theme="luxury"] .fixed-bottom-bar .btn-print, [data-theme="luxury"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #881337 0%, #4c0519 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="luxury"] .top-btn-theme, [data-theme="luxury"] #theme-toggle-btn, [data-theme="luxury"] .theme-switcher-toggle, [data-theme="luxury"] .nav-item.nav-theme, [data-theme="luxury"] .theme-switcher > button, [data-theme="luxury"] #theme-switcher-container button, [data-theme="luxury"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="luxury"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="luxury"] .nav-item.nav-theme, [data-theme="luxury"] .fixed-bottom-bar-nav .nav-theme, [data-theme="luxury"] .theme-switcher > button.nav-theme, [data-theme="luxury"] .top-btn-theme, [data-theme="luxury"] #theme-toggle-btn, [data-theme="luxury"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="luxury"] .top-btn-lang, [data-theme="luxury"] #lang-toggle-btn, [data-theme="luxury"] .language-switcher-toggle, [data-theme="luxury"] .nav-item.nav-lang, [data-theme="luxury"] .language-switcher > button, [data-theme="luxury"] #language-switcher-container button, [data-theme="luxury"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="luxury"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="luxury"] .nav-item.nav-lang, [data-theme="luxury"] .fixed-bottom-bar-nav .nav-lang, [data-theme="luxury"] .language-switcher > button.nav-lang, [data-theme="luxury"] .top-btn-lang, [data-theme="luxury"] #lang-toggle-btn, [data-theme="luxury"] .language-switcher-toggle {
   background: linear-gradient(135deg, #701a75 0%, #4a044e 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="luxury"] .btn-submit, [data-theme="luxury"] .btn-show, [data-theme="luxury"] #mainForm button[type="submit"], [data-theme="luxury"] .btn-calculate, [data-theme="luxury"] .btn-result, [data-theme="luxury"] button.btn-result, [data-theme="luxury"] form button[type="submit"], [data-theme="luxury"] .top-btn-back {
@@ -777,7 +805,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="luxury"] .btn-clear, [data-theme="luxury"] #btn-clear, [data-theme="luxury"] .btn-modal-clear-loc, [data-theme="luxury"] .location-btn.btn-clear, [data-theme="luxury"] .btn-modal-cancel {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important; color: #ffffff !important; border: 1px solid rgba(148, 163, 184, 0.4) !important;
 }
-[data-theme="luxury"] #karmaBtn, [data-theme="luxury"] .top-btn-karma, [data-theme="luxury"] .btn-view-eng, [data-theme="luxury"] .view-toggle-btn.btn-view-eng, [data-theme="luxury"] .view-toggle-btn[onclick*="english"], [data-theme="luxury"] .btn-saved-data, .btn-profile-save {
+[data-theme="luxury"] #karmaBtn, [data-theme="luxury"] .top-btn-karma, [data-theme="luxury"] .btn-view-eng, [data-theme="luxury"] .view-toggle-btn.btn-view-eng, [data-theme="luxury"] .view-toggle-btn[onclick*="english"], [data-theme="luxury"] .btn-saved-data, [data-theme="luxury"] .btn-profile-save {
   background: linear-gradient(135deg, #9a3412 0%, #431407 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="luxury"] #chupuluBtn, [data-theme="luxury"] .top-btn-hands, [data-theme="luxury"] .btn-view-tel, [data-theme="luxury"] .view-toggle-btn.btn-view-tel, [data-theme="luxury"] .view-toggle-btn[onclick*="telugu"], [data-theme="luxury"] .btn-save-show {
@@ -790,22 +818,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    5. NEO CYBER / CYBERPUNK THEME
    ========================================================================== */
-[data-theme="cyberpunk"] .nav-item.nav-home, [data-theme="cyberpunk"] .top-btn-home, [data-theme="cyberpunk"] .btn-home, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-home, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="cyberpunk"] .nav-item.nav-home, [data-theme="cyberpunk"] .top-btn-home, [data-theme="cyberpunk"] .btn-home, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-home, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; border: 1px solid rgba(186, 230, 253, 0.5) !important;
 }
-[data-theme="cyberpunk"] .nav-item.nav-dasha, [data-theme="cyberpunk"] .nav-item.nav-compare, [data-theme="cyberpunk"] .btn-dasa, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-dasa, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="cyberpunk"] .nav-item.nav-dasha, [data-theme="cyberpunk"] .nav-item.nav-compare, [data-theme="cyberpunk"] .btn-dasa, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-dasa, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="cyberpunk"] .nav-item.nav-planets, [data-theme="cyberpunk"] .nav-item.nav-panchangam, [data-theme="cyberpunk"] .nav-item.nav-panch, [data-theme="cyberpunk"] .btn-planets, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-planets, [data-theme="cyberpunk"] .btn-nakshatra, [data-theme="cyberpunk"] .btn-compare-dasha, [data-theme="cyberpunk"] .compare-tab-btn.btn-compare-dasha, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="cyberpunk"] .nav-item.nav-planets, [data-theme="cyberpunk"] .nav-item.nav-panchangam, [data-theme="cyberpunk"] .nav-item.nav-panch, [data-theme="cyberpunk"] .btn-planets, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-planets, [data-theme="cyberpunk"] .btn-nakshatra, [data-theme="cyberpunk"] .btn-compare-dasha, [data-theme="cyberpunk"] .compare-tab-btn.btn-compare-dasha, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="cyberpunk"] .nav-item.nav-print, [data-theme="cyberpunk"] .nav-item.nav-calendar, [data-theme="cyberpunk"] .nav-item.nav-cal, [data-theme="cyberpunk"] .top-btn-print, [data-theme="cyberpunk"] .btn-print, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-print, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="cyberpunk"] .nav-item.nav-print, [data-theme="cyberpunk"] .nav-item.nav-calendar, [data-theme="cyberpunk"] .nav-item.nav-cal, [data-theme="cyberpunk"] .top-btn-print, [data-theme="cyberpunk"] .btn-print, [data-theme="cyberpunk"] .fixed-bottom-bar .btn-print, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="cyberpunk"] .top-btn-theme, [data-theme="cyberpunk"] #theme-toggle-btn, [data-theme="cyberpunk"] .theme-switcher-toggle, [data-theme="cyberpunk"] .nav-item.nav-theme, [data-theme="cyberpunk"] .theme-switcher > button, [data-theme="cyberpunk"] #theme-switcher-container button, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="cyberpunk"] .nav-item.nav-theme, [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-theme, [data-theme="cyberpunk"] .theme-switcher > button.nav-theme, [data-theme="cyberpunk"] .top-btn-theme, [data-theme="cyberpunk"] #theme-toggle-btn, [data-theme="cyberpunk"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 240, 138, 0.5) !important;
 }
-[data-theme="cyberpunk"] .top-btn-lang, [data-theme="cyberpunk"] #lang-toggle-btn, [data-theme="cyberpunk"] .language-switcher-toggle, [data-theme="cyberpunk"] .nav-item.nav-lang, [data-theme="cyberpunk"] .language-switcher > button, [data-theme="cyberpunk"] #language-switcher-container button, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="cyberpunk"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="cyberpunk"] .nav-item.nav-lang, [data-theme="cyberpunk"] .fixed-bottom-bar-nav .nav-lang, [data-theme="cyberpunk"] .language-switcher > button.nav-lang, [data-theme="cyberpunk"] .top-btn-lang, [data-theme="cyberpunk"] #lang-toggle-btn, [data-theme="cyberpunk"] .language-switcher-toggle {
   background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="cyberpunk"] .btn-submit, [data-theme="cyberpunk"] .btn-show, [data-theme="cyberpunk"] #mainForm button[type="submit"], [data-theme="cyberpunk"] .btn-calculate, [data-theme="cyberpunk"] .btn-result, [data-theme="cyberpunk"] button.btn-result, [data-theme="cyberpunk"] form button[type="submit"], [data-theme="cyberpunk"] .top-btn-back {
@@ -817,7 +845,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="cyberpunk"] .btn-clear, [data-theme="cyberpunk"] #btn-clear, [data-theme="cyberpunk"] .btn-modal-clear-loc, [data-theme="cyberpunk"] .location-btn.btn-clear, [data-theme="cyberpunk"] .btn-modal-cancel {
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="cyberpunk"] #karmaBtn, [data-theme="cyberpunk"] .top-btn-karma, [data-theme="cyberpunk"] .btn-view-eng, [data-theme="cyberpunk"] .view-toggle-btn.btn-view-eng, [data-theme="cyberpunk"] .view-toggle-btn[onclick*="english"], [data-theme="cyberpunk"] .btn-saved-data, .btn-profile-save {
+[data-theme="cyberpunk"] #karmaBtn, [data-theme="cyberpunk"] .top-btn-karma, [data-theme="cyberpunk"] .btn-view-eng, [data-theme="cyberpunk"] .view-toggle-btn.btn-view-eng, [data-theme="cyberpunk"] .view-toggle-btn[onclick*="english"], [data-theme="cyberpunk"] .btn-saved-data, [data-theme="cyberpunk"] .btn-profile-save {
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="cyberpunk"] #chupuluBtn, [data-theme="cyberpunk"] .top-btn-hands, [data-theme="cyberpunk"] .btn-view-tel, [data-theme="cyberpunk"] .view-toggle-btn.btn-view-tel, [data-theme="cyberpunk"] .view-toggle-btn[onclick*="telugu"], [data-theme="cyberpunk"] .btn-save-show {
@@ -830,22 +858,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    6. SOLAR AMBER THEME
    ========================================================================== */
-[data-theme="solar"] .nav-item.nav-home, [data-theme="solar"] .top-btn-home, [data-theme="solar"] .btn-home, [data-theme="solar"] .fixed-bottom-bar .btn-home, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="solar"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="solar"] .nav-item.nav-home, [data-theme="solar"] .top-btn-home, [data-theme="solar"] .btn-home, [data-theme="solar"] .fixed-bottom-bar .btn-home, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #0284c7 0%, #075985 100%) !important; color: #ffffff !important; border: 1px solid rgba(186, 230, 253, 0.5) !important;
 }
-[data-theme="solar"] .nav-item.nav-dasha, [data-theme="solar"] .nav-item.nav-compare, [data-theme="solar"] .btn-dasa, [data-theme="solar"] .fixed-bottom-bar .btn-dasa, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="solar"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="solar"] .nav-item.nav-dasha, [data-theme="solar"] .nav-item.nav-compare, [data-theme="solar"] .btn-dasa, [data-theme="solar"] .fixed-bottom-bar .btn-dasa, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important; color: #ffffff !important; border: 1px solid rgba(187, 247, 208, 0.5) !important;
 }
-[data-theme="solar"] .nav-item.nav-planets, [data-theme="solar"] .nav-item.nav-panchangam, [data-theme="solar"] .nav-item.nav-panch, [data-theme="solar"] .btn-planets, [data-theme="solar"] .fixed-bottom-bar .btn-planets, [data-theme="solar"] .btn-nakshatra, [data-theme="solar"] .btn-compare-dasha, [data-theme="solar"] .compare-tab-btn.btn-compare-dasha, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="solar"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="solar"] .nav-item.nav-planets, [data-theme="solar"] .nav-item.nav-panchangam, [data-theme="solar"] .nav-item.nav-panch, [data-theme="solar"] .btn-planets, [data-theme="solar"] .fixed-bottom-bar .btn-planets, [data-theme="solar"] .btn-nakshatra, [data-theme="solar"] .btn-compare-dasha, [data-theme="solar"] .compare-tab-btn.btn-compare-dasha, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="solar"] .nav-item.nav-print, [data-theme="solar"] .nav-item.nav-calendar, [data-theme="solar"] .nav-item.nav-cal, [data-theme="solar"] .top-btn-print, [data-theme="solar"] .btn-print, [data-theme="solar"] .fixed-bottom-bar .btn-print, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="solar"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="solar"] .nav-item.nav-print, [data-theme="solar"] .nav-item.nav-calendar, [data-theme="solar"] .nav-item.nav-cal, [data-theme="solar"] .top-btn-print, [data-theme="solar"] .btn-print, [data-theme="solar"] .fixed-bottom-bar .btn-print, [data-theme="solar"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #be123c 0%, #881337 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="solar"] .top-btn-theme, [data-theme="solar"] #theme-toggle-btn, [data-theme="solar"] .theme-switcher-toggle, [data-theme="solar"] .nav-item.nav-theme, [data-theme="solar"] .theme-switcher > button, [data-theme="solar"] #theme-switcher-container button, [data-theme="solar"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="solar"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="solar"] .nav-item.nav-theme, [data-theme="solar"] .fixed-bottom-bar-nav .nav-theme, [data-theme="solar"] .theme-switcher > button.nav-theme, [data-theme="solar"] .top-btn-theme, [data-theme="solar"] #theme-toggle-btn, [data-theme="solar"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="solar"] .top-btn-lang, [data-theme="solar"] #lang-toggle-btn, [data-theme="solar"] .language-switcher-toggle, [data-theme="solar"] .nav-item.nav-lang, [data-theme="solar"] .language-switcher > button, [data-theme="solar"] #language-switcher-container button, [data-theme="solar"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="solar"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="solar"] .nav-item.nav-lang, [data-theme="solar"] .fixed-bottom-bar-nav .nav-lang, [data-theme="solar"] .language-switcher > button.nav-lang, [data-theme="solar"] .top-btn-lang, [data-theme="solar"] #lang-toggle-btn, [data-theme="solar"] .language-switcher-toggle {
   background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="solar"] .btn-submit, [data-theme="solar"] .btn-show, [data-theme="solar"] #mainForm button[type="submit"], [data-theme="solar"] .btn-calculate, [data-theme="solar"] .btn-result, [data-theme="solar"] button.btn-result, [data-theme="solar"] form button[type="submit"], [data-theme="solar"] .top-btn-back {
@@ -857,7 +885,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="solar"] .btn-clear, [data-theme="solar"] #btn-clear, [data-theme="solar"] .btn-modal-clear-loc, [data-theme="solar"] .location-btn.btn-clear, [data-theme="solar"] .btn-modal-cancel {
   background: linear-gradient(135deg, #475569 0%, #334155 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="solar"] #karmaBtn, [data-theme="solar"] .top-btn-karma, [data-theme="solar"] .btn-view-eng, [data-theme="solar"] .view-toggle-btn.btn-view-eng, [data-theme="solar"] .view-toggle-btn[onclick*="english"], [data-theme="solar"] .btn-saved-data, .btn-profile-save {
+[data-theme="solar"] #karmaBtn, [data-theme="solar"] .top-btn-karma, [data-theme="solar"] .btn-view-eng, [data-theme="solar"] .view-toggle-btn.btn-view-eng, [data-theme="solar"] .view-toggle-btn[onclick*="english"], [data-theme="solar"] .btn-saved-data, [data-theme="solar"] .btn-profile-save {
   background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="solar"] #chupuluBtn, [data-theme="solar"] .top-btn-hands, [data-theme="solar"] .btn-view-tel, [data-theme="solar"] .view-toggle-btn.btn-view-tel, [data-theme="solar"] .view-toggle-btn[onclick*="telugu"], [data-theme="solar"] .btn-save-show {
@@ -870,22 +898,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    7. ROYAL MANDALA THEME
    ========================================================================== */
-[data-theme="mandala"] .nav-item.nav-home, [data-theme="mandala"] .top-btn-home, [data-theme="mandala"] .btn-home, [data-theme="mandala"] .fixed-bottom-bar .btn-home, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="mandala"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="mandala"] .nav-item.nav-home, [data-theme="mandala"] .top-btn-home, [data-theme="mandala"] .btn-home, [data-theme="mandala"] .fixed-bottom-bar .btn-home, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%) !important; color: #ffffff !important; border: 1px solid rgba(191, 219, 254, 0.5) !important;
 }
-[data-theme="mandala"] .nav-item.nav-dasha, [data-theme="mandala"] .nav-item.nav-compare, [data-theme="mandala"] .btn-dasa, [data-theme="mandala"] .fixed-bottom-bar .btn-dasa, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="mandala"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="mandala"] .nav-item.nav-dasha, [data-theme="mandala"] .nav-item.nav-compare, [data-theme="mandala"] .btn-dasa, [data-theme="mandala"] .fixed-bottom-bar .btn-dasa, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #047857 0%, #064e3b 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="mandala"] .nav-item.nav-planets, [data-theme="mandala"] .nav-item.nav-panchangam, [data-theme="mandala"] .nav-item.nav-panch, [data-theme="mandala"] .btn-planets, [data-theme="mandala"] .fixed-bottom-bar .btn-planets, [data-theme="mandala"] .btn-nakshatra, [data-theme="mandala"] .btn-compare-dasha, [data-theme="mandala"] .compare-tab-btn.btn-compare-dasha, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="mandala"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="mandala"] .nav-item.nav-planets, [data-theme="mandala"] .nav-item.nav-panchangam, [data-theme="mandala"] .nav-item.nav-panch, [data-theme="mandala"] .btn-planets, [data-theme="mandala"] .fixed-bottom-bar .btn-planets, [data-theme="mandala"] .btn-nakshatra, [data-theme="mandala"] .btn-compare-dasha, [data-theme="mandala"] .compare-tab-btn.btn-compare-dasha, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #6b21a8 0%, #4c1d95 100%) !important; color: #ffffff !important; border: 1px solid rgba(216, 180, 254, 0.5) !important;
 }
-[data-theme="mandala"] .nav-item.nav-print, [data-theme="mandala"] .nav-item.nav-calendar, [data-theme="mandala"] .nav-item.nav-cal, [data-theme="mandala"] .top-btn-print, [data-theme="mandala"] .btn-print, [data-theme="mandala"] .fixed-bottom-bar .btn-print, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="mandala"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="mandala"] .nav-item.nav-print, [data-theme="mandala"] .nav-item.nav-calendar, [data-theme="mandala"] .nav-item.nav-cal, [data-theme="mandala"] .top-btn-print, [data-theme="mandala"] .btn-print, [data-theme="mandala"] .fixed-bottom-bar .btn-print, [data-theme="mandala"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #be123c 0%, #881337 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="mandala"] .top-btn-theme, [data-theme="mandala"] #theme-toggle-btn, [data-theme="mandala"] .theme-switcher-toggle, [data-theme="mandala"] .nav-item.nav-theme, [data-theme="mandala"] .theme-switcher > button, [data-theme="mandala"] #theme-switcher-container button, [data-theme="mandala"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="mandala"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="mandala"] .nav-item.nav-theme, [data-theme="mandala"] .fixed-bottom-bar-nav .nav-theme, [data-theme="mandala"] .theme-switcher > button.nav-theme, [data-theme="mandala"] .top-btn-theme, [data-theme="mandala"] #theme-toggle-btn, [data-theme="mandala"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="mandala"] .top-btn-lang, [data-theme="mandala"] #lang-toggle-btn, [data-theme="mandala"] .language-switcher-toggle, [data-theme="mandala"] .nav-item.nav-lang, [data-theme="mandala"] .language-switcher > button, [data-theme="mandala"] #language-switcher-container button, [data-theme="mandala"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="mandala"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="mandala"] .nav-item.nav-lang, [data-theme="mandala"] .fixed-bottom-bar-nav .nav-lang, [data-theme="mandala"] .language-switcher > button.nav-lang, [data-theme="mandala"] .top-btn-lang, [data-theme="mandala"] #lang-toggle-btn, [data-theme="mandala"] .language-switcher-toggle {
   background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="mandala"] .btn-submit, [data-theme="mandala"] .btn-show, [data-theme="mandala"] #mainForm button[type="submit"], [data-theme="mandala"] .btn-calculate, [data-theme="mandala"] .btn-result, [data-theme="mandala"] button.btn-result, [data-theme="mandala"] form button[type="submit"], [data-theme="mandala"] .top-btn-back {
@@ -897,7 +925,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="mandala"] .btn-clear, [data-theme="mandala"] #btn-clear, [data-theme="mandala"] .btn-modal-clear-loc, [data-theme="mandala"] .location-btn.btn-clear, [data-theme="mandala"] .btn-modal-cancel {
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="mandala"] #karmaBtn, [data-theme="mandala"] .top-btn-karma, [data-theme="mandala"] .btn-view-eng, [data-theme="mandala"] .view-toggle-btn.btn-view-eng, [data-theme="mandala"] .view-toggle-btn[onclick*="english"], [data-theme="mandala"] .btn-saved-data, .btn-profile-save {
+[data-theme="mandala"] #karmaBtn, [data-theme="mandala"] .top-btn-karma, [data-theme="mandala"] .btn-view-eng, [data-theme="mandala"] .view-toggle-btn.btn-view-eng, [data-theme="mandala"] .view-toggle-btn[onclick*="english"], [data-theme="mandala"] .btn-saved-data, [data-theme="mandala"] .btn-profile-save {
   background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="mandala"] #chupuluBtn, [data-theme="mandala"] .top-btn-hands, [data-theme="mandala"] .btn-view-tel, [data-theme="mandala"] .view-toggle-btn.btn-view-tel, [data-theme="mandala"] .view-toggle-btn[onclick*="telugu"], [data-theme="mandala"] .btn-save-show {
@@ -910,22 +938,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    8. TWILIGHT FUSION THEME
    ========================================================================== */
-[data-theme="twilight"] .nav-item.nav-home, [data-theme="twilight"] .top-btn-home, [data-theme="twilight"] .btn-home, [data-theme="twilight"] .fixed-bottom-bar .btn-home, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="twilight"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="twilight"] .nav-item.nav-home, [data-theme="twilight"] .top-btn-home, [data-theme="twilight"] .btn-home, [data-theme="twilight"] .fixed-bottom-bar .btn-home, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #0284c7 0%, #075985 100%) !important; color: #ffffff !important; border: 1px solid rgba(186, 230, 253, 0.5) !important;
 }
-[data-theme="twilight"] .nav-item.nav-dasha, [data-theme="twilight"] .nav-item.nav-compare, [data-theme="twilight"] .btn-dasa, [data-theme="twilight"] .fixed-bottom-bar .btn-dasa, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="twilight"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="twilight"] .nav-item.nav-dasha, [data-theme="twilight"] .nav-item.nav-compare, [data-theme="twilight"] .btn-dasa, [data-theme="twilight"] .fixed-bottom-bar .btn-dasa, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="twilight"] .nav-item.nav-planets, [data-theme="twilight"] .nav-item.nav-panchangam, [data-theme="twilight"] .nav-item.nav-panch, [data-theme="twilight"] .btn-planets, [data-theme="twilight"] .fixed-bottom-bar .btn-planets, [data-theme="twilight"] .btn-nakshatra, [data-theme="twilight"] .btn-compare-dasha, [data-theme="twilight"] .compare-tab-btn.btn-compare-dasha, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="twilight"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="twilight"] .nav-item.nav-planets, [data-theme="twilight"] .nav-item.nav-panchangam, [data-theme="twilight"] .nav-item.nav-panch, [data-theme="twilight"] .btn-planets, [data-theme="twilight"] .fixed-bottom-bar .btn-planets, [data-theme="twilight"] .btn-nakshatra, [data-theme="twilight"] .btn-compare-dasha, [data-theme="twilight"] .compare-tab-btn.btn-compare-dasha, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="twilight"] .nav-item.nav-print, [data-theme="twilight"] .nav-item.nav-calendar, [data-theme="twilight"] .nav-item.nav-cal, [data-theme="twilight"] .top-btn-print, [data-theme="twilight"] .btn-print, [data-theme="twilight"] .fixed-bottom-bar .btn-print, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="twilight"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="twilight"] .nav-item.nav-print, [data-theme="twilight"] .nav-item.nav-calendar, [data-theme="twilight"] .nav-item.nav-cal, [data-theme="twilight"] .top-btn-print, [data-theme="twilight"] .btn-print, [data-theme="twilight"] .fixed-bottom-bar .btn-print, [data-theme="twilight"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 205, 211, 0.5) !important;
 }
-[data-theme="twilight"] .top-btn-theme, [data-theme="twilight"] #theme-toggle-btn, [data-theme="twilight"] .theme-switcher-toggle, [data-theme="twilight"] .nav-item.nav-theme, [data-theme="twilight"] .theme-switcher > button, [data-theme="twilight"] #theme-switcher-container button, [data-theme="twilight"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="twilight"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="twilight"] .nav-item.nav-theme, [data-theme="twilight"] .fixed-bottom-bar-nav .nav-theme, [data-theme="twilight"] .theme-switcher > button.nav-theme, [data-theme="twilight"] .top-btn-theme, [data-theme="twilight"] #theme-toggle-btn, [data-theme="twilight"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="twilight"] .top-btn-lang, [data-theme="twilight"] #lang-toggle-btn, [data-theme="twilight"] .language-switcher-toggle, [data-theme="twilight"] .nav-item.nav-lang, [data-theme="twilight"] .language-switcher > button, [data-theme="twilight"] #language-switcher-container button, [data-theme="twilight"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="twilight"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="twilight"] .nav-item.nav-lang, [data-theme="twilight"] .fixed-bottom-bar-nav .nav-lang, [data-theme="twilight"] .language-switcher > button.nav-lang, [data-theme="twilight"] .top-btn-lang, [data-theme="twilight"] #lang-toggle-btn, [data-theme="twilight"] .language-switcher-toggle {
   background: linear-gradient(135deg, #c026d3 0%, #86198f 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="twilight"] .btn-submit, [data-theme="twilight"] .btn-show, [data-theme="twilight"] #mainForm button[type="submit"], [data-theme="twilight"] .btn-calculate, [data-theme="twilight"] .btn-result, [data-theme="twilight"] button.btn-result, [data-theme="twilight"] form button[type="submit"], [data-theme="twilight"] .top-btn-back {
@@ -937,7 +965,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="twilight"] .btn-clear, [data-theme="twilight"] #btn-clear, [data-theme="twilight"] .btn-modal-clear-loc, [data-theme="twilight"] .location-btn.btn-clear, [data-theme="twilight"] .btn-modal-cancel {
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="twilight"] #karmaBtn, [data-theme="twilight"] .top-btn-karma, [data-theme="twilight"] .btn-view-eng, [data-theme="twilight"] .view-toggle-btn.btn-view-eng, [data-theme="twilight"] .view-toggle-btn[onclick*="english"], [data-theme="twilight"] .btn-saved-data, .btn-profile-save {
+[data-theme="twilight"] #karmaBtn, [data-theme="twilight"] .top-btn-karma, [data-theme="twilight"] .btn-view-eng, [data-theme="twilight"] .view-toggle-btn.btn-view-eng, [data-theme="twilight"] .view-toggle-btn[onclick*="english"], [data-theme="twilight"] .btn-saved-data, [data-theme="twilight"] .btn-profile-save {
   background: linear-gradient(135deg, #ea580c 0%, #9a3412 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="twilight"] #chupuluBtn, [data-theme="twilight"] .top-btn-hands, [data-theme="twilight"] .btn-view-tel, [data-theme="twilight"] .view-toggle-btn.btn-view-tel, [data-theme="twilight"] .view-toggle-btn[onclick*="telugu"], [data-theme="twilight"] .btn-save-show {
@@ -950,22 +978,22 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 /* ==========================================================================
    9. DIVINE AURORA THEME
    ========================================================================== */
-[data-theme="aurora"] .nav-item.nav-home, [data-theme="aurora"] .top-btn-home, [data-theme="aurora"] .btn-home, [data-theme="aurora"] .fixed-bottom-bar .btn-home, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(1), [data-theme="aurora"] .fixed-bottom-bar-nav .nav-item:nth-child(1) {
+[data-theme="aurora"] .nav-item.nav-home, [data-theme="aurora"] .top-btn-home, [data-theme="aurora"] .btn-home, [data-theme="aurora"] .fixed-bottom-bar .btn-home, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(1) {
   background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%) !important; color: #ffffff !important; border: 1px solid rgba(191, 219, 254, 0.5) !important;
 }
-[data-theme="aurora"] .nav-item.nav-dasha, [data-theme="aurora"] .nav-item.nav-compare, [data-theme="aurora"] .btn-dasa, [data-theme="aurora"] .fixed-bottom-bar .btn-dasa, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(2), [data-theme="aurora"] .fixed-bottom-bar-nav .nav-item:nth-child(2) {
+[data-theme="aurora"] .nav-item.nav-dasha, [data-theme="aurora"] .nav-item.nav-compare, [data-theme="aurora"] .btn-dasa, [data-theme="aurora"] .fixed-bottom-bar .btn-dasa, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(2) {
   background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; color: #ffffff !important; border: 1px solid rgba(167, 243, 208, 0.5) !important;
 }
-[data-theme="aurora"] .nav-item.nav-planets, [data-theme="aurora"] .nav-item.nav-panchangam, [data-theme="aurora"] .nav-item.nav-panch, [data-theme="aurora"] .btn-planets, [data-theme="aurora"] .fixed-bottom-bar .btn-planets, [data-theme="aurora"] .btn-nakshatra, [data-theme="aurora"] .btn-compare-dasha, [data-theme="aurora"] .compare-tab-btn.btn-compare-dasha, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(3), [data-theme="aurora"] .fixed-bottom-bar-nav .nav-item:nth-child(3) {
+[data-theme="aurora"] .nav-item.nav-planets, [data-theme="aurora"] .nav-item.nav-panchangam, [data-theme="aurora"] .nav-item.nav-panch, [data-theme="aurora"] .btn-planets, [data-theme="aurora"] .fixed-bottom-bar .btn-planets, [data-theme="aurora"] .btn-nakshatra, [data-theme="aurora"] .btn-compare-dasha, [data-theme="aurora"] .compare-tab-btn.btn-compare-dasha, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(3) {
   background: linear-gradient(135deg, #7c3aed 0%, #581c87 100%) !important; color: #ffffff !important; border: 1px solid rgba(221, 214, 254, 0.5) !important;
 }
-[data-theme="aurora"] .nav-item.nav-print, [data-theme="aurora"] .nav-item.nav-calendar, [data-theme="aurora"] .nav-item.nav-cal, [data-theme="aurora"] .top-btn-print, [data-theme="aurora"] .btn-print, [data-theme="aurora"] .fixed-bottom-bar .btn-print, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(4), [data-theme="aurora"] .fixed-bottom-bar-nav .nav-item:nth-child(4) {
+[data-theme="aurora"] .nav-item.nav-print, [data-theme="aurora"] .nav-item.nav-calendar, [data-theme="aurora"] .nav-item.nav-cal, [data-theme="aurora"] .top-btn-print, [data-theme="aurora"] .btn-print, [data-theme="aurora"] .fixed-bottom-bar .btn-print, [data-theme="aurora"] .fixed-bottom-bar-nav > a:nth-of-type(4) {
   background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important; color: #ffffff !important; border: 1px solid rgba(251, 207, 232, 0.5) !important;
 }
-[data-theme="aurora"] .top-btn-theme, [data-theme="aurora"] #theme-toggle-btn, [data-theme="aurora"] .theme-switcher-toggle, [data-theme="aurora"] .nav-item.nav-theme, [data-theme="aurora"] .theme-switcher > button, [data-theme="aurora"] #theme-switcher-container button, [data-theme="aurora"] .fixed-bottom-bar-nav > *:nth-child(5) > button, [data-theme="aurora"] .fixed-bottom-bar-nav > *:nth-child(5) {
+[data-theme="aurora"] .nav-item.nav-theme, [data-theme="aurora"] .fixed-bottom-bar-nav .nav-theme, [data-theme="aurora"] .theme-switcher > button.nav-theme, [data-theme="aurora"] .top-btn-theme, [data-theme="aurora"] #theme-toggle-btn, [data-theme="aurora"] .theme-switcher-toggle {
   background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #ffffff !important; border: 1px solid rgba(253, 230, 138, 0.5) !important;
 }
-[data-theme="aurora"] .top-btn-lang, [data-theme="aurora"] #lang-toggle-btn, [data-theme="aurora"] .language-switcher-toggle, [data-theme="aurora"] .nav-item.nav-lang, [data-theme="aurora"] .language-switcher > button, [data-theme="aurora"] #language-switcher-container button, [data-theme="aurora"] .fixed-bottom-bar-nav > *:nth-child(6) > button, [data-theme="aurora"] .fixed-bottom-bar-nav > *:nth-child(6) {
+[data-theme="aurora"] .nav-item.nav-lang, [data-theme="aurora"] .fixed-bottom-bar-nav .nav-lang, [data-theme="aurora"] .language-switcher > button.nav-lang, [data-theme="aurora"] .top-btn-lang, [data-theme="aurora"] #lang-toggle-btn, [data-theme="aurora"] .language-switcher-toggle {
   background: linear-gradient(135deg, #c026d3 0%, #701a75 100%) !important; color: #ffffff !important; border: 1px solid rgba(245, 208, 254, 0.5) !important;
 }
 [data-theme="aurora"] .btn-submit, [data-theme="aurora"] .btn-show, [data-theme="aurora"] #mainForm button[type="submit"], [data-theme="aurora"] .btn-calculate, [data-theme="aurora"] .btn-result, [data-theme="aurora"] button.btn-result, [data-theme="aurora"] form button[type="submit"], [data-theme="aurora"] .top-btn-back {
@@ -977,7 +1005,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 [data-theme="aurora"] .btn-clear, [data-theme="aurora"] #btn-clear, [data-theme="aurora"] .btn-modal-clear-loc, [data-theme="aurora"] .location-btn.btn-clear, [data-theme="aurora"] .btn-modal-cancel {
   background: linear-gradient(135deg, #475569 0%, #334155 100%) !important; color: #ffffff !important; border: 1px solid rgba(203, 213, 225, 0.4) !important;
 }
-[data-theme="aurora"] #karmaBtn, [data-theme="aurora"] .top-btn-karma, [data-theme="aurora"] .btn-view-eng, [data-theme="aurora"] .view-toggle-btn.btn-view-eng, [data-theme="aurora"] .view-toggle-btn[onclick*="english"], [data-theme="aurora"] .btn-saved-data, .btn-profile-save {
+[data-theme="aurora"] #karmaBtn, [data-theme="aurora"] .top-btn-karma, [data-theme="aurora"] .btn-view-eng, [data-theme="aurora"] .view-toggle-btn.btn-view-eng, [data-theme="aurora"] .view-toggle-btn[onclick*="english"], [data-theme="aurora"] .btn-saved-data, [data-theme="aurora"] .btn-profile-save {
   background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #ffffff !important; border: 1px solid rgba(254, 215, 170, 0.5) !important;
 }
 [data-theme="aurora"] #chupuluBtn, [data-theme="aurora"] .top-btn-hands, [data-theme="aurora"] .btn-view-tel, [data-theme="aurora"] .view-toggle-btn.btn-view-tel, [data-theme="aurora"] .view-toggle-btn[onclick*="telugu"], [data-theme="aurora"] .btn-save-show {
@@ -1385,199 +1413,6 @@ body.mobile-pdf-rendering #loading-overlay {
   border: 1.5px solid #ffd700 !important;
   box-shadow: 0 0 14px rgba(255, 215, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   filter: brightness(1.2) !important;
-}
-
-/* Nav Pill Color Gradients Matching Themes */
-/* 1. Default / Bright Mode */
-:root .nav-home, :root .nav-item:nth-child(1), [data-theme="default"] .nav-home, [data-theme="default"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.45) !important;
-  border-color: rgba(191, 219, 254, 0.35) !important;
-}
-:root .nav-compare, :root .nav-item:nth-child(2), [data-theme="default"] .nav-compare, [data-theme="default"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
-  box-shadow: 0 3px 12px rgba(217, 119, 6, 0.45) !important;
-  border-color: rgba(254, 215, 170, 0.35) !important;
-}
-:root .nav-panch, :root .nav-item:nth-child(3), [data-theme="default"] .nav-panch, [data-theme="default"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
-  box-shadow: 0 3px 12px rgba(13, 148, 136, 0.45) !important;
-  border-color: rgba(153, 246, 228, 0.35) !important;
-}
-:root .nav-cal, :root .nav-dasa, :root .nav-item:nth-child(4), [data-theme="default"] .nav-cal, [data-theme="default"] .nav-dasa, [data-theme="default"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
-  box-shadow: 0 3px 12px rgba(124, 58, 237, 0.45) !important;
-  border-color: rgba(221, 214, 254, 0.35) !important;
-}
-:root .nav-theme, :root .nav-item:nth-child(5), [data-theme="default"] .nav-theme, [data-theme="default"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #db2777 0%, #be185d 100%) !important;
-  box-shadow: 0 3px 12px rgba(219, 39, 119, 0.45) !important;
-  border-color: rgba(251, 207, 232, 0.35) !important;
-}
-:root .nav-lang, :root .nav-item:nth-child(6), [data-theme="default"] .nav-lang, [data-theme="default"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.45) !important;
-  border-color: rgba(167, 243, 208, 0.35) !important;
-}
-
-/* 2. Cosmic Mode */
-[data-theme="cosmic"] .nav-home, [data-theme="cosmic"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #4338ca 0%, #312e81 100%) !important;
-}
-[data-theme="cosmic"] .nav-compare, [data-theme="cosmic"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important;
-}
-[data-theme="cosmic"] .nav-panch, [data-theme="cosmic"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%) !important;
-}
-[data-theme="cosmic"] .nav-cal, [data-theme="cosmic"] .nav-dasa, [data-theme="cosmic"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%) !important;
-}
-[data-theme="cosmic"] .nav-theme, [data-theme="cosmic"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important;
-}
-[data-theme="cosmic"] .nav-lang, [data-theme="cosmic"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-}
-
-/* 3. Sunset Mode */
-[data-theme="sunset"] .nav-home, [data-theme="sunset"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important;
-}
-[data-theme="sunset"] .nav-compare, [data-theme="sunset"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="sunset"] .nav-panch, [data-theme="sunset"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #9f1239 0%, #881337 100%) !important;
-}
-[data-theme="sunset"] .nav-cal, [data-theme="sunset"] .nav-dasa, [data-theme="sunset"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #881337 0%, #4c0519 100%) !important;
-}
-[data-theme="sunset"] .nav-theme, [data-theme="sunset"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%) !important;
-}
-[data-theme="sunset"] .nav-lang, [data-theme="sunset"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
-}
-
-/* 4. Luxury Obsidian Gold Mode */
-[data-theme="luxury"] .nav-home, [data-theme="luxury"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="luxury"] .nav-compare, [data-theme="luxury"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ca8a04 0%, #854d0e 100%) !important;
-}
-[data-theme="luxury"] .nav-panch, [data-theme="luxury"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #854d0e 0%, #543109 100%) !important;
-}
-[data-theme="luxury"] .nav-cal, [data-theme="luxury"] .nav-dasa, [data-theme="luxury"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%) !important;
-}
-[data-theme="luxury"] .nav-theme, [data-theme="luxury"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #ca8a04 0%, #854d0e 100%) !important;
-}
-[data-theme="luxury"] .nav-lang, [data-theme="luxury"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important;
-}
-
-/* 5. Neo Cyberpunk Mode */
-[data-theme="cyberpunk"] .nav-home, [data-theme="cyberpunk"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #0e7490 0%, #155e75 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-compare, [data-theme="cyberpunk"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-panch, [data-theme="cyberpunk"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #4d7c0f 0%, #365314 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-cal, [data-theme="cyberpunk"] .nav-dasa, [data-theme="cyberpunk"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-theme, [data-theme="cyberpunk"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important;
-}
-[data-theme="cyberpunk"] .nav-lang, [data-theme="cyberpunk"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
-}
-
-/* 6. Solar Amber Mode */
-[data-theme="solar"] .nav-home, [data-theme="solar"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="solar"] .nav-compare, [data-theme="solar"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #ea580c 0%, #9a3412 100%) !important;
-}
-[data-theme="solar"] .nav-panch, [data-theme="solar"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #a16207 0%, #713f12 100%) !important;
-}
-[data-theme="solar"] .nav-cal, [data-theme="solar"] .nav-dasa, [data-theme="solar"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #9a3412 0%, #7c2d12 100%) !important;
-}
-[data-theme="solar"] .nav-theme, [data-theme="solar"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%) !important;
-}
-[data-theme="solar"] .nav-lang, [data-theme="solar"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
-}
-
-/* 7. Royal Mandala Mode */
-[data-theme="mandala"] .nav-home, [data-theme="mandala"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%) !important;
-}
-[data-theme="mandala"] .nav-compare, [data-theme="mandala"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
-}
-[data-theme="mandala"] .nav-panch, [data-theme="mandala"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%) !important;
-}
-[data-theme="mandala"] .nav-cal, [data-theme="mandala"] .nav-dasa, [data-theme="mandala"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #115e59 0%, #134e4a 100%) !important;
-}
-[data-theme="mandala"] .nav-theme, [data-theme="mandala"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #be185d 0%, #831843 100%) !important;
-}
-[data-theme="mandala"] .nav-lang, [data-theme="mandala"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
-}
-
-/* 8. Twilight Fusion Mode */
-[data-theme="twilight"] .nav-home, [data-theme="twilight"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
-}
-[data-theme="twilight"] .nav-compare, [data-theme="twilight"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #c026d3 0%, #701a75 100%) !important;
-}
-[data-theme="twilight"] .nav-panch, [data-theme="twilight"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%) !important;
-}
-[data-theme="twilight"] .nav-cal, [data-theme="twilight"] .nav-dasa, [data-theme="twilight"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important;
-}
-[data-theme="twilight"] .nav-theme, [data-theme="twilight"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%) !important;
-}
-[data-theme="twilight"] .nav-lang, [data-theme="twilight"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-}
-
-/* 9. Divine Aurora Mode */
-[data-theme="aurora"] .nav-home, [data-theme="aurora"] .nav-item:nth-child(1) {
-  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
-}
-[data-theme="aurora"] .nav-compare, [data-theme="aurora"] .nav-item:nth-child(2) {
-  background: linear-gradient(135deg, #f43f5e 0%, #9f1239 100%) !important;
-}
-[data-theme="aurora"] .nav-panch, [data-theme="aurora"] .nav-item:nth-child(3) {
-  background: linear-gradient(135deg, #0e7490 0%, #155e75 100%) !important;
-}
-[data-theme="aurora"] .nav-cal, [data-theme="aurora"] .nav-dasa, [data-theme="aurora"] .nav-item:nth-child(4) {
-  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
-}
-[data-theme="aurora"] .nav-theme, [data-theme="aurora"] .nav-item:nth-child(5) {
-  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
-}
-[data-theme="aurora"] .nav-lang, [data-theme="aurora"] .nav-item:nth-child(6) {
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%) !important;
 }
 
 /* Drop-up Menus for Theme and Language in Fixed Bottom Nav Bar */
