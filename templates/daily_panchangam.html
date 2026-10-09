@@ -1578,13 +1578,13 @@ body {
 
                         <div class="location-buttons" style="display: flex; gap: 10px; margin-top: 8px;">
 
-                          <button type="button" class="location-btn" onclick="detectLocation()" style="flex: 1; padding: 8px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                          <button type="button" class="location-btn btn-location" onclick="detectLocation()" style="flex: 1; padding: 8px 12px; color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                             <i class="fas fa-location-crosshairs"></i> {{ _('ప్రస్తుత స్థానం') }}
 
                           </button>
 
-                          <button type="button" class="location-btn" onclick="clearPanchLocation()" style="flex: 1; padding: 8px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                          <button type="button" class="location-btn btn-clear" onclick="clearPanchLocation()" style="flex: 1; padding: 8px 12px; color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                             <i class="fas fa-eraser"></i> {{ _('క్లియర్') }}
 
@@ -1600,7 +1600,7 @@ body {
 
                 <div class="btn-container">
 
-                    <button type="submit" class="btn"><i class="fas fa-sync"></i> {{ _('పంచాంగం చూడండి') }}</button>
+                    <button type="submit" class="btn btn-submit"><i class="fas fa-sync"></i> {{ _('పంచాంగం చూడండి') }}</button>
 
                 </div>
 

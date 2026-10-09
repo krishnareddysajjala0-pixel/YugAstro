@@ -1492,11 +1492,11 @@ body {
 
             {% if view_type == "telugu" %}
 
-            <button type="button" class="view-toggle-btn" onclick="toggleViewType('english')" title="{{ _('ఆంగ్ల నెల ప్రకారం చూడండి') }}" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff;">{{ _('ఆంగ్ల నెల') }}</button>
+            <button type="button" class="view-toggle-btn btn-view-eng" onclick="toggleViewType('english')" title="{{ _('ఆంగ్ల నెల ప్రకారం చూడండి') }}">{{ _('ఆంగ్ల నెల') }}</button>
 
             {% else %}
 
-            <button type="button" class="view-toggle-btn" onclick="toggleViewType('telugu')" title="{{ _('తెలుగు నెల ప్రకారం చూడండి') }}" style="background: linear-gradient(135deg, #a855f7, #7e22ce); color: #fff;">{{ _('తెలుగు నెల') }}</button>
+            <button type="button" class="view-toggle-btn btn-view-tel" onclick="toggleViewType('telugu')" title="{{ _('తెలుగు నెల ప్రకారం చూడండి') }}">{{ _('తెలుగు నెల') }}</button>
 
             {% endif %}
 

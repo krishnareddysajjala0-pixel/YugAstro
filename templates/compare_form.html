@@ -1789,13 +1789,13 @@ body {
 
                 <div class="location-buttons" style="display: flex; gap: 10px; margin-top: 8px;">
 
-                  <button type="button" class="location-btn" onclick="getCurrentLocationFor(1)" style="flex: 1; padding: 8px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                  <button type="button" class="location-btn btn-location" onclick="getCurrentLocationFor(1)" style="flex: 1; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                     <i class="fas fa-location-crosshairs"></i> {{ _('ప్రస్తుత స్థానం') }}
 
                   </button>
 
-                  <button type="button" class="location-btn" onclick="clearLocationFor(1)" style="flex: 1; padding: 8px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                  <button type="button" class="location-btn btn-clear" onclick="clearLocationFor(1)" style="flex: 1; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                     <i class="fas fa-eraser"></i> {{ _('క్లియర్') }}
 
@@ -1893,13 +1893,13 @@ body {
 
                 <div class="location-buttons" style="display: flex; gap: 10px; margin-top: 8px;">
 
-                  <button type="button" class="location-btn" onclick="getCurrentLocationFor(2)" style="flex: 1; padding: 8px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                  <button type="button" class="location-btn btn-location" onclick="getCurrentLocationFor(2)" style="flex: 1; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                     <i class="fas fa-location-crosshairs"></i> {{ _('ప్రస్తుత స్థానం') }}
 
                   </button>
 
-                  <button type="button" class="location-btn" onclick="clearLocationFor(2)" style="flex: 1; padding: 8px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--text-main); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                  <button type="button" class="location-btn btn-clear" onclick="clearLocationFor(2)" style="flex: 1; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
 
                     <i class="fas fa-eraser"></i> {{ _('క్లియర్') }}
 
@@ -1919,7 +1919,7 @@ body {
 
         <!-- Main Action Buttons -->
         <div class="btn-container" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
-          <button type="submit" name="chart_type" value="standard" onclick="document.getElementById('mainForm').action='/compare_results';" class="btn btn-show" style="flex: 1; max-width: 320px; min-width: 160px; padding: 10px 24px; font-size: 14px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #fff; box-shadow: 0 4px 12px rgba(30, 60, 114, 0.4);">
+          <button type="submit" name="chart_type" value="standard" onclick="document.getElementById('mainForm').action='/compare_results';" class="btn btn-show" style="flex: 1; max-width: 320px; min-width: 160px; padding: 10px 24px; font-size: 14px; color: #fff;">
             <span class="btn-icon">⚖️</span>
             {{ _('కుండలి పోల్చండి') }}
           </button>
