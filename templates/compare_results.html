@@ -876,28 +876,21 @@
       border-bottom: 2.5px solid #ef4444 !important;
     }
 
-    /* ===== LAGNA: THICK BORDER & SLOW BLINK ===== */
+    /* ===== LAGNA: YELLOW THICK BORDER & SLOW BLINK ===== */
     @keyframes lagna-border-blink {
       0%, 100% {
-        border-color: #10b981 !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.75), 0 0 10px rgba(251, 191, 36, 0.6) !important;
-      }
-      25% {
-        border-color: rgba(16, 185, 129, 0.25) !important;
-        box-shadow: 0 0 4px rgba(16, 185, 129, 0.2) !important;
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
       }
       50% {
-        border-color: #fbbf24 !important;
-        box-shadow: 0 0 30px rgba(251, 191, 36, 0.95), 0 0 12px rgba(251, 191, 36, 0.8) !important;
-      }
-      75% {
-        border-color: rgba(251, 191, 36, 0.25) !important;
-        box-shadow: 0 0 4px rgba(251, 191, 36, 0.2) !important;
+        border-color: rgba(255, 215, 0, 0.3) !important;
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.2) !important;
       }
     }
 
     .lagna {
-      border: 4.5px solid #10b981 !important;
+      background: linear-gradient(135deg, rgba(234, 179, 8, 0.22), rgba(202, 138, 4, 0.12)) !important;
+      border: 4.5px solid #ffd700 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -1942,10 +1935,8 @@
 
 
       .box.lagna, .lagna {
-        border: 8px double #000000 !important;
-        background: 
-          linear-gradient(#ffffff, #ffffff) padding-box,
-          linear-gradient(#006400, #006400) border-box !important;
+        border: 4.5px solid #d97706 !important;
+        background: #fffbeb !important;
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -2820,7 +2811,7 @@
 
     .house-mixed { border-top: 2.5px solid #10b981 !important; border-left: 2.5px solid #10b981 !important; border-right: 2.5px solid #ef4444 !important; border-bottom: 2.5px solid #ef4444 !important; }
 
-    .nak-box.lagna-box { border: 4.5px solid #10b981 !important; animation: lagna-border-blink 2.4s ease-in-out infinite !important; position: relative !important; z-index: 2 !important; }
+    .nak-box.lagna-box { background: rgba(234, 179, 8, 0.12) !important; border: 4.5px solid #ffd700 !important; animation: lagna-border-blink 2.4s ease-in-out infinite !important; position: relative !important; z-index: 2 !important; }
 
     .nak-box-header { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: rgba(120, 120, 120, 0.1); border-bottom: 1px solid var(--box-border, #334155); }
 
@@ -6343,9 +6334,10 @@ body {
       border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
 
-    /* Lagna Box: Thick Border & Slow Blink */
+    /* Lagna Box: Yellow Color, Thick Border & Slow Blink */
     .nak-box.lagna-box {
-      border: 4.5px solid #10b981 !important;
+      background: rgba(234, 179, 8, 0.12) !important;
+      border: 4.5px solid #ffd700 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -7350,9 +7342,9 @@ body {
         font-weight: 800 !important;
       }
 
-      /* Lagnam Box: Thick Border & Golden Highlight */
+      /* Lagnam Box: Thick Border & Yellow Highlight */
       .nak-box.lagna-box {
-        border: 3px solid #059669 !important;
+        border: 4px solid #d97706 !important;
         background: #fffbeb !important;
         box-shadow: 0 0 10px rgba(251, 191, 36, 0.4) !important;
       }
