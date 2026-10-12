@@ -1194,6 +1194,41 @@ body.mobile-pdf-rendering #loading-overlay {
   border-bottom: 2.5px solid #ef4444 !important;
 }
 
+/* ==========================================================================
+   LAGNAM BOX HIGHLIGHT: THICK BORDER & SLOW BLINK
+   - Easily identifiable across all Kundali charts
+   - 4.5px thick border line blinking slowly with prominent glow
+   ========================================================================== */
+@keyframes lagna-border-blink {
+  0%, 100% {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.75), 0 0 10px rgba(251, 191, 36, 0.6) !important;
+  }
+  25% {
+    border-color: rgba(16, 185, 129, 0.25) !important;
+    box-shadow: 0 0 4px rgba(16, 185, 129, 0.2) !important;
+  }
+  50% {
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.95), 0 0 12px rgba(251, 191, 36, 0.8) !important;
+  }
+  75% {
+    border-color: rgba(251, 191, 36, 0.25) !important;
+    box-shadow: 0 0 4px rgba(251, 191, 36, 0.2) !important;
+  }
+}
+
+.lagna,
+.box.lagna,
+.lagna-box,
+.nak-box.lagna-box {
+  border: 4.5px solid #10b981 !important;
+  animation: lagna-border-blink 2.4s ease-in-out infinite !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+
 
 /* ===== CUSTOM ASTRO DIALOG OVERLAY (REPLACES BROWSER DOMAIN HEADER ALERTS) ===== */
 .custom-dialog-overlay {
