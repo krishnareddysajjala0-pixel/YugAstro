@@ -1167,8 +1167,32 @@ body.mobile-pdf-rendering #loading-overlay {
   padding: 0 !important;
 }
 
+/* ==========================================================================
+   KUNDALI BOX KARMA BORDERS (PUNYAM, PAPAM, MIXED)
+   - Only Papam: Completely Red outer border (all 4 lines)
+   - Punyam: Completely Green outer border (all 4 lines)
+   - Papam + Punyam: Two lines Red and two lines Green
+   ========================================================================== */
+.house-green,
+.box.house-green,
+.nak-box.house-green {
+  border: 2.5px solid #10b981 !important;
+}
 
+.house-red,
+.box.house-red,
+.nak-box.house-red {
+  border: 2.5px solid #ef4444 !important;
+}
 
+.house-mixed,
+.box.house-mixed,
+.nak-box.house-mixed {
+  border-top: 2.5px solid #10b981 !important;
+  border-left: 2.5px solid #10b981 !important;
+  border-right: 2.5px solid #ef4444 !important;
+  border-bottom: 2.5px solid #ef4444 !important;
+}
 
 
 /* ===== CUSTOM ASTRO DIALOG OVERLAY (REPLACES BROWSER DOMAIN HEADER ALERTS) ===== */
