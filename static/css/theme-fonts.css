@@ -1195,18 +1195,19 @@ body.mobile-pdf-rendering #loading-overlay {
 }
 
 /* ==========================================================================
-   LAGNAM BOX HIGHLIGHT: THICK BORDER & SLOW BLINK
+   LAGNAM BOX HIGHLIGHT: THICK YELLOW BORDER & GREEN INNER LINE
    - Easily identifiable across all Kundali charts
-   - 4.5px thick yellow border line blinking slowly with golden glow
+   - 4.5px thick yellow border blinking slowly with golden glow
+   - 2.5px green inner line representing Punyam
    ========================================================================== */
 @keyframes lagna-border-blink {
   0%, 100% {
     border-color: #ffd700 !important;
-    box-shadow: 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
+    box-shadow: inset 0 0 0 2.5px #10b981, 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
   }
   50% {
     border-color: rgba(255, 215, 0, 0.3) !important;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.2) !important;
+    box-shadow: inset 0 0 0 2.5px #10b981, 0 0 5px rgba(255, 215, 0, 0.2) !important;
   }
 }
 
@@ -1216,6 +1217,7 @@ body.mobile-pdf-rendering #loading-overlay {
 .nak-box.lagna-box {
   background: rgba(234, 179, 8, 0.12) !important;
   border: 4.5px solid #ffd700 !important;
+  box-shadow: inset 0 0 0 2.5px #10b981 !important;
   animation: lagna-border-blink 2.4s ease-in-out infinite !important;
   position: relative !important;
   z-index: 2 !important;

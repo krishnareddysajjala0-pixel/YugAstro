@@ -876,21 +876,22 @@
       border-bottom: 2.5px solid #ef4444 !important;
     }
 
-    /* ===== LAGNA: YELLOW THICK BORDER & SLOW BLINK ===== */
+    /* ===== LAGNA: YELLOW THICK BORDER, GREEN INNER LINE & SLOW BLINK ===== */
     @keyframes lagna-border-blink {
       0%, 100% {
         border-color: #ffd700 !important;
-        box-shadow: 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
+        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
       }
       50% {
         border-color: rgba(255, 215, 0, 0.3) !important;
-        box-shadow: 0 0 5px rgba(255, 215, 0, 0.2) !important;
+        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 5px rgba(255, 215, 0, 0.2) !important;
       }
     }
 
     .lagna {
       background: linear-gradient(135deg, rgba(234, 179, 8, 0.22), rgba(202, 138, 4, 0.12)) !important;
       border: 4.5px solid #ffd700 !important;
+      box-shadow: inset 0 0 0 2.5px #10b981 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -1850,7 +1851,7 @@
 
       .chart {
 
-        gap: 2px !important;
+        gap: 6px !important;
 
         width: 100% !important;
 
@@ -1934,9 +1935,29 @@
 
 
 
-      .box.lagna, .lagna {
-        border: 4.5px solid #d97706 !important;
-        background: #fffbeb !important;
+      /* Print Colors: Punyam & Lagnam (Dark Green), Papam (Dark Red), Mixed (Dark Green + Dark Red) */
+      .house-green, .box.lagna, .lagna {
+        border: 4px solid #006400 !important;
+        background: #f0fdf4 !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .house-red {
+        border: 4px solid #990000 !important;
+        background: #fef2f2 !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .house-mixed {
+        border-top: 4px solid #006400 !important;
+        border-left: 4px solid #006400 !important;
+        border-right: 4px solid #990000 !important;
+        border-bottom: 4px solid #990000 !important;
+        background: #ffffff !important;
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -2811,7 +2832,7 @@
 
     .house-mixed { border-top: 2.5px solid #10b981 !important; border-left: 2.5px solid #10b981 !important; border-right: 2.5px solid #ef4444 !important; border-bottom: 2.5px solid #ef4444 !important; }
 
-    .nak-box.lagna-box { background: rgba(234, 179, 8, 0.12) !important; border: 4.5px solid #ffd700 !important; animation: lagna-border-blink 2.4s ease-in-out infinite !important; position: relative !important; z-index: 2 !important; }
+    .nak-box.lagna-box { background: rgba(234, 179, 8, 0.12) !important; border: 4.5px solid #ffd700 !important; box-shadow: inset 0 0 0 2.5px #10b981 !important; animation: lagna-border-blink 2.4s ease-in-out infinite !important; position: relative !important; z-index: 2 !important; }
 
     .nak-box-header { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: rgba(120, 120, 120, 0.1); border-bottom: 1px solid var(--box-border, #334155); }
 
@@ -6338,6 +6359,7 @@ body {
     .nak-box.lagna-box {
       background: rgba(234, 179, 8, 0.12) !important;
       border: 4.5px solid #ffd700 !important;
+      box-shadow: inset 0 0 0 2.5px #10b981 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -7029,23 +7051,18 @@ body {
       }
 
       .chart-container {
-
         border: 2px solid #000 !important;
-
         box-shadow: none !important;
-
         background: #ffffff !important;
-
         padding: 2px !important;
-
         margin: 0 auto !important;
-
         max-width: 100% !important;
-
         page-break-after: avoid !important;
-
         break-after: avoid !important;
+      }
 
+      .chart-grid {
+        gap: 6px !important;
       }
 
       .nak-box {
@@ -7284,16 +7301,16 @@ body {
 
 
 
-      /* Print Colors: Punyam (Green), Papam (Red), Mixed (Green+Red), Lagna (Gold + Thick Border) */
+      /* Print Colors: Punyam & Lagnam (Dark Green), Papam (Dark Red), Mixed (Dark Green + Dark Red) */
 
-      .house-green {
-        border: 2.5px solid #059669 !important;
+      .house-green, .nak-box.lagna-box {
+        border: 4px solid #006400 !important;
         background: #f0fdf4 !important;
       }
 
-      .house-green .nak-box-header {
+      .house-green .nak-box-header, .nak-box.lagna-box .nak-box-header {
         background: #dcfce7 !important;
-        border-bottom: 1.5px solid #059669 !important;
+        border-bottom: 2px solid #006400 !important;
       }
 
       .house-green .karma-badge-small {
@@ -7304,13 +7321,13 @@ body {
       }
 
       .house-red {
-        border: 2.5px solid #dc2626 !important;
+        border: 4px solid #990000 !important;
         background: #fef2f2 !important;
       }
 
       .house-red .nak-box-header {
         background: #fee2e2 !important;
-        border-bottom: 1.5px solid #dc2626 !important;
+        border-bottom: 2px solid #990000 !important;
       }
 
       .house-red .karma-badge-small {
@@ -7320,13 +7337,11 @@ body {
         font-weight: 800 !important;
       }
 
-
-
       .house-mixed {
-        border-top: 2.5px solid #059669 !important;
-        border-left: 2.5px solid #059669 !important;
-        border-right: 2.5px solid #dc2626 !important;
-        border-bottom: 2.5px solid #dc2626 !important;
+        border-top: 4px solid #006400 !important;
+        border-left: 4px solid #006400 !important;
+        border-right: 4px solid #990000 !important;
+        border-bottom: 4px solid #990000 !important;
         background: #ffffff !important;
       }
 
@@ -7342,20 +7357,7 @@ body {
         font-weight: 800 !important;
       }
 
-      /* Lagnam Box: Thick Border & Yellow Highlight */
-      .nak-box.lagna-box {
-        border: 4px solid #d97706 !important;
-        background: #fffbeb !important;
-        box-shadow: 0 0 10px rgba(251, 191, 36, 0.4) !important;
-      }
 
-      .nak-box.lagna-box .nak-box-header {
-
-        background: #fef3c7 !important;
-
-        border-bottom: 2.5px solid #b45309 !important;
-
-      }
 
       .nak-box.lagna-box .house-badge {
 
