@@ -731,7 +731,7 @@
     /* Punyam, Papam, Mixed, Lagna styles */
 
     .house-green {
-      border: 2.5px solid #10b981 !important;
+      border: 4.5px solid #006400 !important;
     }
 
     .house-green .nak-box-header {
@@ -745,7 +745,7 @@
     }
 
     .house-red {
-      border: 2.5px solid #ef4444 !important;
+      border: 4.5px solid #990000 !important;
     }
 
     .house-red .nak-box-header {
@@ -758,13 +758,11 @@
       border: 1px solid #ef4444 !important;
     }
 
-
-
     .house-mixed {
-      border-top: 2.5px solid #10b981 !important;
-      border-left: 2.5px solid #10b981 !important;
-      border-right: 2.5px solid #ef4444 !important;
-      border-bottom: 2.5px solid #ef4444 !important;
+      border-top: 4.5px solid #006400 !important;
+      border-left: 4.5px solid #006400 !important;
+      border-right: 4.5px solid #990000 !important;
+      border-bottom: 4.5px solid #990000 !important;
     }
 
     .house-mixed .nak-box-header {
@@ -781,18 +779,18 @@
     @keyframes lagna-border-blink {
       0%, 100% {
         border-color: #ffd700 !important;
-        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
+        box-shadow: inset 0 0 0 3px #006400, 0 0 30px rgba(255, 215, 0, 0.95), 0 0 14px rgba(234, 179, 8, 0.8) !important;
       }
       50% {
         border-color: rgba(255, 215, 0, 0.3) !important;
-        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 5px rgba(255, 215, 0, 0.2) !important;
+        box-shadow: inset 0 0 0 3px #006400, 0 0 6px rgba(255, 215, 0, 0.2) !important;
       }
     }
 
     .nak-box.lagna-box {
       background: rgba(234, 179, 8, 0.12) !important;
-      border: 4.5px solid #ffd700 !important;
-      box-shadow: inset 0 0 0 2.5px #10b981 !important;
+      border: 5px solid #ffd700 !important;
+      box-shadow: inset 0 0 0 3px #006400 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -1774,13 +1772,13 @@
       /* Print Colors: Punyam & Lagnam (Dark Green), Papam (Dark Red), Mixed (Dark Green + Dark Red) */
 
       .house-green, .nak-box.lagna-box {
-        border: 4px solid #006400 !important;
+        border: 5px solid #006400 !important;
         background: #f0fdf4 !important;
       }
 
       .house-green .nak-box-header, .nak-box.lagna-box .nak-box-header {
         background: #dcfce7 !important;
-        border-bottom: 2px solid #006400 !important;
+        border-bottom: 2.5px solid #006400 !important;
       }
 
       .house-green .karma-badge-small {
@@ -1791,13 +1789,13 @@
       }
 
       .house-red {
-        border: 4px solid #990000 !important;
+        border: 5px solid #990000 !important;
         background: #fef2f2 !important;
       }
 
       .house-red .nak-box-header {
         background: #fee2e2 !important;
-        border-bottom: 2px solid #990000 !important;
+        border-bottom: 2.5px solid #990000 !important;
       }
 
       .house-red .karma-badge-small {
@@ -1808,10 +1806,10 @@
       }
 
       .house-mixed {
-        border-top: 4px solid #006400 !important;
-        border-left: 4px solid #006400 !important;
-        border-right: 4px solid #990000 !important;
-        border-bottom: 4px solid #990000 !important;
+        border-top: 5px solid #006400 !important;
+        border-left: 5px solid #006400 !important;
+        border-right: 5px solid #990000 !important;
+        border-bottom: 5px solid #990000 !important;
         background: #ffffff !important;
       }
 
@@ -1866,11 +1864,13 @@
       }
 
       .transit-nakshatra-wrapper .chart-container {
-
         margin-top: 4px !important;
-
       }
 
+      .bhavas-section-wrapper,
+      .today-bhavas-wrapper {
+        display: none !important;
+      }
     }
 
   
@@ -2698,7 +2698,7 @@ body {
 
   <!-- 1 to 12 Bhavas Planetary and Aspect Analysis Table -->
   {% if bhavas_list is defined and bhavas_list %}
-  <div class="bhavas-section-wrapper" style="max-width: 950px; margin: 30px auto; padding: 0 10px;">
+  <div class="bhavas-section-wrapper print-hide" style="max-width: 950px; margin: 30px auto; padding: 0 10px;">
     <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1.5px solid var(--box-border, rgba(251, 191, 36, 0.4)); border-radius: 16px; padding: 22px 18px; box-shadow: 0 10px 30px var(--shadow-color, rgba(0,0,0,0.5));">
       <div style="text-align: center; margin-bottom: 20px;">
         <h3 style="color: #fbbf24; font-size: 21px; font-weight: 800; margin: 0 0 6px 0; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);">

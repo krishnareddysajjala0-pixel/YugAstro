@@ -2010,38 +2010,38 @@
     /* ===== HOUSE BORDERS & BACKGROUND COLORS ===== */
     .house-green {
       background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0.15));
-      border: 2.5px solid #10b981 !important;
+      border: 4.5px solid #006400 !important;
     }
 
     .house-red {
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(239, 68, 68, 0.15));
-      border: 2.5px solid #ef4444 !important;
+      border: 4.5px solid #990000 !important;
     }
 
     .house-mixed {
       background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(239, 68, 68, 0.15));
-      border-top: 2.5px solid #10b981 !important;
-      border-left: 2.5px solid #10b981 !important;
-      border-right: 2.5px solid #ef4444 !important;
-      border-bottom: 2.5px solid #ef4444 !important;
+      border-top: 4.5px solid #006400 !important;
+      border-left: 4.5px solid #006400 !important;
+      border-right: 4.5px solid #990000 !important;
+      border-bottom: 4.5px solid #990000 !important;
     }
 
     /* ===== LAGNA: YELLOW THICK BORDER, GREEN INNER LINE & SLOW BLINK ===== */
     @keyframes lagna-border-blink {
       0%, 100% {
         border-color: #ffd700 !important;
-        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
+        box-shadow: inset 0 0 0 3px #006400, 0 0 30px rgba(255, 215, 0, 0.95), 0 0 14px rgba(234, 179, 8, 0.8) !important;
       }
       50% {
         border-color: rgba(255, 215, 0, 0.3) !important;
-        box-shadow: inset 0 0 0 2.5px #10b981, 0 0 5px rgba(255, 215, 0, 0.2) !important;
+        box-shadow: inset 0 0 0 3px #006400, 0 0 6px rgba(255, 215, 0, 0.2) !important;
       }
     }
 
     .lagna {
       background: linear-gradient(135deg, rgba(234, 179, 8, 0.22), rgba(202, 138, 4, 0.12)) !important;
-      border: 4.5px solid #ffd700 !important;
-      box-shadow: inset 0 0 0 2.5px #10b981 !important;
+      border: 5px solid #ffd700 !important;
+      box-shadow: inset 0 0 0 3px #006400 !important;
       animation: lagna-border-blink 2.4s ease-in-out infinite !important;
       position: relative !important;
       z-index: 2 !important;
@@ -4800,7 +4800,7 @@
 
       /* Print Colors: Punyam & Lagnam (Dark Green), Papam (Dark Red), Mixed (Dark Green + Dark Red) */
       .house-green, .box.lagna, .lagna {
-        border: 4px solid #006400 !important;
+        border: 5px solid #006400 !important;
         background: #f0fdf4 !important;
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
@@ -4808,7 +4808,7 @@
       }
 
       .house-red {
-        border: 4px solid #990000 !important;
+        border: 5px solid #990000 !important;
         background: #fef2f2 !important;
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
@@ -4816,10 +4816,10 @@
       }
 
       .house-mixed {
-        border-top: 4px solid #006400 !important;
-        border-left: 4px solid #006400 !important;
-        border-right: 4px solid #990000 !important;
-        border-bottom: 4px solid #990000 !important;
+        border-top: 5px solid #006400 !important;
+        border-left: 5px solid #006400 !important;
+        border-right: 5px solid #990000 !important;
+        border-bottom: 5px solid #990000 !important;
         background: #ffffff !important;
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
@@ -6621,6 +6621,14 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
   #action-bar,
   .float-btn,
   .print-hide,
+  .bhavas-section-wrapper,
+  #bhavas-analysis-section,
+  .today-bhavas-wrapper,
+  #today-bhavas-section,
+  .transit-comparison-wrapper,
+  .kundali-action-buttons-bar,
+  #bhavas-toggle-btn,
+  #today-bhavas-toggle-btn,
   #transit-toggle-bar,
   #transit-loading,
   #print-options-modal {
@@ -7677,9 +7685,39 @@ body {
 
     </div>
 
+    <!-- Action Buttons Bar: Today Planets, Birth Bhavas, Today Bhavas -->
+    <div class="kundali-action-buttons-bar print-hide" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin: 25px auto 16px auto; max-width: 950px; padding: 0 10px;">
+
+      <!-- 1. Today Planets Button -->
+      <button onclick="handleTransitBtnClick()" id="transit-btn" class="btn-transit" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
+        <i class="fas fa-satellite" id="transit-btn-icon" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i>
+        <span id="transit-btn-text">{{ _('ఈ రోజు గ్రహ స్థితి') }}</span>
+      </button>
+
+      <!-- 2. 1 to 12 Bhavas Details Button -->
+      {% if bhavas_list is defined and bhavas_list %}
+      <button onclick="toggleBhavasAnalysis()" id="bhavas-toggle-btn" class="btn-transit btn-bhavas-toggle" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
+        <i class="fas fa-list-ol" id="bhavas-toggle-icon" style="color: #fbbf24;"></i>
+        <span id="bhavas-toggle-text">{{ _('1వ భావం నుండి 12వ భావాల వివరాలు') }}</span>
+      </button>
+      {% endif %}
+
+      <!-- 3. Today 1 to 12 Bhavas Positions Button -->
+      <button onclick="toggleTodayBhavas()" id="today-bhavas-toggle-btn" class="btn-transit btn-today-bhavas-toggle" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
+        <i class="fas fa-meteor" id="today-bhavas-toggle-icon" style="color: #34d399;"></i>
+        <span id="today-bhavas-toggle-text">{{ _('ఈ రోజు 1వ భావం నుండి 12వ భావాల గ్రహ స్థితులు') }}</span>
+      </button>
+
+    </div>
+
+    <!-- Transit Loading Indicator -->
+    <div id="transit-loading" class="print-hide" style="display: none; text-align: center; color: #ffd700; margin: 15px auto; font-size: 15px; font-weight: 700;">
+      <i class="fas fa-spinner fa-spin"></i> <span id="transit-loading-text">{{ _('జనరేట్ చేస్తోంది...') }}</span>
+    </div>
+
     <!-- 1 to 12 Bhavas Planetary and Aspect Analysis Table -->
     {% if bhavas_list is defined and bhavas_list %}
-    <div class="bhavas-section-wrapper" style="max-width: 950px; margin: 30px auto; padding: 0 10px;">
+    <div class="bhavas-section-wrapper print-hide" id="bhavas-analysis-section" style="display: none; max-width: 950px; margin: 25px auto; padding: 0 10px;">
       <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1.5px solid var(--box-border, rgba(251, 191, 36, 0.4)); border-radius: 16px; padding: 22px 18px; box-shadow: 0 10px 30px var(--shadow-color, rgba(0,0,0,0.5));">
         <div style="text-align: center; margin-bottom: 20px;">
           <h3 style="color: #fbbf24; font-size: 21px; font-weight: 800; margin: 0 0 6px 0; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);">
@@ -7774,46 +7812,6 @@ body {
       </div>
     </div>
     {% endif %}
-
-    <!-- Transit Button and Container -->
-
-
-
-    <div style="text-align: center; margin: 20px 0;">
-
-
-
-      <button onclick="fetchTransitChart()" id="transit-btn" class="btn-transit" style="color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-
-
-
-        <i class="fas fa-satellite" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i> {{ _('ఈ రోజు గ్రహ స్థితి') }}
-
-
-
-      </button>
-
-
-
-      <div id="transit-loading" style="display: none; color: #ffd700; margin-top: 15px; font-size: 8px;">
-
-
-
-        <i class="fas fa-spinner fa-spin"></i> {{ _('జనరేట్ చేస్తోంది...') }}
-
-
-
-      </div>
-
-
-
-    </div>
-
-
-
-    
-
-
 
     <div id="transit-container"></div>
 
@@ -8920,11 +8918,9 @@ body {
 
 
 
-      function fetchTransitChart() {
+      function fetchTransitChart(callbackOnSuccess) {
         showLoader();
-        const btn = document.getElementById('transit-btn');
         const loading = document.getElementById('transit-loading');
-        if (btn) btn.style.display = 'none';
         if (loading) loading.style.display = 'block';
 
         let lat = '{{ session.get("birth_info", {}).get("lat", "17.3850") }}';
@@ -8932,11 +8928,10 @@ body {
         let timezone = '{{ session.get("birth_info", {}).get("timezone_str", "Asia/Kolkata") }}';
         let place = '{{ session.get("birth_info", {}).get("place", "Hyderabad") }}';
 
-        sendTransitRequest(lat, lon, timezone, place);
+        sendTransitRequest(lat, lon, timezone, place, callbackOnSuccess);
       }
 
-      function sendTransitRequest(lat, lon, timezone, place) {
-        const btn = document.getElementById('transit-btn');
+      function sendTransitRequest(lat, lon, timezone, place, callbackOnSuccess) {
         const loading = document.getElementById('transit-loading');
         const container = document.getElementById('transit-container');
 
@@ -8967,14 +8962,24 @@ body {
 
           const toggleBar = document.getElementById('transit-toggle-bar');
           if (toggleBar) toggleBar.style.display = 'block';
-          if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // Update transit-btn label & icon
+          const btnText = document.getElementById('transit-btn-text');
+          const btnIcon = document.getElementById('transit-btn-icon');
+          if (btnText) btnText.textContent = '{{ _("ఈ రోజు కుండలి దాచు") }}';
+          if (btnIcon) btnIcon.className = 'fas fa-eye-slash';
+
+          if (typeof callbackOnSuccess === 'function') {
+            callbackOnSuccess();
+          } else {
+            if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         })
         .catch(error => {
           console.error('Error fetching transit chart:', error);
           if (loading) loading.style.display = 'none';
           const globalOverlay = document.getElementById('loading-overlay');
           if (globalOverlay) globalOverlay.style.display = 'none';
-          if (btn) btn.style.display = 'inline-flex';
           alert('గ్రహ స్థితిని తీసుకురావడంలో లోపం ఏర్పడింది.');
         });
       }
@@ -9275,74 +9280,104 @@ body {
 
 
 
-      // ===== TRANSIT TOGGLE =====
+      // ===== TRANSIT & BHAVAS TOGGLES =====
 
-
+      function handleTransitBtnClick() {
+        const container = document.getElementById('transit-container');
+        if (!container || !container.classList.contains('loaded')) {
+          fetchTransitChart();
+        } else {
+          toggleTransitChart();
+        }
+      }
 
       function toggleTransitChart() {
-
-
-
         const container = document.getElementById('transit-container');
-
-
-
         const icon = document.getElementById('transit-toggle-icon');
-
-
-
         const text = document.getElementById('transit-toggle-text');
+        const btnText = document.getElementById('transit-btn-text');
+        const btnIcon = document.getElementById('transit-btn-icon');
 
-
-
+        if (!container) return;
         const isHidden = container.style.display === 'none';
 
-
-
         if (isHidden) {
-
-
-
           container.style.display = 'block';
-
-
-
           document.body.classList.add('transit-loaded');
-
-
-
-          icon.className = 'fas fa-eye-slash';
-
-
-
-          text.textContent = '{{ _('ఈ రోజు కుండలి దాచు') }}';
-
-
-
+          if (icon) icon.className = 'fas fa-eye-slash';
+          if (text) text.textContent = '{{ _("ఈ రోజు కుండలి దాచు") }}';
+          if (btnIcon) btnIcon.className = 'fas fa-eye-slash';
+          if (btnText) btnText.textContent = '{{ _("ఈ రోజు కుండలి దాచు") }}';
+          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-
-
-
           container.style.display = 'none';
-
-
-
           document.body.classList.remove('transit-loaded');
+          if (icon) icon.className = 'fas fa-eye';
+          if (text) text.textContent = '{{ _("ఈ రోజు కుండలి చూపు") }}';
+          if (btnIcon) btnIcon.className = 'fas fa-satellite';
+          if (btnText) btnText.textContent = '{{ _("ఈ రోజు గ్రహ స్థితి") }}';
+        }
+      }
 
+      function toggleBhavasAnalysis() {
+        const section = document.getElementById('bhavas-analysis-section');
+        const text = document.getElementById('bhavas-toggle-text');
+        const icon = document.getElementById('bhavas-toggle-icon');
+        const btn = document.getElementById('bhavas-toggle-btn');
+        if (!section) return;
 
+        const isHidden = section.style.display === 'none' || window.getComputedStyle(section).display === 'none';
+        if (isHidden) {
+          section.style.display = 'block';
+          if (text) text.textContent = '{{ _("1వ భావం నుండి 12వ భావాల వివరాలు దాచు") }}';
+          if (icon) icon.className = 'fas fa-eye-slash';
+          if (btn) btn.classList.add('btn-active');
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          section.style.display = 'none';
+          if (text) text.textContent = '{{ _("1వ భావం నుండి 12వ భావాల వివరాలు") }}';
+          if (icon) icon.className = 'fas fa-list-ol';
+          if (btn) btn.classList.remove('btn-active');
+        }
+      }
 
-          icon.className = 'fas fa-eye';
+      function toggleTodayBhavas() {
+        const container = document.getElementById('transit-container');
 
+        function doToggleTodayBhavas() {
+          const section = document.getElementById('today-bhavas-section');
+          const text = document.getElementById('today-bhavas-toggle-text');
+          const icon = document.getElementById('today-bhavas-toggle-icon');
+          const btn = document.getElementById('today-bhavas-toggle-btn');
+          if (!section) return;
 
-
-          text.textContent = '{{ _("ఈ రోజు కుండలి చూపు") }}';
-
-
-
+          const isHidden = section.style.display === 'none' || window.getComputedStyle(section).display === 'none';
+          if (isHidden) {
+            if (container) container.style.display = 'block';
+            document.body.classList.add('transit-loaded');
+            section.style.display = 'block';
+            if (text) text.textContent = '{{ _("ఈ రోజు 1వ భావం నుండి 12వ భావాల వివరాలు దాచు") }}';
+            if (icon) icon.className = 'fas fa-eye-slash';
+            if (btn) btn.classList.add('btn-active');
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            section.style.display = 'none';
+            if (text) text.textContent = '{{ _("ఈ రోజు 1వ భావం నుండి 12వ భావాల గ్రహ స్థితులు") }}';
+            if (icon) icon.className = 'fas fa-meteor';
+            if (btn) btn.classList.remove('btn-active');
+          }
         }
 
-
-
+        const todaySection = document.getElementById('today-bhavas-section');
+        if (!container || !container.classList.contains('loaded') || !todaySection) {
+          const loadingText = document.getElementById('transit-loading-text');
+          if (loadingText) loadingText.textContent = '{{ _("ఈ రోజు గ్రహ స్థితులు లోడ్ అవుతున్నాయి...") }}';
+          fetchTransitChart(function() {
+            doToggleTodayBhavas();
+          });
+        } else {
+          doToggleTodayBhavas();
+        }
       }
 
 

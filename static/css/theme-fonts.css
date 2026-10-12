@@ -1085,6 +1085,14 @@ button[data-theme-btn="cosmic"] {
   .expand-all-btn,
   .print-hide,
   .no-print,
+  .bhavas-section-wrapper,
+  #bhavas-analysis-section,
+  .today-bhavas-wrapper,
+  #today-bhavas-section,
+  .transit-comparison-wrapper,
+  .kundali-action-buttons-bar,
+  #bhavas-toggle-btn,
+  #today-bhavas-toggle-btn,
   .action-btn-pill,
   .top-btn,
   .top-nav,
@@ -1169,45 +1177,45 @@ body.mobile-pdf-rendering #loading-overlay {
 
 /* ==========================================================================
    KUNDALI BOX KARMA BORDERS (PUNYAM, PAPAM, MIXED)
-   - Only Papam: Completely Red outer border (all 4 lines)
-   - Punyam: Completely Green outer border (all 4 lines)
-   - Papam + Punyam: Two lines Red and two lines Green
+   - Only Papam: Completely Dark Red outer border (4.5px thick, #990000)
+   - Punyam: Completely Dark Green outer border (4.5px thick, #006400)
+   - Papam + Punyam: Two lines Dark Green and two lines Dark Red (4.5px thick)
    ========================================================================== */
 .house-green,
 .box.house-green,
 .nak-box.house-green {
-  border: 2.5px solid #10b981 !important;
+  border: 4.5px solid #006400 !important;
 }
 
 .house-red,
 .box.house-red,
 .nak-box.house-red {
-  border: 2.5px solid #ef4444 !important;
+  border: 4.5px solid #990000 !important;
 }
 
 .house-mixed,
 .box.house-mixed,
 .nak-box.house-mixed {
-  border-top: 2.5px solid #10b981 !important;
-  border-left: 2.5px solid #10b981 !important;
-  border-right: 2.5px solid #ef4444 !important;
-  border-bottom: 2.5px solid #ef4444 !important;
+  border-top: 4.5px solid #006400 !important;
+  border-left: 4.5px solid #006400 !important;
+  border-right: 4.5px solid #990000 !important;
+  border-bottom: 4.5px solid #990000 !important;
 }
 
 /* ==========================================================================
-   LAGNAM BOX HIGHLIGHT: THICK YELLOW BORDER & GREEN INNER LINE
+   LAGNAM BOX HIGHLIGHT: THICK YELLOW BORDER & DARK GREEN INNER LINE
    - Easily identifiable across all Kundali charts
-   - 4.5px thick yellow border blinking slowly with golden glow
-   - 2.5px green inner line representing Punyam
+   - 5px thick yellow border blinking slowly with golden glow
+   - 3px dark green inner line representing Punyam
    ========================================================================== */
 @keyframes lagna-border-blink {
   0%, 100% {
     border-color: #ffd700 !important;
-    box-shadow: inset 0 0 0 2.5px #10b981, 0 0 28px rgba(255, 215, 0, 0.95), 0 0 12px rgba(234, 179, 8, 0.8) !important;
+    box-shadow: inset 0 0 0 3px #006400, 0 0 30px rgba(255, 215, 0, 0.95), 0 0 14px rgba(234, 179, 8, 0.8) !important;
   }
   50% {
     border-color: rgba(255, 215, 0, 0.3) !important;
-    box-shadow: inset 0 0 0 2.5px #10b981, 0 0 5px rgba(255, 215, 0, 0.2) !important;
+    box-shadow: inset 0 0 0 3px #006400, 0 0 6px rgba(255, 215, 0, 0.2) !important;
   }
 }
 
@@ -1216,8 +1224,8 @@ body.mobile-pdf-rendering #loading-overlay {
 .lagna-box,
 .nak-box.lagna-box {
   background: rgba(234, 179, 8, 0.12) !important;
-  border: 4.5px solid #ffd700 !important;
-  box-shadow: inset 0 0 0 2.5px #10b981 !important;
+  border: 5px solid #ffd700 !important;
+  box-shadow: inset 0 0 0 3px #006400 !important;
   animation: lagna-border-blink 2.4s ease-in-out infinite !important;
   position: relative !important;
   z-index: 2 !important;
