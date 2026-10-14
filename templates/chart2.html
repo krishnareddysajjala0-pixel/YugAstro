@@ -3826,14 +3826,25 @@
 
 
 
-        @media print {
-
-
+                @media print {
 
             @page {
             size: A4 portrait;
             margin: 4mm 5mm !important;
         }
+
+            /* Theme variable overrides - force transparent backgrounds in print */
+            :root, [data-theme], body, html {
+                --anukulam-card-bg: transparent !important;
+                --pratikulam-card-bg: transparent !important;
+                --anukulam-anthara-bg: transparent !important;
+                --pratikulam-anthara-bg: transparent !important;
+                --anthara-container-bg: transparent !important;
+                --anthara-table-bg: transparent !important;
+                --anthara-th-bg: transparent !important;
+                --anukulam-badge-bg: transparent !important;
+                --pratikulam-badge-bg: transparent !important;
+            }
 
 
 
@@ -4118,11 +4129,11 @@
 
 
 
-            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 17.4pt !important; }
+            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 16.5pt !important; }
 
 
 
-            .person-name { font-size: 19.6pt !important; font-weight: bold !important; color: #000080 !important; }
+            .person-name { font-size: 18.6pt !important; font-weight: bold !important; color: #000080 !important; }
 
 
 
@@ -4262,15 +4273,15 @@
 
 
 
-            .nakshatra-name { font-size: 14.6pt !important; }
+            .nakshatra-name { font-size: 13.9pt !important; }
 
 
 
-            .time-label { color: #555 !important; font-size: 12.3pt !important; }
+            .time-label { color: #555 !important; font-size: 11.7pt !important; }
 
 
 
-            .time-value { color: #b22222 !important; font-weight: bold !important; font-size: 14.6pt !important; }
+            .time-value { color: #b22222 !important; font-weight: bold !important; font-size: 13.9pt !important; }
 
 
 
@@ -4326,7 +4337,7 @@
 
 
 
-            .current-dasa-title { color: #d2691e !important; font-size: 18pt !important; }
+            .current-dasa-title { color: #d2691e !important; font-size: 17.1pt !important; }
 
 
 
@@ -4358,7 +4369,7 @@
             }
 
             .print-summary-section table {
-                font-size: 13.8pt !important;
+                font-size: 13.1pt !important;
                 width: auto !important;
                 margin: 0 auto !important;
                 border-collapse: collapse !important;
@@ -4368,13 +4379,13 @@
                 border: 1px solid #333 !important;
                 padding: 2.5px 8px !important;
                 color: #000 !important;
-                font-size: 13.8pt !important;
+                font-size: 13.1pt !important;
                 line-height: 1.2 !important;
                 white-space: nowrap !important;
             }
 
             .print-summary-section div[style*="font-size: 20px"] {
-                font-size: 12.3pt !important;
+                font-size: 11.7pt !important;
                 margin-bottom: 8px !important;
             }
 
@@ -4422,8 +4433,24 @@
                 break-after: page !important;
             }
 
+            .maha-dasa-card,
+            .maha-dasa-card.maha-anukulam,
+            .maha-dasa-card.maha-pratikulam,
+            .maha-dasa-card.current,
+            .maha-dasa-card.birth,
+            [data-theme] .maha-dasa-card,
+            [data-theme] .maha-dasa-card.maha-anukulam,
+            [data-theme] .maha-dasa-card.maha-pratikulam {
+                background: transparent !important;
+                background-color: transparent !important;
+                background-image: none !important;
+            }
+
             .maha-dasa-card.maha-anukulam {
                 border-color: #006400 !important;
+                background: transparent !important;
+                background-color: transparent !important;
+                background-image: none !important;
             }
             .maha-dasa-card.maha-anukulam .maha-dasa-header,
             .maha-dasa-card.maha-anukulam .maha-dasa-header * {
@@ -4432,9 +4459,18 @@
             .maha-dasa-card.maha-anukulam .maha-dasa-right {
                 border-left-color: #006400 !important;
             }
+            .maha-dasa-card.maha-anukulam .maha-dasa-number {
+                background: transparent !important;
+                background-color: transparent !important;
+                color: #006400 !important;
+                border-color: #006400 !important;
+            }
 
             .maha-dasa-card.maha-pratikulam {
                 border-color: #990000 !important;
+                background: transparent !important;
+                background-color: transparent !important;
+                background-image: none !important;
             }
             .maha-dasa-card.maha-pratikulam .maha-dasa-header,
             .maha-dasa-card.maha-pratikulam .maha-dasa-header * {
@@ -4442,6 +4478,30 @@
             }
             .maha-dasa-card.maha-pratikulam .maha-dasa-right {
                 border-left-color: #990000 !important;
+            }
+            .maha-dasa-card.maha-pratikulam .maha-dasa-number {
+                background: transparent !important;
+                background-color: transparent !important;
+                color: #990000 !important;
+                border-color: #990000 !important;
+            }
+
+            .anthara-wrapper,
+            .anthara-container,
+            .anthara-table,
+            .anthara-table thead,
+            .anthara-table tbody,
+            .anthara-table tr,
+            .anthara-table th,
+            .anthara-table td,
+            .anthara-table tr.anthara-anukulam,
+            .anthara-table tr.anthara-pratikulam,
+            .anthara-table tr.current,
+            [data-theme] .anthara-table tr.anthara-anukulam,
+            [data-theme] .anthara-table tr.anthara-pratikulam {
+                background: transparent !important;
+                background-color: transparent !important;
+                background-image: none !important;
             }
 
             /* Mahadasa header row: Compact two parallel columns */
@@ -4460,9 +4520,9 @@
                 color: #000080 !important;
                 padding: 0 3px !important;
                 border-radius: 4px !important;
-                font-size: 12.3pt !important;
+                font-size: 11.7pt !important;
                 font-weight: bold !important;
-                min-width: 20px !important;
+                min-width: 19px !important;
                 text-align: center !important;
                 line-height: 1.0 !important;
             }
@@ -4494,7 +4554,7 @@
             }
 
             .maha-dasa-name {
-                font-size: 12.3pt !important;
+                font-size: 11.7pt !important;
                 font-weight: bold !important;
                 color: #000 !important;
                 margin-bottom: 0 !important;
@@ -4503,7 +4563,7 @@
             }
 
             .maha-dasa-period {
-                font-size: 10.6pt !important;
+                font-size: 10.1pt !important;
                 color: #555 !important;
                 font-weight: 600 !important;
                 line-height: 1.1 !important;
@@ -4514,13 +4574,13 @@
             .maha-dasa-period br { display: none !important; }
 
             .maha-age-text {
-                font-size: 10pt !important;
+                font-size: 9.5pt !important;
                 color: #666 !important;
                 margin-left: 2px !important;
             }
 
             .maha-dasa-sthanam {
-                font-size: 11.3pt !important;
+                font-size: 10.7pt !important;
                 color: #000 !important;
                 line-height: 1.1 !important;
                 white-space: nowrap !important;
@@ -4536,7 +4596,7 @@
             }
 
             .maha-dasa-chetulu {
-                font-size: 10.6pt !important;
+                font-size: 10.1pt !important;
                 color: #333 !important;
                 line-height: 1.1 !important;
                 white-space: nowrap !important;
@@ -4559,7 +4619,7 @@
             }
 
             .status-badge {
-                font-size: 10.1pt !important;
+                font-size: 9.6pt !important;
                 padding: 0 2px !important;
                 border-radius: 3px !important;
                 line-height: 1.0 !important;
@@ -4572,8 +4632,8 @@
 
             .text-favorable   { color: #006400 !important; }
             .text-unfavorable { color: #b22222 !important; }
-            .favorable   { color: #006400 !important; font-size: 11.3pt !important; }
-            .unfavorable { color: #b22222 !important; font-size: 11.3pt !important; }
+            .favorable   { color: #006400 !important; font-size: 10.7pt !important; }
+            .unfavorable { color: #b22222 !important; font-size: 10.7pt !important; }
 
             /* ── Anthara wrapper: compact drawer for print ── */
             .anthara-wrapper {
@@ -4598,7 +4658,7 @@
 
             .anthara-header-title,
             .anthara-container > div:first-child {
-                font-size: 10.1pt !important;
+                font-size: 9.6pt !important;
                 margin-bottom: 1px !important;
                 margin-top: 0 !important;
                 line-height: 1.05 !important;
@@ -4609,7 +4669,7 @@
             .anthara-table {
                 width: 100% !important;
                 border-collapse: collapse !important;
-                font-size: 10pt !important;
+                font-size: 9.5pt !important;
                 line-height: 1.05 !important;
                 background: transparent !important;
                 page-break-inside: avoid !important;
@@ -4621,7 +4681,7 @@
                 color: #000 !important;
                 border: 1px solid #999 !important;
                 padding: 0.5px 2px !important;
-                font-size: 10pt !important;
+                font-size: 9.5pt !important;
                 line-height: 1.05 !important;
                 text-align: left !important;
             }
@@ -4630,7 +4690,7 @@
                 color: #000 !important;
                 border: 1px solid #ccc !important;
                 padding: 0.5px 2px !important;
-                font-size: 9.75pt !important;
+                font-size: 9.25pt !important;
                 line-height: 1.05 !important;
                 vertical-align: middle !important;
             }
@@ -4689,14 +4749,14 @@
                 gap: 1px !important;
                 color: #8B0000 !important;
                 font-weight: bold !important;
-                font-size: 9.75pt !important;
+                font-size: 9.25pt !important;
                 line-height: 1.05 !important;
             }
 
             .table-icon {
-                width: 13.5px !important;
-                height: 13.5px !important;
-                font-size: 8.1pt !important;
+                width: 12.5px !important;
+                height: 12.5px !important;
+                font-size: 7.7pt !important;
                 border-radius: 50% !important;
                 border: 1px solid #555 !important;
                 background: transparent !important;
@@ -4708,7 +4768,7 @@
             /* Date cells in anthara table (Start and End dates) */
             .anthara-table td.date-cell {
                 color: #8B4513 !important;
-                font-size: 9.75pt !important;
+                font-size: 9.25pt !important;
                 font-weight: 600 !important;
                 white-space: nowrap !important;
                 line-height: 1.05 !important;
@@ -4717,14 +4777,14 @@
             /* Age cells in anthara table */
             .anthara-table td.age-cell {
                 color: #555 !important;
-                font-size: 9.75pt !important;
+                font-size: 9.25pt !important;
                 font-weight: normal !important;
                 white-space: nowrap !important;
                 line-height: 1.05 !important;
             }
 
             .anthara-name {
-                font-size: 9.75pt !important;
+                font-size: 9.25pt !important;
                 line-height: 1.05 !important;
             }
         }
