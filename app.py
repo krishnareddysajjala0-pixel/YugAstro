@@ -2298,6 +2298,8 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
                         "is_exact_nakshatra_pada": (tp.get("nakshatra") == bp.get("nakshatra") and tp.get("padam") == bp.get("padam"))
                     })
 
+        same_rashi_planet_matches.sort(key=lambda x: (not x.get("is_both_direct", False)))
+
         # 3. Side-by-Side 12 Bhavas Comparison (aligned to Birth Chart Bhavas)
         birth_start_idx = LAGNA_NAMES_TELUGU.index(birth_lagna) if birth_lagna in LAGNA_NAMES_TELUGU else 0
         for h_no in range(1, 13):
