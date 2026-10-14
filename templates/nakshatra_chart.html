@@ -894,47 +894,85 @@
 
 
     /* Nakshatras & Padas inner grid */
+    .nak-box-body {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Left Half: Nakshatra and Pada Table */
+    .nak-box-left-half {
+      flex: 0 0 53%;
+      width: 53%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1.5px solid var(--box-border);
+    }
+
+    [data-theme="cosmic"] .nak-box-left-half {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Right Half: Dasa Information Panel */
+    .nak-box-right-half {
+      flex: 0 0 47%;
+      width: 47%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+      padding: 2px 3px;
+      box-sizing: border-box;
+    }
+
+    [data-theme="cosmic"] .nak-box-right-half {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .rashi-time-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-main);
+      opacity: 0.92;
+      margin-left: 2px;
+      white-space: nowrap;
+    }
 
     .nak-padas-container {
-
       display: flex;
-
       flex-direction: column;
-
       flex: 1;
-
+      height: 100%;
+      min-height: 0;
     }
-
-
 
     .nak-group-row {
-
       display: flex;
-
       border-bottom: 1px solid var(--card-border);
-
       flex: 1;
-
+      min-height: 0;
     }
-
-
 
     .nak-group-row:last-child {
-
       border-bottom: none;
-
     }
 
-
-
+    /* Column 1: Nakshatra Name */
     .nak-name-cell {
-      flex: 0 0 auto;
-      width: 14%;
-      min-width: 22px;
-      max-width: 32px;
-      padding: 1px 2px;
+      flex: 0 0 20px;
+      width: 20px;
+      min-width: 18px;
+      max-width: 24px;
+      padding: 1px 1px;
       background: rgba(0, 0, 0, 0.05);
-      border-right: 1px solid var(--card-border);
+      border-right: 1.5px solid var(--box-border);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -942,11 +980,15 @@
       box-sizing: border-box;
     }
 
+    [data-theme="cosmic"] .nak-name-cell {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
     .nak-name-text {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
       color: var(--nak-title-color);
-      line-height: 1.1;
+      line-height: 1.05;
       letter-spacing: -0.3px;
       word-break: break-all;
       overflow-wrap: anywhere;
@@ -954,108 +996,204 @@
 
     .padas-list-cell {
       flex: 1 1 auto;
-      width: calc(100% - 32px);
+      width: calc(100% - 20px);
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      padding: 1px 3px;
+      padding: 0 2px;
       background: transparent;
       overflow: hidden;
       box-sizing: border-box;
     }
 
-
-
     .pada-row {
-
       display: flex;
-
-      align-items: flex-start;
-
-      gap: 3px;
-
-      font-size: 11.5px;
-
-      line-height: 1.35;
-
-      padding: 1.5px 0;
-
+      align-items: center;
+      gap: 2px;
+      font-size: 10px;
+      line-height: 1.25;
+      padding: 0.5px 0;
+      min-height: 16px;
     }
 
+    /* Column 2: Pada Letter & Number */
+    .pada-label-col {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1.5px;
+      flex: 0 0 34px;
+      min-width: 32px;
+      max-width: 38px;
+      padding-right: 2px;
+      margin-right: 2px;
+      border-right: 1.5px solid var(--box-border);
+      box-sizing: border-box;
+      white-space: nowrap;
+    }
 
+    [data-theme="cosmic"] .pada-label-col {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .pada-letter {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
 
     .pada-num {
-
-      font-weight: 700;
-
+      font-weight: 800;
       color: var(--pada-num-color);
-
-      width: 15px;
-
-      height: 15px;
-
-      min-width: 15px;
-
+      width: 12px;
+      height: 12px;
+      min-width: 12px;
       display: inline-flex;
-
       align-items: center;
-
       justify-content: center;
-
       text-align: center;
-
       line-height: 1;
-
-      font-size: 10px;
-
+      font-size: 9px;
       border-radius: 50%;
-
       border: 1.5px solid transparent;
-
       box-sizing: border-box;
-
       flex-shrink: 0;
-
-      margin-top: 1px;
-
     }
 
-
+    .pada-row.has-occupant .pada-letter {
+      color: var(--pada-active-color);
+      font-weight: 900;
+    }
 
     .pada-row.has-occupant .pada-num {
-
       color: var(--pada-active-color);
-
       border-color: var(--pada-active-color);
-
       font-weight: 900;
-
       background: rgba(125, 125, 125, 0.12);
-
     }
-
-
 
     .pada-arrow {
-
       display: none !important;
-
     }
 
-
-
+    /* Column 3: Occupants (Planets & Lagna) */
     .occupants-wrap {
-
       display: flex;
-
       flex-wrap: wrap;
-
       align-items: center;
+      gap: 1.5px 3px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
 
-      gap: 3px 5px;
+    .occupant-pill {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 0.5px 2px;
+      border-radius: 3px;
+      white-space: nowrap;
+      line-height: 1.1;
+    }
 
-      flex: 1;
+    .planet-deg-suffix {
+      font-size: 8px;
+      opacity: 0.85;
+      margin-left: 1px;
+      font-weight: 700;
+    }
 
+    /* Dasa Information Panel (Right Half) */
+    .dasa-info-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .dasa-info-panel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dasa-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2px;
+      padding: 0 1px 2px 1px;
+      border-bottom: 1px dashed var(--box-border);
+      margin-bottom: 2px;
+      flex-shrink: 0;
+    }
+
+    [data-theme="cosmic"] .dasa-panel-header {
+      border-bottom-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .dasa-panel-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #b45309;
+      line-height: 1.1;
+      letter-spacing: -0.2px;
+    }
+
+    [data-theme="cosmic"] .dasa-panel-title {
+      color: #fbbf24;
+    }
+
+    .dasa-panel-years {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--text-main);
+      background: rgba(180, 83, 9, 0.12);
+      padding: 0.5px 3px;
+      border-radius: 3px;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    [data-theme="cosmic"] .dasa-panel-years {
+      background: rgba(251, 191, 36, 0.18);
+      color: #fbbf24;
+    }
+
+    .dasa-panel-antharas {
+      font-size: 8.5px;
+      line-height: 1.35;
+      color: var(--text-muted, #334155);
+      font-weight: 600;
+      word-break: break-word;
+      white-space: normal;
+      overflow: hidden;
+      padding: 1px 0;
+    }
+
+    [data-theme="cosmic"] .dasa-panel-antharas {
+      color: #c7d2fe;
+    }
+
+    .ant-item {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .ant-p {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .ant-d {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .ant-comma {
+      color: var(--text-muted);
+      opacity: 0.7;
+      margin-right: 2px;
     }
 
 
@@ -1291,21 +1429,30 @@
     @media (max-width: 600px) {
 
       .nak-box {
-
         min-height: 145px;
+      }
 
+      .nak-box-left-half {
+        flex: 0 0 53% !important;
+        width: 53% !important;
+      }
+
+      .nak-box-right-half {
+        flex: 0 0 47% !important;
+        width: 47% !important;
+        padding: 1px 2px !important;
       }
 
       .nak-name-cell {
-        flex: 0 0 auto !important;
-        width: 14% !important;
-        min-width: 18px !important;
-        max-width: 24px !important;
-        padding: 1px !important;
+        flex: 0 0 16px !important;
+        width: 16px !important;
+        min-width: 15px !important;
+        max-width: 18px !important;
+        padding: 0.5px !important;
       }
 
       .nak-name-text {
-        font-size: 8.5px !important;
+        font-size: 7.5px !important;
         line-height: 1.05 !important;
         letter-spacing: -0.3px !important;
         word-break: break-all !important;
@@ -1313,72 +1460,82 @@
 
       .padas-list-cell {
         flex: 1 1 auto !important;
-        width: calc(100% - 24px) !important;
-        padding: 1px 2px !important;
+        width: calc(100% - 16px) !important;
+        padding: 0 1px !important;
       }
 
       .pada-row {
+        font-size: 8px !important;
+        gap: 1px !important;
+        min-height: 13.5px !important;
+      }
 
-        font-size: 9px;
+      .pada-label-col {
+        flex: 0 0 27px !important;
+        min-width: 25px !important;
+        max-width: 29px !important;
+        padding-right: 1px !important;
+        margin-right: 1px !important;
+      }
 
-        gap: 2.5px;
-
+      .pada-letter {
+        font-size: 7.5px !important;
       }
 
       .pada-num {
-
-        width: 13px !important;
-
-        height: 13px !important;
-
-        min-width: 13px !important;
-
-        font-size: 8px !important;
-
-        border-width: 1.2px !important;
-
-        margin-top: 1px !important;
-
+        width: 10px !important;
+        height: 10px !important;
+        min-width: 10px !important;
+        font-size: 7px !important;
+        border-width: 1px !important;
       }
 
       .occupant-pill {
+        font-size: 7.5px !important;
+        padding: 0 1px !important;
+      }
 
-        font-size: 9.5px;
+      .planet-deg-suffix {
+        font-size: 6.5px !important;
+      }
 
+      .rashi-time-badge {
+        font-size: 8px !important;
+      }
+
+      .dasa-panel-title {
+        font-size: 8.5px !important;
+      }
+
+      .dasa-panel-years {
+        font-size: 7px !important;
+        padding: 0.5px 2px !important;
+      }
+
+      .dasa-panel-antharas {
+        font-size: 6.5px !important;
+        line-height: 1.15 !important;
       }
 
       .nak-box-header {
-
-        padding: 3px 4px !important;
-
+        padding: 2px 3px !important;
         white-space: nowrap !important;
-
       }
 
       .house-badge {
-
-        font-size: 9.5px !important;
-
-        padding: 1px 3px !important;
-
+        font-size: 8.5px !important;
+        padding: 1px 2.5px !important;
       }
 
       .rashi-title-text {
-
-        font-size: 10px !important;
-
-        margin: 0 2px !important;
-
+        font-size: 9px !important;
+        margin: 0 1px !important;
       }
 
       .karma-badge-small {
-
-        font-size: 8.5px !important;
-
-        padding: 1px 3px !important;
-
+        font-size: 7.5px !important;
+        padding: 1px 2.5px !important;
         white-space: nowrap !important;
-
       }
 
     }
@@ -1581,123 +1738,138 @@
         color: #09090b !important;
 
         font-weight: 900 !important;
+      }
 
+      .rashi-time-badge {
+        color: #000000 !important;
+        font-weight: 800 !important;
+        font-size: 8.5pt !important;
+      }
+
+      .nak-box-body {
+        display: flex !important;
+        flex-direction: row !important;
+      }
+
+      .nak-box-left-half {
+        flex: 0 0 53% !important;
+        width: 53% !important;
+        border-right: 1.5px solid #333 !important;
+      }
+
+      .nak-box-right-half {
+        flex: 0 0 47% !important;
+        width: 47% !important;
+        background: transparent !important;
+        padding: 1px 2px !important;
       }
 
       .nak-name-cell {
-
-        flex: 0 0 auto !important;
-
-        width: 14% !important;
-
-        min-width: 20px !important;
-
-        max-width: 28px !important;
-
-        border-right: 1px solid #333 !important;
-
+        flex: 0 0 18px !important;
+        width: 18px !important;
+        min-width: 16px !important;
+        max-width: 22px !important;
+        border-right: 1.5px solid #333 !important;
         background: #f8fafc !important;
-
-        padding: 1px 1px !important;
-
+        padding: 1px 0.5px !important;
       }
 
       .nak-name-text {
-
         color: #713f12 !important; /* Dark amber/brown in print for clear reading */
-
         font-weight: 800 !important;
-
-        font-size: 8.5px !important;
-
+        font-size: 7.5pt !important;
         line-height: 1.05 !important;
-
         letter-spacing: -0.3px !important;
-
         word-break: break-all !important;
-
       }
 
       .padas-list-cell {
-
         flex: 1 1 auto !important;
-
-        width: calc(100% - 28px) !important;
-
-        padding: 1px 2px !important;
-
+        width: calc(100% - 18px) !important;
+        padding: 0 1px !important;
       }
 
       .nak-group-row {
-
         border-bottom: 1px solid #ccc !important;
-
       }
 
       .pada-row {
-
-        align-items: flex-start !important;
-
-        font-size: 10.5px !important;
-
-        gap: 2px !important;
-
+        align-items: center !important;
+        font-size: 8pt !important;
+        gap: 1.5px !important;
         padding: 0.5px 0 !important;
-
         line-height: 1.25 !important;
+      }
 
+      .pada-label-col {
+        flex: 0 0 30px !important;
+        min-width: 28px !important;
+        max-width: 32px !important;
+        padding-right: 1.5px !important;
+        margin-right: 1.5px !important;
+        border-right: 1.5px solid #333 !important;
+      }
+
+      .pada-letter {
+        font-size: 7.5pt !important;
+        color: #000 !important;
       }
 
       .pada-num {
-
-        width: 14px !important;
-
-        height: 14px !important;
-
-        min-width: 14px !important;
-
-        font-size: 9px !important;
-
+        width: 12px !important;
+        height: 12px !important;
+        min-width: 12px !important;
+        font-size: 7pt !important;
         line-height: 1 !important;
-
         border-radius: 50% !important;
-
-        border: 1.2px solid transparent !important;
-
+        border: 1px solid transparent !important;
         display: inline-flex !important;
-
         align-items: center !important;
-
         justify-content: center !important;
-
-        color: #475569 !important;
-
+        color: #334155 !important;
         font-weight: 800 !important;
-
         box-sizing: border-box !important;
+      }
 
-        flex-shrink: 0 !important;
-
-        margin-top: 1px !important;
-
+      .pada-row.has-occupant .pada-letter {
+        color: #0284c7 !important;
+        font-weight: 900 !important;
       }
 
       .pada-row.has-occupant .pada-num {
-
         color: #0284c7 !important;
-
         border-color: #0284c7 !important;
-
         font-weight: 900 !important;
-
         background: #e0f2fe !important;
+      }
 
+      .dasa-panel-title {
+        color: #713f12 !important;
+        font-size: 8pt !important;
+      }
+
+      .dasa-panel-years {
+        color: #000 !important;
+        font-size: 7pt !important;
+        background: #f1f5f9 !important;
+      }
+
+      .dasa-panel-antharas {
+        color: #1e293b !important;
+        font-size: 6.8pt !important;
+        line-height: 1.25 !important;
+      }
+
+      .ant-p {
+        color: #000 !important;
+      }
+
+      .ant-d {
+        color: #334155 !important;
       }
 
       .pada-arrow {
-
         display: none !important;
-
       }
 
       .occupants-wrap {
@@ -2629,76 +2801,68 @@ body {
   <!-- Macro for Nakshatra Box -->
 
   {% macro render_nak_box(rashi_name) %}
-
   {% set b = nakshatra_boxes[rashi_name] %}
-
   <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}">
-
     <div class="nak-box-header">
-
       <span class="house-badge">{{ b.house_no }}</span>
-
-      <span class="rashi-title-text">{{ _(b.rashi_name) }}</span>
-
+      <span class="rashi-title-text">{{ _(b.rashi_name) }}{% if b.rashi_time %} <span class="rashi-time-badge">⏱️ {{ b.rashi_time }}</span>{% endif %}</span>
       <span class="karma-badge-small" title="{% if b.karma_label == 'పు+పా' %}{{ _('పుణ్యం + పాపం') }}{% else %}{{ _(b.karma_label) }}{% endif %}">{{ _(b.karma_label) }}</span>
-
     </div>
 
-
-
-    <div class="nak-padas-container">
-
-      {% for nak in b.nakshatras %}
-
-      <div class="nak-group-row">
-
-        <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
-
-          <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
-
-        </div>
-
-        <div class="padas-list-cell">
-
-          {% for p in nak.padas %}
-
-          <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
-
-            <span class="pada-num">{{ p.rashi_pada }}</span>
-
-            {% if p.occupants %}
-
-              <span class="occupants-wrap">
-
-                {% for occ in p.occupants %}
-                  {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
-                  {% if occ.is_lagna %}
-                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
-                  {% elif occ.is_hand %}
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
-                  {% else %}
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+    <div class="nak-box-body">
+      <!-- Left Half: Nakshatras & Padas (1-4) -->
+      <div class="nak-box-left-half">
+        <div class="nak-padas-container">
+          {% for nak in b.nakshatras %}
+          <div class="nak-group-row">
+            <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
+              <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
+            </div>
+            <div class="padas-list-cell">
+              {% for p in nak.padas %}
+              <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
+                <div class="pada-label-col">
+                  {% if p.pada_letter %}<span class="pada-letter">{{ p.pada_letter }}</span>{% endif %}
+                  <span class="pada-num">{{ p.nak_pada_num }}</span>
+                </div>
+                <div class="occupants-wrap">
+                  {% if p.occupants %}
+                    {% for occ in p.occupants %}
+                      {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
+                      {% if occ.is_lagna %}
+                        <span class="occupant-pill lagna-occupant">🚩 {{ _(occ.short_name or "లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                      {% elif occ.is_hand %}
+                        <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                      {% else %}
+                        <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                      {% endif %}
+                    {% endfor %}
                   {% endif %}
-                {% endfor %}
-
-              </span>
-
-            {% endif %}
-
+                </div>
+              </div>
+              {% endfor %}
+            </div>
           </div>
-
           {% endfor %}
-
         </div>
-
       </div>
 
-      {% endfor %}
-
+      <!-- Right Half: Dasa Information Panel -->
+      <div class="nak-box-right-half">
+        <div class="dasa-info-panel">
+          <div class="dasa-panel-header">
+            <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
+            <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
+          </div>
+          <div class="dasa-panel-antharas">
+            {% for ant in b.dasa_info.antharas %}
+              <span class="ant-item"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
-
   {% endmacro %}
 
 

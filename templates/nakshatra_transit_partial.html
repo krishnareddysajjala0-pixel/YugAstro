@@ -23,76 +23,68 @@
   <!-- Macro for Transit Nakshatra Box -->
 
   {% macro render_transit_nak_box(rashi_name) %}
-
   {% set b = nakshatra_boxes[rashi_name] %}
-
   <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}" style="background: rgba(255, 255, 255, 0.02);">
-
     <div class="nak-box-header">
-
       <span class="house-badge">{{ b.house_no }}</span>
-
-      <span class="rashi-title-text">{{ _(b.rashi_name) }}</span>
-
+      <span class="rashi-title-text">{{ _(b.rashi_name) }}{% if b.rashi_time %} <span class="rashi-time-badge">⏱️ {{ b.rashi_time }}</span>{% endif %}</span>
       <span class="karma-badge-small">{{ _(b.karma_label) }}</span>
-
     </div>
 
-
-
-    <div class="nak-padas-container">
-
-      {% for nak in b.nakshatras %}
-
-      <div class="nak-group-row">
-
-        <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
-
-          <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
-
-        </div>
-
-        <div class="padas-list-cell">
-
-          {% for p in nak.padas %}
-
-          <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
-
-            <span class="pada-num">{{ p.rashi_pada }}</span>
-
-            {% if p.occupants %}
-
-              <span class="occupants-wrap">
-
-                {% for occ in p.occupants %}
-                  {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
-                  {% if occ.is_lagna %}
-                    <span class="occupant-pill lagna-occupant">🚩 గోచార లగ్నం{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
-                  {% elif occ.is_hand %}
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
-                  {% else %}
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
+    <div class="nak-box-body">
+      <!-- Left Half: Nakshatras & Padas (1-4) -->
+      <div class="nak-box-left-half">
+        <div class="nak-padas-container">
+          {% for nak in b.nakshatras %}
+          <div class="nak-group-row">
+            <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
+              <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
+            </div>
+            <div class="padas-list-cell">
+              {% for p in nak.padas %}
+              <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
+                <div class="pada-label-col">
+                  {% if p.pada_letter %}<span class="pada-letter">{{ p.pada_letter }}</span>{% endif %}
+                  <span class="pada-num">{{ p.nak_pada_num }}</span>
+                </div>
+                <div class="occupants-wrap">
+                  {% if p.occupants %}
+                    {% for occ in p.occupants %}
+                      {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
+                      {% if occ.is_lagna %}
+                        <span class="occupant-pill lagna-occupant">🚩 {{ _(occ.short_name or "లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
+                      {% elif occ.is_hand %}
+                        <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
+                      {% else %}
+                        <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix" style="font-size: 8.5px; opacity: 0.88; margin-left: 1.5px; font-weight: normal;">{{ deg_display }}</span>{% endif %}</span>
+                      {% endif %}
+                    {% endfor %}
                   {% endif %}
-                {% endfor %}
-
-              </span>
-
-            {% endif %}
-
+                </div>
+              </div>
+              {% endfor %}
+            </div>
           </div>
-
           {% endfor %}
-
         </div>
-
       </div>
 
-      {% endfor %}
-
+      <!-- Right Half: Dasa Information Panel -->
+      <div class="nak-box-right-half">
+        <div class="dasa-info-panel">
+          <div class="dasa-panel-header">
+            <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
+            <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
+          </div>
+          <div class="dasa-panel-antharas">
+            {% for ant in b.dasa_info.antharas %}
+              <span class="ant-item"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
-
   {% endmacro %}
 
 
