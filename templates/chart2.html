@@ -2632,6 +2632,21 @@
             --pratikulam-card-border: #fca5a5;
             --pratikulam-card-text: #dc2626;
             --pratikulam-badge-bg: linear-gradient(135deg, #b91c1c, #ef4444);
+
+            --anukulam-anthara-bg: #f0fdf4;
+            --anukulam-anthara-border: #bbf7d0;
+            --anukulam-anthara-text: #15803d;
+
+            --pratikulam-anthara-bg: #fef2f2;
+            --pratikulam-anthara-border: #fecaca;
+            --pratikulam-anthara-text: #dc2626;
+
+            --anthara-container-bg: rgba(255, 255, 255, 0.7);
+            --anthara-container-border: rgba(0, 0, 0, 0.08);
+            --anthara-table-bg: #ffffff;
+            --anthara-th-bg: #f1f5f9;
+            --anthara-th-text: #334155;
+            --anthara-th-border: #cbd5e1;
         }
 
         [data-theme="solar"] {
@@ -2644,6 +2659,21 @@
             --pratikulam-card-border: #fca5a5;
             --pratikulam-card-text: #dc2626;
             --pratikulam-badge-bg: linear-gradient(135deg, #b91c1c, #ef4444);
+
+            --anukulam-anthara-bg: #f0fdf4;
+            --anukulam-anthara-border: #bbf7d0;
+            --anukulam-anthara-text: #15803d;
+
+            --pratikulam-anthara-bg: #fef2f2;
+            --pratikulam-anthara-border: #fecaca;
+            --pratikulam-anthara-text: #dc2626;
+
+            --anthara-container-bg: rgba(255, 255, 255, 0.7);
+            --anthara-container-border: rgba(0, 0, 0, 0.08);
+            --anthara-table-bg: #ffffff;
+            --anthara-th-bg: #fef3c7;
+            --anthara-th-text: #78350f;
+            --anthara-th-border: #fde68a;
         }
 
         /* Dark Theme Palettes (Cosmic, Cyberpunk, Luxury, Sunset, Mandala, Twilight, Aurora) */
@@ -2663,6 +2693,21 @@
             --pratikulam-card-border: rgba(248, 113, 113, 0.55);
             --pratikulam-card-text: #f87171;
             --pratikulam-badge-bg: linear-gradient(135deg, #dc2626, #ef4444);
+
+            --anukulam-anthara-bg: rgba(6, 40, 25, 0.75);
+            --anukulam-anthara-border: rgba(34, 197, 94, 0.3);
+            --anukulam-anthara-text: #4ade80;
+
+            --pratikulam-anthara-bg: rgba(45, 12, 16, 0.75);
+            --pratikulam-anthara-border: rgba(248, 113, 113, 0.3);
+            --pratikulam-anthara-text: #f87171;
+
+            --anthara-container-bg: rgba(15, 23, 42, 0.6);
+            --anthara-container-border: rgba(255, 255, 255, 0.08);
+            --anthara-table-bg: rgba(15, 23, 42, 0.5);
+            --anthara-th-bg: rgba(30, 41, 59, 0.85);
+            --anthara-th-text: #cbd5e1;
+            --anthara-th-border: rgba(255, 255, 255, 0.1);
         }
 
         /* Anukulam Card Rules: EVERYTHING IS GREEN */
@@ -2918,137 +2963,94 @@
 
 
         .anthara-container {
-
-
-
-            background: rgba(30, 30, 50, 0.7);
-
-
-
+            background: var(--anthara-container-bg) !important;
             border-radius: 10px;
-
-
-
             padding: 15px;
-
-
-
             margin-top: 10px;
-
-
-
-            border: 1px solid rgba(255, 255, 255, 0.05);
-
-
-
+            border: 1px solid var(--anthara-container-border) !important;
         }
 
+        .anthara-header-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
 
+        .maha-dasa-card.maha-anukulam .anthara-header-title {
+            color: var(--anukulam-card-text) !important;
+        }
 
-
-
-
+        .maha-dasa-card.maha-pratikulam .anthara-header-title {
+            color: var(--pratikulam-card-text) !important;
+        }
 
         /* Table Styles for Anthara */
-
-
-
         .anthara-table {
-
-
-
             width: 100%;
-
-
-
             border-collapse: collapse;
-
-
-
             margin-top: 10px;
-
-
-
             font-size: 13px;
-
-
-
-            background: rgba(40, 40, 70, 0.5);
-
-
-
+            background: var(--anthara-table-bg) !important;
             border-radius: 8px;
-
-
-
             overflow: hidden;
-
-
-
         }
-
-
-
-
-
-
 
         .anthara-table th,
-
-
-
         .anthara-table td {
-
-
-
             padding: 8px 12px;
-
-
-
             text-align: left;
-
-
-
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-
-
         }
 
-
-
-
-
-
-
         .anthara-table th {
-
-
-
-            background: rgba(30, 30, 50, 0.8);
-
-
-
-            color: #a0a0ff;
-
-
-
+            background: var(--anthara-th-bg) !important;
+            color: var(--anthara-th-text) !important;
             font-weight: 600;
-
-
-
             text-transform: uppercase;
-
-
-
             font-size: 11px;
-
-
-
             letter-spacing: 1px;
+            border-bottom: 1.5px solid var(--anthara-th-border) !important;
+        }
 
+        /* Anthara Row Anukulam: Soft Green Background and All Green Text */
+        .anthara-table tr.anthara-anukulam {
+            background: var(--anukulam-anthara-bg) !important;
+        }
 
+        .anthara-table tr.anthara-anukulam td,
+        .anthara-table tr.anthara-anukulam td.date-cell,
+        .anthara-table tr.anthara-anukulam td.age-cell,
+        .anthara-table tr.anthara-anukulam .planet-cell,
+        .anthara-table tr.anthara-anukulam .anthara-name,
+        .anthara-table tr.anthara-anukulam .favorable {
+            color: var(--anukulam-anthara-text) !important;
+            border-bottom: 1px solid var(--anukulam-anthara-border) !important;
+        }
 
+        .anthara-table tr.anthara-anukulam .table-icon {
+            border-color: var(--anukulam-anthara-text) !important;
+            color: var(--anukulam-anthara-text) !important;
+        }
+
+        /* Anthara Row Pratikulam: Soft Red Background and All Red Text */
+        .anthara-table tr.anthara-pratikulam {
+            background: var(--pratikulam-anthara-bg) !important;
+        }
+
+        .anthara-table tr.anthara-pratikulam td,
+        .anthara-table tr.anthara-pratikulam td.date-cell,
+        .anthara-table tr.anthara-pratikulam td.age-cell,
+        .anthara-table tr.anthara-pratikulam .planet-cell,
+        .anthara-table tr.anthara-pratikulam .anthara-name,
+        .anthara-table tr.anthara-pratikulam .unfavorable {
+            color: var(--pratikulam-anthara-text) !important;
+            border-bottom: 1px solid var(--pratikulam-anthara-border) !important;
+        }
+
+        .anthara-table tr.anthara-pratikulam .table-icon {
+            border-color: var(--pratikulam-anthara-text) !important;
+            color: var(--pratikulam-anthara-text) !important;
         }
 
 
@@ -4654,6 +4656,50 @@
                 vertical-align: middle !important;
             }
 
+            /* Anthara Anukulam in Print: Soft green background & Dark Green text */
+            .anthara-table tr.anthara-anukulam {
+                background-color: #f4fbf6 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .anthara-table tr.anthara-anukulam td,
+            .anthara-table tr.anthara-anukulam td.date-cell,
+            .anthara-table tr.anthara-anukulam td.age-cell,
+            .anthara-table tr.anthara-anukulam .planet-cell,
+            .anthara-table tr.anthara-anukulam .anthara-name,
+            .anthara-table tr.anthara-anukulam .favorable {
+                color: #006400 !important;
+                border-color: #a3d9a5 !important;
+            }
+
+            .anthara-table tr.anthara-anukulam .table-icon {
+                border-color: #006400 !important;
+                color: #006400 !important;
+            }
+
+            /* Anthara Pratikulam in Print: Soft red background & Dark Red text */
+            .anthara-table tr.anthara-pratikulam {
+                background-color: #fdf5f5 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .anthara-table tr.anthara-pratikulam td,
+            .anthara-table tr.anthara-pratikulam td.date-cell,
+            .anthara-table tr.anthara-pratikulam td.age-cell,
+            .anthara-table tr.anthara-pratikulam .planet-cell,
+            .anthara-table tr.anthara-pratikulam .anthara-name,
+            .anthara-table tr.anthara-pratikulam .unfavorable {
+                color: #990000 !important;
+                border-color: #f5baba !important;
+            }
+
+            .anthara-table tr.anthara-pratikulam .table-icon {
+                border-color: #990000 !important;
+                color: #990000 !important;
+            }
+
             .anthara-table tr.current td {
                 background: #e6ffe6 !important;
             }
@@ -5823,6 +5869,44 @@
         }
         body.mobile-pdf-rendering .maha-dasa-card.maha-pratikulam .maha-dasa-right {
             border-left-color: #990000 !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam {
+            background-color: #f4fbf6 !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam td,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam td.date-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam td.age-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam .planet-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam .anthara-name,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam .favorable {
+            color: #006400 !important;
+            border-color: #a3d9a5 !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-anukulam .table-icon {
+            border-color: #006400 !important;
+            color: #006400 !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam {
+            background-color: #fdf5f5 !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam td,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam td.date-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam td.age-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam .planet-cell,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam .anthara-name,
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam .unfavorable {
+            color: #990000 !important;
+            border-color: #f5baba !important;
+        }
+
+        body.mobile-pdf-rendering .anthara-table tr.anthara-pratikulam .table-icon {
+            border-color: #990000 !important;
+            color: #990000 !important;
         }
 
 
@@ -7791,14 +7875,8 @@ body {
 
 
 
-                        <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
-
-
-
+                        <div class="anthara-header-title">
                             {{ _('అంతర్దశలు') }} ({{ dasa.antharas|sum(attribute='months')|round(1) }} {{ _('నెలలు') }})
-
-
-
                         </div>
 
 
@@ -7927,11 +8005,8 @@ body {
 
 
 
-                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
-
-
-
-                                        class="{% if badge_class == 'current-badge' %}current{% endif %}">
+                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %}
+                                        <tr class="anthara-row {% if a.is_favorable %}anthara-anukulam{% else %}anthara-pratikulam{% endif %} {% if badge_class == 'current-badge' %}current{% endif %}">
 
 
 
