@@ -416,6 +416,22 @@ DASA_YEARS = {
     "కేతు":7, "శుక్ర":13, "మిత్ర":7, "చిత్ర":7
 }
 
+DASA_TO_PLANET = {
+    "సూర్య": "సూర్యుడు",
+    "చంద్ర": "చంద్రుడు",
+    "కుజ": "కుజుడు",
+    "రాహు": "రాహు",
+    "గురు": "గురు",
+    "భూమి": "భూమి",
+    "శని": "శని",
+    "బుధ": "బుధుడు",
+    "కేతు": "కేతు",
+    "శుక్ర": "శుక్రుడు",
+    "మిత్ర": "మిత్ర",
+    "చిత్ర": "చిత్ర"
+}
+
+
 PADAS_PER_DASA = 9
 TOTAL_NAK_MINUTES = 13*60 + 20  # 800 minutes
 
@@ -2767,7 +2783,7 @@ DASHA_CACHE = {}
 def get_dasha_info(birth_info):
     if not isinstance(birth_info, dict):
         return {}
-    d_cache_key = f"{birth_info.get('dob')}_{birth_info.get('tob')}_{birth_info.get('nakshatra')}_{birth_info.get('padam')}"
+    d_cache_key = f"{birth_info.get('dob')}_{birth_info.get('tob')}_{birth_info.get('nakshatra')}_{birth_info.get('padam')}_{birth_info.get('lat')}_{birth_info.get('lon')}_{birth_info.get('lagna')}"
     if d_cache_key in DASHA_CACHE:
         return DASHA_CACHE[d_cache_key]
 
@@ -2785,6 +2801,25 @@ def get_dasha_info(birth_info):
     elapsed_h = birth_info.get('elapsed_h', 0)
     elapsed_m = birth_info.get('elapsed_m', 0)
     padam = birth_info.get('padam', 1)
+
+    # Ensure planet_positions and lagna are available for Sthanam & Chetulu
+    planet_positions = birth_info.get('planet_positions', [])
+    if not planet_positions:
+        try:
+            k_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
+            k_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+            k_data = get_kundali_data(
+                name or 'జాతకుడు',
+                dob, tob,
+                place or 'హైదరాబాద్, తెలంగాణ, భారతదేశం',
+                k_lat, k_lon
+            )
+            planet_positions = k_data.get('planet_positions', [])
+            if not lagna:
+                lagna = k_data.get('lagna', '')
+        except Exception:
+            planet_positions = []
+
 
     # Parse birth datetime
     timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
@@ -2928,6 +2963,27 @@ def get_dasha_info(birth_info):
 
         disp_start_str = start_str
 
+        p_name = DASA_TO_PLANET.get(dasa_name, dasa_name)
+        sthanam_str = "-"
+        chetulu_str = "-"
+        if lagna and lagna in LAGNA_NAMES_TELUGU and planet_positions:
+            l_idx = LAGNA_NAMES_TELUGU.index(lagna)
+            directs = [p for p in planet_positions if p.get('name') == p_name and not p.get('is_hand', False)]
+            hands = [p for p in planet_positions if p.get('name') == p_name and p.get('is_hand', False)]
+            if directs:
+                r = directs[0].get('lagna')
+                if r in LAGNA_NAMES_TELUGU:
+                    h = ((LAGNA_NAMES_TELUGU.index(r) - l_idx) % 12) + 1
+                    sthanam_str = f"{h}వ స్థానం ({r})"
+            h_strs = []
+            for hp in hands:
+                hr = hp.get('lagna')
+                if hr in LAGNA_NAMES_TELUGU:
+                    hh = ((LAGNA_NAMES_TELUGU.index(hr) - l_idx) % 12) + 1
+                    h_strs.append(f"{hh}వ స్థానం ({hr})")
+            if h_strs:
+                chetulu_str = ", ".join(h_strs)
+
         # Add this Mahadasha to list
         all_dasas.append({
             "maha": dasa_name,
@@ -2942,8 +2998,11 @@ def get_dasha_info(birth_info):
             "is_favorable": is_maha_favorable,
             "age_start": age_start_str,
             "age_end": age_end_str,
-            "stiti": stiti
+            "stiti": stiti,
+            "sthanam_str": sthanam_str,
+            "chetulu_str": chetulu_str
         })
+
         
         # If this is current dasa, store its info
         if is_current_today:
