@@ -2208,12 +2208,48 @@ def nakshatra_chart():
     dasha_data = get_dasha_info(data)
     nakshatra_boxes = build_nakshatra_pada_boxes(data)
 
+    session['birth_info'] = {
+        'name': name, 'dob': dob, 'tob': tob, 'place': place,
+        'lat': lat, 'lon': lon, 'day_name': data.get('day_name', ''),
+        'nakshatra': data.get('nakshatra', ''), 'padam': data.get('padam', 1),
+        'nak_index': data.get('nak_index', 0),
+        'elapsed_h': data.get('elapsed_h', 0), 'elapsed_m': data.get('elapsed_m', 0),
+        'nak_elapsed': data.get('nak_elapsed', '0గం 0ని'),
+        'nak_remaining': data.get('nak_remaining', '0గం 0ని'),
+        'lagna': data.get('lagna', ''), 'timezone_str': data.get('timezone_str', 'Asia/Kolkata')
+    }
+
     return render_template(
         "nakshatra_chart.html",
         **data,
         **dasha_data,
         nakshatra_boxes=nakshatra_boxes
     )
+
+def normalize_planet_name(name):
+    if not name:
+        return ""
+    s = str(name).strip()
+    norm_map = {
+        "సూర్యుడు": "సూర్య", "సూర్య": "సూర్య",
+        "చంద్రుడు": "చంద్ర", "చంద్ర": "చంద్ర",
+        "కుజుడు": "కుజ", "కుజ": "కుజ",
+        "బుధుడు": "బుధ", "బుధ": "బుధ",
+        "గురుడు": "గురు", "గురు": "గురు",
+        "శుక్రుడు": "శుక్ర", "శుక్ర": "శుక్ర",
+        "శని": "శని",
+        "రాహు": "రాహు",
+        "కేతు": "కేతు",
+        "భూమి": "భూమి",
+        "చిత్ర": "చిత్ర",
+        "మిత్ర": "మిత్ర"
+    }
+    return norm_map.get(s, s)
+
+def is_same_planet(n1, n2):
+    if not n1 or not n2:
+        return False
+    return normalize_planet_name(n1) == normalize_planet_name(n2)
 
 def compute_birth_transit_comparison(birth_info, transit_planet_positions):
     """
@@ -2223,11 +2259,43 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
     3. Full 1 to 12 Bhavas aligned comparison
     """
     if not isinstance(birth_info, dict):
-        return [], [], []
+        birth_info = {}
 
     birth_planet_positions = birth_info.get('planet_positions', [])
     birth_lagna = birth_info.get('lagna', '')
     birth_bhavas = birth_info.get('bhavas_list', [])
+
+    # If birth_planet_positions is empty, reconstruct from get_kundali_data
+    if not birth_planet_positions:
+        chart_form = {}
+        try:
+            from flask import has_request_context, session
+            if has_request_context():
+                chart_form = session.get('chart_form', {})
+                if not birth_info:
+                    birth_info = session.get('birth_info', {})
+        except Exception:
+            chart_form = {}
+
+        b_dob = birth_info.get('dob') or chart_form.get('dob')
+        b_tob = birth_info.get('tob') or chart_form.get('tob')
+        if b_dob and b_tob:
+            b_name = birth_info.get('name') or chart_form.get('name', 'User')
+            b_place = birth_info.get('place') or chart_form.get('place', 'హైదరాబాద్')
+            try:
+                b_lat = float(birth_info.get('lat') or chart_form.get('lat', 17.3850))
+            except (ValueError, TypeError):
+                b_lat = 17.3850
+            try:
+                b_lon = float(birth_info.get('lon') or chart_form.get('lon', 78.4867))
+            except (ValueError, TypeError):
+                b_lon = 78.4867
+            k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
+            birth_planet_positions = k_data.get('planet_positions', [])
+            if not birth_lagna:
+                birth_lagna = k_data.get('lagna', '')
+            if not birth_bhavas:
+                birth_bhavas = k_data.get('bhavas_list', [])
 
     same_nakshatra_pada_matches = []
     same_rashi_planet_matches = []
@@ -2238,8 +2306,13 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
         seen_nak_matches = set()
         for tp in transit_planet_positions:
             for bp in birth_planet_positions:
-                if tp.get("name") == bp.get("name") and tp.get("nakshatra") == bp.get("nakshatra") and tp.get("padam") == bp.get("padam"):
-                    nak_key = (tp.get("name"), tp.get("lagna"), tp.get("nakshatra"), tp.get("padam"), tp.get("is_hand"), bp.get("is_hand"))
+                if tp.get("is_hand") and bp.get("is_hand"):
+                    continue
+                if (is_same_planet(tp.get("name"), bp.get("name")) and
+                    str(tp.get("nakshatra", "")).strip() == str(bp.get("nakshatra", "")).strip() and
+                    int(tp.get("padam", 0)) == int(bp.get("padam", 0))):
+                    norm_name = normalize_planet_name(tp.get("name"))
+                    nak_key = (norm_name, str(tp.get("lagna", "")).strip(), str(tp.get("nakshatra", "")).strip(), int(tp.get("padam", 0)), bool(tp.get("is_hand")), bool(bp.get("is_hand")))
                     if nak_key in seen_nak_matches:
                         continue
                     seen_nak_matches.add(nak_key)
@@ -2261,14 +2334,18 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
                         "is_both_direct": (not tp.get("is_hand") and not bp.get("is_hand"))
                     })
 
+        same_nakshatra_pada_matches.sort(key=lambda x: (not x.get("is_both_direct", False)))
+
         # 2. Same Planet in Same Rashi / Lagna (Deduplicated)
         seen_rashi_matches = set()
         for tp in transit_planet_positions:
             for bp in birth_planet_positions:
                 if tp.get("is_hand") and bp.get("is_hand"):
                     continue
-                if tp.get("name") == bp.get("name") and tp.get("lagna") == bp.get("lagna"):
-                    rashi_key = (tp.get("name"), tp.get("lagna"), tp.get("is_hand"), bp.get("is_hand"))
+                if (is_same_planet(tp.get("name"), bp.get("name")) and
+                    str(tp.get("lagna", "")).strip() == str(bp.get("lagna", "")).strip()):
+                    norm_name = normalize_planet_name(tp.get("name"))
+                    rashi_key = (norm_name, str(tp.get("lagna", "")).strip(), bool(tp.get("is_hand")), bool(bp.get("is_hand")))
                     if rashi_key in seen_rashi_matches:
                         continue
                     seen_rashi_matches.add(rashi_key)
@@ -2282,6 +2359,8 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
 
                     same_rashi_planet_matches.append({
                         "planet": tp.get("name"),
+                        "transit_planet": tp.get("name"),
+                        "birth_planet": bp.get("name"),
                         "rashi": tp.get("lagna", ""),
                         "match_type": match_type,
                         "transit_is_hand": tp.get("is_hand", False),
@@ -2295,7 +2374,10 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
                         "birth_padam": bp.get("padam", 1),
                         "birth_color": bp.get("color", "#ffffff"),
                         "is_both_direct": (not tp.get("is_hand") and not bp.get("is_hand")),
-                        "is_exact_nakshatra_pada": (tp.get("nakshatra") == bp.get("nakshatra") and tp.get("padam") == bp.get("padam"))
+                        "is_exact_nakshatra_pada": (
+                            str(tp.get("nakshatra", "")).strip() == str(bp.get("nakshatra", "")).strip() and
+                            int(tp.get("padam", 0)) == int(bp.get("padam", 0))
+                        )
                     })
 
         same_rashi_planet_matches.sort(key=lambda x: (not x.get("is_both_direct", False)))
@@ -2305,23 +2387,23 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
         for h_no in range(1, 13):
             r_name = LAGNA_NAMES_TELUGU[(birth_start_idx + h_no - 1) % 12]
 
-            b_direct = [p for p in birth_planet_positions if p.get("lagna") == r_name and not p.get("is_hand")]
-            b_hands = [p for p in birth_planet_positions if p.get("lagna") == r_name and p.get("is_hand")]
+            b_direct = [p for p in birth_planet_positions if str(p.get("lagna", "")).strip() == r_name and not p.get("is_hand")]
+            b_hands = [p for p in birth_planet_positions if str(p.get("lagna", "")).strip() == r_name and p.get("is_hand")]
 
-            t_direct = [p for p in transit_planet_positions if p.get("lagna") == r_name and not p.get("is_hand")]
-            t_hands = [p for p in transit_planet_positions if p.get("lagna") == r_name and p.get("is_hand")]
+            t_direct = [p for p in transit_planet_positions if str(p.get("lagna", "")).strip() == r_name and not p.get("is_hand")]
+            t_hands = [p for p in transit_planet_positions if str(p.get("lagna", "")).strip() == r_name and p.get("is_hand")]
 
             bhava_matches = []
             for td in t_direct:
                 for bd in b_direct:
-                    if td.get("name") == bd.get("name"):
+                    if is_same_planet(td.get("name"), bd.get("name")):
                         bhava_matches.append(f"🪐 {td['name']} జన్మ స్థితిపై గోచారం")
-                    if td.get("nakshatra") == bd.get("nakshatra") and td.get("padam") == bd.get("padam"):
+                    if str(td.get("nakshatra", "")).strip() == str(bd.get("nakshatra", "")).strip() and int(td.get("padam", 0)) == int(bd.get("padam", 0)):
                         bhava_matches.append(f"✨ {td['name']} & {bd['name']}: {td['nakshatra']}-{td['padam']}వ పాదం")
 
             for th in t_hands:
                 for bd in b_direct:
-                    if th.get("nakshatra") == bd.get("nakshatra") and th.get("padam") == bd.get("padam"):
+                    if str(th.get("nakshatra", "")).strip() == str(bd.get("nakshatra", "")).strip() and int(th.get("padam", 0)) == int(bd.get("padam", 0)):
                         bhava_matches.append(f"👁️ {th['name']}👉 దృష్టి & {bd['name']}: {th['nakshatra']}-{th['padam']}వ పాదం")
 
             comparison_bhavas.append({
@@ -2384,6 +2466,29 @@ def nakshatra_transit_chart():
     transit_boxes = build_nakshatra_pada_boxes(transit_data)
 
     birth_info = session.get('birth_info', {})
+    if not birth_info and 'chart_form' in session:
+        birth_info = session.get('chart_form', {})
+
+    if birth_info and not birth_info.get('planet_positions'):
+        b_dob = birth_info.get('dob')
+        b_tob = birth_info.get('tob')
+        if b_dob and b_tob:
+            b_name = birth_info.get('name', 'User')
+            b_place = birth_info.get('place', 'హైదరాబాద్')
+            try:
+                b_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
+            except (ValueError, TypeError):
+                b_lat = 17.3850
+            try:
+                b_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+            except (ValueError, TypeError):
+                b_lon = 78.4867
+            k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
+            birth_info = dict(birth_info)
+            birth_info['planet_positions'] = k_data.get('planet_positions', [])
+            if not birth_info.get('lagna'):
+                birth_info['lagna'] = k_data.get('lagna', '')
+
     same_nak_matches, same_rashi_matches, comp_bhavas = compute_birth_transit_comparison(
         birth_info, transit_data.get('planet_positions', [])
     )
@@ -2793,6 +2898,29 @@ def transit_chart():
 
     # --- Birth vs Transit Comparison Engine ---
     birth_info = session.get('birth_info', {})
+    if not birth_info and 'chart_form' in session:
+        birth_info = session.get('chart_form', {})
+
+    if birth_info and not birth_info.get('planet_positions'):
+        b_dob = birth_info.get('dob')
+        b_tob = birth_info.get('tob')
+        if b_dob and b_tob:
+            b_name = birth_info.get('name', 'User')
+            b_place = birth_info.get('place', 'హైదరాబాద్')
+            try:
+                b_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
+            except (ValueError, TypeError):
+                b_lat = 17.3850
+            try:
+                b_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+            except (ValueError, TypeError):
+                b_lon = 78.4867
+            k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
+            birth_info = dict(birth_info)
+            birth_info['planet_positions'] = k_data.get('planet_positions', [])
+            if not birth_info.get('lagna'):
+                birth_info['lagna'] = k_data.get('lagna', '')
+
     same_nakshatra_pada_matches, same_rashi_planet_matches, comparison_bhavas = compute_birth_transit_comparison(
         birth_info, planet_positions
     )
