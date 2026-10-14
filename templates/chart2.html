@@ -159,17 +159,8 @@
 
 
         @page {
-
-
-
-            size: A4;
-
-
-
-            margin: 1cm;
-
-
-
+            size: A4 portrait;
+            margin: 4mm 5mm !important;
         }
 
 
@@ -3840,9 +3831,9 @@
 
 
             @page {
-                size: A4 portrait;
-                margin: 5mm 6mm !important;
-            }
+            size: A4 portrait;
+            margin: 4mm 5mm !important;
+        }
 
 
 
@@ -4412,33 +4403,23 @@
 
             .maha-dasa-card {
                 background: #fff !important;
-                border: 1.5px solid #333 !important;
+                border: 1px solid #333 !important;
                 border-radius: 3px !important;
-                padding: 2px 4px !important;
-                margin: 0 auto 3px auto !important;
-                width: 96% !important;
+                padding: 1px 3px !important;
+                margin: 0 auto 2px auto !important;
+                width: 98% !important;
                 box-sizing: border-box !important;
-                page-break-before: avoid !important;
-                break-before: avoid !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
 
             .dasa-section .maha-dasa-card {
-                page-break-before: avoid !important;
-                break-before: avoid !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
 
-            /* Page 2 ends after Card 4, Page 3 ends after Card 8 */
-            .dasa-section .maha-dasa-card.break-after-page,
-            .dasa-section .maha-dasa-card:nth-of-type(4),
-            .dasa-section .maha-dasa-card:nth-of-type(8) {
+            /* Strictly 4 Pages: Page 2 ends after Card 4, Page 3 ends after Card 8 */
+            .dasa-section .maha-dasa-card.break-after-page {
                 page-break-after: always !important;
                 break-after: page !important;
             }
@@ -4465,13 +4446,12 @@
                 border-left-color: #990000 !important;
             }
 
-
-            /* Mahadasa header row: Two parallel columns with vertical divider */
+            /* Mahadasa header row: Compact two parallel columns */
             .maha-dasa-header {
                 display: flex !important;
                 align-items: center !important;
-                gap: 6px !important;
-                margin: 0 0 2px 0 !important;
+                gap: 4px !important;
+                margin: 0 0 1px 0 !important;
                 width: 100% !important;
                 flex-wrap: nowrap !important;
             }
@@ -4480,20 +4460,20 @@
                 background: transparent !important;
                 border: 1px solid #333 !important;
                 color: #000080 !important;
-                padding: 1px 4px !important;
-                border-radius: 6px !important;
-                font-size: 8pt !important;
+                padding: 0 3px !important;
+                border-radius: 4px !important;
+                font-size: 7.2pt !important;
                 font-weight: bold !important;
-                min-width: 16px !important;
+                min-width: 14px !important;
                 text-align: center !important;
-                line-height: 1.1 !important;
+                line-height: 1.0 !important;
             }
 
             .maha-dasa-info-grid {
                 display: flex !important;
                 flex: 1 !important;
                 align-items: center !important;
-                gap: 8px !important;
+                gap: 6px !important;
                 min-width: 0 !important;
             }
 
@@ -4501,34 +4481,34 @@
                 flex: 1.15 !important;
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 1px !important;
+                gap: 0px !important;
                 min-width: 0 !important;
             }
 
             .maha-dasa-right {
                 flex: 0.85 !important;
-                border-left: 1.5px solid #666 !important;
-                padding-left: 8px !important;
+                border-left: 1px solid #666 !important;
+                padding-left: 6px !important;
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 1px !important;
+                gap: 0px !important;
                 min-width: 0 !important;
             }
 
             .maha-dasa-name {
-                font-size: 8.5pt !important;
+                font-size: 7.2pt !important;
                 font-weight: bold !important;
                 color: #000 !important;
                 margin-bottom: 0 !important;
-                line-height: 1.2 !important;
+                line-height: 1.1 !important;
                 white-space: nowrap !important;
             }
 
             .maha-dasa-period {
-                font-size: 7.5pt !important;
+                font-size: 6.4pt !important;
                 color: #555 !important;
                 font-weight: 600 !important;
-                line-height: 1.2 !important;
+                line-height: 1.1 !important;
                 margin-top: 0 !important;
                 white-space: nowrap !important;
             }
@@ -4536,15 +4516,15 @@
             .maha-dasa-period br { display: none !important; }
 
             .maha-age-text {
-                font-size: 7.2pt !important;
+                font-size: 6.1pt !important;
                 color: #666 !important;
-                margin-left: 3px !important;
+                margin-left: 2px !important;
             }
 
             .maha-dasa-sthanam {
-                font-size: 8pt !important;
+                font-size: 6.8pt !important;
                 color: #000 !important;
-                line-height: 1.2 !important;
+                line-height: 1.1 !important;
                 white-space: nowrap !important;
             }
 
@@ -4558,9 +4538,9 @@
             }
 
             .maha-dasa-chetulu {
-                font-size: 7.5pt !important;
+                font-size: 6.4pt !important;
                 color: #333 !important;
-                line-height: 1.2 !important;
+                line-height: 1.1 !important;
                 white-space: nowrap !important;
             }
 
@@ -4581,10 +4561,10 @@
             }
 
             .status-badge {
-                font-size: 7pt !important;
-                padding: 1px 3px !important;
-                border-radius: 4px !important;
-                line-height: 1.1 !important;
+                font-size: 6.2pt !important;
+                padding: 0 2px !important;
+                border-radius: 3px !important;
+                line-height: 1.0 !important;
             }
 
             .current-badge { border: 1px solid #006400 !important; color: #006400 !important; background: transparent !important; }
@@ -4594,10 +4574,10 @@
 
             .text-favorable   { color: #006400 !important; }
             .text-unfavorable { color: #b22222 !important; }
-            .favorable   { color: #006400 !important; font-size: 7.5pt !important; }
-            .unfavorable { color: #b22222 !important; font-size: 7.5pt !important; }
+            .favorable   { color: #006400 !important; font-size: 6.8pt !important; }
+            .unfavorable { color: #b22222 !important; font-size: 6.8pt !important; }
 
-            /* ── Anthara wrapper: show collapsed drawers ── */
+            /* ── Anthara wrapper: compact drawer for print ── */
             .anthara-wrapper {
                 display: block !important;
                 max-height: none !important;
@@ -4605,24 +4585,25 @@
                 overflow: visible !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                margin-top: 2px !important;
+                margin-top: 1px !important;
             }
 
             /* ── Anthara container & table ── */
             .anthara-container {
-                background: #fafafa !important;
-                border: 1px solid #ccc !important;
-                border-radius: 2px !important;
-                padding: 1px 2px !important;
+                background: transparent !important;
+                border: none !important;
+                padding: 0 !important;
                 width: 100% !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
             }
 
+            .anthara-header-title,
             .anthara-container > div:first-child {
-                font-size: 7pt !important;
+                font-size: 6.2pt !important;
                 margin-bottom: 1px !important;
-                line-height: 1.1 !important;
+                margin-top: 0 !important;
+                line-height: 1.05 !important;
                 color: #444 !important;
                 font-weight: bold !important;
             }
@@ -4630,8 +4611,8 @@
             .anthara-table {
                 width: 100% !important;
                 border-collapse: collapse !important;
-                font-size: 7.2pt !important;
-                line-height: 1.15 !important;
+                font-size: 6pt !important;
+                line-height: 1.05 !important;
                 background: #fff !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
@@ -4641,18 +4622,18 @@
                 background: #e8e8e8 !important;
                 color: #000 !important;
                 border: 1px solid #999 !important;
-                padding: 1px 2px !important;
-                font-size: 7.2pt !important;
-                line-height: 1.15 !important;
+                padding: 0.5px 2px !important;
+                font-size: 6pt !important;
+                line-height: 1.05 !important;
                 text-align: left !important;
             }
 
             .anthara-table td {
                 color: #000 !important;
                 border: 1px solid #ccc !important;
-                padding: 1px 2px !important;
-                font-size: 7pt !important;
-                line-height: 1.15 !important;
+                padding: 0.5px 2px !important;
+                font-size: 5.8pt !important;
+                line-height: 1.05 !important;
                 vertical-align: middle !important;
             }
 
@@ -4707,17 +4688,17 @@
             .anthara-table .planet-cell {
                 display: flex !important;
                 align-items: center !important;
-                gap: 2px !important;
+                gap: 1px !important;
                 color: #8B0000 !important;
                 font-weight: bold !important;
-                font-size: 7pt !important;
-                line-height: 1.15 !important;
+                font-size: 5.8pt !important;
+                line-height: 1.05 !important;
             }
 
             .table-icon {
-                width: 10px !important;
-                height: 10px !important;
-                font-size: 6.5pt !important;
+                width: 8px !important;
+                height: 8px !important;
+                font-size: 5pt !important;
                 border-radius: 50% !important;
                 border: 1px solid #555 !important;
                 background: transparent !important;
@@ -4729,24 +4710,24 @@
             /* Date cells in anthara table (Start and End dates) */
             .anthara-table td.date-cell {
                 color: #8B4513 !important;
-                font-size: 7pt !important;
+                font-size: 5.8pt !important;
                 font-weight: 600 !important;
                 white-space: nowrap !important;
-                line-height: 1.15 !important;
+                line-height: 1.05 !important;
             }
 
             /* Age cells in anthara table */
             .anthara-table td.age-cell {
                 color: #555 !important;
-                font-size: 7pt !important;
+                font-size: 5.8pt !important;
                 font-weight: normal !important;
                 white-space: nowrap !important;
-                line-height: 1.15 !important;
+                line-height: 1.05 !important;
             }
 
             .anthara-name {
-                font-size: 7pt !important;
-                line-height: 1.15 !important;
+                font-size: 5.8pt !important;
+                line-height: 1.05 !important;
             }
         }
 
@@ -5921,7 +5902,7 @@
 
         @page {
             size: A4 portrait;
-            margin: 5mm 6mm !important;
+            margin: 4mm 5mm !important;
         }
 
 
