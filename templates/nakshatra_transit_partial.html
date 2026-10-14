@@ -36,13 +36,14 @@
       <div class="nak-box-left-half">
         <div class="nak-padas-container">
           {% for nak in b.nakshatras %}
-          <div class="nak-group-row">
-            <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
+          {% set nak_loop = loop %}
+          <div class="nak-group-row" style="flex: {{ nak.padas|length }};">
+            <div class="nak-name-cell {% if nak.padas[-1].nak_pada_num == 4 and not nak_loop.last %}nak-ends-4{% endif %}" title="{{ nak.nakshatra_name }}">
               <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
             </div>
             <div class="padas-list-cell">
               {% for p in nak.padas %}
-              <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
+              <div class="pada-row {% if p.occupants %}has-occupant{% endif %} {% if p.nak_pada_num == 4 and not nak_loop.last %}pada-ends-4{% endif %}">
                 <div class="pada-letter-col">
                   {% if p.pada_letter %}<span class="pada-letter">{{ p.pada_letter }}</span>{% endif %}
                 </div>
