@@ -2917,30 +2917,31 @@ body {
 
   </div>
 
-  <!-- Action Buttons Bar: Today Planets, Birth Bhavas, Today Bhavas -->
+  <!-- Action Buttons Bar: Today/Custom Date Transit & Kaala Karma -->
   <div class="kundali-action-buttons-bar print-hide" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin: 25px auto 16px auto; max-width: 950px; padding: 0 10px;">
 
-    <!-- 1. Today Planets Button -->
+    <!-- Transit Date & Time Controls -->
+    <div class="transit-datetime-picker" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(251, 191, 36, 0.5); border-radius: 10px; padding: 6px 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+      <span style="color: #fbbf24; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+        <i class="fas fa-calendar-alt"></i> {{ _('తేదీ') }}:
+      </span>
+      <input type="date" id="transit-date" style="background: rgba(30, 41, 59, 0.9); color: #ffffff; border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 6px; padding: 5px 8px; font-size: 13px; outline: none; color-scheme: dark;">
+      <span style="color: #fbbf24; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; margin-left: 4px;">
+        <i class="fas fa-clock"></i> {{ _('సమయం') }}:
+      </span>
+      <input type="time" id="transit-time" style="background: rgba(30, 41, 59, 0.9); color: #ffffff; border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 6px; padding: 5px 8px; font-size: 13px; outline: none; color-scheme: dark;">
+      <button type="button" onclick="resetTransitDateTimeToNow()" title="{{ _('ప్రస్తుత సమయానికి రీసెట్ చేయి') }}" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #fbbf24; border-radius: 6px; padding: 5px 9px; font-size: 12px; cursor: pointer;">
+        <i class="fas fa-undo"></i>
+      </button>
+    </div>
+
+    <!-- 1. Today/Custom Transit Button -->
     <button onclick="handleTransitBtnClick()" id="transit-btn" class="btn-transit" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
       <i class="fas fa-satellite" id="transit-btn-icon" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i>
       <span id="transit-btn-text">{{ _('ఈ రోజు గ్రహ స్థితి') }}</span>
     </button>
 
-    <!-- 2. 1 to 12 Bhavas Details Button -->
-    {% if bhavas_list is defined and bhavas_list %}
-    <button onclick="toggleBhavasAnalysis()" id="bhavas-toggle-btn" class="btn-transit btn-bhavas-toggle" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
-      <i class="fas fa-list-ol" id="bhavas-toggle-icon" style="color: #fbbf24;"></i>
-      <span id="bhavas-toggle-text">{{ _('1వ భావం నుండి 12వ భావాల వివరాలు') }}</span>
-    </button>
-    {% endif %}
-
-    <!-- 3. Today 1 to 12 Bhavas Positions Button -->
-    <button onclick="toggleTodayBhavas()" id="today-bhavas-toggle-btn" class="btn-transit btn-today-bhavas-toggle" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s ease;">
-      <i class="fas fa-meteor" id="today-bhavas-toggle-icon" style="color: #34d399;"></i>
-      <span id="today-bhavas-toggle-text">{{ _('ఈ రోజు 1వ భావం నుండి 12వ భావాల గ్రహ స్థితులు') }}</span>
-    </button>
-
-    <!-- 4. Kaala Karma Chakram Toggle Button -->
+    <!-- 2. Kaala Karma Chakram Toggle Button -->
     <button onclick="toggleKalaKarmaChakram()" id="kala-karma-toggle-btn" class="btn-transit btn-kala-karma" style="color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4); transition: all 0.2s ease;">
       <i class="fas fa-dharmachakra" id="kala-karma-toggle-icon" style="color: #fef08a; font-size: 17px; filter: drop-shadow(0 0 6px rgba(254, 240, 138, 0.7));"></i>
       <span id="kala-karma-toggle-text">{{ _('కాల, కర్మ చక్రము') }}</span>
@@ -3658,103 +3659,7 @@ body {
   </div>
 
 
-  <!-- 1 to 12 Bhavas Planetary and Aspect Analysis Table -->
-  {% if bhavas_list is defined and bhavas_list %}
-  <div class="bhavas-section-wrapper print-hide" id="bhavas-analysis-section" style="display: none; max-width: 950px; margin: 25px auto; padding: 0 10px;">
-    <div style="background: var(--card-bg, rgba(15, 23, 42, 0.9)); border: 1.5px solid var(--box-border, rgba(251, 191, 36, 0.4)); border-radius: 16px; padding: 22px 18px; box-shadow: 0 10px 30px var(--shadow-color, rgba(0,0,0,0.5));">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h3 style="color: #fbbf24; font-size: 21px; font-weight: 800; margin: 0 0 6px 0; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);">
-          {{ _('1వ భావం నుండి 12వ భావాల వివరాలు') }}
-        </h3>
-        <p style="color: var(--text-muted, #cbd5e1); font-size: 13.5px; margin: 0; font-weight: 500;">
-          {{ _('లగ్నం, రాశి, స్థిత గ్రహాలు, చూపులు (హస్తాలు) మరియు నక్షత్ర-పాద విశ్లేషణ') }}
-        </p>
-      </div>
 
-      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <table style="width: 100%; border-collapse: collapse; border: 1px solid var(--box-border, rgba(255,255,255,0.15)); border-radius: 10px; overflow: hidden; font-size: 13.5px; text-align: left;">
-          <thead>
-            <tr style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #fbbf24; border-bottom: 2px solid rgba(251, 191, 36, 0.4);">
-              <th style="padding: 12px 14px; border: 1px solid rgba(255,255,255,0.12); width: 16%; text-align: center;">{{ _('భావం') }}</th>
-              <th style="padding: 12px 14px; border: 1px solid rgba(255,255,255,0.12); width: 22%;">{{ _('రాశి / లగ్నం') }}</th>
-              <th style="padding: 12px 14px; border: 1px solid rgba(255,255,255,0.12); width: 31%;">{{ _('స్థిత గ్రహాలు (నక్షత్రం, పాదం)') }}</th>
-              <th style="padding: 12px 14px; border: 1px solid rgba(255,255,255,0.12); width: 31%;">{{ _('చూపులు / దృష్టులు 👉 (నక్షత్రం, పాదం)') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for bhava in bhavas_list %}
-            <tr style="background: {{ 'rgba(255,255,255,0.02)' if loop.index % 2 == 0 else 'rgba(255,255,255,0.06)' }}; border-bottom: 1px solid rgba(255,255,255,0.08); vertical-align: top;">
-              <td style="padding: 12px 10px; border: 1px solid rgba(255,255,255,0.1); text-align: center; vertical-align: middle;">
-                <div style="font-weight: 700; color: var(--text-main, #ffffff); font-size: 14px;">{{ bhava.bhava_name }}</div>
-                {% if bhava.karma_type == "పుణ్యం" %}
-                  <span style="display: inline-block; margin-top: 5px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">{{ _('పుణ్యం') }}</span>
-                {% elif bhava.karma_type == "పాపం" %}
-                  <span style="display: inline-block; margin-top: 5px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">{{ _('పాపం') }}</span>
-                {% else %}
-                  <span style="display: inline-block; margin-top: 5px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">{{ _('పుణ్యం + పాపం') }}</span>
-                {% endif %}
-              </td>
-              <td style="padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1); vertical-align: middle;">
-                <div style="font-weight: 700; font-size: 14.5px; color: var(--text-main, #ffffff);">
-                  {{ _(bhava.rashi) }}
-                  {% if bhava.is_lagna_bhava %}
-                    <span style="display: block; margin-top: 3px; font-size: 11.5px; font-weight: 700; color: #60a5fa; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 8px; padding: 1px 6px; width: fit-content;">{{ _('జన్మ లగ్నం') }}</span>
-                  {% endif %}
-                </div>
-              </td>
-              <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.1);">
-                {% if bhava.is_lagna_bhava and bhava.lagna_point %}
-                  <div style="margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.15);">
-                    <div style="font-weight: 700; color: #60a5fa; font-size: 13.5px;">
-                      {{ _(bhava.lagna_point.name) }}
-                      <span style="font-size: 11.5px; color: var(--text-muted, #94a3b8); font-weight: 500;">({{ bhava.lagna_point.degree }})</span>
-                    </div>
-                    <div style="font-size: 12px; color: var(--text-muted, #cbd5e1); margin-top: 2px;">
-                      {{ _(bhava.lagna_point.nakshatra) }} - {{ bhava.lagna_point.padam }}{{ _('వ పాదం') }}
-                    </div>
-                  </div>
-                {% endif %}
-                {% if bhava.direct_planets %}
-                  {% for p in bhava.direct_planets %}
-                    <div style="margin-bottom: 6px; {{ 'padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1);' if not loop.last else '' }}">
-                      <div style="font-weight: 700; color: {{ p.color or '#ffffff' }}; font-size: 13.5px;">
-                        {{ _(p.name) }}
-                        <span style="font-size: 11.5px; opacity: 0.85; font-weight: 500;">({{ p.degree }})</span>
-                      </div>
-                      <div style="font-size: 12px; color: var(--text-muted, #cbd5e1); margin-top: 2px;">
-                        {{ _(p.nakshatra) }} - {{ p.padam }}{{ _('వ పాదం') }}
-                      </div>
-                    </div>
-                  {% endfor %}
-                {% elif not (bhava.is_lagna_bhava and bhava.lagna_point) %}
-                  <div style="color: #64748b; font-size: 15px; text-align: center;">-</div>
-                {% endif %}
-              </td>
-              <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.1);">
-                {% if bhava.hand_aspects %}
-                  {% for h in bhava.hand_aspects %}
-                    <div style="margin-bottom: 6px; {{ 'padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1);' if not loop.last else '' }}">
-                      <div style="font-weight: 700; color: {{ h.color or '#ffffff' }}; font-size: 13.5px;">
-                        {{ _(h.name) }} 👉
-                        <span style="font-size: 11.5px; opacity: 0.85; font-weight: 500;">({{ h.degree }})</span>
-                      </div>
-                      <div style="font-size: 12px; color: var(--text-muted, #cbd5e1); margin-top: 2px;">
-                        {{ _(h.nakshatra) }} - {{ h.padam }}{{ _('వ పాదం') }}
-                      </div>
-                    </div>
-                  {% endfor %}
-                {% else %}
-                  <div style="color: #64748b; font-size: 15px; text-align: center;">-</div>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  {% endif %}
 
   <!-- Toggle button for transit chart (shown after transit loads) -->
   <div id="transit-toggle-bar" class="no-print" style="display: none; text-align: center; margin: 15px 0 10px 0;">
@@ -3816,10 +3721,53 @@ body {
 
 
 
-    // ===== TRANSIT & BHAVAS TOGGLES =====
+    function initTransitDateTime() {
+      const now = new Date();
+      const dateInput = document.getElementById('transit-date');
+      const timeInput = document.getElementById('transit-time');
+      if (dateInput && !dateInput.value) {
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
+      }
+      if (timeInput && !timeInput.value) {
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        timeInput.value = `${hh}:${min}`;
+      }
+    }
+
+    function resetTransitDateTimeToNow() {
+      const now = new Date();
+      const dateInput = document.getElementById('transit-date');
+      const timeInput = document.getElementById('transit-time');
+      if (dateInput) {
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
+      }
+      if (timeInput) {
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        timeInput.value = `${hh}:${min}`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initTransitDateTime);
+    initTransitDateTime();
+
+    let lastLoadedTransitKey = '';
+
+    // ===== TRANSIT TOGGLES =====
     function handleTransitBtnClick() {
+      const dateInput = document.getElementById('transit-date');
+      const timeInput = document.getElementById('transit-time');
+      const currentKey = `${dateInput ? dateInput.value : ''}_${timeInput ? timeInput.value : ''}`;
       const container = document.getElementById('transit-container');
-      if (!container || !container.classList.contains('loaded')) {
+
+      if (!container || !container.classList.contains('loaded') || lastLoadedTransitKey !== currentKey) {
         fetchNakshatraTransitChart();
       } else {
         toggleTransitChart();
@@ -3844,78 +3792,17 @@ body {
         container.style.display = 'block';
         document.body.classList.add('transit-loaded');
         if (icon) icon.className = 'fas fa-eye-slash';
-        if (text) text.textContent = '{{ _("ఈ రోజు గోచార నక్షత్ర చక్రం దాచు") }}';
+        if (text) text.textContent = '{{ _("గ్రహ స్థితి దాచు") }}';
         if (btnIcon) btnIcon.className = 'fas fa-eye-slash';
-        if (btnText) btnText.textContent = '{{ _("ఈ రోజు నక్షత్ర కుండలి దాచు") }}';
+        if (btnText) btnText.textContent = '{{ _("గ్రహ స్థితి దాచు") }}';
         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         container.style.display = 'none';
         document.body.classList.remove('transit-loaded');
         if (icon) icon.className = 'fas fa-eye';
-        if (text) text.textContent = '{{ _("ఈ రోజు గోచార నక్షత్ర చక్రం చూపు") }}';
+        if (text) text.textContent = '{{ _("గ్రహ స్థితి చూపు") }}';
         if (btnIcon) btnIcon.className = 'fas fa-satellite';
         if (btnText) btnText.textContent = '{{ _("ఈ రోజు గ్రహ స్థితి") }}';
-      }
-    }
-
-    function toggleBhavasAnalysis() {
-      const section = document.getElementById('bhavas-analysis-section');
-      const text = document.getElementById('bhavas-toggle-text');
-      const icon = document.getElementById('bhavas-toggle-icon');
-      const btn = document.getElementById('bhavas-toggle-btn');
-      if (!section) return;
-
-      const isHidden = section.style.display === 'none' || window.getComputedStyle(section).display === 'none';
-      if (isHidden) {
-        section.style.display = 'block';
-        if (text) text.textContent = '{{ _("1వ భావం నుండి 12వ భావాల వివరాలు దాచు") }}';
-        if (icon) icon.className = 'fas fa-eye-slash';
-        if (btn) btn.classList.add('btn-active');
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        section.style.display = 'none';
-        if (text) text.textContent = '{{ _("1వ భావం నుండి 12వ భావాల వివరాలు") }}';
-        if (icon) icon.className = 'fas fa-list-ol';
-        if (btn) btn.classList.remove('btn-active');
-      }
-    }
-
-    function toggleTodayBhavas() {
-      const container = document.getElementById('transit-container');
-
-      function doToggleTodayBhavas() {
-        const section = document.getElementById('today-bhavas-section');
-        const text = document.getElementById('today-bhavas-toggle-text');
-        const icon = document.getElementById('today-bhavas-toggle-icon');
-        const btn = document.getElementById('today-bhavas-toggle-btn');
-        if (!section) return;
-
-        const isHidden = section.style.display === 'none' || window.getComputedStyle(section).display === 'none';
-        if (isHidden) {
-          if (container) container.style.display = 'block';
-          document.body.classList.add('transit-loaded');
-          section.style.display = 'block';
-          if (text) text.textContent = '{{ _("ఈ రోజు 1వ భావం నుండి 12వ భావాల వివరాలు దాచు") }}';
-          if (icon) icon.className = 'fas fa-eye-slash';
-          if (btn) btn.classList.add('btn-active');
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          section.style.display = 'none';
-          if (text) text.textContent = '{{ _("ఈ రోజు 1వ భావం నుండి 12వ భావాల గ్రహ స్థితులు") }}';
-          if (icon) icon.className = 'fas fa-meteor';
-          if (btn) btn.classList.remove('btn-active');
-        }
-      }
-
-      const todaySection = document.getElementById('today-bhavas-section');
-      if (!container || !container.classList.contains('loaded') || !todaySection) {
-        const loadingText = document.getElementById('transit-loading-text');
-        if (loadingText) loadingText.textContent = '{{ _("ఈ రోజు గ్రహ స్థితులు లోడ్ అవుతున్నాయి...") }}';
-        fetchNakshatraTransitChart(function() {
-          doToggleTodayBhavas();
-        });
-      } else {
-        doToggleTodayBhavas();
       }
     }
 
@@ -3934,12 +3821,18 @@ body {
     function sendNakshatraTransitRequest(lat, lon, timezone, place, callbackOnSuccess) {
       const loading = document.getElementById('transit-loading');
       const container = document.getElementById('transit-container');
+      const dateInput = document.getElementById('transit-date');
+      const timeInput = document.getElementById('transit-time');
+      const tDate = dateInput ? dateInput.value : '';
+      const tTime = timeInput ? timeInput.value : '';
 
       const formData = new FormData();
       formData.append('lat', lat);
       formData.append('lon', lon);
       formData.append('timezone', timezone);
       formData.append('place', place);
+      if (tDate) formData.append('transit_date', tDate);
+      if (tTime) formData.append('transit_time', tTime);
 
       fetch('/nakshatra_transit_chart', {
         method: 'POST',
@@ -3955,6 +3848,7 @@ body {
           container.innerHTML = html;
           container.classList.add('loaded');
           container.style.display = 'block';
+          lastLoadedTransitKey = `${tDate}_${tTime}`;
         }
         document.body.classList.add('transit-loaded');
 
@@ -3964,7 +3858,7 @@ body {
         // Update transit-btn label & icon
         const btnText = document.getElementById('transit-btn-text');
         const btnIcon = document.getElementById('transit-btn-icon');
-        if (btnText) btnText.textContent = '{{ _("ఈ రోజు నక్షత్ర కుండలి దాచు") }}';
+        if (btnText) btnText.textContent = '{{ _("గ్రహ స్థితి దాచు") }}';
         if (btnIcon) btnIcon.className = 'fas fa-eye-slash';
 
         if (typeof callbackOnSuccess === 'function') {

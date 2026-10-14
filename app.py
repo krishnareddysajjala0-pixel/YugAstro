@@ -2342,6 +2342,8 @@ def nakshatra_transit_chart():
     lon = request.form.get("lon")
     timezone_str = request.form.get("timezone", "Asia/Kolkata")
     place = request.form.get("place", "ప్రస్తుత స్థానం")
+    transit_date = request.form.get("transit_date")
+    transit_time = request.form.get("transit_time")
 
     if not lat or not lon:
         birth_info = session.get('birth_info', {})
@@ -2354,11 +2356,28 @@ def nakshatra_transit_chart():
     lon = float(lon)
 
     local_tz = pytz.timezone(timezone_str)
-    local_dt = datetime.datetime.now(local_tz)
+    if transit_date:
+        try:
+            t_time = transit_time.strip() if transit_time else "12:00"
+            parts = t_time.split(":")
+            if len(parts) == 2:
+                parsed_dt = datetime.datetime.strptime(f"{transit_date.strip()} {t_time}", "%Y-%m-%d %H:%M")
+            else:
+                parsed_dt = datetime.datetime.strptime(f"{transit_date.strip()} {t_time}", "%Y-%m-%d %H:%M:%S")
+            local_dt = local_tz.localize(parsed_dt)
+        except Exception:
+            local_dt = datetime.datetime.now(local_tz)
+    else:
+        local_dt = datetime.datetime.now(local_tz)
+
     today_dob = local_dt.strftime("%Y-%m-%d")
     today_tob = local_dt.strftime("%H:%M")
 
-    transit_data = get_kundali_data("ఈ రోజు గోచారం", today_dob, today_tob, place, lat, lon)
+    today_now_str = datetime.datetime.now(local_tz).strftime("%Y-%m-%d")
+    is_today = (today_dob == today_now_str)
+    chart_name = "ఈ రోజు గోచారం" if is_today else f"గోచారం ({local_dt.strftime('%d-%m-%Y')})"
+
+    transit_data = get_kundali_data(chart_name, today_dob, today_tob, place, lat, lon)
     transit_dasha = get_dasha_info(transit_data)
     transit_boxes = build_nakshatra_pada_boxes(transit_data)
 
@@ -2559,6 +2578,8 @@ def transit_chart():
     lat = request.form.get("lat")
     lon = request.form.get("lon")
     timezone_str = request.form.get("timezone", "Asia/Kolkata")
+    transit_date = request.form.get("transit_date")
+    transit_time = request.form.get("transit_time")
     
     if not lat or not lon:
         birth_info = session.get('birth_info', {})
@@ -2570,7 +2591,20 @@ def transit_chart():
     lon = float(lon)
 
     local_tz = pytz.timezone(timezone_str)
-    local_dt = datetime.datetime.now(local_tz)
+    if transit_date:
+        try:
+            t_time = transit_time.strip() if transit_time else "12:00"
+            parts = t_time.split(":")
+            if len(parts) == 2:
+                parsed_dt = datetime.datetime.strptime(f"{transit_date.strip()} {t_time}", "%Y-%m-%d %H:%M")
+            else:
+                parsed_dt = datetime.datetime.strptime(f"{transit_date.strip()} {t_time}", "%Y-%m-%d %H:%M:%S")
+            local_dt = local_tz.localize(parsed_dt)
+        except Exception:
+            local_dt = datetime.datetime.now(local_tz)
+    else:
+        local_dt = datetime.datetime.now(local_tz)
+
     utc_dt = local_dt.astimezone(pytz.utc)
 
     jd = swe.julday(
@@ -2762,6 +2796,10 @@ def transit_chart():
     )
     birth_lagna = birth_info.get('lagna', '') if isinstance(birth_info, dict) else ''
 
+    today_now_str = datetime.datetime.now(local_tz).strftime("%Y-%m-%d")
+    is_today = (local_dt.strftime("%Y-%m-%d") == today_now_str)
+    chart_name = "ఈ రోజు గ్రహ స్థితి" if is_today else f"గోచార గ్రహ స్థితి ({local_dt.strftime('%d-%m-%Y')})"
+
     return render_template(
         "transit_partial.html",
         chart=chart_data,
@@ -2773,7 +2811,7 @@ def transit_chart():
         same_rashi_planet_matches=same_rashi_planet_matches,
         comparison_bhavas=comparison_bhavas,
         birth_lagna=birth_lagna,
-        name="ఈ రోజు గ్రహ స్థితి",
+        name=chart_name,
         dob=local_dt.strftime("%d-%m-%Y"),
         tob=local_dt.strftime("%H:%M:%S")
     )
