@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <radialGradient id="wsGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#f1f5f9"/>
+      <stop offset="70%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </radialGradient>
+  </defs>
+  <polygon points="24,5 38,15 38,33 24,43 10,33 10,15" fill="url(#wsGrad)" stroke="#f8fafc" stroke-width="1.5"/>
+  <polygon points="24,12 32,18 32,30 24,36 16,30 16,18" fill="#e2e8f0" stroke="#ffffff" stroke-width="1"/>
+  <circle cx="21" cy="16" r="3" fill="#ffffff" opacity="0.95"/>
+</svg>

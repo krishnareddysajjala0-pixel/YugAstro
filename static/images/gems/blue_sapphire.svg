@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <radialGradient id="blueSaph" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="40%" stop-color="#2563eb"/>
+      <stop offset="80%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+  </defs>
+  <polygon points="16,5 32,5 43,16 43,32 32,43 16,43 5,32 5,16" fill="url(#blueSaph)" stroke="#93c5fd" stroke-width="1.5"/>
+  <polygon points="19,13 29,13 35,19 35,29 29,35 19,35 13,29 13,19" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1"/>
+  <polygon points="21,17 27,17 31,21 31,27 27,31 21,31 17,27 17,21" fill="#3b82f6" opacity="0.9"/>
+  <circle cx="23" cy="19" r="2.5" fill="#ffffff" opacity="0.9"/>
+</svg>

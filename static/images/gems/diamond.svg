@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="diaTable" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="diaLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="diaRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <!-- Diamond Brilliant Profile -->
+  <polygon points="12,8 36,8 44,18 24,44 4,18" fill="#0284c7" stroke="#e0f2fe" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Crown Triangles -->
+  <polygon points="12,8 36,8 30,18 18,18" fill="url(#diaTable)"/>
+  <polygon points="12,8 18,18 4,18" fill="url(#diaLeft)"/>
+  <polygon points="36,8 44,18 30,18" fill="url(#diaRight)"/>
+  <!-- Pavilion -->
+  <polygon points="18,18 30,18 24,44" fill="#ffffff" opacity="0.9"/>
+  <polygon points="4,18 18,18 24,44" fill="url(#diaLeft)" opacity="0.8"/>
+  <polygon points="44,18 30,18 24,44" fill="url(#diaRight)" opacity="0.8"/>
+  <!-- Sparkle -->
+  <path d="M14,6 L15,10 L19,11 L15,12 L14,16 L13,12 L9,11 L13,10 Z" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <radialGradient id="catBase" cx="45%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#a3e635"/>
+      <stop offset="40%" stop-color="#65a30d"/>
+      <stop offset="80%" stop-color="#3f6212"/>
+      <stop offset="100%" stop-color="#1a2e05"/>
+    </radialGradient>
+    <linearGradient id="catRay" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="24" cy="24" rx="20" ry="16" fill="url(#catBase)" stroke="#bef264" stroke-width="1.5"/>
+  <!-- Distinct Chatoyant Ray / Cat's Eye Vertical Slit -->
+  <polygon points="22,8 26,8 25,40 23,40" fill="url(#catRay)"/>
+  <line x1="24" y1="8" x2="24" y2="40" stroke="#fef08a" stroke-width="1.5"/>
+  <!-- Highlight -->
+  <circle cx="19" cy="15" r="2.5" fill="#ffffff" opacity="0.8"/>
+</svg>
