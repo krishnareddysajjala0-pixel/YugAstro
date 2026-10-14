@@ -2614,6 +2614,151 @@
             color: var(--text-main);
         }
 
+        /* ============================================================
+           MAHADASA CARD ANUKULAM / PRATIKULAM DYNAMIC THEME COLORS
+           - Anukulam: ALL text in green color across all themes
+           - Pratikulam: ALL text in red color across all themes
+           - Background color calibrated for 100% visibility in all themes
+        ============================================================ */
+
+        /* Light Theme Palettes (Default & Solar) */
+        :root {
+            --anukulam-card-bg: #f0fdf4;
+            --anukulam-card-border: #86efac;
+            --anukulam-card-text: #15803d;
+            --anukulam-badge-bg: linear-gradient(135deg, #15803d, #22c55e);
+
+            --pratikulam-card-bg: #fef2f2;
+            --pratikulam-card-border: #fca5a5;
+            --pratikulam-card-text: #dc2626;
+            --pratikulam-badge-bg: linear-gradient(135deg, #b91c1c, #ef4444);
+        }
+
+        [data-theme="solar"] {
+            --anukulam-card-bg: #f0fdf4;
+            --anukulam-card-border: #86efac;
+            --anukulam-card-text: #15803d;
+            --anukulam-badge-bg: linear-gradient(135deg, #15803d, #22c55e);
+
+            --pratikulam-card-bg: #fef2f2;
+            --pratikulam-card-border: #fca5a5;
+            --pratikulam-card-text: #dc2626;
+            --pratikulam-badge-bg: linear-gradient(135deg, #b91c1c, #ef4444);
+        }
+
+        /* Dark Theme Palettes (Cosmic, Cyberpunk, Luxury, Sunset, Mandala, Twilight, Aurora) */
+        [data-theme="cosmic"],
+        [data-theme="cyberpunk"],
+        [data-theme="luxury"],
+        [data-theme="sunset"],
+        [data-theme="mandala"],
+        [data-theme="twilight"],
+        [data-theme="aurora"] {
+            --anukulam-card-bg: rgba(6, 40, 25, 0.92);
+            --anukulam-card-border: rgba(34, 197, 94, 0.55);
+            --anukulam-card-text: #4ade80;
+            --anukulam-badge-bg: linear-gradient(135deg, #16a34a, #22c55e);
+
+            --pratikulam-card-bg: rgba(45, 12, 16, 0.92);
+            --pratikulam-card-border: rgba(248, 113, 113, 0.55);
+            --pratikulam-card-text: #f87171;
+            --pratikulam-badge-bg: linear-gradient(135deg, #dc2626, #ef4444);
+        }
+
+        /* Anukulam Card Rules: EVERYTHING IS GREEN */
+        .maha-dasa-card.maha-anukulam {
+            background: var(--anukulam-card-bg) !important;
+            border: 1.5px solid var(--anukulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-anukulam .maha-dasa-header,
+        .maha-dasa-card.maha-anukulam .maha-dasa-info-grid,
+        .maha-dasa-card.maha-anukulam .maha-dasa-info-grid *,
+        .maha-dasa-card.maha-anukulam .maha-dasa-left,
+        .maha-dasa-card.maha-anukulam .maha-dasa-right,
+        .maha-dasa-card.maha-anukulam .maha-dasa-name,
+        .maha-dasa-card.maha-anukulam .maha-dasa-name span,
+        .maha-dasa-card.maha-anukulam .maha-dasa-period,
+        .maha-dasa-card.maha-anukulam .maha-age-text,
+        .maha-dasa-card.maha-anukulam .maha-dasa-sthanam,
+        .maha-dasa-card.maha-anukulam .maha-dasa-sthanam strong,
+        .maha-dasa-card.maha-anukulam .maha-dasa-sthanam .sthanam-val,
+        .maha-dasa-card.maha-anukulam .maha-dasa-chetulu,
+        .maha-dasa-card.maha-anukulam .maha-dasa-chetulu strong,
+        .maha-dasa-card.maha-anukulam .maha-dasa-chetulu .chetulu-val,
+        .maha-dasa-card.maha-anukulam .text-favorable,
+        .maha-dasa-card.maha-anukulam .favorable,
+        .maha-dasa-card.maha-anukulam .maha-accordion-toggle i {
+            color: var(--anukulam-card-text) !important;
+        }
+
+        .maha-dasa-card.maha-anukulam .maha-dasa-right {
+            border-left: 2px solid var(--anukulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-anukulam .maha-dasa-number {
+            background: var(--anukulam-badge-bg) !important;
+            color: #ffffff !important;
+            border: 1px solid var(--anukulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-anukulam .maha-accordion-toggle {
+            background: rgba(34, 197, 94, 0.15) !important;
+        }
+
+        .maha-dasa-card.maha-anukulam:hover {
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.25) !important;
+            border-color: var(--anukulam-card-text) !important;
+        }
+
+        /* Pratikulam Card Rules: EVERYTHING IS RED */
+        .maha-dasa-card.maha-pratikulam {
+            background: var(--pratikulam-card-bg) !important;
+            border: 1.5px solid var(--pratikulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-pratikulam .maha-dasa-header,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-info-grid,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-info-grid *,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-left,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-right,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-name,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-name span,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-period,
+        .maha-dasa-card.maha-pratikulam .maha-age-text,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-sthanam,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-sthanam strong,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-sthanam .sthanam-val,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-chetulu,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-chetulu strong,
+        .maha-dasa-card.maha-pratikulam .maha-dasa-chetulu .chetulu-val,
+        .maha-dasa-card.maha-pratikulam .text-unfavorable,
+        .maha-dasa-card.maha-pratikulam .unfavorable,
+        .maha-dasa-card.maha-pratikulam .maha-accordion-toggle i {
+            color: var(--pratikulam-card-text) !important;
+        }
+
+        .maha-dasa-card.maha-pratikulam .maha-dasa-right {
+            border-left: 2px solid var(--pratikulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-pratikulam .maha-dasa-number {
+            background: var(--pratikulam-badge-bg) !important;
+            color: #ffffff !important;
+            border: 1px solid var(--pratikulam-card-border) !important;
+        }
+
+        .maha-dasa-card.maha-pratikulam .maha-accordion-toggle {
+            background: rgba(239, 68, 68, 0.15) !important;
+        }
+
+        .maha-dasa-card.maha-pratikulam:hover {
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.25) !important;
+            border-color: var(--pratikulam-card-text) !important;
+        }
+
+
+
 
 
 
@@ -4296,6 +4441,29 @@
                 break-after: page !important;
             }
 
+            .maha-dasa-card.maha-anukulam {
+                border-color: #006400 !important;
+            }
+            .maha-dasa-card.maha-anukulam .maha-dasa-header,
+            .maha-dasa-card.maha-anukulam .maha-dasa-header * {
+                color: #006400 !important;
+            }
+            .maha-dasa-card.maha-anukulam .maha-dasa-right {
+                border-left-color: #006400 !important;
+            }
+
+            .maha-dasa-card.maha-pratikulam {
+                border-color: #990000 !important;
+            }
+            .maha-dasa-card.maha-pratikulam .maha-dasa-header,
+            .maha-dasa-card.maha-pratikulam .maha-dasa-header * {
+                color: #990000 !important;
+            }
+            .maha-dasa-card.maha-pratikulam .maha-dasa-right {
+                border-left-color: #990000 !important;
+            }
+
+
             /* Mahadasa header row: Two parallel columns with vertical divider */
             .maha-dasa-header {
                 display: flex !important;
@@ -5631,17 +5799,30 @@
 
 
         body.mobile-pdf-rendering .text-favorable,
-
-
-
         body.mobile-pdf-rendering .text-unfavorable {
-
-
-
             color: #000000 !important;
+        }
 
+        body.mobile-pdf-rendering .maha-dasa-card.maha-anukulam {
+            border-color: #006400 !important;
+        }
+        body.mobile-pdf-rendering .maha-dasa-card.maha-anukulam .maha-dasa-header,
+        body.mobile-pdf-rendering .maha-dasa-card.maha-anukulam .maha-dasa-header * {
+            color: #006400 !important;
+        }
+        body.mobile-pdf-rendering .maha-dasa-card.maha-anukulam .maha-dasa-right {
+            border-left-color: #006400 !important;
+        }
 
-
+        body.mobile-pdf-rendering .maha-dasa-card.maha-pratikulam {
+            border-color: #990000 !important;
+        }
+        body.mobile-pdf-rendering .maha-dasa-card.maha-pratikulam .maha-dasa-header,
+        body.mobile-pdf-rendering .maha-dasa-card.maha-pratikulam .maha-dasa-header * {
+            color: #990000 !important;
+        }
+        body.mobile-pdf-rendering .maha-dasa-card.maha-pratikulam .maha-dasa-right {
+            border-left-color: #990000 !important;
         }
 
 
@@ -7536,7 +7717,7 @@ body {
 
             {% for dasa in all_dasas %}
 
-            <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %} {% if loop.index in [4, 8] %}break-after-page{% endif %}"
+            <div class="maha-dasa-card {% if dasa.is_favorable %}maha-anukulam{% else %}maha-pratikulam{% endif %} {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %} {% if loop.index in [4, 8] %}break-after-page{% endif %}"
                 onclick="toggleAnthara(this)">
 
                 <div class="maha-dasa-header">
