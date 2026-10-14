@@ -2821,7 +2821,7 @@
 
     }
 
-    .nak-box { border: 1.5px solid var(--box-border, #334155); border-radius: 10px; background: rgba(255, 255, 255, 0.02); display: flex; flex-direction: column; overflow: hidden; min-height: 185px; }
+    .nak-box { border: 1.5px solid var(--box-border, #334155); border-radius: 10px; background: rgba(255, 255, 255, 0.02); display: flex; flex-direction: column; overflow: hidden; min-height: 310px; }
 
     .house-green { border: 4.5px solid #006400 !important; }
 
@@ -6287,7 +6287,7 @@ body {
 
       transition: all 0.2s ease;
 
-      min-height: 185px;
+      min-height: 310px;
 
     }
 
@@ -6545,40 +6545,60 @@ body {
       width: calc(100% - 20px);
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
-      padding: 0 2px;
+      justify-content: stretch;
+      padding: 0;
       background: transparent;
-      overflow: hidden;
+      overflow: visible;
       box-sizing: border-box;
     }
 
     .pada-row {
       display: flex;
-      align-items: center;
-      gap: 2px;
+      align-items: stretch;
       font-size: 10px;
       line-height: 1.25;
-      padding: 0.5px 0;
-      min-height: 16px;
+      padding: 0;
+      min-height: 27px;
+      flex: 1 1 auto;
+      border-bottom: 1px dotted rgba(125, 125, 125, 0.2);
+      box-sizing: border-box;
     }
 
-    /* Column 2: Pada Letter & Number */
-    .pada-label-col {
-      display: inline-flex;
+    .pada-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Column 2: Pada Letter */
+    .pada-letter-col {
+      display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 1.5px;
-      flex: 0 0 34px;
-      min-width: 32px;
-      max-width: 38px;
-      padding-right: 2px;
-      margin-right: 2px;
+      justify-content: center;
+      flex: 0 0 17px;
+      width: 17px;
+      min-width: 17px;
       border-right: 1.5px solid var(--box-border);
       box-sizing: border-box;
-      white-space: nowrap;
+      padding: 0 1px;
     }
 
-    [data-theme="cosmic"] .pada-label-col {
+    [data-theme="cosmic"] .pada-letter-col {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Column 3: Pada Number */
+    .pada-num-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 16px;
+      width: 16px;
+      min-width: 16px;
+      border-right: 1.5px solid var(--box-border);
+      box-sizing: border-box;
+      padding: 0 1px;
+    }
+
+    [data-theme="cosmic"] .pada-num-col {
       border-right-color: rgba(255, 255, 255, 0.25);
     }
 
@@ -6623,23 +6643,27 @@ body {
       display: none !important;
     }
 
-    /* Column 3: Occupants (Planets & Lagna) */
+    /* Column 4: Occupants (Planets & Lagna) */
     .occupants-wrap {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 1.5px 3px;
+      gap: 2px 4px;
       flex: 1 1 auto;
       min-width: 0;
+      padding: 1.5px 3px;
+      box-sizing: border-box;
     }
 
     .occupant-pill {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
-      padding: 0.5px 2px;
+      padding: 1px 3.5px;
       border-radius: 3px;
       white-space: nowrap;
-      line-height: 1.1;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
     }
 
     .planet-deg-suffix {
@@ -6740,6 +6764,79 @@ body {
       color: var(--text-muted);
       opacity: 0.7;
       margin-right: 2px;
+    }
+
+    /* Rashi Attributes Panel (Adhipathi, Direction, Gem, Karakatwalu) */
+    .rashi-meta-panel {
+      border-top: 1px dashed var(--box-border);
+      margin-top: 3px;
+      padding-top: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      font-size: 8.5px;
+      line-height: 1.25;
+      flex-shrink: 0;
+    }
+
+    [data-theme="cosmic"] .rashi-meta-panel {
+      border-top-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .rashi-meta-adhipathi, .rashi-meta-gem, .rashi-meta-karaka {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+
+    .rashi-meta-gem {
+      align-items: center;
+      gap: 3px;
+    }
+
+    .meta-lbl {
+      font-weight: 800;
+      color: var(--text-main);
+      opacity: 0.95;
+      white-space: nowrap;
+    }
+
+    .meta-val-adhipathi {
+      font-weight: 700;
+      color: #0284c7;
+    }
+
+    [data-theme="cosmic"] .meta-val-adhipathi {
+      color: #38bdf8;
+    }
+
+    .meta-gem-icon {
+      width: 11px;
+      height: 11px;
+      vertical-align: -1.5px;
+      flex-shrink: 0;
+    }
+
+    .meta-val-gem {
+      font-weight: 700;
+      color: #d97706;
+    }
+
+    [data-theme="cosmic"] .meta-val-gem {
+      color: #fbbf24;
+    }
+
+    .meta-val-karaka {
+      font-weight: 600;
+      color: var(--text-muted, #334155);
+      font-size: 8px;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    [data-theme="cosmic"] .meta-val-karaka {
+      color: #cbd5e1;
     }
 
 
@@ -7607,8 +7704,10 @@ body {
             <div class="padas-list-cell">
               {% for p in nak.padas %}
               <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
-                <div class="pada-label-col">
+                <div class="pada-letter-col">
                   {% if p.pada_letter %}<span class="pada-letter">{{ p.pada_letter }}</span>{% endif %}
+                </div>
+                <div class="pada-num-col">
                   <span class="pada-num">{{ p.nak_pada_num }}</span>
                 </div>
                 <div class="occupants-wrap">
@@ -7645,6 +7744,20 @@ body {
               <span class="ant-item"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
             {% endfor %}
           </div>
+          {% if b.rashi_details %}
+          <div class="rashi-meta-panel">
+            <div class="rashi-meta-adhipathi">
+              <span class="meta-lbl">అధిపతి:</span> <span class="meta-val-adhipathi">{{ b.rashi_details.adhipathi_full }}</span>
+            </div>
+            <div class="rashi-meta-gem">
+              {% if b.rashi_details.gem_icon %}<img src="{{ b.rashi_details.gem_icon }}" alt="{{ b.rashi_details.gem }}" class="meta-gem-icon">{% endif %}
+              <span class="meta-val-gem">{{ b.rashi_details.gem }}</span>
+            </div>
+            <div class="rashi-meta-karaka">
+              <span class="meta-lbl">కారకత్వాలు:</span> <span class="meta-val-karaka">{{ b.rashi_details.karakatwalu }}</span>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

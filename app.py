@@ -2016,6 +2016,112 @@ RASHI_DASA_TIME_MAP = {
     "మీనం": {"dasa": "చిత్ర", "years": 7, "time": "1:37"}
 }
 
+# Rashi Details Map: Adhipathi, Direction, Gemstone, Karakatwalu
+RASHI_DETAILS_MAP = {
+    "మేషం": {
+        "adhipathi": "కుజుడు",
+        "direction": "తూర్పు",
+        "adhipathi_full": "కుజుడు (తూర్పు)",
+        "gem": "పగడము",
+        "gem_icon": "/static/images/gems/coral.svg",
+        "karakatwalu": "సోదరులకు, కారకులు, ఆయుధములు (శరీర వ్యయము)"
+    },
+    "వృషభం": {
+        "adhipathi": "మిత్ర",
+        "direction": "దక్షిణ",
+        "adhipathi_full": "మిత్ర (దక్షిణ)",
+        "gem": "గోమేధికము",
+        "gem_icon": "/static/images/gems/hessonite.svg",
+        "karakatwalu": "అన్న, వృక్షాలకు, గుర్రములు, వస్త్రములు (వారసత్వము)"
+    },
+    "మిథునం": {
+        "adhipathi": "చిత్ర",
+        "direction": "క్రిందికి",
+        "adhipathi_full": "చిత్ర (క్రిందికి)",
+        "gem": "తెల్లరాయి",
+        "gem_icon": "/static/images/gems/white_stone.svg",
+        "karakatwalu": "శత్రువుకి, అకస్మాత్తుగా మరణములు (శరీర వ్యయము)"
+    },
+    "కర్కాటకం": {
+        "adhipathi": "చంద్రుడు",
+        "direction": "వాయువ్య",
+        "adhipathi_full": "చంద్రుడు (వాయువ్య)",
+        "gem": "ముత్యము",
+        "gem_icon": "/static/images/gems/pearl.svg",
+        "karakatwalu": "తల్లికి, నీటికి, మనస్సుకి, విమానము (భాగస్వామి రోగాలు)"
+    },
+    "సింహం": {
+        "adhipathi": "సూర్యుడు",
+        "direction": "తూర్పు",
+        "adhipathi_full": "సూర్యుడు (తూర్పు)",
+        "gem": "కెంపు",
+        "gem_icon": "/static/images/gems/ruby.svg",
+        "karakatwalu": "తండ్రికి, ద్వీపములు, ప్రభుత్వభయములు (పెద్దవయస్సు)"
+    },
+    "కన్య": {
+        "adhipathi": "బుధుడు",
+        "direction": "నైరుతి",
+        "adhipathi_full": "బుధుడు (నైరుతి)",
+        "gem": "పచ్చ",
+        "gem_icon": "/static/images/gems/emerald.svg",
+        "karakatwalu": "మేనమామకి, శత్రువులు, బంధుత్వములు, వ్యాపారములు"
+    },
+    "తులా": {
+        "adhipathi": "శుక్రుడు",
+        "direction": "ఆగ్నేయ",
+        "adhipathi_full": "శుక్రుడు (ఆగ్నేయ)",
+        "gem": "వజ్రం",
+        "gem_icon": "/static/images/gems/diamond.svg",
+        "karakatwalu": "భార్యకి, కంటికి, వాహనములు, సంగీతం, సుఖములు"
+    },
+    "వృశ్చికం": {
+        "adhipathi": "భూమి",
+        "direction": "పశ్చిమ",
+        "adhipathi_full": "భూమి (పశ్చిమ)",
+        "gem": "పుష్యరాగం / నల్లరాయి",
+        "gem_icon": "/static/images/gems/black_stone.svg",
+        "karakatwalu": "అన్నగారికి, భూములు, ఇల్లులు, కూలివర్గ శత్రువులు (ఆయుః)"
+    },
+    "ధనస్సు": {
+        "adhipathi": "కేతువు",
+        "direction": "పైకి",
+        "adhipathi_full": "కేతువు (పైకి)",
+        "gem": "వైడూర్యము",
+        "gem_icon": "/static/images/gems/cats_eye.svg",
+        "karakatwalu": "దైవజ్ఞానము, నిరోధక శక్తి, వైరాగ్యము (ధర్మ భక్తి)"
+    },
+    "మకరం": {
+        "adhipathi": "రాహువు",
+        "direction": "నైరుతి",
+        "adhipathi_full": "రాహువు (నైరుతి)",
+        "gem": "గోమేధికము",
+        "gem_icon": "/static/images/gems/hessonite.svg",
+        "karakatwalu": "పేరులకు, విషము, రోగస్థానము, రెండోతల్లి (జీవన ప్రాప్తి)"
+    },
+    "కుంభం": {
+        "adhipathi": "శని",
+        "direction": "పశ్చిమ",
+        "adhipathi_full": "శని (పశ్చిమ)",
+        "gem": "నీలము",
+        "gem_icon": "/static/images/gems/blue_sapphire.svg",
+        "karakatwalu": "ఇనుముకి, సంకటము, శనిదేవుడు (లాభ స్థానము)"
+    },
+    "మీనం": {
+        "adhipathi": "గురువు",
+        "direction": "ఈశాన్య",
+        "adhipathi_full": "గురువు (ఈశాన్య)",
+        "gem": "పుష్యరాగము",
+        "gem_icon": "/static/images/gems/yellow_sapphire.svg",
+        "karakatwalu": "పుత్రునికి, బంగారు (శత్రు స్థానము, మరణము)"
+    }
+}
+for _rk, _rv in list(RASHI_DETAILS_MAP.items()):
+    if _rk.endswith("ం"):
+        RASHI_DETAILS_MAP[_rk[:-1] + "ము"] = _rv
+RASHI_DETAILS_MAP["తుల"] = RASHI_DETAILS_MAP["తులా"]
+RASHI_DETAILS_MAP["తులారాశి"] = RASHI_DETAILS_MAP["తులా"]
+RASHI_DETAILS_MAP["ధనుస్సు"] = RASHI_DETAILS_MAP["ధనస్సు"]
+
 def build_nakshatra_pada_boxes(data):
     """
     Builds the 12 boxes mapping each Rashi's 3 Nakshatras & 9 Padas
@@ -2159,6 +2265,7 @@ def build_nakshatra_pada_boxes(data):
             "is_lagna": is_lagna_box,
             "rashi_time": rashi_time,
             "dasa_info": dasa_info,
+            "rashi_details": RASHI_DETAILS_MAP.get(rashi, {}),
             "nakshatras": nakshatras_data
         }
 
