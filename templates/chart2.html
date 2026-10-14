@@ -4022,22 +4022,13 @@
 
 
             .print-button, .nav-buttons, .scrolling-footer,
-
-
-
             .theme-switcher, .fixed-bottom-bar, #action-bar,
-
-
-
             .float-btn, .print-hide, .maha-accordion-toggle,
-
-
-
             #transit-btn, #transit-loading, .dasa-section .section-title,
-
-
-
-            #loading-overlay {
+            #loading-overlay, #custom-astro-dialog-overlay,
+            #print-options-modal, #mobile-print-modal,
+            .top-control-bar, .language-switcher,
+            footer, script, noscript {
 
 
 
@@ -4058,21 +4049,10 @@
 
 
             .glow-container {
-
-
-
                 background: transparent !important;
-
-
-
                 border: none !important;
-
-
-
                 padding: 0 !important;
-
-
-
+                margin: 0 !important;
             }
 
 
@@ -4086,89 +4066,40 @@
 
 
             .cosmic-header {
-
-
-
                 background: transparent !important;
-
-
-
                 border: 1px solid #333 !important;
-
-
-
                 border-radius: 4px !important;
-
-
-
-                padding: 10px 12px !important;
-
-
-
-                margin: 0 auto 15px auto !important;
-
-
-
-                width: 80% !important;
-
-
-
+                padding: 8px 12px !important;
+                margin: 0 auto 10px auto !important;
+                width: 88% !important;
                 page-break-inside: avoid !important;
-
-
-
                 break-inside: avoid !important;
-
-
-
             }
-
-
 
             .cosmic-header * { color: #000 !important; }
 
+            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 20pt !important; }
 
-
-            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 16.5pt !important; }
-
-
-
-            .person-name { font-size: 18.6pt !important; font-weight: bold !important; color: #000080 !important; }
-
-
+            .person-name { font-size: 24pt !important; font-weight: bold !important; color: #000080 !important; }
 
             .info-row {
-
-
-
                 display: inline-flex !important;
-
-
-
                 flex-direction: column !important;
-
-
-
                 align-items: flex-start !important;
-
-
-
-                gap: 5px !important;
-
-
-
-                font-size: 11pt !important;
-
-
-
-                margin: 10px auto 0 auto !important;
-
-
-
+                gap: 4px !important;
+                font-size: 22pt !important;
+                margin: 6px auto 0 auto !important;
                 text-align: left !important;
+                line-height: 1.3 !important;
+            }
 
+            .info-row * {
+                font-size: 22pt !important;
+                line-height: 1.3 !important;
+            }
 
-
+            .info-icon {
+                font-size: 20pt !important;
             }
 
 
@@ -4294,60 +4225,40 @@
 
 
             .current-dasa-box {
-
-
-
                 background: transparent !important;
-
-
-
                 border: 2px solid #333 !important;
-
-
-
-                padding: 8px 10px !important;
-
-
-
-                margin: 0 auto 15px auto !important;
-
-
-
-                width: 80% !important;
-
-
-
+                padding: 8px 12px !important;
+                margin: 0 auto 10px auto !important;
+                width: 88% !important;
                 page-break-inside: avoid !important;
-
-
-
                 break-inside: avoid !important;
-
-
-
-                font-size: 11pt !important;
-
-
-
+                font-size: 21pt !important;
+                line-height: 1.3 !important;
             }
 
+            .current-dasa-box * {
+                color: #000 !important;
+                font-size: 21pt !important;
+                line-height: 1.3 !important;
+            }
 
+            .current-dasa-title { color: #d2691e !important; font-size: 24pt !important; }
 
-            .current-dasa-box * { color: #000 !important; }
+            .current-dasa-box .planet-icon { font-size: 24pt !important; }
 
+            .current-dasa-box .highlight { font-size: 21pt !important; }
 
+            .current-dasa-box .highlight.text-favorable,
+            .current-dasa-box .favorable {
+                color: #006400 !important;
+                font-size: 21pt !important;
+            }
 
-            .current-dasa-title { color: #d2691e !important; font-size: 17.1pt !important; }
-
-
-
-            .highlight.text-favorable { color: #006400 !important; }
-
-
-
-            .highlight.text-unfavorable { color: #b22222 !important; }
-
-
+            .current-dasa-box .highlight.text-unfavorable,
+            .current-dasa-box .unfavorable {
+                color: #b22222 !important;
+                font-size: 21pt !important;
+            }
 
             .progress-container { display: none !important; }
 
@@ -4404,6 +4315,14 @@
                 zoom: 1 !important;
                 page-break-before: avoid !important;
                 break-before: avoid !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            .dasa-section .maha-dasa-card:last-child {
+                margin-bottom: 0 !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
 
             .dasa-section .dasa-header-row {
