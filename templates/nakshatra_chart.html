@@ -1307,9 +1307,9 @@
     [data-theme="cosmic"] .ant-planet-chitra .ant-p { color: #a78bfa !important; }
     [data-theme="cosmic"] .ant-planet-chitra .ant-d { color: #ddd6fe !important; }
 
-    /* Lower Half: Rashi Attributes Panel (Adhipathi, Direction, Gem, Karakatwalu) */
+    /* Lower Half: Rashi Attributes Panel (Adhipathi, Direction, Gem, Karakatwalu, Bhava) */
     .rashi-meta-panel {
-      flex: 1 1 50%;
+      flex: 1 1 auto;
       min-height: 0;
       margin-top: 2px;
       padding-top: 1px;
@@ -1322,7 +1322,7 @@
       flex-shrink: 0;
     }
 
-    .rashi-meta-adhipathi, .rashi-meta-gem, .rashi-meta-karaka {
+    .rashi-meta-adhipathi, .rashi-meta-gem, .rashi-meta-karaka, .rashi-meta-bhava, .rashi-meta-bhava-karaka {
       display: flex;
       align-items: baseline;
       flex-wrap: wrap;
@@ -1375,6 +1375,29 @@
     }
 
     [data-theme="cosmic"] .meta-val-karaka {
+      color: #cbd5e1;
+    }
+
+    .meta-val-bhava-name {
+      font-weight: 700;
+      color: #9333ea;
+      font-size: 8.5px;
+      line-height: 1.25;
+    }
+
+    [data-theme="cosmic"] .meta-val-bhava-name {
+      color: #c084fc;
+    }
+
+    .meta-val-bhava-karaka {
+      font-weight: 600;
+      color: var(--text-muted, #334155);
+      font-size: 8px;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    [data-theme="cosmic"] .meta-val-bhava-karaka {
       color: #cbd5e1;
     }
 
@@ -2066,6 +2089,16 @@
 
       .ant-d {
         color: #334155 !important;
+      }
+
+      .meta-val-bhava-name {
+        color: #6b21a8 !important;
+        font-weight: 800 !important;
+      }
+
+      .meta-val-bhava-karaka {
+        color: #1e293b !important;
+        font-weight: 600 !important;
       }
 
       .pada-arrow {
@@ -2973,8 +3006,9 @@ body {
               {% endfor %}
             </div>
           </div>
-          {% if b.rashi_details %}
+          {% if b.rashi_details or b.bhava_info %}
           <div class="rashi-meta-panel">
+            {% if b.rashi_details %}
             <div class="rashi-meta-adhipathi">
               <span class="meta-lbl">అధిపతి:</span> <span class="meta-val-adhipathi">{{ b.rashi_details.adhipathi_full }}</span>
             </div>
@@ -2985,6 +3019,15 @@ body {
             <div class="rashi-meta-karaka">
               <span class="meta-lbl">కారకత్వాలు:</span> <span class="meta-val-karaka">{{ b.rashi_details.karakatwalu }}</span>
             </div>
+            {% endif %}
+            {% if b.bhava_info %}
+            <div class="rashi-meta-bhava">
+              <span class="meta-lbl">భావం:</span> <span class="meta-val-bhava-name">{{ b.bhava_info.name }}</span>
+            </div>
+            <div class="rashi-meta-bhava-karaka">
+              <span class="meta-lbl">స్థాన కారకత్వాలు:</span> <span class="meta-val-bhava-karaka">{{ b.bhava_info.karakatwalu }}</span>
+            </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>

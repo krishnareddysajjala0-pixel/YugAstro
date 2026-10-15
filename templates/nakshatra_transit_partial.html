@@ -86,8 +86,9 @@
               {% endfor %}
             </div>
           </div>
-          {% if b.rashi_details %}
+          {% if b.rashi_details or b.bhava_info %}
           <div class="rashi-meta-panel">
+            {% if b.rashi_details %}
             <div class="rashi-meta-adhipathi">
               <span class="meta-lbl">అధిపతి:</span> <span class="meta-val-adhipathi">{{ b.rashi_details.adhipathi_full }}</span>
             </div>
@@ -98,6 +99,15 @@
             <div class="rashi-meta-karaka">
               <span class="meta-lbl">కారకత్వాలు:</span> <span class="meta-val-karaka">{{ b.rashi_details.karakatwalu }}</span>
             </div>
+            {% endif %}
+            {% if b.bhava_info %}
+            <div class="rashi-meta-bhava">
+              <span class="meta-lbl">భావం:</span> <span class="meta-val-bhava-name">{{ b.bhava_info.name }}</span>
+            </div>
+            <div class="rashi-meta-bhava-karaka">
+              <span class="meta-lbl">స్థాన కారకత్వాలు:</span> <span class="meta-val-bhava-karaka">{{ b.bhava_info.karakatwalu }}</span>
+            </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>

@@ -2157,6 +2157,69 @@ RASHI_DETAILS_MAP["తుల"] = RASHI_DETAILS_MAP["తులా"]
 RASHI_DETAILS_MAP["తులారాశి"] = RASHI_DETAILS_MAP["తులా"]
 RASHI_DETAILS_MAP["ధనుస్సు"] = RASHI_DETAILS_MAP["ధనస్సు"]
 
+BHAVA_DETAILS_MAP = {
+    1: {
+        "sthanam": "1వ స్థానం",
+        "name": "లగ్న / తను స్థానం",
+        "karakatwalu": "శరీరం, రూపం, ఆరోగ్యం, వ్యక్తిత్వం, కీర్తి"
+    },
+    2: {
+        "sthanam": "2వ స్థానం",
+        "name": "ధన / కుటుంబ స్థానం",
+        "karakatwalu": "ధనం (సంపద), కుటుంబం, వాక్కు (మాట), నేత్రాలు, ఆహారం"
+    },
+    3: {
+        "sthanam": "3వ స్థానం",
+        "name": "సోదర / పరాక్రమ స్థానం",
+        "karakatwalu": "కనిష్ఠ సోదరులు, ధైర్యం, దగ్గరి ప్రయాణాలు, కమ్యూనికేషన్, రచనలు"
+    },
+    4: {
+        "sthanam": "4వ స్థానం",
+        "name": "మాతృ / సుఖ స్థానం",
+        "karakatwalu": "తల్లి, ఇల్లు (గృహం), వాహనాలు, స్థిరాస్తులు, భూమి, సుఖం, ప్రాథమిక విద్య"
+    },
+    5: {
+        "sthanam": "5వ స్థానం",
+        "name": "సంతాన / పంచమ స్థానం",
+        "karakatwalu": "సంతానం, బుద్ధి, ఉన్నత విద్య, పూర్వపుణ్యం, ఆలోచనా శక్తి"
+    },
+    6: {
+        "sthanam": "6వ స్థానం",
+        "name": "శత్రు / రోగ / రుణ స్థానం",
+        "karakatwalu": "శత్రువులు, రోగాలు, అప్పులు (రుణాలు), పోటీ పరీక్షలు, సేవ"
+    },
+    7: {
+        "sthanam": "7వ స్థానం",
+        "name": "కళత్ర / వివాహ స్థానం",
+        "karakatwalu": "జీవిత భాగస్వామి (భార్య/భర్త), వివాహం, వ్యాపార భాగస్వామ్యం"
+    },
+    8: {
+        "sthanam": "8వ స్థానం",
+        "name": "ఆయుః స్థానం",
+        "karakatwalu": "ఆయుష్షు, ఆకస్మిక సంఘటనలు, కష్టాలు, వారసత్వ సంపద, రహస్యాలు"
+    },
+    9: {
+        "sthanam": "9వ స్థానం",
+        "name": "భాగ్య / ధర్మ స్థానం",
+        "karakatwalu": "తండ్రి, అదృష్టం (భాగ్యం), ధర్మం, దైవభక్తి, గురువులు, దూర ప్రయాణాలు"
+    },
+    10: {
+        "sthanam": "10వ స్థానం",
+        "name": "కర్మ / రాజ్య స్థానం",
+        "karakatwalu": "వృత్తి, ఉద్యోగం, వ్యాపారం, కీర్తి ప్రతిష్ఠలు, అధికారం, సంఘంలో గౌరవం"
+    },
+    11: {
+        "sthanam": "11వ స్థానం",
+        "name": "లాభ స్థానం",
+        "karakatwalu": "ఆదాయం, లాభాలు, జ్యేష్ఠ సోదరులు, మిత్రులు, కోరికలు నెరవేరడం"
+    },
+    12: {
+        "sthanam": "12వ స్థానం",
+        "name": "వ్యయ / మోక్ష స్థానం",
+        "karakatwalu": "ఖర్చులు (వ్యయం), నష్టాలు, విదేశీ ప్రయాణాలు, నిద్ర, మోక్షం"
+    }
+}
+
 def build_nakshatra_pada_boxes(data):
     """
     Builds the 12 boxes mapping each Rashi's 3 Nakshatras & 9 Padas
@@ -2311,6 +2374,7 @@ def build_nakshatra_pada_boxes(data):
             "rashi_time": rashi_time,
             "dasa_info": dasa_info,
             "rashi_details": RASHI_DETAILS_MAP.get(rashi, {}),
+            "bhava_info": BHAVA_DETAILS_MAP.get(int(h_no) if str(h_no).isdigit() else 1, {}),
             "nakshatras": nakshatras_data
         }
 
