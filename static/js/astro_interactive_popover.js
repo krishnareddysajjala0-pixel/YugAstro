@@ -1,7 +1,7 @@
 /**
  * YugAstro Interactive Graha & Bhava Karakatwalu Popover Engine
  * Based on Sri Sri Sri Acharya Prabodhananda Yogeeswarulu's
- * Thraitha Siddhantha "జ్యోతిష్య శాస్త్రము" (Pages 174-189 & 213-230)
+ * Thraitha Siddhantha "జ్యోతిష్య శాస్త్రము"
  */
 (function() {
   'use strict';
@@ -571,7 +571,7 @@
     positionPopover(targetEl, evt ? evt.clientX : 0, evt ? evt.clientY : 0);
   };
 
-  // 2. Show House Information from Jyothishya Shaasthramu (Pages 213-230)
+  // 2. Show House Information from Jyothishya Shaasthramu
   window.showHouseJyothishyaInfo = function(houseNo, targetEl, evt, rashiName) {
     if (hideTimeout) clearTimeout(hideTimeout);
     var hKey = String(houseNo).trim();
