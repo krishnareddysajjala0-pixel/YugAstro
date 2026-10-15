@@ -3072,7 +3072,7 @@ body {
 
   {% macro render_nak_box(rashi_name) %}
   {% set b = nakshatra_boxes[rashi_name] %}
-  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}">
+  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}" data-house-no="{{ b.house_no }}" data-rashi="{{ b.rashi_name }}">
     <div class="nak-box-header">
       <span class="house-badge">{{ b.house_no }}</span>
       <span class="rashi-title-text">{{ _(b.rashi_name) }}{% if b.rashi_time %} <span class="rashi-time-badge">⏱️ {{ b.rashi_time }}</span>{% endif %}</span>
@@ -3103,11 +3103,11 @@ body {
                     {% for occ in p.occupants %}
                       {% set deg_display = occ.deg_only if (occ.deg_only is defined and occ.deg_only) else (occ.degree.split('°')[0] ~ '°' if (occ.degree and '°' in occ.degree) else '') %}
                       {% if occ.is_lagna %}
-                        <span class="occupant-pill lagna-occupant">🚩 {{ _(occ.short_name or "లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                        <span class="occupant-pill lagna-occupant" data-planet="{{ occ.name or occ.short_name or 'లగ్నం' }}" data-rashi-context="{{ b.rashi_name }} ({{ b.house_no }}వ స్థానము)">🚩 {{ _(occ.short_name or "లగ్నం") }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                       {% elif occ.is_hand %}
-                        <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                        <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};" data-planet="{{ occ.name or occ.short_name }}" data-rashi-context="{{ b.rashi_name }} ({{ b.house_no }}వ స్థానము)">👉 {{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                       {% else %}
-                        <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
+                        <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};" data-planet="{{ occ.name or occ.short_name }}" data-rashi-context="{{ b.rashi_name }} ({{ b.house_no }}వ స్థానము)">{{ _(occ.short_name or occ.name) }}{% if deg_display %}<span class="planet-deg-suffix">{{ deg_display }}</span>{% endif %}</span>
                       {% endif %}
                     {% endfor %}
                   {% endif %}
@@ -4036,6 +4036,7 @@ if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversa
     };
 })();
 </script>
+<script src="/static/js/astro_interactive_popover.js"></script>
 
 </body>
 

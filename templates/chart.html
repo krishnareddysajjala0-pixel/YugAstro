@@ -7154,7 +7154,7 @@ body {
 
 
 
-    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(box_lagna) }}">
 
 
 
@@ -10447,6 +10447,7 @@ if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversa
     };
 })();
 </script>
+<script src="/static/js/astro_interactive_popover.js"></script>
 
 </body>
 
