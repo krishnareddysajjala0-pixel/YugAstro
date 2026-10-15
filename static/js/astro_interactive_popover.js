@@ -621,7 +621,7 @@
           '<b style="color: #fbbf24;">స్థాన కారకత్వాలు:</b> <span style="color: #f1f5f9;">' + h.karakatwalu + '</span>',
         '</div>',
         '<div style="font-size: 12.5px; font-weight: 800; color: #ffd700; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">',
-          '<span>📖</span> జ్యోతిష్య శాస్త్రము (గ్రంథ వివరణ & ఫలితాలు - పేజీలు 213-230):',
+          '<span>📖</span> జ్యోతిష్య శాస్త్రము (గ్రంథ వివరణ):',
         '</div>',
         '<div style="font-size: 11.5px; line-height: 1.65; color: #f8fafc; background: rgba(30,41,59,0.7); padding: 9px 11px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: justify;">',
           h.book_excerpt,
