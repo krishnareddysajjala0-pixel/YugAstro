@@ -3021,24 +3021,15 @@
 
 
 
-            border-bottom: 2px solid var(--card-border);
-
-
-
-
-
+            border: none !important;
             vertical-align: middle;
-
-
-
-
-
             display: table-cell;
+        }
 
-
-
-
-
+        .data-table thead th,
+        .data-table thead tr {
+            border: none !important;
+            box-shadow: none !important;
         }
 
 
@@ -3118,59 +3109,14 @@
 
 
         .data-table tbody tr {
-
-
-
-
-
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
-
-
-
-
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-
-
-
-
-
+            transition: none !important;
+            filter: none !important;
         }
 
-
-
-
-
-
-
-
-
-
-
         .data-table tbody tr:hover {
-
-
-
-
-
-            transform: translateY(-4px) scale(1.01);
-
-
-
-
-
-            filter: drop-shadow(var(--accent-glow));
-
-
-
-
-
-            z-index: 10;
-
-
-
-
-
+            transform: none !important;
+            filter: none !important;
+            z-index: 1;
         }
 
 
@@ -3879,144 +3825,46 @@
 
 
 
+        .disease-row td,
+        .data-table .disease-cell,
+        .data-table td.disease-cell {
+            border-left: none !important;
+            border-right: none !important;
+        }
+
         .disease-cell {
             text-align: left;
-            padding: 8px !important;
+            padding: 6px 10px !important;
             vertical-align: top;
             min-width: unset !important;
             width: auto !important;
+            border-left: none !important;
+            border-right: none !important;
         }
-
-
-
-
 
         .disease-list {
-
-
-
-
-
-            list-style: none;
-
-
-
-
-
-            padding: 0;
-
-
-
-
-
-            margin: 0;
-
-
-
-
-
-            background: rgba(255, 99, 132, 0.05);
-
-
-
-
-
-            border-left: 2px solid #ff6b6b;
-
-
-
-
-
-            border-radius: 0 6px 6px 0;
-
-
-
-
-
-            padding: 5px 8px;
-
-
-
-
-
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 0 !important;
         }
-
-
-
-
-
-
-
-
-
-
 
         .disease-list li {
-
-
-
-
-
-            padding: 4px 0;
-
-
-
-
-
-            color: #ff9999;
-
-
-
-
-
+            padding: 2px 0 !important;
+            color: var(--text-main);
             font-size: 13px;
-
-
-
-
-
             position: relative;
-
-
-
-
-
-            padding-left: 18px;
-
-
-
-
-
-            line-height: 1.4;
-
-
-
-
-
+            padding-left: 0 !important;
+            line-height: 1.3;
+            border: none !important;
+            list-style: none !important;
         }
 
-
-
-
-
-
-
-
-
-
-
         .disease-list li::before {
-
-
-
-
-
             display: none !important;
-
-
-
-
-
         }
 
 
@@ -4251,65 +4099,27 @@
             width: auto !important;
             min-width: unset !important;
             white-space: nowrap;
-
-
-
-
-
             position: sticky !important;
-
-
-
-
-
             left: 0 !important;
-
-
-
-
-
             background: var(--card-bg) !important;
-
-
-
-
-
             z-index: 20 !important;
-
-
-
-
-
-            border-right: 2px solid var(--card-border) !important;
-
-
-
-
-
             text-align: left;
-
-
-
-
-
             font-size: 15px;
-
-
-
-
-
             font-weight: bold;
+        }
 
+        .data-table thead th:first-child {
+            border: none !important;
+            box-shadow: none !important;
+        }
 
+        .data-table tbody td:first-child {
+            border: 1px solid var(--card-border, #cbd5e1);
+        }
 
-
-
-            box-shadow: 4px 0 10px var(--shadow-color);
-
-
-
-
-
+        .disease-row td:first-child {
+            border-left: none !important;
+            border-right: none !important;
         }
 
 
@@ -4322,24 +4132,11 @@
 
 
 
+        .data-table thead th,
         .data-table thead th:first-child {
-
-
-
-
-
             z-index: 30 !important;
-
-
-
-
-
-            background: var(--card-bg) !important;
-
-
-
-
-
+            border: none !important;
+            box-shadow: none !important;
         }
 
 
@@ -5115,10 +4912,25 @@
     border: 1px solid #cbd5e1 !important;
   }
 
-  [data-theme] .data-table th {
+  [data-theme] .data-table th,
+  [data-theme] .data-table thead tr {
     color: #0f172a !important;
-    background: #f1f5f9 !important;
-    border: 1px solid #94a3b8 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  [data-theme] .disease-row td,
+  [data-theme] .disease-cell {
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  [data-theme] .disease-list {
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    padding: 0 !important;
   }
 
   [data-theme] .party-info-box p,
@@ -5172,17 +4984,8 @@
     break-inside: avoid !important;
   }
 
-  #chart3-page-2 {
-    page-break-before: avoid !important;
-    break-before: avoid !important;
-    page-break-after: always !important;
-    break-after: page !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
-  /* Page 3 MUST be the final page - strictly forbid any page 4 */
-  #chart3-page-3,
+  /* Exactly 2 Pages Containers - Page 2 MUST be the final page containing Friendly & Enemy planets - strictly forbid any page 3 */
+  #chart3-page-2,
   .print-page-container:last-child {
     page-break-before: avoid !important;
     break-before: avoid !important;
@@ -5295,16 +5098,22 @@
     background: #ffffff !important;
     margin: 0 auto !important;
   }
-  #chart3-page-1 .data-table th {
+  #chart3-page-1 .data-table th,
+  #chart3-page-1 .data-table thead tr {
     font-size: 9.6pt !important;
     padding: 1px 4px !important;
-    background: #f1f5f9 !important;
+    background: transparent !important;
     color: #0f172a !important;
-    border: 1px solid #94a3b8 !important;
+    border: none !important;
+    box-shadow: none !important;
     font-weight: 800 !important;
     width: auto !important;
     min-width: unset !important;
     white-space: nowrap !important;
+  }
+  #chart3-page-1 .data-table thead th:first-child {
+    border: none !important;
+    box-shadow: none !important;
   }
   #chart3-page-1 .data-table td {
     padding: 1px 4px !important;
@@ -5324,15 +5133,20 @@
     width: auto !important;
     min-width: unset !important;
     white-space: nowrap !important;
+    border: 1px solid #cbd5e1 !important;
   }
+  #chart3-page-1 .disease-row td,
   #chart3-page-1 .disease-cell {
+    border-left: none !important;
+    border-right: none !important;
     width: auto !important;
     min-width: unset !important;
   }
 
   #chart3-page-1 .disease-list {
-    background: #ffffff !important;
+    background: transparent !important;
     border: none !important;
+    border-left: none !important;
     padding: 0 !important;
     margin: 0 !important;
   }
@@ -5341,6 +5155,7 @@
     padding: 0.2px 0 !important;
     color: #000000 !important;
     line-height: 1.08 !important;
+    border: none !important;
   }
 
   /* Page 2 & 3: Friendly (Mitra) & Enemy (Satru) 6 Planets Grids (3x2) (+13% Text Size) */
@@ -5508,33 +5323,15 @@
     color: #991b1b !important;
   }
 
-  /* Page 3 Footer Compact */
-  #chart3-page-3 .footer {
-    margin-top: 1px !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-  }
-  #chart3-page-3 .footer p {
-    font-size: 8.8pt !important;
-    margin: 0 !important;
-    color: #334155 !important;
-    font-weight: 600 !important;
-  }
-  #chart3-page-3 .disclaimer {
-    font-size: 7.7pt !important;
-    padding: 1px 3px !important;
-    margin-top: 1px !important;
-    line-height: 1.1 !important;
-    background: #f8fafc !important;
-    color: #1e293b !important;
-    border-left: 2px solid #64748b !important;
-    border-radius: 2px !important;
-  }
-  #chart3-page-3 .disclaimer strong {
-    color: #0f172a !important;
+  /* Hide footer and disclaimer completely in print/pdf */
+  .footer,
+  .disclaimer,
+  #chart3-page-2 .footer,
+  #chart3-page-2 .disclaimer {
+    display: none !important;
   }
 
-  .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
+  .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay, .footer, .disclaimer {
     display: none !important;
   }
 }
@@ -6954,17 +6751,7 @@ body {
 
 
                             <!-- {{ _('వ్యాధులు') }} -->
-
-
-
-
-
-                            <tr>
-
-
-
-
-
+                            <tr class="disease-row">
                                 <td style="font-weight: bold; color: var(--text-muted);">{{ _('వ్యాధులు') }}</td>
 
 
@@ -7795,17 +7582,7 @@ body {
 
 
                             <!-- {{ _('వ్యాధులు') }} -->
-
-
-
-
-
-                            <tr>
-
-
-
-
-
+                            <tr class="disease-row">
                                 <td style="font-weight: bold; color: var(--text-muted);">{{ _('వ్యాధులు') }}</td>
 
 
@@ -8381,34 +8158,6 @@ body {
 
         {% endif %}
 
-
-
-
-
-        </div> <!-- Close Page 2 print-page-container -->
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Page 3 Container -->
-
-
-
-
-
-        <div class="print-page-container" id="chart3-page-3">
-
-
-
-
-
         {% if enemies %}
 
 
@@ -8670,7 +8419,7 @@ body {
 
 
 
-        <div class="footer">
+        <div class="footer print-hide">
 
 
 
@@ -8724,7 +8473,7 @@ body {
 
 
 
-        </div> <!-- Close Page 3 print-page-container -->
+        </div> <!-- Close Page 2 print-page-container -->
     </div><!-- end #chart3-pdf-export-container -->
 
 

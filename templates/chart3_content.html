@@ -138,7 +138,7 @@
                                 <td class="day-cell">{{ _('మంగళవారం') }}</td>
                             </tr>
                             <!-- {{ _('వ్యాధులు') }} -->
-                            <tr>
+                            <tr class="disease-row">
                                 <td style="font-weight: bold; color: var(--text-muted);">{{ _('వ్యాధులు') }}</td>
                                 <td class="disease-cell"><ul class="disease-list"><li>{{ _('మర్మస్థాన రోగాలు') }}</li><li>{{ _('శుక్ల నష్టం') }}</li></ul></td>
                                 <td class="disease-cell"><ul class="disease-list"><li>{{ _('అతిసారం') }}</li><li>{{ _('జ్వరం') }}</li><li>{{ _('శ్వాస సమస్యలు') }}</li></ul></td>
@@ -279,7 +279,7 @@
                                 <td class="day-cell">{{ _('బుధవారం') }}</td>
                             </tr>
                             <!-- {{ _('వ్యాధులు') }} -->
-                            <tr>
+                            <tr class="disease-row">
                                 <td style="font-weight: bold; color: var(--text-muted);">{{ _('వ్యాధులు') }}</td>
                                 <td class="disease-cell"><ul class="disease-list"><li>{{ _('మూలవ్యాధి') }}</li><li>{{ _('కీళ్ళ వ్యాధులు') }}</li></ul></td>
                                 <td class="disease-cell"><ul class="disease-list"><li>{{ _('తలనొప్పి') }}</li><li>{{ _('వెన్నెముక నొప్పి') }}</li><li>{{ _('మనోరోగాలు') }}</li></ul></td>
@@ -386,10 +386,7 @@
         </div>
         </div>
         {% endif %}
-        </div> <!-- Close Page 2 print-page-container -->
 
-        <!-- Page 3 Container -->
-        <div class="print-page-container print-page-break">
         {% if enemies %}
         <div class="enemies-section">
         <h3 class="section-title"><i class="fas fa-times-circle"></i> {{ _('శత్రు గ్రహములు (Enemy Planets)') }}</h3>
@@ -452,7 +449,7 @@
                 <strong>{{ _('గమనిక:') }}</strong> {{ _('ఈ వివరాలు జ్యోతిష్య గ్రంథాల ఆధారంగా సేకరించబడ్డాయి. ఖచ్చితమైన వివరాల కోసం నిపుణులను సంప్రదించండి.') }} <button class="print-hide" onclick="window.location.href='/results'" style="padding: 1px 5px; font-size: 10px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 3px; cursor: pointer; margin-left: 5px; vertical-align: middle;">R</button>
             </div>
         </div>
-        </div> <!-- Close Page 3 print-page-container -->
+        </div> <!-- Close Page 2 print-page-container -->
     </div>
 
     <!-- Floating Bottom Action Bar -->
