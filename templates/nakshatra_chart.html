@@ -1579,27 +1579,21 @@
       width: 95%;
       max-width: 480px;
       margin: auto;
-      border-collapse: collapse;
+      border-collapse: collapse !important;
       font-size: 11.5px;
       line-height: 1.35;
       text-align: left;
-      border: 1.5px solid var(--box-border);
+      border: 1.5px solid var(--box-border, #b45309) !important;
       box-shadow: 0 4px 15px var(--shadow-color);
       background: var(--card-bg);
-      border-radius: 4px;
-      overflow: hidden;
     }
 
     .center-table tr {
-      border-bottom: 1px solid var(--box-border);
-    }
-
-    .center-table tr:last-child {
-      border-bottom: none;
+      border-bottom: 1px solid var(--box-border, #b45309) !important;
     }
 
     .center-table td {
-      border: 1px solid var(--box-border);
+      border: 1px solid var(--box-border, #b45309) !important;
       padding: 3.5px 8px;
       vertical-align: middle;
       box-sizing: border-box;
@@ -3015,9 +3009,9 @@ body {
       </button>
 
       <!-- 3. Dasa Toggle Button -->
-      <button class="top-btn-dasa ctrl-btn" id="dasaToggleBtn" onclick="toggleDasaInfo()" title="Toggle Dasa Information">
+      <button class="top-btn-dasa ctrl-btn" id="dasaToggleBtn" onclick="toggleDasaInfo()" title="దశా వివరాలు ఆన్/ఆఫ్ (Toggle Dasa)">
         <i class="fas fa-hourglass-half"></i>
-        <span>dasa</span>
+        <span>దశ</span>
       </button>
 
       <!-- 4. Vivarana Toggle Button -->

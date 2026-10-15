@@ -2449,36 +2449,90 @@
 
 
     .person-name {
-
-
-
       font-size: 22px;
-
-
-
       font-weight: 800;
-
-
-
       color: var(--text-main);
-
-
-
       margin: 10px 0;
-
-
-
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-
-
-
     }
 
+    /* Excel Table in Center Box with All Borders Centered from All Sides */
+    .center-table {
+      width: 95%;
+      max-width: 480px;
+      margin: auto;
+      border-collapse: collapse !important;
+      font-size: 11.5px;
+      line-height: 1.35;
+      text-align: left;
+      border: 1.5px solid var(--box-border, #ffd700) !important;
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.3));
+      background: var(--card-bg, rgba(15, 23, 42, 0.7));
+    }
 
+    .center-table tr {
+      border-bottom: 1px solid var(--box-border, #ffd700) !important;
+    }
 
+    .center-table td {
+      border: 1px solid var(--box-border, #ffd700) !important;
+      padding: 3.5px 8px !important;
+      vertical-align: middle !important;
+      box-sizing: border-box !important;
+    }
 
+    .center-table tr:nth-child(even) td.center-value {
+      background: rgba(120, 120, 120, 0.03);
+    }
 
+    .center-label {
+      width: 44%;
+      min-width: 135px;
+      font-weight: 800 !important;
+      color: #ffd700 !important;
+      background: rgba(255, 215, 0, 0.08) !important;
+      white-space: nowrap !important;
+      border-right: 1.5px solid var(--box-border, #ffd700) !important;
+    }
 
+    .center-label i {
+      margin-right: 4px;
+      opacity: 0.85;
+      font-size: 10.5px;
+    }
+
+    .center-value {
+      width: 56%;
+      font-weight: 700 !important;
+      color: var(--text-main, #f8fafc) !important;
+      background: rgba(255, 255, 255, 0.02);
+      word-break: break-word !important;
+    }
+
+    [data-theme="cosmic"] .center-table {
+      border-color: rgba(255, 255, 255, 0.28) !important;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="cosmic"] .center-table td {
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    [data-theme="cosmic"] .center-label {
+      color: #fbbf24 !important;
+      background: rgba(251, 191, 36, 0.1) !important;
+      border-right-color: rgba(255, 255, 255, 0.28) !important;
+    }
+
+    [data-theme="cosmic"] .center-value {
+      color: #f8fafc !important;
+    }
+
+    [data-theme="solar"] .center-label {
+      color: #ffd700 !important;
+      background: rgba(255, 215, 0, 0.08) !important;
+    }
 
     .info-line {
 
@@ -4679,20 +4733,34 @@
 
       .center table {
 
-
-
         font-size: 21.8px !important; /* Increased by 10% from 19.8px */
-
-
 
         font-weight: bold !important;
 
-
-
         border-spacing: 0 1px !important; /* More compact spacing for print layout */
 
+      }
 
-
+      .center-table {
+        border-collapse: collapse !important;
+        border: 1.5px solid #000 !important;
+        background: #fff !important;
+      }
+      .center-table tr {
+        border-bottom: 1px solid #333 !important;
+      }
+      .center-table td {
+        border: 1px solid #333 !important;
+        padding: 3px 6px !important;
+      }
+      .center-table .center-label {
+        color: #713f12 !important;
+        background: #f8fafc !important;
+        border-right: 1.5px solid #000 !important;
+      }
+      .center-table .center-value {
+        color: #000 !important;
+        background: #fff !important;
       }
 
 
@@ -7340,294 +7408,76 @@ body {
 
 
 
-            <table
-
-
-
-              style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
-
-
-
+            <table class="center-table">
               <tr>
-
-
-
-                <td style="color: #ffd700; width: 35%; white-space: nowrap;">{{ _('వర్గము:') }}</td>
-
-
-
-                <td style="font-weight: bold; animation: nav-rainbow 3s linear infinite !important;">
-
-
-
+                <td class="center-label">{{ _('వర్గము:') }}</td>
+                <td class="center-value" style="font-weight: bold; animation: nav-rainbow 3s linear infinite !important;">
                   {{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}
-
-
-
                 </td>
-
-
-
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700;">{{ _('పేరు:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ name }}</td>
-
-
-
+                <td class="center-label">{{ _('పేరు:') }}</td>
+                <td class="center-value pdf-person-name">{{ name }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ dob }} ({{ day_name }})</td>
-
-
-
+                <td class="center-label"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
+                <td class="center-value">{{ dob }} ({{ day_name }})</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700;"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ tob }}</td>
-
-
-
+                <td class="center-label"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
+                <td class="center-value">{{ tob }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ place.split(',')[0] if ',' in place else place }}</td>
-
-
-
+                <td class="center-label"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
+                <td class="center-value">{{ place.split(',')[0] if ',' in place else place }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700;"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">
-
-
-
+                <td class="center-label"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
+                <td class="center-value">
                   {{ lagna }} 
-
-
-
                   {% if lagna_deg is defined and lagna_deg %}
-
-
-
                     (<span class="full-deg">{{ lagna_deg }}</span><span class="short-deg">{{ lagna_deg.split('°')[0] }}°</span>)
-
-
-
                   {% endif %}
-
-
-
                 </td>
-
-
-
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-certificate"></i> {{ _('తిథి:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ _(tithi_paksha) }} - {{ _(tithi_name) }}</td>
-
-
-
+                <td class="center-label"><i class="fas fa-certificate"></i> {{ _('తిథి:') }}</td>
+                <td class="center-value">{{ _(tithi_paksha) }} - {{ _(tithi_name) }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">
-
-
-
+                <td class="center-label"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
+                <td class="center-value">
                   {{ nakshatra }} ({{ padam }} {{ _('పాదం') }})
-
-
-
                 </td>
-
-
-
               </tr>
-
-
-
-
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('పూర్తి నక్షత్ర పరిమాణం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ nak_total }}</td>
-
-
-
+                <td class="center-label">{{ _('పూర్తి నక్షత్ర పరిమాణం:') }}</td>
+                <td class="center-value">{{ nak_total }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('నక్షత్ర భుక్తి:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ nak_elapsed }}</td>
-
-
-
+                <td class="center-label">{{ _('నక్షత్ర భుక్తి:') }}</td>
+                <td class="center-value">{{ nak_elapsed }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('నక్షత్ర భోగ్యం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ nak_remaining }}</td>
-
-
-
+                <td class="center-label">{{ _('నక్షత్ర భోగ్యం:') }}</td>
+                <td class="center-value">{{ nak_remaining }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('జన్మ దశ:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ birth_dasa }}</td>
-
-
-
+                <td class="center-label">{{ _('జన్మ దశ:') }}</td>
+                <td class="center-value">{{ birth_dasa }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('దశ భుక్తి:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ gata_str }}</td>
-
-
-
+                <td class="center-label">{{ _('దశ భుక్తి:') }}</td>
+                <td class="center-value">{{ gata_str }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('దశ భోగ్యం:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ bhogya_str }}</td>
-
-
-
+                <td class="center-label">{{ _('దశ భోగ్యం:') }}</td>
+                <td class="center-value">{{ bhogya_str }}</td>
               </tr>
-
-
-
               <tr>
-
-
-
-                <td style="color: #ffd700; white-space: nowrap;">{{ _('ప్రస్తుత దశ - అంతర్దశ:') }}</td>
-
-
-
-                <td style="color: var(--text-main);">{{ maha }} - {{ current_anthara }}</td>
-
-
-
+                <td class="center-label">{{ _('ప్రస్తుత దశ - అంతర్దశ:') }}</td>
+                <td class="center-value">{{ maha }} - {{ current_anthara }}</td>
               </tr>
-
-
-
             </table>
 
 
