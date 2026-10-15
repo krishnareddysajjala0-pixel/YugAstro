@@ -3,15 +3,16 @@
 .unified-varga-table {
     table-layout: fixed !important;
     width: 100% !important;
+    min-width: 980px !important;
     border-collapse: collapse !important;
     margin: 0 auto !important;
 }
 
 .unified-varga-table th,
 .unified-varga-table td {
-    font-size: 13px !important;
+    font-size: 12.5px !important;
     font-weight: 600 !important;
-    padding: 8px 4px !important;
+    padding: 6px 3px !important;
     text-align: center !important;
     vertical-align: middle !important;
     background: var(--table-row-bg, rgba(255, 255, 255, 0.03)) !important;
@@ -27,37 +28,54 @@
     word-break: break-word !important;
 }
 
-/* 1st column (విషయం): 10% width */
-.unified-varga-table th:first-child,
-.unified-varga-table td:first-child {
-    width: 10% !important;
-    min-width: 10% !important;
-    max-width: 10% !important;
+/* Colgroup column widths: 1 col param (7.6%) + 12 col planets (7.7% each) = 100% */
+.unified-varga-table col.col-param {
+    width: 7.6% !important;
+}
+.unified-varga-table col.col-planet {
+    width: 7.7% !important;
+}
+
+/* 1st column header (విషయం): 7.6% width */
+.unified-varga-table th.param-header {
+    width: 7.6% !important;
+    max-width: 7.6% !important;
     font-weight: 700 !important;
     text-align: center !important;
-    background: var(--table-row-bg, rgba(255, 255, 255, 0.03)) !important;
+    background: var(--table-row-bg, rgba(255, 255, 255, 0.05)) !important;
 }
 
-/* 12 Planet columns: exactly 7.5% each (12 x 7.5% = 90%) -> 10% + 90% = 100% */
-.unified-varga-table th:not(:first-child),
-.unified-varga-table td:not(:first-child) {
-    width: 7.5% !important;
-    min-width: 7.5% !important;
-    max-width: 7.5% !important;
-}
-
-.unified-varga-table thead th {
+/* Group headers in row 1: each spans 6 columns = 6 * 7.7% = 46.2% width */
+.unified-varga-table th.varga-group-header {
+    width: 46.2% !important;
     font-size: 13px !important;
+    font-weight: 800 !important;
+    background: var(--table-row-bg, rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* 12 Planet column headers in row 2: exactly 7.7% each */
+.unified-varga-table thead tr:nth-child(2) th {
+    width: 7.7% !important;
+    max-width: 7.7% !important;
+    font-size: 12.5px !important;
     font-weight: 700 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
     background: var(--table-row-bg, rgba(255, 255, 255, 0.05)) !important;
 }
 
-.unified-varga-table .varga-group-header {
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    background: var(--table-row-bg, rgba(255, 255, 255, 0.05)) !important;
+/* Body rows: 1st column is param (7.6%), other 12 columns are planets (7.7% each) */
+.unified-varga-table tbody td:first-child {
+    width: 7.6% !important;
+    max-width: 7.6% !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    background: var(--table-row-bg, rgba(255, 255, 255, 0.03)) !important;
+}
+
+.unified-varga-table tbody td:not(:first-child) {
+    width: 7.7% !important;
+    max-width: 7.7% !important;
 }
 
 /* Override any 5px colored border-left on planet columns */
@@ -78,7 +96,7 @@
 
 /* Disease row cells - uniform with all other cells */
 .unified-varga-table .disease-cell {
-    padding: 8px 4px !important;
+    padding: 4px 2px !important;
     text-align: center !important;
     vertical-align: middle !important;
     background: var(--table-row-bg, rgba(255, 255, 255, 0.03)) !important;
@@ -90,15 +108,20 @@
     margin: 0 !important;
     background: transparent !important;
     border: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
 }
 
 .unified-varga-table .disease-list li {
-    font-size: 13px !important;
+    font-size: 11.5px !important;
     font-weight: 600 !important;
     color: var(--text-main, #ffffff) !important;
-    line-height: 1.3 !important;
+    line-height: 1.25 !important;
     padding: 1px 0 !important;
     text-align: center !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
 }
 
 /* Gender, gemstone, caste, direction, day cells - all uniform */
@@ -108,10 +131,10 @@
 .unified-varga-table .category-cell,
 .unified-varga-table .direction-cell,
 .unified-varga-table .day-cell {
-    font-size: 13px !important;
+    font-size: 12.5px !important;
     font-weight: 600 !important;
     color: var(--text-main, #ffffff) !important;
-    padding: 8px 4px !important;
+    padding: 6px 3px !important;
     text-align: center !important;
     vertical-align: middle !important;
     background: var(--table-row-bg, rgba(255, 255, 255, 0.03)) !important;
@@ -152,6 +175,7 @@
         table-layout: fixed !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-width: unset !important;
         border-collapse: collapse !important;
         background: #ffffff !important;
         margin: 0 auto !important;
@@ -165,25 +189,26 @@
         color: #000000 !important;
         border: 1px solid #cbd5e1 !important;
     }
-    .unified-varga-table th:first-child,
-    .unified-varga-table td:first-child {
-        width: 10% !important;
-        min-width: 10% !important;
-        max-width: 10% !important;
+    .unified-varga-table th.param-header,
+    .unified-varga-table tbody td:first-child {
+        width: 7.6% !important;
+        min-width: 7.6% !important;
+        max-width: 7.6% !important;
         background: #ffffff !important;
         font-weight: 700 !important;
         color: #000000 !important;
     }
-    .unified-varga-table th:not(:first-child),
-    .unified-varga-table td:not(:first-child) {
-        width: 7.5% !important;
-        min-width: 7.5% !important;
-        max-width: 7.5% !important;
-    }
-    .unified-varga-table .varga-group-header {
+    .unified-varga-table th.varga-group-header {
+        width: 46.2% !important;
         font-size: 6.8pt !important;
         font-weight: 800 !important;
         background: #ffffff !important;
+    }
+    .unified-varga-table thead tr:nth-child(2) th,
+    .unified-varga-table tbody td:not(:first-child) {
+        width: 7.7% !important;
+        min-width: 7.7% !important;
+        max-width: 7.7% !important;
     }
     .unified-varga-table .disease-list li {
         font-size: 6.8pt !important;
@@ -230,6 +255,21 @@
 
         <div class="table-container">
             <table class="data-table unified-varga-table">
+                <colgroup>
+                    <col class="col-param" style="width: 7.6%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                    <col class="col-planet" style="width: 7.7%;">
+                </colgroup>
                 <thead>
                     <tr>
                         <th rowspan="2" class="param-header" style="vertical-align: middle; text-align: center; z-index: 35;">{{ _('విషయం') }}</th>
