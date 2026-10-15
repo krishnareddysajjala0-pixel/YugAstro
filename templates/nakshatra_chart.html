@@ -896,35 +896,52 @@
       box-sizing: border-box;
     }
 
-    /* Left Half: Nakshatra and Pada Table */
+    /* Left Half: Nakshatra and Pada Table (Full width by default) */
     .nak-box-left-half {
-      flex: 0 0 56%;
-      width: 56%;
+      flex: 1 1 100%;
+      width: 100%;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      border-right: 1.5px solid var(--box-border);
+      border-right: none;
       box-sizing: border-box;
+      transition: all 0.25s ease;
     }
 
     [data-theme="cosmic"] .nak-box-left-half {
       border-right-color: rgba(255, 255, 255, 0.25);
     }
 
-    /* Right Half: Dasa Information Panel */
+    /* Right Half: Dasa Information Panel (Hidden by default; shown only when 'dasa' button clicked) */
     .nak-box-right-half {
+      display: none;
       flex: 0 0 44%;
       width: 44%;
       min-width: 0;
-      display: flex;
       flex-direction: column;
       background: rgba(0, 0, 0, 0.03);
       padding: 3px 4px;
       box-sizing: border-box;
+      transition: all 0.25s ease;
     }
 
     [data-theme="cosmic"] .nak-box-right-half {
       background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* When Dasa Toggle is Active */
+    body.show-dasa .nak-box-left-half {
+      flex: 0 0 56%;
+      width: 56%;
+      border-right: 1.5px solid var(--box-border);
+    }
+
+    [data-theme="cosmic"].show-dasa .nak-box-left-half {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
+    body.show-dasa .nak-box-right-half {
+      display: flex;
     }
 
     .rashi-time-badge {
@@ -1691,12 +1708,24 @@
         min-height: 145px;
       }
 
-      .nak-box-left-half {
-        flex: 0 0 53% !important;
-        width: 53% !important;
+      body:not(.show-dasa) .nak-box-left-half {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        border-right: none !important;
       }
 
-      .nak-box-right-half {
+      body:not(.show-dasa) .nak-box-right-half {
+        display: none !important;
+      }
+
+      body.show-dasa .nak-box-left-half {
+        flex: 0 0 53% !important;
+        width: 53% !important;
+        border-right: 1.5px solid var(--box-border) !important;
+      }
+
+      body.show-dasa .nak-box-right-half {
+        display: flex !important;
         flex: 0 0 47% !important;
         width: 47% !important;
         padding: 1px 2px !important;
@@ -2010,13 +2039,24 @@
         flex-direction: row !important;
       }
 
-      .nak-box-left-half {
+      body:not(.show-dasa) .nak-box-left-half {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        border-right: none !important;
+      }
+
+      body:not(.show-dasa) .nak-box-right-half {
+        display: none !important;
+      }
+
+      body.show-dasa .nak-box-left-half {
         flex: 0 0 56% !important;
         width: 56% !important;
         border-right: 1.5px solid #333 !important;
       }
 
-      .nak-box-right-half {
+      body.show-dasa .nak-box-right-half {
+        display: flex !important;
         flex: 0 0 44% !important;
         width: 44% !important;
         background: transparent !important;
@@ -2817,7 +2857,8 @@
 .top-control-bar .top-btn-home,
 .top-control-bar .top-btn-back,
 .top-control-bar .top-btn-print,
-.top-control-bar .top-btn-hands {
+.top-control-bar .top-btn-hands,
+.top-control-bar .top-btn-dasa {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -2875,6 +2916,20 @@
   color: #ffffff !important;
 }
 
+.top-btn-dasa {
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.6) !important;
+  color: #ffffff !important;
+  opacity: 0.75;
+}
+
+.top-btn-dasa.active {
+  opacity: 1 !important;
+  background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important;
+  border: 1.5px solid #f3e8ff !important;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.6), 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
 /* Button theme colors handled centrally in theme-fonts.css */
 
 .top-control-bar .ctrl-btn:hover {
@@ -2895,7 +2950,9 @@
   .top-control-bar .top-btn-back,
   .top-control-bar .top-btn-print,
   .top-control-bar .top-btn-hands,
-  .top-control-bar #chupuluBtn {
+  .top-control-bar .top-btn-dasa,
+  .top-control-bar #chupuluBtn,
+  .top-control-bar #dasaToggleBtn {
     padding: 6px 2px !important;
     font-size: 10px !important;
     border-radius: 12px !important;
@@ -2955,6 +3012,12 @@ body {
       <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
         <i class="fas fa-eye"></i>
         <span>{{ _('చూపులు') }}</span>
+      </button>
+
+      <!-- 3. Dasa Toggle Button -->
+      <button class="top-btn-dasa ctrl-btn" id="dasaToggleBtn" onclick="toggleDasaInfo()" title="Toggle Dasa Information">
+        <i class="fas fa-hourglass-half"></i>
+        <span>dasa</span>
       </button>
 
 
@@ -3454,6 +3517,20 @@ body {
 
       }
 
+    }
+
+    function toggleDasaInfo() {
+      document.body.classList.toggle('show-dasa');
+      const btn = document.getElementById('dasaToggleBtn');
+      if (btn) {
+        if (document.body.classList.contains('show-dasa')) {
+          btn.classList.add('active');
+          btn.style.opacity = '1';
+        } else {
+          btn.classList.remove('active');
+          btn.style.opacity = '0.75';
+        }
+      }
     }
 
 

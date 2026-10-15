@@ -3930,6 +3930,8 @@ body {
 .top-btn-print, .nav-print { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; color: #fff !important; }
 .top-btn-karma { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; }
 .top-btn-hands { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important; color: #fff !important; }
+.top-btn-dasa { opacity: 0.75; }
+.top-btn-dasa.active { opacity: 1 !important; box-shadow: 0 0 14px rgba(217, 119, 6, 0.7) !important; }
 
 /* 1. Cosmic Mode */
 [data-theme="cosmic"] .top-btn-theme { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important; color: #fff !important; }
@@ -4062,6 +4064,12 @@ body {
       <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
         <i class="fas fa-eye"></i>
         <span>{{ _('చూపులు') }}</span>
+      </button>
+
+      <!-- Dasa Button -->
+      <button class="top-btn-dasa ctrl-btn" id="dasaToggleBtn" onclick="toggleDasaInfo()" title="Toggle Dasa Information">
+        <i class="fas fa-hourglass-half"></i>
+        <span>dasa</span>
       </button>
 
       <!-- 6. Language Switcher (RIGHT) -->
@@ -5109,6 +5117,20 @@ body {
 
           }
 
+      }
+
+      function toggleDasaInfo() {
+          document.body.classList.toggle('show-dasa');
+          const btn = document.getElementById('dasaToggleBtn');
+          if (btn) {
+              if (document.body.classList.contains('show-dasa')) {
+                  btn.classList.add('active');
+                  btn.style.opacity = '1';
+              } else {
+                  btn.classList.remove('active');
+                  btn.style.opacity = '0.75';
+              }
+          }
       }
 
 
@@ -6450,35 +6472,52 @@ body {
       box-sizing: border-box;
     }
 
-    /* Left Half: Nakshatra and Pada Table */
+    /* Left Half: Nakshatra and Pada Table (Full width by default) */
     .nak-box-left-half {
-      flex: 0 0 56%;
-      width: 56%;
+      flex: 1 1 100%;
+      width: 100%;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      border-right: 1.5px solid var(--box-border);
+      border-right: none;
       box-sizing: border-box;
+      transition: all 0.25s ease;
     }
 
     [data-theme="cosmic"] .nak-box-left-half {
       border-right-color: rgba(255, 255, 255, 0.25);
     }
 
-    /* Right Half: Dasa Information Panel */
+    /* Right Half: Dasa Information Panel (Hidden by default; shown only when 'dasa' button clicked) */
     .nak-box-right-half {
+      display: none;
       flex: 0 0 44%;
       width: 44%;
       min-width: 0;
-      display: flex;
       flex-direction: column;
       background: rgba(0, 0, 0, 0.03);
       padding: 3px 4px;
       box-sizing: border-box;
+      transition: all 0.25s ease;
     }
 
     [data-theme="cosmic"] .nak-box-right-half {
       background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* When Dasa Toggle is Active */
+    body.show-dasa .nak-box-left-half {
+      flex: 0 0 56%;
+      width: 56%;
+      border-right: 1.5px solid var(--box-border);
+    }
+
+    [data-theme="cosmic"].show-dasa .nak-box-left-half {
+      border-right-color: rgba(255, 255, 255, 0.25);
+    }
+
+    body.show-dasa .nak-box-right-half {
+      display: flex;
     }
 
     .rashi-time-badge {
