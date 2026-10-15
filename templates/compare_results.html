@@ -4272,7 +4272,7 @@ body {
 
   <div class="compare-wrapper" id="standard-compare-wrapper" style="{% if chart_type == 'nakshatra' %}display: none;{% endif %}">
 
-<div class="chart-container-wrapper">
+<div class="chart-container-wrapper" data-chart-lagna="{{ p1.lagna }}">
 
 <div class="compare-person-header">{{ p1.name }}</div>
 
@@ -4402,7 +4402,7 @@ body {
 
     
 
-    <div class="box {{ house_bg_class_p1(hno) }} {% if p1.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class_p1(hno) }} {% if p1.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(lagna) }}">
 
       <span class="house-no">{{ hno }}</span>
 
@@ -4646,7 +4646,7 @@ body {
     {{ render_bhavas_table(p1, p1.name) }}
 
 </div>
-<div class="chart-container-wrapper">
+<div class="chart-container-wrapper" data-chart-lagna="{{ p2.lagna }}">
 
 <div class="compare-person-header">{{ p2.name }}</div>
 
@@ -4776,7 +4776,7 @@ body {
 
     
 
-    <div class="box {{ house_bg_class_p2(hno) }} {% if p2.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class_p2(hno) }} {% if p2.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(lagna) }}">
 
       <span class="house-no">{{ hno }}</span>
 
@@ -7885,7 +7885,7 @@ body {
 
   {% set b = boxes[rashi_name] %}
 
-  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}">
+  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}" data-house-no="{{ b.house_no }}" data-rashi="{{ b.rashi_name }}">
 
     <div class="nak-box-header">
 
@@ -8239,13 +8239,13 @@ body {
 
   <div class="nak-grid-wrapper" id="nakshatra-compare-wrapper" style="{% if chart_type != 'nakshatra' %}display: none;{% endif %} margin-bottom: 12px ;">
 
-    <div class="chart-container-wrapper nak-person-1">
+    <div class="chart-container-wrapper nak-person-1" data-chart-lagna="{{ p1.lagna }}">
       <div class="compare-person-header">✨ {{ p1.name }} (నక్షత్ర పాద చక్రము)</div>
       {{ render_nak_grid(nakshatra_boxes1, p1) }}
       {{ render_bhavas_table(p1, p1.name) }}
     </div>
 
-    <div class="chart-container-wrapper nak-person-2">
+    <div class="chart-container-wrapper nak-person-2" data-chart-lagna="{{ p2.lagna }}">
       <div class="compare-person-header">✨ {{ p2.name }} (నక్షత్ర పాద చక్రము)</div>
       {{ render_nak_grid(nakshatra_boxes2, p2) }}
       {{ render_bhavas_table(p2, p2.name) }}
