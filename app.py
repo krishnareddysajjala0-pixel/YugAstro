@@ -2089,16 +2089,16 @@ RASHI_DASA_TIME_MAP = {
 RASHI_DETAILS_MAP = {
     "మేషం": {
         "adhipathi": "కుజుడు",
-        "direction": "తూర్పు",
-        "adhipathi_full": "కుజుడు (తూర్పు)",
+        "direction": "దక్షిణం",
+        "adhipathi_full": "కుజుడు (దక్షిణం)",
         "gem": "పగడము",
         "gem_icon": "/static/images/gems/coral.svg",
         "karakatwalu": "సోదరులకు, కారకులు, ఆయుధములు (శరీర వ్యయము)"
     },
     "వృషభం": {
         "adhipathi": "మిత్ర",
-        "direction": "దక్షిణ",
-        "adhipathi_full": "మిత్ర (దక్షిణ)",
+        "direction": "పైకి",
+        "adhipathi_full": "మిత్ర (పైకి)",
         "gem": "గోమేధికము",
         "gem_icon": "/static/images/gems/hessonite.svg",
         "karakatwalu": "అన్న, వృక్షాలకు, గుర్రములు, వస్త్రములు (వారసత్వము)"
@@ -2113,8 +2113,8 @@ RASHI_DETAILS_MAP = {
     },
     "కర్కాటకం": {
         "adhipathi": "చంద్రుడు",
-        "direction": "వాయువ్య",
-        "adhipathi_full": "చంద్రుడు (వాయువ్య)",
+        "direction": "వాయువ్యం",
+        "adhipathi_full": "చంద్రుడు (వాయువ్యం)",
         "gem": "ముత్యము",
         "gem_icon": "/static/images/gems/pearl.svg",
         "karakatwalu": "తల్లికి, నీటికి, మనస్సుకి, విమానము (భాగస్వామి రోగాలు)"
@@ -2129,24 +2129,24 @@ RASHI_DETAILS_MAP = {
     },
     "కన్య": {
         "adhipathi": "బుధుడు",
-        "direction": "నైరుతి",
-        "adhipathi_full": "బుధుడు (నైరుతి)",
+        "direction": "ఉత్తరం",
+        "adhipathi_full": "బుధుడు (ఉత్తరం)",
         "gem": "పచ్చ",
         "gem_icon": "/static/images/gems/emerald.svg",
         "karakatwalu": "మేనమామకి, శత్రువులు, బంధుత్వములు, వ్యాపారములు"
     },
     "తులా": {
         "adhipathi": "శుక్రుడు",
-        "direction": "ఆగ్నేయ",
-        "adhipathi_full": "శుక్రుడు (ఆగ్నేయ)",
+        "direction": "ఆగ్నేయం",
+        "adhipathi_full": "శుక్రుడు (ఆగ్నేయం)",
         "gem": "వజ్రం",
         "gem_icon": "/static/images/gems/diamond.svg",
         "karakatwalu": "భార్యకి, కంటికి, వాహనములు, సంగీతం, సుఖములు"
     },
     "వృశ్చికం": {
         "adhipathi": "భూమి",
-        "direction": "పశ్చిమ",
-        "adhipathi_full": "భూమి (పశ్చిమ)",
+        "direction": "క్రిందికి",
+        "adhipathi_full": "భూమి (క్రిందికి)",
         "gem": "పుష్యరాగం / నల్లరాయి",
         "gem_icon": "/static/images/gems/black_stone.svg",
         "karakatwalu": "అన్నగారికి, భూములు, ఇల్లులు, కూలివర్గ శత్రువులు (ఆయుః)"
@@ -2169,16 +2169,16 @@ RASHI_DETAILS_MAP = {
     },
     "కుంభం": {
         "adhipathi": "శని",
-        "direction": "పశ్చిమ",
-        "adhipathi_full": "శని (పశ్చిమ)",
+        "direction": "పడమర",
+        "adhipathi_full": "శని (పడమర)",
         "gem": "నీలము",
         "gem_icon": "/static/images/gems/blue_sapphire.svg",
         "karakatwalu": "ఇనుముకి, సంకటము, శనిదేవుడు (లాభ స్థానము)"
     },
     "మీనం": {
         "adhipathi": "గురువు",
-        "direction": "ఈశాన్య",
-        "adhipathi_full": "గురువు (ఈశాన్య)",
+        "direction": "ఈశాన్యం",
+        "adhipathi_full": "గురువు (ఈశాన్యం)",
         "gem": "పుష్యరాగము",
         "gem_icon": "/static/images/gems/yellow_sapphire.svg",
         "karakatwalu": "పుత్రునికి, బంగారు (శత్రు స్థానము, మరణము)"
