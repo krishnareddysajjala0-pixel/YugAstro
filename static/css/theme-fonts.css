@@ -1885,6 +1885,27 @@ body.mobile-pdf-rendering #loading-overlay {
 }
 
 /* Floating Action Button Gradients */
+.fixed-bottom-bar .nav-home,
+.fixed-bottom-bar .btn-home,
+#action-bar .btn-home {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+  box-shadow: 0 3px 12px rgba(30, 60, 114, 0.45) !important;
+}
+
+.fixed-bottom-bar .nav-kundali,
+.fixed-bottom-bar .btn-kundali,
+#action-bar .btn-kundali {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.45) !important;
+}
+
+.fixed-bottom-bar .nav-dasa,
+.fixed-bottom-bar .btn-dasa,
+#action-bar .btn-dasa {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.45) !important;
+}
+
 .fixed-bottom-bar .nav-planets,
 .fixed-bottom-bar .btn-planets,
 #action-bar .btn-planets {
@@ -1895,8 +1916,8 @@ body.mobile-pdf-rendering #loading-overlay {
 .fixed-bottom-bar .nav-print,
 .fixed-bottom-bar .btn-print,
 #action-bar .btn-print {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.45) !important;
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.45) !important;
 }
 
 .fixed-bottom-bar .nav-chart,

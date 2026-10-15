@@ -3899,6 +3899,18 @@ def chart3():
 
     if birth_info:
         planet_positions = birth_info.get('planet_positions', [])
+        if not planet_positions and birth_info.get('dob') and birth_info.get('tob') and birth_info.get('lat') and birth_info.get('lon'):
+            k_data = get_kundali_data(
+                birth_info.get('name', ''),
+                birth_info.get('dob', ''),
+                birth_info.get('tob', ''),
+                birth_info.get('place', ''),
+                float(birth_info.get('lat', 17.3850)),
+                float(birth_info.get('lon', 78.4867))
+            )
+            planet_positions = k_data.get('planet_positions', [])
+            if not lagna:
+                lagna = k_data.get('lagna', '')
         
         # Load dynamic constants and rules from JSON files
         ASTRO_CONSTANTS = load_rules('astro_constants.json')
