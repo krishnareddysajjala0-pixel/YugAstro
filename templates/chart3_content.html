@@ -351,7 +351,7 @@
                 </div>
 
                 <div class="info-body">
-                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
                         <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
                             <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
                             <span class="val">{{ r.current_lagna }}</span>
@@ -360,26 +360,23 @@
                             <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
                             <span class="val own-val">{{ r.own_house }}</span>
                         </span>
+                        <span class="loc-item status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; margin: 0; padding: 0; border: none;">
+                            {% if r.is_own_house %}
+                            <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
+                            {% else %}
+                            <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
+                            {% endif %}
+                        </span>
+                        {% if r.bitter_enemy %}
+                        <span class="loc-item bitter-enemy-alert" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; margin: 0; padding: 2px 6px;">
+                            <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
+                        </span>
+                        {% endif %}
                     </div>
                     <div class="info-row" style="flex-direction: column; align-items: flex-start;">
                         <span class="label">{{ _('ఆధీనములో ఉన్నవి:') }}</span>
                         <span class="val" style="font-size: 12px; margin-top: 5px;">{{ r.rulership }}</span>
                     </div>
-                </div>
-
-                <div class="card-footer">
-                    <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
-                        {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
-                        {% else %}
-                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
-                        {% endif %}
-                    </div>
-                    {% if r.bitter_enemy %}
-                    <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
-                    </div>
-                    {% endif %}
                 </div>
             </div>
             {% endfor %}
@@ -403,7 +400,7 @@
                 </div>
 
                 <div class="info-body">
-                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
                         <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
                             <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
                             <span class="val">{{ r.current_lagna }}</span>
@@ -412,26 +409,23 @@
                             <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
                             <span class="val own-val">{{ r.own_house }}</span>
                         </span>
+                        <span class="loc-item status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; margin: 0; padding: 0; border: none;">
+                            {% if r.is_own_house %}
+                            <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
+                            {% else %}
+                            <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
+                            {% endif %}
+                        </span>
+                        {% if r.bitter_enemy %}
+                        <span class="loc-item bitter-enemy-alert" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; margin: 0; padding: 2px 6px;">
+                            <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
+                        </span>
+                        {% endif %}
                     </div>
                     <div class="info-row" style="flex-direction: column; align-items: flex-start;">
                         <span class="label">{{ _('ఆధీనములో ఉన్నవి:') }}</span>
                         <span class="val" style="font-size: 12px; margin-top: 5px;">{{ r.rulership }}</span>
                     </div>
-                </div>
-
-                <div class="card-footer">
-                    <div class="status-msg {{ 'msg-positive' if r.is_own_house else 'msg-neutral' }}">
-                        {% if r.is_own_house %}
-                        <i class="fas fa-check-circle"></i> {{ _('స్వంత ఇంట్లో ఉన్నది.') }}
-                        {% else %}
-                        <i class="fas fa-info-circle"></i> {{ _('ఇతర లగ్నములో ఉన్నది.') }}
-                        {% endif %}
-                    </div>
-                    {% if r.bitter_enemy %}
-                    <div class="bitter-enemy-alert">
-                        <i class="fas fa-skull-crossbones"></i> {{ _('బద్ధ శత్రువు') }}: {{ r.bitter_enemy }}
-                    </div>
-                    {% endif %}
                 </div>
             </div>
             {% endfor %}
