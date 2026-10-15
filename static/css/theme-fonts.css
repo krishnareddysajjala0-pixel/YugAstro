@@ -1411,6 +1411,7 @@ body.mobile-pdf-rendering #loading-overlay {
 .fixed-bottom-bar-nav .nav-item,
 .fixed-bottom-bar-nav a,
 .nav-item.nav-home,
+.nav-item.nav-kundali,
 .nav-item.nav-compare,
 .nav-item.nav-panch,
 .nav-item.nav-cal,
@@ -1449,6 +1450,7 @@ body.mobile-pdf-rendering #loading-overlay {
 
 .fixed-bottom-bar-nav .nav-item i,
 .nav-item.nav-home i,
+.nav-item.nav-kundali i,
 .nav-item.nav-compare i,
 .nav-item.nav-panch i,
 .nav-item.nav-cal i,
@@ -1469,6 +1471,7 @@ body.mobile-pdf-rendering #loading-overlay {
 
 .fixed-bottom-bar-nav .nav-item span,
 .nav-item.nav-home span,
+.nav-item.nav-kundali span,
 .nav-item.nav-compare span,
 .nav-item.nav-panch span,
 .nav-item.nav-cal span,
@@ -1492,6 +1495,7 @@ body.mobile-pdf-rendering #loading-overlay {
 /* Hover & Active States */
 .fixed-bottom-bar-nav .nav-item:hover,
 .nav-item.nav-home:hover,
+.nav-item.nav-kundali:hover,
 .nav-item.nav-compare:hover,
 .nav-item.nav-panch:hover,
 .nav-item.nav-cal:hover,
@@ -1507,6 +1511,7 @@ body.mobile-pdf-rendering #loading-overlay {
 
 .fixed-bottom-bar-nav .nav-item.active,
 .nav-item.nav-home.active,
+.nav-item.nav-kundali.active,
 .nav-item.nav-compare.active,
 .nav-item.nav-panch.active,
 .nav-item.nav-cal.active,
@@ -1662,6 +1667,7 @@ body.mobile-pdf-rendering #loading-overlay {
   .fixed-bottom-bar-nav .nav-item,
   .fixed-bottom-bar-nav a,
   .nav-item.nav-home,
+  .nav-item.nav-kundali,
   .nav-item.nav-compare,
   .nav-item.nav-panch,
   .nav-item.nav-cal,
@@ -1684,6 +1690,7 @@ body.mobile-pdf-rendering #loading-overlay {
   }
   .fixed-bottom-bar-nav .nav-item i,
   .nav-item.nav-home i,
+  .nav-item.nav-kundali i,
   .nav-item.nav-compare i,
   .nav-item.nav-panch i,
   .nav-item.nav-cal i,
@@ -1697,6 +1704,7 @@ body.mobile-pdf-rendering #loading-overlay {
   }
   .fixed-bottom-bar-nav .nav-item span,
   .nav-item.nav-home span,
+  .nav-item.nav-kundali span,
   .nav-item.nav-compare span,
   .nav-item.nav-panch span,
   .nav-item.nav-cal span,
@@ -1733,6 +1741,7 @@ body.mobile-pdf-rendering #loading-overlay {
   .fixed-bottom-bar-nav .nav-item,
   .fixed-bottom-bar-nav a,
   .nav-item.nav-home,
+  .nav-item.nav-kundali,
   .nav-item.nav-compare,
   .nav-item.nav-panch,
   .nav-item.nav-cal,
@@ -1755,6 +1764,7 @@ body.mobile-pdf-rendering #loading-overlay {
   }
   .fixed-bottom-bar-nav .nav-item i,
   .nav-item.nav-home i,
+  .nav-item.nav-kundali i,
   .nav-item.nav-compare i,
   .nav-item.nav-panch i,
   .nav-item.nav-cal i,
@@ -1768,6 +1778,7 @@ body.mobile-pdf-rendering #loading-overlay {
   }
   .fixed-bottom-bar-nav .nav-item span,
   .nav-item.nav-home span,
+  .nav-item.nav-kundali span,
   .nav-item.nav-compare span,
   .nav-item.nav-panch span,
   .nav-item.nav-cal span,
