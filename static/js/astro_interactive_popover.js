@@ -410,6 +410,47 @@
     return null;
   }
 
+  // Vivarana Toggle State (Default: ENABLED)
+  window.isVivaranaEnabled = function() {
+    var stored = localStorage.getItem('astro_vivarana_enabled');
+    // Default is true when null or not set to 'false'
+    return stored !== 'false';
+  };
+
+  window.toggleVivarana = function() {
+    var nextState = !window.isVivaranaEnabled();
+    localStorage.setItem('astro_vivarana_enabled', nextState ? 'true' : 'false');
+    window.updateVivaranaButtonUI();
+    if (!nextState && popover) {
+      popover.style.display = 'none';
+      if (hideTimeout) clearTimeout(hideTimeout);
+    }
+  };
+
+  window.updateVivaranaButtonUI = function() {
+    var enabled = window.isVivaranaEnabled();
+    var btns = document.querySelectorAll('#vivaranaToggleBtn, .top-btn-vivarana');
+    btns.forEach(function(btn) {
+      if (enabled) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.title = 'వివరణ ఆన్ చేయబడింది (క్లిక్ చేసి ఆఫ్ చేయవచ్చు)';
+      } else {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.title = 'వివరణ ఆఫ్ చేయబడింది (క్లిక్ చేసి ఆన్ చేయవచ్చు)';
+      }
+    });
+  };
+
+  function injectVivaranaStyles() {
+    if (document.getElementById('astro-vivarana-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'astro-vivarana-styles';
+    style.textContent = '.top-btn-vivarana { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; border: 1px solid rgba(56, 189, 248, 0.6) !important; color: #ffffff !important; transition: all 0.2s ease !important; } .top-btn-vivarana.active { opacity: 1 !important; background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important; border: 1.5px solid #e0f2fe !important; box-shadow: 0 0 12px rgba(14, 165, 233, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3) !important; } .top-btn-vivarana:not(.active) { opacity: 0.55 !important; background: #334155 !important; border-color: #475569 !important; color: #94a3b8 !important; box-shadow: none !important; }';
+    document.head.appendChild(style);
+  }
+
   // Popover DOM Element Management
   var popover = null;
   var hideTimeout = null;
@@ -508,6 +549,9 @@
 
   // 1. Show Planet Graha Karakatwalu (ఆ గ్రహం ఆధీనంలో ఉన్నవి)
   window.showGrahaKarakatwalu = function(planetKey, targetEl, evt, rashiContext) {
+    // If vivarana is toggled off, do not display
+    if (!window.isVivaranaEnabled()) return;
+
     if (hideTimeout) clearTimeout(hideTimeout);
     var pKey = normalizePlanetName(planetKey);
     if (!pKey || !PLANETS_DATA[pKey]) return;
@@ -573,6 +617,9 @@
 
   // 2. Show House Information from Jyothishya Shaasthramu
   window.showHouseJyothishyaInfo = function(houseNo, targetEl, evt, rashiName) {
+    // If vivarana is toggled off, do not display
+    if (!window.isVivaranaEnabled()) return;
+
     if (hideTimeout) clearTimeout(hideTimeout);
     var hKey = String(houseNo).trim();
     if (!hKey || !HOUSES_DATA[hKey]) return;
@@ -636,6 +683,8 @@
 
   // Auto-bind Event Listeners on Page Load and AJAX updates
   function bindAstroHoverListeners() {
+    injectVivaranaStyles();
+    window.updateVivaranaButtonUI();
     createPopover();
 
     // 1. Planet elements in Nakshatra Chart, Kundali Chart & Comparison
