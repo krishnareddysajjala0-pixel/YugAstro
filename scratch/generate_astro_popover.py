@@ -394,7 +394,8 @@ js_template = f'''/**
     return planets;
   }}
 
-  // 1. Show Planet Graha Karakatwalu (ఆ గ్రహం ఆధీనంలో ఉన్నవి) & 12 భావ ఫలాలు
+  // 1. Show Planet Graha Karakatwalu (ఆ గ్రహం ఆధీనంలో ఉన్నవి) & ఫలితాలు
+  // Called ONLY when the mouse moves on a planet
   window.showGrahaKarakatwalu = function(planetKey, targetEl, evt, rashiContext) {{
     if (!window.isVivaranaEnabled()) return;
 
@@ -435,7 +436,7 @@ js_template = f'''/**
       currentHouse = (rashiName ? rashiName + ' రాశి' : '') + (placedHouseNum ? ' (' + placedHouseNum + 'వ స్థానము)' : '');
     }}
 
-    // Compute 12 భావ ఫలాలు for occupants of this house
+    // Compute ಫಲితాలు (Bhava Lord rules) for occupants of this house
     var boxOccupants = getBoxOccupantPlanets(box, pKey);
     var ruleItems = [];
     var seenLords = {{}};
@@ -462,13 +463,20 @@ js_template = f'''/**
     var bhavaLordRulesHtml = '';
     if (ruleItems.length > 0) {{
       bhavaLordRulesHtml = ruleItems.map(function(item) {{
+        // Color rule requested by user:
+        // If this planet is in red colour: ALL the text is in RED colour result.
+        // If it is green: ALL its related result text is in GREEN colour.
         var isCurrentHovered = (item.planetName === normHoveredStd || pKey.indexOf(item.planetName) !== -1 || item.planetName.indexOf(pKey) !== -1);
-        var itemStyle = isCurrentHovered
-          ? 'margin-bottom: 12px; line-height: 1.7; font-size: 12.5px; background: rgba(245,158,11,0.12); padding: 7px 10px; border-radius: 6px; border-left: 3px solid #f59e0b;'
-          : 'margin-bottom: 12px; line-height: 1.7; font-size: 12.5px; padding: 4px 6px;';
-        return '<div style="' + itemStyle + '">' +
-          '<strong style="color: #fbbf24; font-weight: 800;">' + item.lordHouseNum + 'వ స్థానాధిపతి (' + item.planetName + ') ' + item.placedHouseNum + 'వ స్థానములో ఉన్నందున:</strong> ' +
-          '<span style="color: #f8fafc;">' + item.ruleText + '</span>' +
+        var itemColor = item.isFriend ? '#4ade80' : '#f87171';
+        var itemBorder = item.isFriend ? '#22c55e' : '#ef4444';
+        var itemBg = item.isFriend ? 'rgba(34, 197, 94, 0.12)' : 'rgba(239, 68, 68, 0.12)';
+        var extraStyle = isCurrentHovered
+          ? 'box-shadow: 0 0 10px ' + (item.isFriend ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)') + ';'
+          : '';
+
+        return '<div style="margin-bottom: 11px; line-height: 1.75; font-size: 12.5px; background: ' + itemBg + '; border-left: 3.5px solid ' + itemBorder + '; padding: 8px 11px; border-radius: 6px; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); ' + extraStyle + '">' +
+          '<strong style="color: ' + itemColor + '; font-weight: 800; display: inline;">' + item.lordHouseNum + 'వ స్థానాధిపతి (' + item.planetName + ') ' + item.placedHouseNum + 'వ స్థానములో ఉన్నందున:</strong> ' +
+          '<span style="color: ' + itemColor + '; display: inline;">' + item.ruleText + '</span>' +
         '</div>';
       }}).join('');
     }}
@@ -502,7 +510,7 @@ js_template = f'''/**
         '</div>',
         (bhavaLordRulesHtml ? [
           '<div style="font-size: 12.5px; font-weight: 800; color: #38bdf8; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">',
-            '<span>📜</span> 12 భావ ఫలాలు:',
+            '<span>📜</span> ఫలితాలు:',
           '</div>',
           '<div style="font-size: 12px; line-height: 1.7; color: #cbd5e1; background: rgba(15,23,42,0.85); padding: 11px 13px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.25); text-align: justify;">',
             bhavaLordRulesHtml,
@@ -516,7 +524,8 @@ js_template = f'''/**
     positionPopover(targetEl, evt ? evt.clientX : 0, evt ? evt.clientY : 0);
   }};
 
-  // 2. Show House Information from Jyothishya Shaasthramu & 12 భావ ఫలాలు
+  // 2. Show House Information from Jyothishya Shaasthramu
+  // Called when mouse moves on a house box (NO ఫలితాలు here as per user request)
   window.showHouseJyothishyaInfo = function(houseNo, targetEl, evt, rashiName) {{
     if (!window.isVivaranaEnabled()) return;
 
@@ -539,34 +548,6 @@ js_template = f'''/**
         var t = pill.textContent.replace(/[🚩👉*⏱️]+/g, '').trim();
         if (t && occupantsList.indexOf(t) === -1 && t.length > 1) occupantsList.push(t);
       }});
-    }}
-
-    var chartLagna = getChartLagna(targetEl);
-    var boxHouseNum = parseInt(h.house_no, 10);
-    var houseOccupants = getBoxOccupantPlanets(box, '');
-    var houseRuleItems = [];
-    var seenHouseLords = {{}};
-
-    houseOccupants.forEach(function(p) {{
-      var item = getBhavaLordRuleItem(p, boxHouseNum, chartLagna);
-      if (item && !seenHouseLords[item.lordHouseNum + '_' + item.planetName]) {{
-        seenHouseLords[item.lordHouseNum + '_' + item.planetName] = true;
-        houseRuleItems.push(item);
-      }}
-    }});
-
-    houseRuleItems.sort(function(a, b) {{
-      return a.lordHouseNum - b.lordHouseNum;
-    }});
-
-    var houseBhavaRulesHtml = '';
-    if (houseRuleItems.length > 0) {{
-      houseBhavaRulesHtml = houseRuleItems.map(function(item) {{
-        return '<div style="margin-bottom: 10px; line-height: 1.7; font-size: 12px;">' +
-          '<strong style="color: #fbbf24; font-weight: 800;">' + item.lordHouseNum + 'వ స్థానాధిపతి (' + item.planetName + ') ' + item.placedHouseNum + 'వ స్థానములో ఉన్నందున:</strong> ' +
-          '<span style="color: #f8fafc;">' + item.ruleText + '</span>' +
-        '</div>';
-      }}).join('');
     }}
 
     var occupantsHtml = occupantsList.length > 0
@@ -593,14 +574,6 @@ js_template = f'''/**
         '<div style="background: rgba(245,158,11,0.1); border-left: 3px solid #f59e0b; padding: 5px 9px; margin-bottom: 9px; font-size: 12px; border-radius: 0 6px 6px 0;">',
           '<b style="color: #fbbf24;">స్థాన కారకత్వాలు:</b> <span style="color: #f1f5f9;">' + h.karakatwalu + '</span>',
         '</div>',
-        (houseBhavaRulesHtml ? [
-          '<div style="font-size: 12.5px; font-weight: 800; color: #38bdf8; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">',
-            '<span>📜</span> 12 భావ ఫలాలు:',
-          '</div>',
-          '<div style="font-size: 12px; line-height: 1.7; color: #cbd5e1; background: rgba(15,23,42,0.85); padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.25); text-align: justify; margin-bottom: 10px;">',
-            houseBhavaRulesHtml,
-          '</div>'
-        ].join('') : ''),
         '<div style="font-size: 12.5px; font-weight: 800; color: #ffd700; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">',
           '<span>📖</span> జ్యోతిష్య శాస్త్రము (గ్రంథ వివరణ):',
         '</div>',
