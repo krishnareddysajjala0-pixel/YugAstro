@@ -778,3 +778,4 @@
 754. [15-Oct-2026 06:06:47] Name: Ok, Mobile: N/A, DOB: 2026-10-15, TOB: 11:36, Place: Kandukur, Andhra Pradesh, India
 755. [15-Oct-2026 06:18:48] Name: GANGARAJU, Mobile: N/A, DOB: 1989-06-21, TOB: 05:00, Place: Hoskote, Punjab, India
 756. [15-Oct-2026 06:20:17] Name: GANGARAJU (Compare 1), Mobile: N/A, DOB: 1989-06-21, TOB: 05:00, Place: Hoskote, Punjab, India
+757. [15-Oct-2026 06:20:18] Name: GANGARAJU ACCIDENT (Compare 2), Mobile: N/A, DOB: 2025-07-23, TOB: 12:20, Place: Krishnarājpur, Punjab, India
