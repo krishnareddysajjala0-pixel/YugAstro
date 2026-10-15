@@ -2328,7 +2328,8 @@
 
 
 
-      padding: 20px;
+      padding: 6px 8px;
+      box-sizing: border-box;
 
 
 
@@ -2397,6 +2398,12 @@
 
 
       z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
 
 
 
@@ -2456,57 +2463,64 @@
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
-    /* Excel Table in Center Box with All Borders Centered from All Sides */
+    /* Center Box Table - Single Line Rows without Internal Grid Lines */
     .center-table {
-      width: 95%;
-      max-width: 480px;
+      width: max-content;
+      min-width: 90%;
+      max-width: 98%;
       margin: auto;
-      border-collapse: collapse !important;
-      font-size: 11.5px;
-      line-height: 1.35;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      font-size: 10.5px;
+      line-height: 1.2;
       text-align: left;
       border: 1.5px solid var(--box-border, #ffd700) !important;
+      border-radius: 8px;
       box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.3));
       background: var(--card-bg, rgba(15, 23, 42, 0.7));
+      overflow: hidden;
     }
 
     .center-table tr {
-      border-bottom: 1px solid var(--box-border, #ffd700) !important;
+      border: none !important;
     }
 
     .center-table td {
-      border: 1px solid var(--box-border, #ffd700) !important;
-      padding: 3.5px 8px !important;
+      border: none !important;
+      padding: 1.5px 8px !important;
       vertical-align: middle !important;
+      white-space: nowrap !important;
       box-sizing: border-box !important;
     }
 
-    .center-table tr:nth-child(even) td.center-value {
-      background: rgba(120, 120, 120, 0.03);
+    .center-table tr:nth-child(even) {
+      background: rgba(120, 120, 120, 0.04);
     }
 
     .center-label {
-      width: 44%;
-      min-width: 135px;
+      width: auto !important;
       font-weight: 800 !important;
-      color: #ffd700 !important;
-      background: rgba(255, 215, 0, 0.08) !important;
+      color: #b45309 !important;
       white-space: nowrap !important;
-      border-right: 1.5px solid var(--box-border, #ffd700) !important;
+      text-align: left !important;
+      padding-right: 14px !important;
+      background: transparent !important;
+      border: none !important;
     }
 
     .center-label i {
-      margin-right: 4px;
-      opacity: 0.85;
-      font-size: 10.5px;
+      display: none !important;
     }
 
     .center-value {
-      width: 56%;
+      width: auto !important;
       font-weight: 700 !important;
-      color: var(--text-main, #f8fafc) !important;
-      background: rgba(255, 255, 255, 0.02);
-      word-break: break-word !important;
+      color: var(--text-main, #0f172a) !important;
+      background: transparent !important;
+      white-space: nowrap !important;
+      word-break: normal !important;
+      text-align: left !important;
+      border: none !important;
     }
 
     [data-theme="cosmic"] .center-table {
@@ -2515,23 +2529,27 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
-    [data-theme="cosmic"] .center-table td {
-      border-color: rgba(255, 255, 255, 0.2) !important;
-    }
-
     [data-theme="cosmic"] .center-label {
       color: #fbbf24 !important;
-      background: rgba(251, 191, 36, 0.1) !important;
-      border-right-color: rgba(255, 255, 255, 0.28) !important;
+      background: transparent !important;
+      border: none !important;
     }
 
     [data-theme="cosmic"] .center-value {
       color: #f8fafc !important;
+      background: transparent !important;
     }
 
     [data-theme="solar"] .center-label {
-      color: #ffd700 !important;
-      background: rgba(255, 215, 0, 0.08) !important;
+      color: #92400e !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    [data-theme="sunset"] .center-label {
+      color: #fde047 !important;
+      background: transparent !important;
+      border: none !important;
     }
 
     .info-line {
@@ -4742,25 +4760,36 @@
       }
 
       .center-table {
-        border-collapse: collapse !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
         border: 1.5px solid #000 !important;
+        border-radius: 6px !important;
         background: #fff !important;
+        width: max-content !important;
+        margin: auto !important;
       }
       .center-table tr {
-        border-bottom: 1px solid #333 !important;
+        border: none !important;
       }
       .center-table td {
-        border: 1px solid #333 !important;
-        padding: 3px 6px !important;
+        border: none !important;
+        padding: 1.5px 8px !important;
+        white-space: nowrap !important;
       }
       .center-table .center-label {
         color: #713f12 !important;
-        background: #f8fafc !important;
-        border-right: 1.5px solid #000 !important;
+        font-weight: 800 !important;
+        white-space: nowrap !important;
+        padding-right: 12px !important;
+        border: none !important;
+        background: transparent !important;
       }
       .center-table .center-value {
         color: #000 !important;
-        background: #fff !important;
+        font-weight: 800 !important;
+        background: transparent !important;
+        white-space: nowrap !important;
+        border: none !important;
       }
 
 
@@ -7420,19 +7449,19 @@ body {
                 <td class="center-value pdf-person-name">{{ name }}</td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
+                <td class="center-label">{{ _('తేదీ:') }}</td>
                 <td class="center-value">{{ dob }} ({{ day_name }})</td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
+                <td class="center-label">{{ _('సమయం:') }}</td>
                 <td class="center-value">{{ tob }}</td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
+                <td class="center-label">{{ _('స్థలం:') }}</td>
                 <td class="center-value">{{ place.split(',')[0] if ',' in place else place }}</td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
+                <td class="center-label">{{ _('లగ్నం:') }}</td>
                 <td class="center-value">
                   {{ lagna }} 
                   {% if lagna_deg is defined and lagna_deg %}
@@ -7441,11 +7470,11 @@ body {
                 </td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-certificate"></i> {{ _('తిథి:') }}</td>
+                <td class="center-label">{{ _('తిథి:') }}</td>
                 <td class="center-value">{{ _(tithi_paksha) }} - {{ _(tithi_name) }}</td>
               </tr>
               <tr>
-                <td class="center-label"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
+                <td class="center-label">{{ _('నక్షత్రం:') }}</td>
                 <td class="center-value">
                   {{ nakshatra }} ({{ padam }} {{ _('పాదం') }})
                 </td>
