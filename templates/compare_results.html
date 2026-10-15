@@ -6691,12 +6691,29 @@ body {
       display: flex;
       flex-direction: column;
       flex: 1 1 auto;
-      justify-content: space-between;
-      gap: 3px;
+      height: 100%;
+      justify-content: flex-start;
+      gap: 0;
     }
 
     .dasa-info-panel::-webkit-scrollbar {
       display: none;
+    }
+
+    /* Upper Half: Dasa Header & Antharas */
+    .dasa-upper-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 50%;
+      min-height: 0;
+      justify-content: flex-start;
+      border-bottom: 1px dashed var(--box-border);
+      padding-bottom: 3px;
+      margin-bottom: 3px;
+    }
+
+    [data-theme="cosmic"] .dasa-upper-section {
+      border-bottom-color: rgba(255, 255, 255, 0.25);
     }
 
     .dasa-panel-header {
@@ -6705,13 +6722,13 @@ body {
       justify-content: space-between;
       gap: 2px;
       padding: 0 1px 2px 1px;
-      border-bottom: none;
+      border-bottom: 1.5px solid #b45309;
       margin-bottom: 2px;
       flex-shrink: 0;
     }
 
     [data-theme="cosmic"] .dasa-panel-header {
-      border-bottom: none;
+      border-bottom-color: #fbbf24;
     }
 
     .dasa-panel-title {
@@ -6720,10 +6737,15 @@ body {
       color: #b45309;
       line-height: 1.1;
       letter-spacing: -0.2px;
+      text-decoration: underline;
+      text-underline-offset: 2.5px;
+      text-decoration-thickness: 1.5px;
+      text-decoration-color: #b45309;
     }
 
     [data-theme="cosmic"] .dasa-panel-title {
       color: #fbbf24;
+      text-decoration-color: #fbbf24;
     }
 
     .dasa-panel-years {
@@ -6735,26 +6757,27 @@ body {
       border-radius: 3px;
       line-height: 1.1;
       white-space: nowrap;
+      text-decoration: underline;
+      text-underline-offset: 2.5px;
+      text-decoration-thickness: 1.5px;
+      text-decoration-color: var(--text-main);
     }
 
     [data-theme="cosmic"] .dasa-panel-years {
       background: rgba(251, 191, 36, 0.18);
       color: #fbbf24;
+      text-decoration-color: #fbbf24;
     }
 
     .dasa-panel-antharas {
       font-size: 8.5px;
       line-height: 1.35;
-      color: var(--text-muted, #334155);
       font-weight: 600;
       word-break: break-word;
       white-space: normal;
-      overflow: hidden;
+      overflow: visible;
       padding: 1px 0;
-    }
-
-    [data-theme="cosmic"] .dasa-panel-antharas {
-      color: #c7d2fe;
+      flex: 1 1 auto;
     }
 
     .ant-item {
@@ -6763,13 +6786,14 @@ body {
     }
 
     .ant-p {
-      font-weight: 700;
-      color: var(--text-main);
+      font-weight: 800;
+      color: var(--p-color, var(--text-main));
     }
 
     .ant-d {
-      font-weight: 600;
-      color: var(--text-muted);
+      font-weight: 700;
+      color: var(--d-color, var(--text-muted));
+      margin-left: 1px;
     }
 
     .ant-comma {
@@ -6778,21 +6802,78 @@ body {
       margin-right: 2px;
     }
 
-    /* Rashi Attributes Panel (Adhipathi, Direction, Gem, Karakatwalu) */
+    [data-theme="cosmic"] .ant-p {
+      color: var(--p-dark, #38bdf8) !important;
+    }
+
+    [data-theme="cosmic"] .ant-d {
+      color: var(--d-dark, #cbd5e1) !important;
+    }
+
+    /* Distinct Colors for Each Planet & its Time Text */
+    .ant-planet-surya .ant-p { color: #d97706; }
+    .ant-planet-surya .ant-d { color: #b45309; }
+    .ant-planet-chandra .ant-p { color: #0284c7; }
+    .ant-planet-chandra .ant-d { color: #0369a1; }
+    .ant-planet-kuja .ant-p { color: #dc2626; }
+    .ant-planet-kuja .ant-d { color: #b91c1c; }
+    .ant-planet-rahu .ant-p { color: #4f46e5; }
+    .ant-planet-rahu .ant-d { color: #4338ca; }
+    .ant-planet-guru .ant-p { color: #ca8a04; }
+    .ant-planet-guru .ant-d { color: #a16207; }
+    .ant-planet-bhumi .ant-p { color: #059669; }
+    .ant-planet-bhumi .ant-d { color: #047857; }
+    .ant-planet-shani .ant-p { color: #2563eb; }
+    .ant-planet-shani .ant-d { color: #1d4ed8; }
+    .ant-planet-budha .ant-p { color: #16a34a; }
+    .ant-planet-budha .ant-d { color: #15803d; }
+    .ant-planet-ketu .ant-p { color: #ea580c; }
+    .ant-planet-ketu .ant-d { color: #c2410c; }
+    .ant-planet-sukra .ant-p { color: #db2777; }
+    .ant-planet-sukra .ant-d { color: #be185d; }
+    .ant-planet-mitra .ant-p { color: #0d9488; }
+    .ant-planet-mitra .ant-d { color: #0f766e; }
+    .ant-planet-chitra .ant-p { color: #7c3aed; }
+    .ant-planet-chitra .ant-d { color: #6d28d9; }
+
+    [data-theme="cosmic"] .ant-planet-surya .ant-p { color: #fbbf24 !important; }
+    [data-theme="cosmic"] .ant-planet-surya .ant-d { color: #fde68a !important; }
+    [data-theme="cosmic"] .ant-planet-chandra .ant-p { color: #38bdf8 !important; }
+    [data-theme="cosmic"] .ant-planet-chandra .ant-d { color: #bae6fd !important; }
+    [data-theme="cosmic"] .ant-planet-kuja .ant-p { color: #f87171 !important; }
+    [data-theme="cosmic"] .ant-planet-kuja .ant-d { color: #fecaca !important; }
+    [data-theme="cosmic"] .ant-planet-rahu .ant-p { color: #818cf8 !important; }
+    [data-theme="cosmic"] .ant-planet-rahu .ant-d { color: #c7d2fe !important; }
+    [data-theme="cosmic"] .ant-planet-guru .ant-p { color: #facc15 !important; }
+    [data-theme="cosmic"] .ant-planet-guru .ant-d { color: #fef08a !important; }
+    [data-theme="cosmic"] .ant-planet-bhumi .ant-p { color: #34d399 !important; }
+    [data-theme="cosmic"] .ant-planet-bhumi .ant-d { color: #a7f3d0 !important; }
+    [data-theme="cosmic"] .ant-planet-shani .ant-p { color: #60a5fa !important; }
+    [data-theme="cosmic"] .ant-planet-shani .ant-d { color: #bfdbfe !important; }
+    [data-theme="cosmic"] .ant-planet-budha .ant-p { color: #4ade80 !important; }
+    [data-theme="cosmic"] .ant-planet-budha .ant-d { color: #bbf7d0 !important; }
+    [data-theme="cosmic"] .ant-planet-ketu .ant-p { color: #fb923c !important; }
+    [data-theme="cosmic"] .ant-planet-ketu .ant-d { color: #fed7aa !important; }
+    [data-theme="cosmic"] .ant-planet-sukra .ant-p { color: #f472b6 !important; }
+    [data-theme="cosmic"] .ant-planet-sukra .ant-d { color: #fbcfe8 !important; }
+    [data-theme="cosmic"] .ant-planet-mitra .ant-p { color: #2dd4bf !important; }
+    [data-theme="cosmic"] .ant-planet-mitra .ant-d { color: #99f6e4 !important; }
+    [data-theme="cosmic"] .ant-planet-chitra .ant-p { color: #a78bfa !important; }
+    [data-theme="cosmic"] .ant-planet-chitra .ant-d { color: #ddd6fe !important; }
+
+    /* Lower Half: Rashi Attributes Panel (Adhipathi, Direction, Gem, Karakatwalu) */
     .rashi-meta-panel {
-      border-top: none;
-      margin-top: 3px;
-      padding-top: 2px;
+      flex: 1 1 50%;
+      min-height: 0;
+      margin-top: 2px;
+      padding-top: 1px;
       display: flex;
       flex-direction: column;
-      gap: 1.5px;
+      justify-content: flex-start;
+      gap: 2px;
       font-size: 8.5px;
       line-height: 1.25;
       flex-shrink: 0;
-    }
-
-    [data-theme="cosmic"] .rashi-meta-panel {
-      border-top: none;
     }
 
     .rashi-meta-adhipathi, .rashi-meta-gem, .rashi-meta-karaka {
@@ -7752,14 +7833,16 @@ body {
       <!-- Right Half: Dasa Information Panel -->
       <div class="nak-box-right-half">
         <div class="dasa-info-panel">
-          <div class="dasa-panel-header">
-            <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
-            <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
-          </div>
-          <div class="dasa-panel-antharas">
-            {% for ant in b.dasa_info.antharas %}
-              <span class="ant-item"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
-            {% endfor %}
+          <div class="dasa-upper-section">
+            <div class="dasa-panel-header">
+              <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
+              <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
+            </div>
+            <div class="dasa-panel-antharas">
+              {% for ant in b.dasa_info.antharas %}
+                <span class="ant-item ant-planet-{{ ant.slug }}" style="--p-color: {{ ant.color }}; --d-color: {{ ant.dur_color }}; --p-dark: {{ ant.dark_color }}; --d-dark: {{ ant.dark_dur_color }};"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
+              {% endfor %}
+            </div>
           </div>
           {% if b.rashi_details %}
           <div class="rashi-meta-panel">

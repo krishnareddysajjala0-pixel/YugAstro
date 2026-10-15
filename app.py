@@ -538,6 +538,41 @@ PLANET_ICONS = {
     "చిత్ర": "✦"
 }
 
+PLANET_SLUG_MAP = {
+    "సూర్య": "surya",
+    "సూర్యుడు": "surya",
+    "చంద్ర": "chandra",
+    "చంద్రుడు": "chandra",
+    "కుజ": "kuja",
+    "కుజుడు": "kuja",
+    "రాహు": "rahu",
+    "గురు": "guru",
+    "భూమి": "bhumi",
+    "శని": "shani",
+    "బుధ": "budha",
+    "బుధుడు": "budha",
+    "కేతు": "ketu",
+    "శుక్ర": "sukra",
+    "శుక్రుడు": "sukra",
+    "మిత్ర": "mitra",
+    "చిత్ర": "chitra"
+}
+
+PLANET_DASA_COLORS = {
+    "సూర్య": {"planet": "#d97706", "dur": "#b45309", "dark_planet": "#fbbf24", "dark_dur": "#fde68a"},
+    "చంద్ర": {"planet": "#0284c7", "dur": "#0369a1", "dark_planet": "#38bdf8", "dark_dur": "#bae6fd"},
+    "కుజ": {"planet": "#dc2626", "dur": "#b91c1c", "dark_planet": "#f87171", "dark_dur": "#fecaca"},
+    "రాహు": {"planet": "#4f46e5", "dur": "#4338ca", "dark_planet": "#818cf8", "dark_dur": "#c7d2fe"},
+    "గురు": {"planet": "#ca8a04", "dur": "#a16207", "dark_planet": "#facc15", "dark_dur": "#fef08a"},
+    "భూమి": {"planet": "#059669", "dur": "#047857", "dark_planet": "#34d399", "dark_dur": "#a7f3d0"},
+    "శని": {"planet": "#2563eb", "dur": "#1d4ed8", "dark_planet": "#60a5fa", "dark_dur": "#bfdbfe"},
+    "బుధ": {"planet": "#16a34a", "dur": "#15803d", "dark_planet": "#4ade80", "dark_dur": "#bbf7d0"},
+    "కేతు": {"planet": "#ea580c", "dur": "#c2410c", "dark_planet": "#fb923c", "dark_dur": "#fed7aa"},
+    "శుక్ర": {"planet": "#db2777", "dur": "#be185d", "dark_planet": "#f472b6", "dark_dur": "#fbcfe8"},
+    "మిత్ర": {"planet": "#0d9488", "dur": "#0f766e", "dark_planet": "#2dd4bf", "dark_dur": "#99f6e4"},
+    "చిత్ర": {"planet": "#7c3aed", "dur": "#6d28d9", "dark_planet": "#a78bfa", "dark_dur": "#ddd6fe"},
+}
+
 # Month mappings linking Telugu to English Gregorian periods
 TELUGU_MASALU = [
     "చైత్ర", "వైశాఖ", "జ్యేష్ఠ", "ఆషాఢ", "శ్రావణ", "భాద్రపద", 
@@ -2180,7 +2215,17 @@ def build_nakshatra_pada_boxes(data):
                 dur_str = f"{int_m}నె {days}రో"
             else:
                 dur_str = f"{int_m}నె"
-            antharas_data.append({"planet": ant_planet, "duration_str": dur_str})
+            p_info = PLANET_DASA_COLORS.get(ant_planet, {"planet": "#0284c7", "dur": "#334155", "dark_planet": "#38bdf8", "dark_dur": "#cbd5e1"})
+            slug = PLANET_SLUG_MAP.get(ant_planet, "planet")
+            antharas_data.append({
+                "planet": ant_planet,
+                "duration_str": dur_str,
+                "slug": slug,
+                "color": p_info["planet"],
+                "dur_color": p_info["dur"],
+                "dark_color": p_info["dark_planet"],
+                "dark_dur_color": p_info["dark_dur"]
+            })
             antharas_text_parts.append(f"{ant_planet} {dur_str}")
 
         dasa_info = {

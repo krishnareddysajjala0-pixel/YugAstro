@@ -75,14 +75,16 @@
       <!-- Right Half: Dasa Information Panel -->
       <div class="nak-box-right-half">
         <div class="dasa-info-panel">
-          <div class="dasa-panel-header">
-            <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
-            <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
-          </div>
-          <div class="dasa-panel-antharas">
-            {% for ant in b.dasa_info.antharas %}
-              <span class="ant-item"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
-            {% endfor %}
+          <div class="dasa-upper-section">
+            <div class="dasa-panel-header">
+              <span class="dasa-panel-title">{{ b.dasa_info.dasa_name }}దశ</span>
+              <span class="dasa-panel-years">{{ b.dasa_info.years_str }}</span>
+            </div>
+            <div class="dasa-panel-antharas">
+              {% for ant in b.dasa_info.antharas %}
+                <span class="ant-item ant-planet-{{ ant.slug }}" style="--p-color: {{ ant.color }}; --d-color: {{ ant.dur_color }}; --p-dark: {{ ant.dark_color }}; --d-dark: {{ ant.dark_dur_color }};"><span class="ant-p">{{ ant.planet }}</span> <span class="ant-d">{{ ant.duration_str }}</span></span>{% if not loop.last %}<span class="ant-comma">, </span>{% endif %}
+              {% endfor %}
+            </div>
           </div>
           {% if b.rashi_details %}
           <div class="rashi-meta-panel">
