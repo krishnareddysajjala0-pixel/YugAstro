@@ -2928,23 +2928,9 @@
 
 
         .data-table {
-
-
-
-
-
             width: auto !important;
-
-
-
-
-
-            min-width: 100% !important;
-
-
-
-
-
+            min-width: unset !important;
+            margin: 0 auto;
             border-collapse: collapse;
 
 
@@ -3894,35 +3880,11 @@
 
 
         .disease-cell {
-
-
-
-
-
             text-align: left;
-
-
-
-
-
             padding: 8px !important;
-
-
-
-
-
             vertical-align: top;
-
-
-
-
-
-            min-width: 120px !important;
-
-
-
-
-
+            min-width: unset !important;
+            width: auto !important;
         }
 
 
@@ -4248,59 +4210,14 @@
 
 
         .data-table th, .data-table td {
-
-
-
-
-
             min-width: unset !important;
-
-
-
-
-
-            word-wrap: break-word;
-
-
-
-
-
+            word-wrap: normal;
             text-align: center;
-
-
-
-
-
             box-sizing: border-box;
-
-
-
-
-
             background-clip: padding-box;
-
-
-
-
-
-            padding: 8px 6px;
-
-
-
-
-
-            width: 1% !important;
-
-
-
-
-
+            padding: 6px 10px !important;
+            width: auto !important;
             white-space: nowrap !important;
-
-
-
-
-
         }
 
 
@@ -4314,23 +4231,9 @@
 
 
         .data-table .disease-cell {
-
-
-
-
-
             width: auto !important;
-
-
-
-
-
-            white-space: normal !important;
-
-
-
-
-
+            min-width: unset !important;
+            white-space: nowrap !important;
         }
 
 
@@ -4344,23 +4247,9 @@
 
 
         .data-table th:first-child, 
-
-
-
-
-
         .data-table td:first-child {
-
-
-
-
-
-            width: 1%;
-
-
-
-
-
+            width: auto !important;
+            min-width: unset !important;
             white-space: nowrap;
 
 
@@ -4464,17 +4353,8 @@
 
 
         .disease-cell {
-
-
-
-
-
-            min-width: 180px !important;
-
-
-
-
-
+            min-width: unset !important;
+            width: auto !important;
         }
 
 
@@ -5118,6 +4998,19 @@
         .info-row .val.own-val {
             color: #ffd700;
         }
+        .info-row.location-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+        .info-row.location-row .loc-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
         .card-footer {
             margin-top: 10px;
             padding-top: 8px;
@@ -5387,35 +5280,54 @@
     box-shadow: none !important;
     padding: 0 !important;
     margin-bottom: 2px !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   #chart3-page-1 .data-table {
     font-size: 9pt !important;
-    table-layout: fixed !important;
-    width: 100% !important;
+    table-layout: auto !important;
+    width: auto !important;
+    min-width: unset !important;
     border-collapse: collapse !important;
     background: #ffffff !important;
+    margin: 0 auto !important;
   }
   #chart3-page-1 .data-table th {
     font-size: 9.6pt !important;
-    padding: 1px 2px !important;
+    padding: 1px 4px !important;
     background: #f1f5f9 !important;
     color: #0f172a !important;
     border: 1px solid #94a3b8 !important;
     font-weight: 800 !important;
+    width: auto !important;
+    min-width: unset !important;
+    white-space: nowrap !important;
   }
   #chart3-page-1 .data-table td {
-    padding: 1px 2px !important;
+    padding: 1px 4px !important;
     font-size: 8.8pt !important;
     background: #ffffff !important;
     color: #000000 !important;
     border: 1px solid #cbd5e1 !important;
     line-height: 1.12 !important;
+    width: auto !important;
+    min-width: unset !important;
+    white-space: nowrap !important;
   }
   #chart3-page-1 .data-table td:first-child {
     background: #f8fafc !important;
     font-weight: 700 !important;
     color: #0f172a !important;
+    width: auto !important;
+    min-width: unset !important;
+    white-space: nowrap !important;
+  }
+  #chart3-page-1 .disease-cell {
+    width: auto !important;
+    min-width: unset !important;
   }
 
   #chart3-page-1 .disease-list {
@@ -5553,6 +5465,19 @@
   .info-row .val.own-val {
     color: #92400e !important;
     font-weight: 800 !important;
+  }
+  .info-row.location-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+  .info-row.location-row .loc-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
   }
 
   .card-footer {
@@ -8301,48 +8226,15 @@ body {
 
 
 
-                    <div class="info-row">
-
-
-
-
-
-                        <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
-
-
-
-
-
-                        <span class="val">{{ r.current_lagna }}</span>
-
-
-
-
-
-                    </div>
-
-
-
-
-
-                    <div class="info-row">
-
-
-
-
-
-                        <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
-
-
-
-
-
-                        <span class="val own-val">{{ r.own_house }}</span>
-
-
-
-
-
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
+                        </span>
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
+                            <span class="val own-val">{{ r.own_house }}</span>
+                        </span>
                     </div>
 
 
@@ -8607,48 +8499,15 @@ body {
 
 
 
-                    <div class="info-row">
-
-
-
-
-
-                        <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
-
-
-
-
-
-                        <span class="val">{{ r.current_lagna }}</span>
-
-
-
-
-
-                    </div>
-
-
-
-
-
-                    <div class="info-row">
-
-
-
-
-
-                        <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
-
-
-
-
-
-                        <span class="val own-val">{{ r.own_house }}</span>
-
-
-
-
-
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
+                        </span>
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
+                            <span class="val own-val">{{ r.own_house }}</span>
+                        </span>
                     </div>
 
 

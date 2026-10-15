@@ -351,13 +351,15 @@
                 </div>
 
                 <div class="info-body">
-                    <div class="info-row">
-                        <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
-                        <span class="val">{{ r.current_lagna }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
-                        <span class="val own-val">{{ r.own_house }}</span>
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
+                        </span>
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
+                            <span class="val own-val">{{ r.own_house }}</span>
+                        </span>
                     </div>
                     <div class="info-row" style="flex-direction: column; align-items: flex-start;">
                         <span class="label">{{ _('ఆధీనములో ఉన్నవి:') }}</span>
@@ -404,13 +406,15 @@
                 </div>
 
                 <div class="info-body">
-                    <div class="info-row">
-                        <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
-                        <span class="val">{{ r.current_lagna }}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
-                        <span class="val own-val">{{ r.own_house }}</span>
+                    <div class="info-row location-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('ప్రస్తుత స్థానము:') }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
+                        </span>
+                        <span class="loc-item" style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                            <span class="label">{{ _('స్వంత ఇల్లు:') }}</span>
+                            <span class="val own-val">{{ r.own_house }}</span>
+                        </span>
                     </div>
                     <div class="info-row" style="flex-direction: column; align-items: flex-start;">
                         <span class="label">{{ _('ఆధీనములో ఉన్నవి:') }}</span>

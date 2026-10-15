@@ -475,7 +475,8 @@
 
         .data-table {
             width: auto !important;
-            min-width: 100% !important;
+            min-width: unset !important;
+            margin: 0 auto;
             border-collapse: collapse;
             font-size: 14px;
             color: var(--text-main);
@@ -692,26 +693,27 @@
         }
 
         /* Responsive Fixes for Transposed Tables */
-        /* Responsive Fixes for Transposed Tables */
         .data-table th, .data-table td {
             min-width: unset !important;
-            word-wrap: break-word;
+            word-wrap: normal;
             text-align: center;
             box-sizing: border-box;
             background-clip: padding-box;
-            padding: 8px 6px;
-            width: 1% !important;
+            padding: 6px 10px !important;
+            width: auto !important;
             white-space: nowrap !important;
         }
         
         .data-table .disease-cell {
             width: auto !important;
-            white-space: normal !important;
+            min-width: unset !important;
+            white-space: nowrap !important;
         }
 
         .data-table th:first-child, 
         .data-table td:first-child {
-            width: 1%;
+            width: auto !important;
+            min-width: unset !important;
             white-space: nowrap;
             position: sticky !important;
             left: 0 !important;
@@ -730,7 +732,8 @@
         }
 
         .disease-cell {
-            min-width: 180px !important;
+            min-width: unset !important;
+            width: auto !important;
         }
 
         /* Footer */
