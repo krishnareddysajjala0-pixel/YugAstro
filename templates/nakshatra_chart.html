@@ -944,6 +944,150 @@
       display: flex;
     }
 
+    /* =========================================================
+       DYNAMIC BOX TEXT SIZING (DEFAULT vs DASA ACTIVE)
+       By default: Dasa is hidden, Left half is 100% full width.
+       All box text has the SAME size like planet name size (11.5px).
+       After click on Dasa: Left half is 56%, text is reduced to
+       the compact present state (9px) to fit side-by-side with Dasa.
+       ========================================================= */
+    .nak-name-cell, .pada-letter-col, .pada-num-col, .nak-name-text, .pada-letter, .pada-num, .occupant-pill {
+      transition: all 0.2s ease;
+    }
+
+    body:not(.show-dasa) .nak-name-cell {
+      flex: 0 0 25px;
+      width: 25px;
+      min-width: 25px;
+      max-width: 25px;
+      padding: 1px 1px;
+    }
+
+    body:not(.show-dasa) .nak-name-text {
+      font-size: 11.5px;
+      line-height: 1.1;
+      letter-spacing: -0.2px;
+    }
+
+    body:not(.show-dasa) .padas-list-cell {
+      width: calc(100% - 25px);
+    }
+
+    body:not(.show-dasa) .pada-row {
+      font-size: 11.5px;
+      min-height: 28px;
+    }
+
+    body:not(.show-dasa) .pada-letter-col {
+      flex: 0 0 25px;
+      width: 25px;
+      min-width: 25px;
+    }
+
+    body:not(.show-dasa) .pada-letter {
+      font-size: 11.5px;
+      line-height: 1;
+    }
+
+    body:not(.show-dasa) .pada-num-col {
+      flex: 0 0 23px;
+      width: 23px;
+      min-width: 23px;
+    }
+
+    body:not(.show-dasa) .pada-num {
+      font-size: 11px;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      line-height: 1;
+    }
+
+    body:not(.show-dasa) .occupants-wrap {
+      padding: 1px 4px;
+      gap: 2px 4px;
+    }
+
+    body:not(.show-dasa) .occupant-pill {
+      font-size: 11.5px;
+      padding: 1px 4px;
+    }
+
+    body:not(.show-dasa) .aspect-hand {
+      font-size: 11.5px;
+    }
+
+    body:not(.show-dasa) .planet-deg-suffix {
+      font-size: 9.5px;
+    }
+
+    /* When Dasa Toggle is Active (Clicked): reduced to present compact state */
+    body.show-dasa .nak-name-cell {
+      flex: 0 0 20px !important;
+      width: 20px !important;
+      min-width: 20px !important;
+      max-width: 20px !important;
+      padding: 1px 1px !important;
+    }
+
+    body.show-dasa .nak-name-text {
+      font-size: 9px !important;
+      line-height: 1.05 !important;
+      letter-spacing: -0.3px !important;
+    }
+
+    body.show-dasa .padas-list-cell {
+      width: calc(100% - 20px) !important;
+    }
+
+    body.show-dasa .pada-row {
+      font-size: 10px !important;
+      min-height: 25px !important;
+    }
+
+    body.show-dasa .pada-letter-col {
+      flex: 0 0 20px !important;
+      width: 20px !important;
+      min-width: 20px !important;
+    }
+
+    body.show-dasa .pada-letter {
+      font-size: 9px !important;
+      line-height: 1 !important;
+    }
+
+    body.show-dasa .pada-num-col {
+      flex: 0 0 18px !important;
+      width: 18px !important;
+      min-width: 18px !important;
+    }
+
+    body.show-dasa .pada-num {
+      font-size: 8.5px !important;
+      width: 13px !important;
+      height: 13px !important;
+      min-width: 13px !important;
+      line-height: 1 !important;
+    }
+
+    body.show-dasa .occupants-wrap {
+      padding: 1px 2px !important;
+      gap: 2px 3px !important;
+    }
+
+    body.show-dasa .occupant-pill {
+      font-size: 9px !important;
+      padding: 1px 2.5px !important;
+    }
+
+    body.show-dasa .aspect-hand {
+      font-size: 9px !important;
+    }
+
+    body.show-dasa .planet-deg-suffix {
+      font-size: 7.5px !important;
+    }
+
     .rashi-time-badge {
       font-size: 11px;
       font-weight: 800;
