@@ -344,8 +344,6 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
                         f"• {icon} <b>{pn}{l_tag} ({camp_tag} - {pos_tag}):</b><br>{res_text}"
                     )
 
-                if lookup and lookup.get('key_thraitha_sutra'):
-                    special_notes.append(f"📌 <b>త్రైత సూత్రము ({pn}):</b> {lookup.get('key_thraitha_sutra')}")
 
                 # Planet-specific bhava rules
                 if b_num == 4 and pn == "సూర్యుడు" and is_fr:
