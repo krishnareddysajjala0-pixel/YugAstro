@@ -27,8 +27,8 @@ import base64
 import json
 import re
 
-# Cache loaded translation dictionaries
 from results_engine import evaluate_kundali_results
+from thraitha_jathaka_engine import generate_thraitha_jathaka_report
 from astral import LocationInfo
 from astral.sun import sun
 try:
@@ -2497,8 +2497,9 @@ def chart():
 
     # Evaluate Results Engine predictions
     jathaka_results = evaluate_kundali_results(data, dasha_data if isinstance(dasha_data, dict) else {})
+    thraitha_report = generate_thraitha_jathaka_report(data, dasha_data if isinstance(dasha_data, dict) else {})
 
-    return render_template("chart.html", **data, **dasha_data, jathaka_results=jathaka_results)
+    return render_template("chart.html", **data, **dasha_data, jathaka_results=jathaka_results, thraitha_report=thraitha_report)
 
 
 @app.route("/nakshatra_chart", methods=["GET", "POST"])
@@ -2568,11 +2569,14 @@ def nakshatra_chart():
         'lagna': data.get('lagna', ''), 'timezone_str': data.get('timezone_str', 'Asia/Kolkata')
     }
 
+    thraitha_report = generate_thraitha_jathaka_report(data, dasha_data if isinstance(dasha_data, dict) else {})
+
     return render_template(
         "nakshatra_chart.html",
         **data,
         **dasha_data,
-        nakshatra_boxes=nakshatra_boxes
+        nakshatra_boxes=nakshatra_boxes,
+        thraitha_report=thraitha_report
     )
 
 def normalize_planet_name(name):
@@ -2862,8 +2866,15 @@ def results_page():
         birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
     
     dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
-    report = evaluate_kundali_results(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
-    return render_template("full_report.html", report=report)
+    thraitha_report = generate_thraitha_jathaka_report(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
+    return render_template(
+        "full_report.html", 
+        report=thraitha_report, 
+        thraitha_report=thraitha_report, 
+        bhava_report=thraitha_report.get('bhava_report', []), 
+        overall_summary=thraitha_report.get('overall_summary', {}), 
+        **birth_info
+    )
 
 
 @app.route("/api/jathaka-results", methods=["GET", "POST"])
@@ -2873,7 +2884,7 @@ def api_jathaka_results():
         birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
 
     dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
-    report = evaluate_kundali_results(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
+    report = generate_thraitha_jathaka_report(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
     return jsonify({"success": True, "results": report})
 
 @app.route("/compare_kundali")
@@ -4612,6 +4623,8 @@ def results():
             "state": state
         })
 
+    thraitha_report = generate_thraitha_jathaka_report(birth_info, {})
+
     return render_template("results.html", 
                            results=results_data,
                            friends=friends,
@@ -4622,7 +4635,8 @@ def results():
                            name=birth_info.get('name', ''),
                            dob=birth_info.get('dob', ''),
                            tob=birth_info.get('tob', ''),
-                           place=birth_info.get('place', ''))
+                           place=birth_info.get('place', ''),
+                           thraitha_report=thraitha_report)
 
 
 @app.route("/go-to-dasha-chart")

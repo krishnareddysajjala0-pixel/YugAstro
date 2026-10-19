@@ -3183,6 +3183,12 @@ body {
         <span>వివరణ</span>
       </button>
 
+      <!-- 5. Complete Jathaka Report Button -->
+      <button type="button" class="top-btn-report ctrl-btn" id="topReportBtn" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
+        <i class="fas fa-scroll"></i>
+        <span>{{ _('నివేదిక') }}</span>
+      </button>
+
 
 
       <!-- 6. Language Switcher (LAST / RIGHT) -->
@@ -3583,10 +3589,16 @@ body {
   <!-- Today's Transit Nakshatra Chart Container -->
   <div id="transit-container" style="width: 100%; max-width: 1100px; margin: 0 auto;"></div>
 
+  <!-- =================== సంపూర్ణ జాతక నివేదిక (COMPLETE HOROSCOPE REPORT) =================== -->
+  {% include 'thraitha_report_section.html' ignore missing %}
+
   <!-- Floating Bottom Action Bar (Identical to Kundali page) -->
   <div class="fixed-bottom-bar print-hide no-print" id="action-bar">
     <button class="float-btn btn-home" onclick="window.location.href='/'">
       <i class="fas fa-home"></i> <span>{{ _('హోమ్') }}</span>
+    </button>
+    <button class="float-btn btn-report" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
+      <i class="fas fa-scroll"></i> <span>{{ _('నివేదిక') }}</span>
     </button>
     <button class="float-btn btn-kundali" onclick="goToBirthChart()">
       <i class="fas fa-dharmachakra"></i> <span>{{ _('కుండలి') }}</span>

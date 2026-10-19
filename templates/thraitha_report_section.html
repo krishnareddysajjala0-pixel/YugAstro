@@ -1,0 +1,965 @@
+<!-- ========================================================================== -->
+<!-- త్రైత సిద్ధాంత సంపూర్ణ జాతక నివేదిక (COMPLETE HOROSCOPE REPORT) -->
+<!-- Based on Sri Sri Sri Acharya Prabodhananda Yogeeshwarulu's Jyothishya Shaasthramu -->
+<!-- ========================================================================== -->
+
+<div id="thraitha-full-report-section" class="thraitha-report-wrap">
+  
+  <!-- 1. Header Banner -->
+  <div class="thraitha-report-header">
+    <div class="header-emblem">
+      <i class="fas fa-scroll"></i>
+    </div>
+    <div class="header-titles">
+      <h2 class="main-title">
+        ✨ {{ _('సంపూర్ణ జాతక నివేదిక (త్రైత సిద్ధాంతం)') }} ✨
+      </h2>
+      <div class="sub-title">
+        శ్రీశ్రీశ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరుల "జ్యోతిష్య శాస్త్రము" ఆధారిత సమగ్ర జాతక పరిశీలన
+      </div>
+    </div>
+    <div class="header-actions print-hide">
+      <button type="button" onclick="window.print()" class="thraitha-btn btn-print" title="{{ _('నివేదిక ప్రింట్ / PDF') }}">
+        <i class="fas fa-print"></i> <span>{{ _('ప్రింట్ / PDF') }}</span>
+      </button>
+      <button type="button" onclick="toggleAllBhavas()" id="toggleAllBhavasBtn" class="thraitha-btn btn-toggle" title="{{ _('అన్నీ విస్తరించు / కుదించు') }}">
+        <i class="fas fa-layer-group"></i> <span id="toggleBhavasText">{{ _('అన్నీ విస్తరించు') }}</span>
+      </button>
+      <a href="#chart-pdf-export-container" class="thraitha-btn btn-top" title="{{ _('కుండలి చక్రాన్ని చూపు') }}">
+        <i class="fas fa-arrow-up"></i> <span>{{ _('చక్రము') }}</span>
+      </a>
+    </div>
+  </div>
+
+  {% if thraitha_report and thraitha_report.overall_summary %}
+  <!-- 2. Jathaka Core Summary Grid (జాతక ప్రథమ పరిశీలన) -->
+  <div class="thraitha-summary-container">
+    
+    <!-- Meta Info Strip -->
+    <div class="thraitha-meta-strip">
+      <div class="meta-item">
+        <i class="fas fa-user-circle"></i>
+        <span><strong>{{ _('జాతకుడు:') }}</strong> {{ thraitha_report.overall_summary.name }}</span>
+      </div>
+      <div class="meta-item">
+        <i class="fas fa-compass"></i>
+        <span><strong>{{ _('జన్మ లగ్నం:') }}</strong> {{ thraitha_report.overall_summary.lagna }} ({{ thraitha_report.overall_summary.lagna_camp }})</span>
+      </div>
+      <div class="meta-item">
+        <i class="fas fa-star"></i>
+        <span><strong>{{ _('నక్షత్రం:') }}</strong> {{ thraitha_report.overall_summary.nakshatra }}</span>
+      </div>
+      <div class="meta-item">
+        <i class="fas fa-moon"></i>
+        <span><strong>{{ _('తిథి:') }}</strong> {{ thraitha_report.overall_summary.tithi }}</span>
+      </div>
+    </div>
+
+    <!-- 6 Pillar Overview Cards -->
+    <div class="thraitha-pillars-grid">
+      
+      <!-- Pillar 1: Health & Diseases -->
+      <div class="pillar-card pillar-health">
+        <div class="pillar-header">
+          <i class="fas fa-heartbeat"></i>
+          <h4>{{ _('ఆరోగ్య & వ్యాధి సూచనలు') }}</h4>
+        </div>
+        <div class="pillar-body">
+          {% if thraitha_report.overall_summary.health_summary %}
+          <div class="chips-list">
+            {% for h in thraitha_report.overall_summary.health_summary %}
+            <span class="chip-item chip-danger"><i class="fas fa-notes-medical"></i> {{ h }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p class="neutral-text">{{ _('జాతకంలో తీవ్రమైన అశుభ రోగ సూచనలు లేవు. సమతుల్య ఆరోగ్యం.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Pillar 2: Wealth & Property -->
+      <div class="pillar-card pillar-wealth">
+        <div class="pillar-header">
+          <i class="fas fa-coins"></i>
+          <h4>{{ _('ధన, స్థిరాస్తి & యోగములు') }}</h4>
+        </div>
+        <div class="pillar-body">
+          {% if thraitha_report.overall_summary.wealth_summary %}
+          <div class="chips-list">
+            {% for w in thraitha_report.overall_summary.wealth_summary %}
+            <span class="chip-item chip-success"><i class="fas fa-gem"></i> {{ w }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p class="neutral-text">{{ _('మధ్యమ ధన చలామణి, స్వయంకృషితో సంపాదన.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Pillar 3: Marriage & Relationship -->
+      <div class="pillar-card pillar-marriage">
+        <div class="pillar-header">
+          <i class="fas fa-ring"></i>
+          <h4>{{ _('దాంపత్య & కళత్ర విశ్లేషణ') }}</h4>
+        </div>
+        <div class="pillar-body">
+          {% if thraitha_report.overall_summary.marriage_summary %}
+          {% for m in thraitha_report.overall_summary.marriage_summary %}
+          <div class="pillar-alert alert-warning">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>{{ m | safe }}</span>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p class="neutral-text">{{ _('కళత్ర స్థానము (7వ భావము) సహజ నియమాలకు అనుగుణంగా ఉంది; ప్రత్యేక విరోధాలు లేవు.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Pillar 4: Progeny -->
+      <div class="pillar-card pillar-progeny">
+        <div class="pillar-header">
+          <i class="fas fa-baby"></i>
+          <h4>{{ _('సంతాన భాగ్య పరిశీలన') }}</h4>
+        </div>
+        <div class="pillar-body">
+          {% if thraitha_report.overall_summary.progeny_summary %}
+          {% for p in thraitha_report.overall_summary.progeny_summary %}
+          <div class="pillar-alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <span>{{ p | safe }}</span>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p class="neutral-text">{{ _('5వ భావముపై సంతాన కారక గ్రహములు సాధారణ స్థితిలో ఉన్నాయి.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Pillar 5: Longevity & Accidents -->
+      <div class="pillar-card pillar-longevity">
+        <div class="pillar-header">
+          <i class="fas fa-shield-alt"></i>
+          <h4>{{ _('ఆయుష్షు & ప్రమాద రక్షణ') }}</h4>
+        </div>
+        <div class="pillar-body">
+          {% if thraitha_report.overall_summary.accident_summary %}
+          {% for a in thraitha_report.overall_summary.accident_summary %}
+          <div class="pillar-alert alert-danger">
+            <i class="fas fa-skull-crossbones"></i>
+            <span>{{ a | safe }}</span>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p class="neutral-text">{{ _('8వ భావములో ఆయుధ/రక్తపాత ప్రమాద యోగాలు లేవు; దీర్ఘాయుర్దాయ రక్షణ.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Pillar 6: Spiritual Remedy -->
+      <div class="pillar-card pillar-remedy">
+        <div class="pillar-header">
+          <i class="fas fa-om"></i>
+          <h4>{{ _('ఆధ్యాత్మిక సాధన / కర్మ నివారణ') }}</h4>
+        </div>
+        <div class="pillar-body">
+          <p class="remedy-text">
+            <i class="fas fa-quote-left quote-icon"></i>
+            {{ thraitha_report.overall_summary.spiritual_remedy }}
+            <i class="fas fa-quote-right quote-icon"></i>
+          </p>
+          <div class="remedy-footnote">
+            <i class="fas fa-book-reader"></i> భగవద్గీత జ్ఞానకర్మసన్న్యాసయోగము 4:37 – "జ్ఞానాగ్నిః సర్వకర్మాణి భస్మసాత్కురుతే తథా"
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- 3. Dwadasha Bhava Detailed Analysis (ద్వాదశ భావ సంపూర్ణ పరిశీలన) -->
+  <div class="thraitha-bhavas-container">
+    <div class="bhavas-section-title">
+      <i class="fas fa-th-large"></i>
+      <h3>{{ _('ద్వాదశ భావ సంపూర్ణ విశ్లేషణ (1 నుండి 12 భావాల ఫలితాలు)') }}</h3>
+      <span class="badge-count">12 భావాలు</span>
+    </div>
+
+    <div class="bhava-cards-grid">
+      {% for b in thraitha_report.bhava_report %}
+      <div class="bhava-full-card card-state-{{ b.state }} {% if b.number in [1, 5, 9] %}nature-punya{% elif b.number in [3, 7, 11] %}nature-paapa{% elif b.number in [4, 10] %}nature-kendra{% else %}nature-sandhi{% endif %}" id="bhava-card-{{ b.number }}">
+        
+        <!-- Top Title Bar -->
+        <div class="bhava-card-top">
+          <div class="bhava-num-badge">{{ b.number }}</div>
+          <div class="bhava-title-box">
+            <h4 class="bhava-heading">{{ b.title }}</h4>
+            <div class="bhava-meta-tags">
+              <span class="tag-rashi"><i class="fas fa-certificate"></i> {{ b.lagna }} లగ్నం</span>
+              <span class="tag-nature">{{ b.type_label }}</span>
+            </div>
+          </div>
+          <div class="bhava-state-badge badge-{{ b.state }}">
+            {% if b.state == 'shubha' %}
+            <i class="fas fa-check-circle"></i>
+            {% elif b.state == 'paapa' %}
+            <i class="fas fa-exclamation-triangle"></i>
+            {% elif b.state == 'mishra' %}
+            <i class="fas fa-balance-scale"></i>
+            {% else %}
+            <i class="fas fa-circle-notch"></i>
+            {% endif %}
+            <span>{{ b.state_text }}</span>
+          </div>
+        </div>
+
+        <!-- House Meaning / Scope -->
+        <div class="bhava-row bhava-scope">
+          <div class="row-label"><i class="fas fa-bookmark"></i> {{ _('ఈ భావ విషయములు:') }}</div>
+          <div class="row-val">{{ b.meaning }}</div>
+        </div>
+
+        <!-- Occupying Planets & Aspects -->
+        <div class="bhava-row bhava-planets-row">
+          <div class="row-label"><i class="fas fa-globe"></i> {{ _('గ్రహ స్థితి:') }}</div>
+          <div class="row-val">
+            {% if b.residents %}
+              <div class="planets-chips">
+                {% for p in b.residents %}
+                <span class="planet-pill {% if p.is_friend %}friend-planet{% else %}enemy-planet{% endif %}">
+                  <i class="fas fa-circle"></i>
+                  <strong>{{ p.name }}</strong> 
+                  {% if p.degree %}<span class="deg-text">({{ p.degree }})</span>{% endif %}
+                  {% if p.nakshatra %}<span class="nak-text">{{ p.nakshatra }}</span>{% endif %}
+                  <span class="camp-tag">[{{ 'మిత్రుడు' if p.is_friend else 'శత్రువు' }}]</span>
+                </span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <span class="empty-house-text">{{ _('ప్రత్యక్ష నివాస గ్రహాలు లేవు (పరివర్తన / ఎదురు చూపుల ప్రభావం)') }}</span>
+            {% endif %}
+
+            {% if b.aspects %}
+              <div class="aspects-chips" style="margin-top: 6px;">
+                <span class="aspect-label"><i class="fas fa-eye"></i> {{ _('ఎదురు చూపుల చేతులు:') }}</span>
+                {% for a in b.aspects %}
+                <span class="aspect-pill">👉 {{ a.name }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Detailed Thraitha Interpretation -->
+        <div class="bhava-interpretation-section">
+          <div class="interp-header">
+            <i class="fas fa-star-of-david"></i>
+            <span>{{ _('త్రైత సిద్ధాంత జాతక ఫలితము:') }}</span>
+          </div>
+          <div class="interp-body">
+            {{ b.interpretation | safe }}
+          </div>
+        </div>
+
+        <!-- Applied Physical Items & Portfolios -->
+        {% if b.applied_items %}
+        <div class="bhava-items-section">
+          <div class="sub-label"><i class="fas fa-cube"></i> {{ _('ఈ భావ పరిధిలోకి వచ్చే ఆధీన వస్తువులు & సంపదలు:') }}</div>
+          <div class="items-wrap">
+            {% for item in b.applied_items %}
+            <span class="item-tag">{{ item }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Applied Health Vulnerabilities -->
+        {% if b.applied_diseases %}
+        <div class="bhava-diseases-section">
+          <div class="sub-label"><i class="fas fa-heartbeat"></i> {{ _('ఆరోగ్య & వ్యాధి హెచ్చరికలు:') }}</div>
+          <div class="diseases-wrap">
+            {% for dis in b.applied_diseases %}
+            <span class="disease-tag">{{ dis }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Special Notes / Yogas -->
+        {% if b.special_notes %}
+        <div class="bhava-special-notes">
+          {% for note in b.special_notes %}
+          <div class="special-note-item">
+            <i class="fas fa-certificate"></i>
+            <div>{{ note | safe }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Styles for Thraitha Report Section -->
+<style>
+.thraitha-report-wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 35px auto 40px auto;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-family: 'Noto Sans Telugu', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main, #ffffff);
+}
+
+/* Header */
+.thraitha-report-header {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1.5px solid rgba(251, 191, 36, 0.5);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(251, 191, 36, 0.1);
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.header-emblem {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e1b4b;
+  font-size: 24px;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+  flex-shrink: 0;
+}
+
+.header-titles {
+  flex: 1 1 300px;
+}
+
+.header-titles .main-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffd700;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.header-titles .sub-title {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.thraitha-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.thraitha-btn.btn-print {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+}
+
+.thraitha-btn.btn-toggle {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.thraitha-btn.btn-top {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.thraitha-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+/* Meta Strip */
+.thraitha-meta-strip {
+  background: var(--card-bg, rgba(15, 23, 42, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+.meta-item {
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-main, #ffffff);
+}
+
+.meta-item i {
+  color: #fbbf24;
+}
+
+/* Pillars Grid */
+.thraitha-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.pillar-card {
+  background: var(--card-bg, rgba(15, 23, 42, 0.85));
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 16px 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+.pillar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.pillar-header h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pillar-health .pillar-header { color: #f87171; }
+.pillar-wealth .pillar-header { color: #34d399; }
+.pillar-marriage .pillar-header { color: #fbbf24; }
+.pillar-progeny .pillar-header { color: #60a5fa; }
+.pillar-longevity .pillar-header { color: #f43f5e; }
+.pillar-remedy .pillar-header { color: #e879f9; }
+
+.chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-item {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.4;
+}
+
+.chip-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.chip-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.pillar-alert {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fde68a;
+}
+
+.alert-info {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #bfdbfe;
+}
+
+.alert-danger {
+  background: rgba(244, 63, 94, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fecdd3;
+}
+
+.remedy-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #f3e8ff;
+  font-style: italic;
+  margin: 0 0 10px 0;
+}
+
+.quote-icon {
+  font-size: 10px;
+  color: #d8b4fe;
+  opacity: 0.7;
+}
+
+.remedy-footnote {
+  font-size: 11px;
+  color: #cbd5e1;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 6px;
+}
+
+.neutral-text {
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Bhavas Section */
+.bhavas-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 0 16px 0;
+}
+
+.bhavas-section-title i {
+  color: #fbbf24;
+  font-size: 18px;
+}
+
+.bhavas-section-title h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--text-main, #ffffff);
+}
+
+.badge-count {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bhava-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bhava-full-card {
+  background: var(--card-bg, rgba(15, 23, 42, 0.85));
+  border-radius: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  padding: 18px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bhava-full-card:hover {
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Left Accent Border by Nature */
+.bhava-full-card.nature-punya { border-left: 5px solid #10b981; }
+.bhava-full-card.nature-paapa { border-left: 5px solid #ef4444; }
+.bhava-full-card.nature-kendra { border-left: 5px solid #f59e0b; }
+.bhava-full-card.nature-sandhi { border-left: 5px solid #8b5cf6; }
+
+.bhava-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.bhava-num-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(217, 119, 6, 0.4));
+  border: 1.5px solid #fbbf24;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.bhava-title-box {
+  flex: 1 1 240px;
+}
+
+.bhava-heading {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-main, #ffffff);
+}
+
+.bhava-meta-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.tag-rashi {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.tag-nature {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.bhava-state-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.badge-shubha {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-paapa {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-mishra {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.bhava-row {
+  margin-bottom: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.row-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.row-val {
+  color: var(--text-main, #ffffff);
+}
+
+.planets-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.planet-pill {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.friend-planet {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.enemy-planet {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.camp-tag {
+  font-size: 10.5px;
+  opacity: 0.85;
+}
+
+.aspects-chips {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.aspect-pill {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 4px;
+  color: #fbbf24;
+}
+
+.empty-house-text {
+  font-size: 12.5px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.bhava-interpretation-section {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 12px 0 10px 0;
+}
+
+.interp-header {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffd700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.interp-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-main, #ffffff);
+}
+
+.bhava-items-section,
+.bhava-diseases-section {
+  margin-top: 8px;
+}
+
+.sub-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.items-wrap,
+.diseases-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.item-tag {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fde68a;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+}
+
+.disease-tag {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+}
+
+.bhava-special-notes {
+  margin-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 8px;
+}
+
+.special-note-item {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 3px solid #fbbf24;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #fef08a;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+/* Collapsed state */
+.bhava-full-card.is-collapsed .bhava-interpretation-section,
+.bhava-full-card.is-collapsed .bhava-items-section,
+.bhava-full-card.is-collapsed .bhava-diseases-section,
+.bhava-full-card.is-collapsed .bhava-special-notes {
+  display: none !important;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .thraitha-report-wrap {
+    padding: 0 8px;
+    margin-top: 20px;
+  }
+  .thraitha-report-header {
+    padding: 14px 16px;
+  }
+  .header-titles .main-title {
+    font-size: 18px;
+  }
+  .thraitha-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  .bhava-state-badge {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Print Styling */
+@media print {
+  .print-hide, .header-actions {
+    display: none !important;
+  }
+  .thraitha-report-wrap {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000000 !important;
+  }
+  .thraitha-report-header,
+  .pillar-card,
+  .bhava-full-card,
+  .thraitha-meta-strip {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+  }
+  .bhava-heading, .row-val, .interp-body {
+    color: #000000 !important;
+  }
+  .bhava-full-card {
+    page-break-inside: avoid;
+    margin-bottom: 12px;
+  }
+}
+</style>
+
+<script>
+function toggleAllBhavas() {
+  const cards = document.querySelectorAll('.bhava-full-card');
+  const btnText = document.getElementById('toggleBhavasText');
+  let hasCollapsed = false;
+  
+  cards.forEach(card => {
+    if (card.classList.contains('is-collapsed')) {
+      hasCollapsed = true;
+    }
+  });
+
+  if (hasCollapsed) {
+    cards.forEach(card => card.classList.remove('is-collapsed'));
+    if (btnText) btnText.textContent = 'అన్నీ కుదించు';
+  } else {
+    cards.forEach(card => card.classList.add('is-collapsed'));
+    if (btnText) btnText.textContent = 'అన్నీ విస్తరించు';
+  }
+}
+
+function scrollToThraithaReport() {
+  const el = document.getElementById('thraitha-full-report-section');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.style.transition = 'box-shadow 0.4s ease';
+    el.style.boxShadow = '0 0 35px rgba(251, 191, 36, 0.6)';
+    setTimeout(() => {
+      el.style.boxShadow = '';
+    }, 2000);
+  }
+}
+</script>

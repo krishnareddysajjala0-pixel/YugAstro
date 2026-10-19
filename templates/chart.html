@@ -6551,6 +6551,23 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
   filter: brightness(1.1) !important;
 }
 
+.top-btn-report,
+.btn-report,
+.fixed-bottom-bar .btn-report {
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.5) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+.top-btn-report:hover,
+.btn-report:hover,
+.fixed-bottom-bar .btn-report:hover {
+  filter: brightness(1.18) !important;
+  transform: translateY(-2px) !important;
+}
+
 /* Button theme colors handled centrally in theme-fonts.css */
 
 .hide-karma .karma-label {
@@ -6918,6 +6935,12 @@ body {
         <i class="fas fa-certificate"></i>
         <span>{{ _('నక్షత్ర కుండలి') }}</span>
       </a>
+
+      <!-- 3. Complete Jathaka Report Button -->
+      <button type="button" class="top-btn-report ctrl-btn" id="topReportBtn" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
+        <i class="fas fa-scroll"></i>
+        <span>{{ _('నివేదిక') }}</span>
+      </button>
 
       <!-- 4. Karma Button -->
       <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
@@ -7646,6 +7669,11 @@ body {
 
   </div><!-- end #print-wrapper -->
 
+  <!-- ============================================================== -->
+  <!-- సంపూర్ణ జాతక నివేదిక (COMPLETE HOROSCOPE REPORT) SECTION -->
+  <!-- ============================================================== -->
+  {% include 'thraitha_report_section.html' ignore missing %}
+
 
 
 
@@ -7801,6 +7829,9 @@ body {
     <div class="fixed-bottom-bar" id="action-bar">
       <button class="float-btn btn-home" onclick="window.location.href='/'">
         <i class="fas fa-home"></i> <span>{{ _('హోమ్') }}</span>
+      </button>
+      <button class="float-btn btn-report" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
+        <i class="fas fa-scroll"></i> <span>{{ _('నివేదిక') }}</span>
       </button>
       <button class="float-btn btn-dasa" onclick="window.location.href='/go-to-dasha-chart'">
         <i class="fas fa-calendar-alt"></i> <span>{{ _('దశాచారము') }}</span>
