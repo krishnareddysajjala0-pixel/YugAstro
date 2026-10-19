@@ -821,3 +821,4 @@
 796. [16-Oct-2026 01:01:46] Name: GANGARAJU ACCIDENT (Compare 2), Mobile: N/A, DOB: 2025-07-23, TOB: 12:20, Place: Krishnarājpur, Punjab, India
 797. [17-Oct-2026 02:55:03] Name: lll, Mobile: N/A, DOB: 2026-10-17, TOB: 08:24, Place: Hyderabad, Telangana, India
 798. [17-Oct-2026 02:55:59] Name: lll, Mobile: N/A, DOB: 2026-10-17, TOB: 08:24, Place: Hyderabad, Telangana, India
+799. [19-Oct-2026 05:37:55] Name: reddy, Mobile: N/A, DOB: 2026-10-19, TOB: 11:07, Place: Kandukur Mandal, Andhra Pradesh, India
