@@ -25,11 +25,19 @@ SINGLE_PLANET_RULES = _load_json('thraitha_single_planet_bhavas_144.json')
 CONJUNCTION_RULES = _load_json('bhava_conjunctions.json')
 MULTI_PLANET_SYSTEM = _load_json('thraitha_multi_planet_rules_system.json')
 SPECIAL_RULES = _load_json('thraitha_astrology_combination_rules.json')
+MULTI_BHAVA_RULES = _load_json('thraitha_multi_bhava_conjunctions.json')
 
 SINGLE_LOOKUP = {}
 if isinstance(SINGLE_PLANET_RULES, list):
     for r in SINGLE_PLANET_RULES:
         SINGLE_LOOKUP[(r.get('bhava_number'), r.get('planet_name'))] = r
+
+MULTI_BHAVA_LOOKUP = {}
+if isinstance(MULTI_BHAVA_RULES, dict):
+    for k_group, entries in MULTI_BHAVA_RULES.items():
+        if isinstance(entries, list):
+            for e in entries:
+                MULTI_BHAVA_LOOKUP[tuple(sorted(e.get('lords', [])))] = e
 
 GURU_CAMP = ["సూర్యుడు", "చంద్రుడు", "కుజుడు", "గురువు", "కేతువు", "భూమి", "సూర్య", "చంద్ర", "కుజ", "గురు", "కేతు"]
 SANI_CAMP = ["బుధుడు", "శుక్రుడు", "శని", "రాహువు", "మిత్ర", "చిత్ర", "బుధ", "శుక్ర", "రాహు"]
@@ -457,8 +465,18 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
 
             bhava_lord_conjunctions.sort(key=lambda x: (conj_priority(x), x["h1"]))
 
-            if bhava_lord_conjunctions:
+            # Multi-bhava lord synthesis (3 to 12 lords together in this house)
+            all_active_lords = sorted(list(set([p["lordships"][0] for p in active_planets if p.get("lordships")])))
+            multi_bhava_match = None
+            if len(all_active_lords) >= 3:
+                multi_bhava_match = MULTI_BHAVA_LOOKUP.get(tuple(all_active_lords))
+
+            if multi_bhava_match or bhava_lord_conjunctions:
                 interpretation_parts.append("<br><b>🏛️ భావాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):</b>")
+                if multi_bhava_match:
+                    interpretation_parts.append(
+                        f"• 🌟 <b>{multi_bhava_match['count']} భావాధిపతుల సంయుక్త కూటమి ({multi_bhava_match['combination']})</b> — <span style='color:#ffd700;'>[{multi_bhava_match['status']}]</span>:<br>{multi_bhava_match['result']}<br>"
+                    )
                 for c in bhava_lord_conjunctions:
                     interpretation_parts.append(
                         f"• 👑 <b>{c['combo']} ({c['p1']} + {c['p2']})</b> — <span style='color:#fbbf24;'>[{c['status']}]</span>:<br>{c['result']}"
