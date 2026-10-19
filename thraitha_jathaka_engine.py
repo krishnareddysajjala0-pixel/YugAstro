@@ -305,115 +305,118 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
                 applied_items.extend(p_full.get("governed_physical_items", [])[:3])
                 applied_diseases.extend(p_full.get("governed_body_parts_and_diseases", {}).get("diseases", [])[:2])
 
-        # 1. Single Planet Evaluation (Either resident OR aspecting hand - both are same!)
-        if active_count == 1:
-            p_obj = active_planets[0]
-            pn = p_obj["name"]
-            is_fr = p_obj["is_friend"]
-            is_aspect = p_obj.get("is_hand", False)
-            
-            p_full = PLANET_DATA.get(pn, {})
-            lookup = SINGLE_LOOKUP.get((b_num, pn))
-            
-            if is_aspect:
-                drishti_intro = f"👉 <b>త్రైత సిద్ధాంత దృష్టి సూత్రము:</b> త్రైత సిద్ధాంతం ప్రకారం ఒక భావంలో గ్రహం స్వయంగా ఉన్నా లేదా తన దృష్టి చేతితో ఆ భావాన్ని తాకినా రెండింటి ఫలితం అక్షరాలా ఒక్కటే! ఇక్కడ <b>{pn}</b> తన దృష్టి చేతితో ఈ {b_num}వ భావాన్ని తాకుచున్నందున, {pn} ఈ స్థానంలో స్వయంగా ఉన్నప్పటి ఫలితమే సంపూర్ణంగా వర్తిస్తుంది.<br>"
-                interpretation_parts.append(drishti_intro)
-                if lookup:
-                    if is_fr:
-                        interpretation_parts.append(f"✨ <b>{pn} (స్వపక్ష మిత్రుడి దృష్టి చేయి):</b> {lookup.get('friendly_state_result', '')}")
-                    else:
-                        interpretation_parts.append(f"⚠️ <b>{pn} (ప్రతిపక్ష శత్రువు దృష్టి చేయి):</b> {lookup.get('enemy_state_result', '')}")
-                else:
-                    if is_fr:
-                        interpretation_parts.append(f"ఈ భావముపై స్వపక్ష మిత్రుడైన <b>{pn}</b> దృష్టి ప్రసరించడం వల్ల ఈ భావ కారకత్వాలు శుభప్రదంగా వికసిస్తాయి.")
-                    else:
-                        interpretation_parts.append(f"ఈ భావముపై శత్రువర్గానికి చెందిన <b>{pn}</b> దృష్టి ప్రసరించడం వల్ల ఆటంకాలు, నష్టాలు లేదా ఆందోళనలు దాపురిస్తాయి.")
-            else:
-                if lookup:
-                    if is_fr:
-                        interpretation_parts.append(f"✨ <b>{pn} (స్వపక్ష మిత్రుడు):</b> {lookup.get('friendly_state_result', '')}")
-                    else:
-                        interpretation_parts.append(f"⚠️ <b>{pn} (ప్రతిపక్ష శత్రువు):</b> {lookup.get('enemy_state_result', '')}")
-                else:
-                    if is_fr:
-                        interpretation_parts.append(f"ఈ భావంలో స్వపక్ష మిత్రుడైన <b>{pn}</b> ఒక్కడే ఉండటం వల్ల ఈ భావ కారకత్వాలు శుభప్రదంగా వికసిస్తాయి. {pn} యొక్క సహజ దయాగుణం, సత్ప్రవర్తన మరియు దైవానుగ్రహం లభిస్తాయి.")
-                    else:
-                        interpretation_parts.append(f"ఈ భావంలో శత్రువర్గానికి చెందిన <b>{pn}</b> ఉండటం వల్ల ఈ భావ కారకత్వాలలో ఆటంకాలు, నష్టాలు లేదా ఆందోళనలు దాపురిస్తాయి.")
-
-            if lookup and lookup.get('key_thraitha_sutra'):
-                special_notes.append(f"📌 <b>త్రైత సూత్రము:</b> {lookup.get('key_thraitha_sutra')}")
-
-            if b_num == 4 and pn == "సూర్యుడు" and is_fr:
-                interpretation_parts.append("సూర్యుడి శుభ దృష్టి/ప్రభావం వల్ల పై అంతస్తుల భవనాలు, రాజగౌరవం లభించును.")
-            elif b_num == 4 and pn == "చంద్రుడు" and not is_fr:
-                interpretation_parts.append("చంద్రుడి ప్రతికూల దృష్టి/స్థితి వల్ల నీటి కొరత, బోర్లు పూడిపోవడం లేదా ఇంటి పైకప్పు కారే సమస్యలు ఏర్పడవచ్చును.")
-            elif b_num == 6 and pn == "బుధుడు" and not is_fr:
-                interpretation_parts.append("బుధుడు శత్రువై తాకుచున్నందున దయ్యాలు, క్షుద్ర పీడలు రోగరూపంలో శరీరంలో ప్రవేశించే భయముండును.")
-            elif b_num == 7 and pn == "కుజుడు" and not is_fr:
-                interpretation_parts.append("యౌవన కారక కుజుడు 7వ ఇంట్లో శత్రువై ఉన్నా లేదా ఎదురు చూపుతో తాకినా కుజదోషం ఏర్పడి వివాహం ఆలస్యం కావడం, వయస్సు ముదరడం జరుగుతుంది.")
-
-        # 2. Two Planets Evaluation (Direct residence + Aspect hands combined)
-        elif active_count == 2:
-            p1, p2 = active_names[0], active_names[1]
-            p1_fr = active_planets[0]["is_friend"]
-            p2_fr = active_planets[1]["is_friend"]
-            has_aspects = any(p["is_hand"] for p in active_planets)
-
-            if has_aspects:
-                interpretation_parts.append("👉 <b>త్రైత సిద్ధాంత దృష్టి-సంయోగ సూత్రము:</b> ఈ భావంపై గ్రహాలు ప్రత్యక్ష నివాసం మరియు దృష్టి చేతుల ద్వారా సమాన బలంతో సంయుక్తంగా ప్రభావం చూపుచున్నవి (చూపు మరియు గ్రహం రెండూ సమానమే).<br>")
-
-            if p1_fr and p2_fr:
-                interpretation_parts.append(f"ఈ భావంలో ఇద్దరు మిత్రులు (<b>{p1} + {p2}</b>) కలిసి/దృష్టి చేతుల ద్వారా ప్రభావం చూపడం గొప్ప యోగం. వీరిద్దరి సంయుక్త పుణ్యబలం వల్ల ఈ భావ ఫలితాలు రెట్టింపు స్థాయిలో శుభాలను ఇస్తాయి.")
-            elif not p1_fr and not p2_fr:
-                interpretation_parts.append(f"ఈ భావంలో ఇద్దరు శత్రువులు (<b>{p1} + {p2}</b>) కలిసి/దృష్టి చేతుల ద్వారా తీవ్ర వ్యతిరేకతను కలిగిస్తున్నారు. నష్టాలు, వ్యతిరేక ఫలితాలు హెచ్చుగా ఉంటాయి.")
-            else:
-                interpretation_parts.append(f"ఈ భావంలో ఒక మిత్రుడు మరియు ఒక శత్రువు (<b>{p1} + {p2}</b>) సమక్షం/దృష్టి చేతుల వల్ల అంతర్గత ఘర్షణ ఏర్పడుతుంది. పుణ్యఫలాలు చేతికందినా ఆటంకాలు ఎదురవుతాయి.")
-
-            # Check Kuja-Sukra
-            if ("కుజుడు" in active_names or "కుజ" in active_names) and ("శుక్రుడు" in active_names or "శుక్ర" in active_names):
-                special_notes.append("⚠️ <b>కుజ-శుక్ర కలయిక / పరస్పర దృష్టి సూత్రము:</b> యౌవన కారక కుజుడు, కళత్ర కారక శుక్రుడు బద్ధశత్రువులు. వీరు ఒకే ఇంట్లో కలిసినా లేదా పరస్పర దృష్టి చేతులతో తాకినా దాంపత్యంలో పొందిక లోపించడం, మాటకు మాట పోట్లాడుకోవడం లేదా వివాహేతర ఆకర్షణల వల్ల కలహాలు ఏర్పడే అవకాశముంది. జాగ్రత్త వహించవలెను.")
-                all_marriage_notes.append(f"{b_num}వ భావంలో కుజ-శుక్రుల కలయిక/దృష్టి వల్ల దాంపత్య పొందికలో జాగ్రత్తలు అవసరం.")
-
-        # 3. Multi-planet Evaluation (3 to 12 planets)
-        elif active_count >= 3:
-            if any(p["is_hand"] for p in active_planets):
-                interpretation_parts.append("👉 <b>త్రైత సిద్ధాంత దృష్టి-కూటమి సూత్రము:</b> ఈ భావంపై నివాస గ్రహాలతో పాటు ఎదురు చూపుల చేతులు కూడా పూర్తి బలంతో కలిసి బహుగ్రహ కూటమిని ఏర్పరచినవి.<br>")
-
-            if active_count == 12:
-                interpretation_parts.append("✨ <b>ద్వాదశ గ్రహ మహా కూటమి:</b> సమస్త 12 గ్రహాలు ఈ ఒక్క భావంపైనే (నివాసం & దృష్టి ద్వారా) కేంద్రీకృతమయ్యాయి! ఇది 'సర్వ కారకత్వ విస్ఫోటనం' మరియు 'సంపూర్ణ సన్న్యాస / బ్రహ్మజ్ఞాన యోగం'. ప్రాపంచిక లాభనష్టాలు రెండూ నిరర్ధకమై తీవ్ర వైరాగ్యం జనించి పరమాత్మ వైపు చూపు మళ్ళుతుంది.")
-            elif active_count == 3:
-                triad_rules = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("3_planets_mix", {}).get("compositions", [])
-                matched_rule = None
-                for tr in triad_rules:
-                    if f"{f_count} Friends" in tr.get("case", "") or f"{f_count} మిత్రు" in tr.get("case", ""):
-                        matched_rule = tr
-                        break
-                if matched_rule:
-                    interpretation_parts.append(f"<b>3 గ్రహాల కలయిక/దృష్టి కూటమి ({', '.join(active_names)}) - {matched_rule.get('nature')}:</b><br>{matched_rule.get('result')}")
-                else:
-                    interpretation_parts.append(f"ఈ భావంలో 3 గ్రహాల కూటమి ({', '.join(active_names)}) ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు).")
-            elif active_count == 4:
-                quad_rules = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("4_planets_mix", {}).get("compositions", [])
-                matched_rule = None
-                for qr in quad_rules:
-                    if f"{f_count} Friends" in qr.get("case", "") or f"{f_count} మిత్రు" in qr.get("case", ""):
-                        matched_rule = qr
-                        break
-                if matched_rule:
-                    interpretation_parts.append(f"<b>4 గ్రహాల చతుర్గ్రహ కూటమి ({', '.join(active_names)}) - {matched_rule.get('nature')}:</b><br>{matched_rule.get('result')}")
-                else:
-                    interpretation_parts.append(f"ఈ భావంలో 4 గ్రహాల కూటమి ({', '.join(active_names)}) ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు).")
-            elif active_count == 5:
-                pent_rule = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("5_planets_mix", {})
-                interpretation_parts.append(f"<b>5 గ్రహాల పంచగ్రహ కూటమి ({', '.join(active_names)}) - {pent_rule.get('title')}:</b><br>జాతకుడి జీవిత ధ్యేయమంతా, ఆలోచనలన్నీ ఈ ఒక్క భావ కార్యకలాపాల చుట్టూనే పరిభ్రమిస్తాయి ({f_count} మిత్రులు : {e_count} శత్రువులు).")
-            else:
-                interpretation_parts.append(f"ఈ భావంలో <b>{active_count} గ్రహాల అసాధారణ బహుగ్రహ కూటమి ({', '.join(active_names)})</b> ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు). ఈ భావ కారకత్వాలలో జీవితంలో అనూహ్యమైన విప్లవాత్మక మలుపులు, తీవ్ర అనిశ్చితి లేదా మహా పరివర్తన చోటుచేసుకుంటాయి.")
-
-        # 4. Completely Empty House (Zero residents AND Zero aspects)
-        else:
+        # 1. Bhava Interpretation Flow
+        if active_count == 0:
             interpretation_parts.append("ఈ భావంలో ప్రత్యక్షంగా ఏ గ్రహాలూ నివాసం లేవు, మరియు ఏ గ్రహం యొక్క దృష్టి చేతులు కూడా ఈ స్థానాన్ని తాకడం లేదు. ఈ భావ ఫలితం కేవలం భావాధిపతి స్థానబలాన్ని బట్టి లభిస్తుంది.")
+        else:
+            # -------------------------------------------------------------------------
+            # విభాగం 1: గ్రహాల వ్యక్తిగత ఫలితాలు (Individual Planet Results)
+            # ఒకటి కంటే ఎక్కువ గ్రహాలు ఉన్నా, ప్రతి గ్రహం యొక్క వ్యక్తిగత ఫలితాన్ని ముందుగా చూపును.
+            # -------------------------------------------------------------------------
+            if active_count > 1:
+                interpretation_parts.append("<b>🔹 గ్రహాల వ్యక్తిగత ఫలితాలు:</b>")
 
-        # 5. Bhava Lord Conjunctions Evaluation (భవాధిపతుల కలయిక & దృష్టి ఫలితాలు - 234 Conjunction Rules)
+            for p_obj in active_planets:
+                pn = p_obj["name"]
+                is_fr = p_obj["is_friend"]
+                is_aspect = p_obj.get("is_hand", False)
+                l_text = p_obj.get("lordships_text", "")
+                l_tag = f" [{l_text}]" if l_text else ""
+                camp_tag = "స్వపక్ష మిత్రుడు" if is_fr else "ప్రతిపక్ష శత్రువు"
+                pos_tag = "ఎదురు చూపు" if is_aspect else "ప్రత్యక్ష నివాసం"
+                icon = "✨" if is_fr else "⚠️"
+
+                lookup = SINGLE_LOOKUP.get((b_num, pn))
+                if lookup:
+                    res_text = lookup.get('friendly_state_result', '') if is_fr else lookup.get('enemy_state_result', '')
+                else:
+                    if is_fr:
+                        res_text = f"ఈ భావంలో స్వపక్ష మిత్రుడైన <b>{pn}</b> అనుకూలంగా ఉండి శుభ ఫలితాలను, దైవానుగ్రహాన్ని ప్రసాదిస్తాడు."
+                    else:
+                        res_text = f"ఈ భావంలో ప్రతిపక్ష శత్రువైన <b>{pn}</b> ప్రతికూలతను, ఆటంకాలను లేదా వ్యతిరేక ఫలితాలను కలిగిస్తాడు."
+
+                if is_aspect:
+                    interpretation_parts.append(
+                        f"• {icon} 👉 <b>{pn}{l_tag} ({camp_tag} - {pos_tag}):</b><br>{res_text}"
+                    )
+                else:
+                    interpretation_parts.append(
+                        f"• {icon} <b>{pn}{l_tag} ({camp_tag} - {pos_tag}):</b><br>{res_text}"
+                    )
+
+                if lookup and lookup.get('key_thraitha_sutra'):
+                    special_notes.append(f"📌 <b>త్రైత సూత్రము ({pn}):</b> {lookup.get('key_thraitha_sutra')}")
+
+                # Planet-specific bhava rules
+                if b_num == 4 and pn == "సూర్యుడు" and is_fr:
+                    interpretation_parts.append("  ↳ <i>సూర్యుడి శుభ ప్రభావం వల్ల పై అంతస్తుల భవనాలు, వాహన సౌఖ్యం, రాజగౌరవం లభించును.</i>")
+                elif b_num == 4 and pn == "చంద్రుడు" and not is_fr:
+                    interpretation_parts.append("  ↳ <i>చంద్రుడి ప్రతికూల స్థితి వల్ల నీటి కొరత, బోర్లు పూడిపోవడం లేదా ఇంటి పైకప్పు కారే సమస్యలు ఏర్పడవచ్చును.</i>")
+                elif b_num == 6 and pn == "బుధుడు" and not is_fr:
+                    interpretation_parts.append("  ↳ <i>బుధుడు శత్రువై ఉన్నందున దయ్యాలు, క్షుద్ర పీడలు రోగరూపంలో శరీరంలో ప్రవేశించే భయముండును.</i>")
+                elif b_num == 7 and pn == "కుజుడు" and not is_fr:
+                    interpretation_parts.append("  ↳ <i>యౌవన కారక కుజుడు 7వ ఇంట్లో శత్రువై ఉన్నందున కుజదోషం ఏర్పడి వివాహం ఆలస్యం కావడం, వయస్సు ముదరడం జరుగుతుంది.</i>")
+
+            # -------------------------------------------------------------------------
+            # విభాగం 2: గ్రహ సంయోగ / కూటమి ఫలితము (Planetary Combination Results)
+            # -------------------------------------------------------------------------
+            if active_count == 2:
+                p1, p2 = active_names[0], active_names[1]
+                p1_fr = active_planets[0]["is_friend"]
+                p2_fr = active_planets[1]["is_friend"]
+
+                interpretation_parts.append(f"<br><b>🤝 గ్రహ సంయోగ ఫలితము ({p1} + {p2}):</b>")
+                if p1_fr and p2_fr:
+                    interpretation_parts.append(f"ఈ భావంలో ఇద్దరు మిత్రులు (<b>{p1} + {p2}</b>) కలిసి సంయుక్తంగా ప్రభావం చూపడం గొప్ప యోగం. వీరిద్దరి సంయుక్త పుణ్యబలం వల్ల ఈ భావ ఫలితాలు రెట్టింపు స్థాయిలో శుభాలను ఇస్తాయి.")
+                elif not p1_fr and not p2_fr:
+                    interpretation_parts.append(f"ఈ భావంలో ఇద్దరు శత్రువులు (<b>{p1} + {p2}</b>) కలిసి తీవ్ర వ్యతిరేకతను కలిగిస్తున్నారు. నష్టాలు, వ్యతిరేక ఫలితాలు హెచ్చుగా ఉంటాయి.")
+                else:
+                    interpretation_parts.append(f"ఈ భావంలో ఒక మిత్రుడు మరియు ఒక శత్రువు (<b>{p1} + {p2}</b>) కలయిక వల్ల అంతర్గత ఘర్షణ ఏర్పడుతుంది. పుణ్యఫలాలు చేతికందినా ఆటంకాలు ఎదురవుతాయి.")
+
+                # Check Kuja-Sukra
+                if ("కుజుడు" in active_names or "కుజ" in active_names) and ("శుక్రుడు" in active_names or "శుక్ర" in active_names):
+                    special_notes.append("⚠️ <b>కుజ-శుక్ర కలయిక / పరస్పర దృష్టి సూత్రము:</b> యౌవన కారక కుజుడు, కళత్ర కారక శుక్రుడు బద్ధశత్రువులు. వీరు ఒకే ఇంట్లో కలిసినా లేదా పరస్పర దృష్టి చేతులతో తాకినా దాంపత్యంలో పొందిక లోపించడం, మాటకు మాట పోట్లాడుకోవడం లేదా వివాహేతర ఆకర్షణల వల్ల కలహాలు ఏర్పడే అవకాశముంది. జాగ్రత్త వహించవలెను.")
+                    all_marriage_notes.append(f"{b_num}వ భావంలో కుజ-శుక్రుల కలయిక/దృష్టి వల్ల దాంపత్య పొందికలో జాగ్రత్తలు అవసరం.")
+
+            elif active_count >= 3:
+                interpretation_parts.append(f"<br><b>👥 బహుగ్రహ కూటమి ఫలితము ({active_count} గ్రహాల కలయిక):</b>")
+                if active_count == 12:
+                    interpretation_parts.append("✨ <b>ద్వాదశ గ్రహ మహా కూటమి:</b> సమస్త 12 గ్రహాలు ఈ ఒక్క భావంపైనే కేంద్రీకృతమయ్యాయి! ఇది 'సర్వ కారకత్వ విస్ఫోటనం' మరియు 'సంపూర్ణ సన్న్యాస / బ్రహ్మజ్ఞాన యోగం'. ప్రాపంచిక లాభనష్టాలు రెండూ నిరర్ధకమై తీవ్ర వైరాగ్యం జనించి పరమాత్మ వైపు చూపు మళ్ళుతుంది.")
+                elif active_count == 3:
+                    triad_rules = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("3_planets_mix", {}).get("compositions", [])
+                    matched_rule = None
+                    for tr in triad_rules:
+                        if f"{f_count} Friends" in tr.get("case", "") or f"{f_count} మిత్రు" in tr.get("case", ""):
+                            matched_rule = tr
+                            break
+                    if matched_rule:
+                        interpretation_parts.append(f"<b>3 గ్రహాల కలయిక కూటమి ({', '.join(active_names)}) - {matched_rule.get('nature')}:</b><br>{matched_rule.get('result')}")
+                    else:
+                        interpretation_parts.append(f"ఈ భావంలో 3 గ్రహాల కూటమి ({', '.join(active_names)}) ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు).")
+                elif active_count == 4:
+                    quad_rules = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("4_planets_mix", {}).get("compositions", [])
+                    matched_rule = None
+                    for qr in quad_rules:
+                        if f"{f_count} Friends" in qr.get("case", "") or f"{f_count} మిత్రు" in qr.get("case", ""):
+                            matched_rule = qr
+                            break
+                    if matched_rule:
+                        interpretation_parts.append(f"<b>4 గ్రహాల చతుర్గ్రహ కూటమి ({', '.join(active_names)}) - {matched_rule.get('nature')}:</b><br>{matched_rule.get('result')}")
+                    else:
+                        interpretation_parts.append(f"ఈ భావంలో 4 గ్రహాల కూటమి ({', '.join(active_names)}) ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు).")
+                elif active_count == 5:
+                    pent_rule = MULTI_PLANET_SYSTEM.get("multi_planet_rules_by_count", {}).get("5_planets_mix", {})
+                    interpretation_parts.append(f"<b>5 గ్రహాల పంచగ్రహ కూటమి ({', '.join(active_names)}) - {pent_rule.get('title')}:</b><br>జాతకుడి జీవిత ధ్యేయమంతా, ఆలోచనలన్నీ ఈ ఒక్క భావ కార్యకలాపాల చుట్టూనే పరిభ్రమిస్తాయి ({f_count} మిత్రులు : {e_count} శత్రువులు).")
+                else:
+                    interpretation_parts.append(f"ఈ భావంలో <b>{active_count} గ్రహాల అసాధారణ బహుగ్రహ కూటమి ({', '.join(active_names)})</b> ఏర్పడింది ({f_count} మిత్రులు : {e_count} శత్రువులు). ఈ భావ కారకత్వాలలో జీవితంలో అనూహ్యమైన విప్లవాత్మక మలుపులు, తీవ్ర అనిశ్చితి లేదా మహా పరివర్తన చోటుచేసుకుంటాయి.")
+
+                if ("కుజుడు" in active_names or "కుజ" in active_names) and ("శుక్రుడు" in active_names or "శుక్ర" in active_names):
+                    special_notes.append("⚠️ <b>కుజ-శుక్ర కలయిక / పరస్పర దృష్టి సూత్రము:</b> యౌవన కారక కుజుడు, కళత్ర కారక శుక్రుడు బద్ధశత్రువులు. వీరి కలయిక/దృష్టి వల్ల దాంపత్యంలో కలహాలు, పొందిక లోపించడం జరుగుతుంది.")
+                    all_marriage_notes.append(f"{b_num}వ భావంలో కుజ-శుక్రుల కలయిక/దృష్టి వల్ల దాంపత్య పొందికలో జాగ్రత్తలు అవసరం.")
+
+        # -------------------------------------------------------------------------
+        # విభాగం 3: భావాధిపతుల కలయిక & దృష్టి ఫలితాలు (Bhava Lord Conjunctions - 234 Rules)
+        # -------------------------------------------------------------------------
         bhava_lord_conjunctions = []
         if active_count >= 2:
             seen_combos = set()
@@ -457,8 +460,8 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
             bhava_lord_conjunctions.sort(key=lambda x: (conj_priority(x), x["h1"]))
 
             if bhava_lord_conjunctions:
-                interpretation_parts.append("<br><b>🏛️ భవాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):</b>")
-                for c in bhava_lord_conjunctions[:5]:
+                interpretation_parts.append("<br><b>🏛️ భావాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):</b>")
+                for c in bhava_lord_conjunctions:
                     interpretation_parts.append(
                         f"• 👑 <b>{c['combo']} ({c['p1']} + {c['p2']})</b> — <span style='color:#fbbf24;'>[{c['status']}]</span>:<br>{c['result']}"
                     )
