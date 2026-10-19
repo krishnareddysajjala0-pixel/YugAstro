@@ -196,7 +196,7 @@
           <div class="bhava-title-box">
             <h4 class="bhava-heading">{{ b.title }}</h4>
             <div class="bhava-meta-tags">
-              <span class="tag-rashi"><i class="fas fa-certificate"></i> {{ b.lagna }} లగ్నం</span>
+              <span class="tag-rashi"><i class="fas fa-certificate"></i> {% if b.number == 1 %}{{ b.lagna }} జన్మ లగ్నం{% else %}{{ b.lagna }} రాశి{% endif %}</span>
               <span class="tag-nature">{{ b.type_label }}</span>
             </div>
           </div>
@@ -222,7 +222,7 @@
 
         <!-- Occupying Planets & Aspects -->
         <div class="bhava-row bhava-planets-row">
-          <div class="row-label"><i class="fas fa-globe"></i> {{ _('గ్రహ స్థితి:') }}</div>
+          <div class="row-label"><i class="fas fa-globe"></i> {{ _('గ్రహ స్థితి & భావాధిపత్యాలు:') }}</div>
           <div class="row-val">
             {% if b.residents %}
               <div class="planets-chips">
@@ -230,6 +230,7 @@
                 <span class="planet-pill {% if p.is_friend %}friend-planet{% else %}enemy-planet{% endif %}">
                   <i class="fas fa-circle"></i>
                   <strong>{{ p.name }}</strong> 
+                  {% if p.lordships_text %}<span class="lord-tag">[{{ p.lordships_text }}]</span>{% endif %}
                   {% if p.degree %}<span class="deg-text">({{ p.degree }})</span>{% endif %}
                   {% if p.nakshatra %}<span class="nak-text">{{ p.nakshatra }}</span>{% endif %}
                   <span class="camp-tag">[{{ 'మిత్రుడు' if p.is_friend else 'శత్రువు' }}]</span>
@@ -250,6 +251,7 @@
                 {% for a in b.aspects %}
                 <span class="aspect-pill {% if a.is_friend %}friend-planet{% else %}enemy-planet{% endif %}">
                   👉 <strong>{{ a.name }}</strong>
+                  {% if a.lordships_text %}<span class="lord-tag">[{{ a.lordships_text }}]</span>{% endif %}
                   <span class="camp-tag">[{{ 'మిత్రుడు (సమాన ఫలితం)' if a.is_friend else 'శత్రువు (సమాన ఫలితం)' }}]</span>
                 </span>
                 {% endfor %}
@@ -268,6 +270,27 @@
             {{ b.interpretation | safe }}
           </div>
         </div>
+
+        <!-- Dedicated Bhava Lord Conjunctions Section (234 Conjunctions) -->
+        {% if b.bhava_lord_conjunctions %}
+        <div class="bhava-conjunctions-section">
+          <div class="sub-label"><i class="fas fa-crown"></i> {{ _('ఈ భావములో భవాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):') }}</div>
+          <div class="conjunctions-cards-grid">
+            {% for c in b.bhava_lord_conjunctions %}
+            <div class="conj-card {% if 'మిత్రుడు + మిత్రుడు' in c.status %}conj-shubha{% elif 'శత్రువు + శత్రువు' in c.status %}conj-paapa{% else %}conj-mishra{% endif %}">
+              <div class="conj-card-header">
+                <span class="conj-badge"><i class="fas fa-link"></i> {{ c.combo }}</span>
+                <span class="conj-planets">({{ c.p1 }} + {{ c.p2 }})</span>
+                <span class="conj-status">[{{ c.status }}]</span>
+              </div>
+              <div class="conj-card-body">
+                {{ c.result }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
 
         <!-- Applied Physical Items & Portfolios -->
         {% if b.applied_items %}
@@ -893,8 +916,88 @@
   margin-bottom: 6px;
 }
 
+.lord-tag {
+  font-size: 10px;
+  color: #fbbf24;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.bhava-conjunctions-section {
+  margin-top: 14px;
+}
+
+.conjunctions-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.conj-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #fbbf24;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.conj-card.conj-shubha {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.conj-card.conj-paapa {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.conj-card.conj-mishra {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.conj-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.conj-badge {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.conj-planets {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.conj-status {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-left: auto;
+  font-style: italic;
+}
+
+.conj-card-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+
 /* Collapsed state */
 .bhava-full-card.is-collapsed .bhava-interpretation-section,
+.bhava-full-card.is-collapsed .bhava-conjunctions-section,
 .bhava-full-card.is-collapsed .bhava-items-section,
 .bhava-full-card.is-collapsed .bhava-diseases-section,
 .bhava-full-card.is-collapsed .bhava-special-notes {

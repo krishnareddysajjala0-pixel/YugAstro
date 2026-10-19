@@ -61,6 +61,63 @@ def normalize_rashi(r):
     }
     return mapping.get(r, r)
 
+RASHI_ORDER = [
+    "మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య",
+    "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"
+]
+
+PRIMARY_RASHI_LORDS = {
+    normalize_rashi("మేషం"): ["కుజుడు", "భూమి"],
+    normalize_rashi("వృషభం"): ["శుక్రుడు", "మిత్ర"],
+    normalize_rashi("మిథునం"): ["బుధుడు", "చిత్ర"],
+    normalize_rashi("కర్కాటకం"): ["చంద్రుడు"],
+    normalize_rashi("సింహం"): ["సూర్యుడు"],
+    normalize_rashi("కన్య"): ["బుధుడు"],
+    normalize_rashi("తులా"): ["శుక్రుడు"],
+    normalize_rashi("వృశ్చికం"): ["కుజుడు", "భూమి"],
+    normalize_rashi("ధనుస్సు"): ["గురువు", "కేతువు", "కేతు"],
+    normalize_rashi("ధనస్సు"): ["గురువు", "కేతువు", "కేతు"],
+    normalize_rashi("మకరం"): ["శని", "రాహువు", "రాహు"],
+    normalize_rashi("కుంభం"): ["శని"],
+    normalize_rashi("మీనం"): ["గురువు"]
+}
+
+def find_bhava_conjunction_rule(h1, h2, cur_bhava, is_odd):
+    """
+    Finds the exact matching Thraitha Bhava Lord Conjunction rule from bhava_conjunctions.json.
+    Matches (h1 + h2) or (h2 + h1) in cur_bhava key first, then by individual bhava keys,
+    filtering by lagna parity (బేసి vs సరి లగ్నాలు).
+    """
+    if h1 == h2 or not CONJUNCTION_RULES:
+        return None
+    target_key = str(cur_bhava)
+    combo_names = [f"{h1} + {h2} అధిపతులు", f"{h2} + {h1} అధిపతులు"]
+    
+    candidates = []
+    # 1. Look in current bhava key first
+    for r in CONJUNCTION_RULES.get(target_key, []):
+        if r.get("combination") in combo_names:
+            candidates.append(r)
+            
+    # 2. Look in h1 or h2 keys
+    if not candidates:
+        for k in [str(min(h1, h2)), str(max(h1, h2))]:
+            for r in CONJUNCTION_RULES.get(k, []):
+                if r.get("combination") in combo_names:
+                    candidates.append(r)
+                    
+    # 3. Filter by parity
+    for c in candidates:
+        st = c.get("status", "")
+        if "అన్ని లగ్నాలకు" in st:
+            return c
+        if is_odd and "బేసి లగ్నాలకు" in st:
+            return c
+        if not is_odd and "సరి లగ్నాలకు" in st:
+            return c
+            
+    return candidates[0] if candidates else None
+
 BHAVA_META = {
     1: {"name": "1వ భావము (తను స్థానము / లగ్నము)", "type": "పుణ్యస్థానము (అంగీ ప్రారంభం)", "class": "punya", "significance": "స్థూల శరీరము, ఆరోగ్యం, రూపం, ప్రాథమిక ఆత్మశక్తి, జీవన గమనం"},
     2: {"name": "2వ భావము (ధన స్థానము / కుటుంబము)", "type": "సంధి స్థానము (పుణ్యము + పాపము)", "class": "sandhi", "significance": "కుటుంబ సౌఖ్యం, వాక్చాతుర్యం, ప్రాపంచిక ధన చలామణి, ఆహార అలవాట్లు"},
@@ -125,6 +182,23 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
         except Exception:
             pass
             
+    # Calculate Lagna index and Parity (Odd / Even Lagna)
+    norm_rashi_order = [normalize_rashi(r) for r in RASHI_ORDER]
+    lagna_idx = norm_rashi_order.index(lagna) if lagna in norm_rashi_order else 0
+    is_odd_lagna = (lagna_idx % 2 == 0)  # 0 is Mesha (1st, odd), 8 is Dhanu (9th, odd)
+    
+    # Map each planet to the Bhavas it rules for this native's Lagna
+    planet_to_bhavas = {}
+    bhava_to_lords = {}
+    for i in range(12):
+        bhava_num = i + 1
+        r_name = norm_rashi_order[(lagna_idx + i) % 12]
+        lords = PRIMARY_RASHI_LORDS.get(r_name, [])
+        bhava_to_lords[bhava_num] = lords
+        for p in lords:
+            p_clean = clean_planet_name(p)
+            planet_to_bhavas.setdefault(p_clean, []).append(bhava_num)
+            
     # Collect resident and aspecting planets per house
     planet_positions = data.get('planet_positions', [])
     house_residents = {i: [] for i in range(1, 13)}
@@ -138,6 +212,8 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
         h_num = houses.get(p_rashi)
         if h_num:
             h_num = int(h_num)
+            p_bhavas = sorted(list(set(planet_to_bhavas.get(p_name, []))))
+            lordships_str = f"{', '.join(str(h) for h in p_bhavas)}వ అధిపతి" if p_bhavas else ""
             entry = {
                 "name": p_name,
                 "degree": pp.get('degree', ''),
@@ -145,7 +221,9 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
                 "padam": pp.get('padam', ''),
                 "is_hand": is_hand,
                 "camp": "గురు వర్గము" if p_name in GURU_CAMP else "శని వర్గము",
-                "is_friend": (p_name in GURU_CAMP) if is_guru_lagna else (p_name in SANI_CAMP)
+                "is_friend": (p_name in GURU_CAMP) if is_guru_lagna else (p_name in SANI_CAMP),
+                "lordships": p_bhavas,
+                "lordships_text": lordships_str
             }
             if is_hand:
                 house_aspects[h_num].append(entry)
@@ -330,6 +408,56 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
         else:
             interpretation_parts.append("ఈ భావంలో ప్రత్యక్షంగా ఏ గ్రహాలూ నివాసం లేవు, మరియు ఏ గ్రహం యొక్క దృష్టి చేతులు కూడా ఈ స్థానాన్ని తాకడం లేదు. ఈ భావ ఫలితం కేవలం భావాధిపతి స్థానబలాన్ని బట్టి లభిస్తుంది.")
 
+        # 5. Bhava Lord Conjunctions Evaluation (భవాధిపతుల కలయిక & దృష్టి ఫలితాలు - 234 Conjunction Rules)
+        bhava_lord_conjunctions = []
+        if active_count >= 2:
+            seen_combos = set()
+            for i_p, p1_o in enumerate(active_planets):
+                for j_p, p2_o in enumerate(active_planets):
+                    if i_p >= j_p:
+                        continue
+                    p1_n = p1_o["name"]
+                    p2_n = p2_o["name"]
+                    h1_list = p1_o.get("lordships", [])
+                    h2_list = p2_o.get("lordships", [])
+
+                    for h1 in h1_list:
+                        for h2 in h2_list:
+                            pair_key = tuple(sorted([h1, h2]))
+                            if pair_key in seen_combos:
+                                continue
+                            seen_combos.add(pair_key)
+
+                            rule = find_bhava_conjunction_rule(h1, h2, b_num, is_odd_lagna)
+                            if rule:
+                                is_curr = (h1 == b_num or h2 == b_num)
+                                bhava_lord_conjunctions.append({
+                                    "p1": p1_n,
+                                    "p2": p2_n,
+                                    "h1": h1,
+                                    "h2": h2,
+                                    "is_current": is_curr,
+                                    "combo": rule.get("combination"),
+                                    "status": rule.get("status"),
+                                    "result": rule.get("result")
+                                })
+
+            # Prioritize: combinations involving this current bhava lord first, then Kendra/Kona (1,4,5,9,10)
+            def conj_priority(item):
+                if item["is_current"]:
+                    return 0
+                is_kendra_kona = (item["h1"] in [1, 4, 5, 9, 10] and item["h2"] in [1, 4, 5, 9, 10])
+                return 1 if is_kendra_kona else 2
+
+            bhava_lord_conjunctions.sort(key=lambda x: (conj_priority(x), x["h1"]))
+
+            if bhava_lord_conjunctions:
+                interpretation_parts.append("<br><b>🏛️ భవాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):</b>")
+                for c in bhava_lord_conjunctions[:5]:
+                    interpretation_parts.append(
+                        f"• 👑 <b>{c['combo']} ({c['p1']} + {c['p2']})</b> — <span style='color:#fbbf24;'>[{c['status']}]</span>:<br>{c['result']}"
+                    )
+
         # Check House 8 Longevity / Accidents (considering both residence AND aspects)
         if b_num == 8 or ("కుజుడు" in active_names and "శని" in active_names):
             if not is_guru_lagna and ("కుజుడు" in active_names or "కుజ" in active_names):
@@ -375,6 +503,7 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
             "residents": residents,
             "aspects": aspects,
             "planets_text": planets_text,
+            "bhava_lord_conjunctions": bhava_lord_conjunctions,
             "interpretation": "<br>".join(interpretation_parts),
             "applied_items": list(set(applied_items))[:4],
             "applied_diseases": list(set(applied_diseases))[:3],
