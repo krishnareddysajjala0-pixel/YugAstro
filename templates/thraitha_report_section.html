@@ -3,7 +3,7 @@
 <!-- Based on Sri Sri Sri Acharya Prabodhananda Yogeeshwarulu's Jyothishya Shaasthramu -->
 <!-- ========================================================================== -->
 
-<div id="thraitha-full-report-section" class="thraitha-report-wrap">
+<div id="thraitha-full-report-section" class="thraitha-report-wrap" style="display: none;">
   
   <!-- 1. Header Banner -->
   <div class="thraitha-report-header">
@@ -28,6 +28,9 @@
       <a href="#chart-pdf-export-container" class="thraitha-btn btn-top" title="{{ _('కుండలి చక్రాన్ని చూపు') }}">
         <i class="fas fa-arrow-up"></i> <span>{{ _('చక్రము') }}</span>
       </a>
+      <button type="button" onclick="hideThraithaReport()" class="thraitha-btn btn-close-report" title="{{ _('నివేదిక మూసివేయి') }}">
+        <i class="fas fa-times"></i> <span>{{ _('మూసివేయి') }}</span>
+      </button>
     </div>
   </div>
 
@@ -247,12 +250,12 @@
 
             {% if b.aspects %}
               <div class="aspects-chips" style="margin-top: 6px;">
-                <span class="aspect-label"><i class="fas fa-eye"></i> {{ _('ఎదురు చూపుల చేతులు (సమాన బలం):') }}</span>
+                <span class="aspect-label"><i class="fas fa-eye"></i> {{ _('ఎదురు చూపుల చేతులు:') }}</span>
                 {% for a in b.aspects %}
                 <span class="aspect-pill {% if a.is_friend %}friend-planet{% else %}enemy-planet{% endif %}">
                   👉 <strong>{{ a.name }}</strong>
                   {% if a.lordships_text %}<span class="lord-tag">[{{ a.lordships_text }}]</span>{% endif %}
-                  <span class="camp-tag">[{{ 'మిత్రుడు (సమాన ఫలితం)' if a.is_friend else 'శత్రువు (సమాన ఫలితం)' }}]</span>
+                  <span class="camp-tag">[{{ 'మిత్రుడు' if a.is_friend else 'శత్రువు' }}]</span>
                 </span>
                 {% endfor %}
               </div>
@@ -434,6 +437,21 @@
   background: rgba(255, 255, 255, 0.1);
   color: #fbbf24;
   border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.thraitha-btn.btn-close-report {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.thraitha-btn.btn-close-report:hover {
+  background: rgba(239, 68, 68, 0.35);
+  color: #ffffff;
+}
+
+.report-section #thraitha-full-report-section {
+  display: block !important;
 }
 
 .thraitha-btn:hover {
@@ -1078,14 +1096,31 @@ function toggleAllBhavas() {
 }
 
 function scrollToThraithaReport() {
+  const overlay = document.getElementById('loading-overlay');
+  if (overlay) overlay.style.display = 'none';
+
   const el = document.getElementById('thraitha-full-report-section');
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    el.style.transition = 'box-shadow 0.4s ease';
-    el.style.boxShadow = '0 0 35px rgba(251, 191, 36, 0.6)';
+    if (el.style.display === 'none' || window.getComputedStyle(el).display === 'none') {
+      el.style.display = 'block';
+    }
     setTimeout(() => {
-      el.style.boxShadow = '';
-    }, 2000);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.style.transition = 'box-shadow 0.4s ease';
+      el.style.boxShadow = '0 0 35px rgba(251, 191, 36, 0.6)';
+      setTimeout(() => {
+        el.style.boxShadow = '';
+      }, 2000);
+    }, 50);
+  }
+}
+
+function hideThraithaReport() {
+  const el = document.getElementById('thraitha-full-report-section');
+  if (el) {
+    el.style.display = 'none';
+    const topEl = document.getElementById('chart-pdf-export-container') || document.querySelector('.chart-wrapper') || document.body;
+    topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 </script>

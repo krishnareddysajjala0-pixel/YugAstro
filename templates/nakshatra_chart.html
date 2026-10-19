@@ -3183,11 +3183,7 @@ body {
         <span>వివరణ</span>
       </button>
 
-      <!-- 5. Complete Jathaka Report Button -->
-      <button type="button" class="top-btn-report ctrl-btn" id="topReportBtn" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
-        <i class="fas fa-scroll"></i>
-        <span>{{ _('నివేదిక') }}</span>
-      </button>
+
 
 
 
@@ -3652,6 +3648,7 @@ body {
         var oc = btn.getAttribute('onclick') || '';
         if (btn.id === 'print-options-btn' || oc.indexOf('print') !== -1 || oc.indexOf('PDF') !== -1) return;
         if (oc.indexOf('fetch') !== -1) return;
+        if (oc.indexOf('scrollToThraithaReport') !== -1 || btn.classList.contains('btn-report')) return;
         btn.addEventListener('click', function() {
           try { if (window.playLoadingSound) window.playLoadingSound(); } catch(e) {}
         });

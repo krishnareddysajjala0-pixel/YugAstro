@@ -6936,11 +6936,7 @@ body {
         <span>{{ _('నక్షత్ర కుండలి') }}</span>
       </a>
 
-      <!-- 3. Complete Jathaka Report Button -->
-      <button type="button" class="top-btn-report ctrl-btn" id="topReportBtn" onclick="scrollToThraithaReport()" title="{{ _('సంపూర్ణ జాతక నివేదిక') }}">
-        <i class="fas fa-scroll"></i>
-        <span>{{ _('నివేదిక') }}</span>
-      </button>
+
 
       <!-- 4. Karma Button -->
       <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
@@ -9924,10 +9920,8 @@ body {
 
 
                 if (btn.id === 'print-options-btn' || oc.indexOf('print') !== -1) return;
-
-
-
                 if (oc.indexOf('fetch') !== -1) return;
+                if (oc.indexOf('scrollToThraithaReport') !== -1 || btn.classList.contains('btn-report')) return;
 
 
 
