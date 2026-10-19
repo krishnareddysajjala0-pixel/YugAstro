@@ -288,17 +288,7 @@
         </div>
         {% endif %}
 
-        <!-- Applied Health Vulnerabilities -->
-        {% if b.applied_diseases %}
-        <div class="bhava-diseases-section">
-          <div class="sub-label"><i class="fas fa-heartbeat"></i> {{ _('ఆరోగ్య & వ్యాధి హెచ్చరికలు:') }}</div>
-          <div class="diseases-wrap">
-            {% for dis in b.applied_diseases %}
-            <span class="disease-tag">{{ dis }}</span>
-            {% endfor %}
-          </div>
-        </div>
-        {% endif %}
+
 
         <!-- Special Notes / Yogas -->
         {% if b.special_notes %}
