@@ -274,26 +274,7 @@
           </div>
         </div>
 
-        <!-- Dedicated Bhava Lord Conjunctions Section (234 Conjunctions) -->
-        {% if b.bhava_lord_conjunctions %}
-        <div class="bhava-conjunctions-section">
-          <div class="sub-label"><i class="fas fa-crown"></i> {{ _('ఈ భావములో భవాధిపతుల కలయిక & దృష్టి ఫలితాలు (త్రైత సిద్ధాంతం):') }}</div>
-          <div class="conjunctions-cards-grid">
-            {% for c in b.bhava_lord_conjunctions %}
-            <div class="conj-card {% if 'మిత్రుడు + మిత్రుడు' in c.status %}conj-shubha{% elif 'శత్రువు + శత్రువు' in c.status %}conj-paapa{% else %}conj-mishra{% endif %}">
-              <div class="conj-card-header">
-                <span class="conj-badge"><i class="fas fa-link"></i> {{ c.combo }}</span>
-                <span class="conj-planets">({{ c.p1 }} + {{ c.p2 }})</span>
-                <span class="conj-status">[{{ c.status }}]</span>
-              </div>
-              <div class="conj-card-body">
-                {{ c.result }}
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        {% endif %}
+
 
         <!-- Applied Physical Items & Portfolios -->
         {% if b.applied_items %}
