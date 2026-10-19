@@ -237,14 +237,21 @@
                 {% endfor %}
               </div>
             {% else %}
-              <span class="empty-house-text">{{ _('ప్రత్యక్ష నివాస గ్రహాలు లేవు (పరివర్తన / ఎదురు చూపుల ప్రభావం)') }}</span>
+              {% if b.aspects %}
+                <span class="empty-house-text">{{ _('ప్రత్యక్ష నివాస గ్రహాలు లేవు (ఎదురు చూపుల చేతుల పూర్తి ప్రభావం)') }}</span>
+              {% else %}
+                <span class="empty-house-text">{{ _('సంపూర్ణ ఖాళీ స్థానము (గ్రహ, దృష్టి రహితం)') }}</span>
+              {% endif %}
             {% endif %}
 
             {% if b.aspects %}
               <div class="aspects-chips" style="margin-top: 6px;">
-                <span class="aspect-label"><i class="fas fa-eye"></i> {{ _('ఎదురు చూపుల చేతులు:') }}</span>
+                <span class="aspect-label"><i class="fas fa-eye"></i> {{ _('ఎదురు చూపుల చేతులు (సమాన బలం):') }}</span>
                 {% for a in b.aspects %}
-                <span class="aspect-pill">👉 {{ a.name }}</span>
+                <span class="aspect-pill {% if a.is_friend %}friend-planet{% else %}enemy-planet{% endif %}">
+                  👉 <strong>{{ a.name }}</strong>
+                  <span class="camp-tag">[{{ 'మిత్రుడు (సమాన ఫలితం)' if a.is_friend else 'శత్రువు (సమాన ఫలితం)' }}]</span>
+                </span>
                 {% endfor %}
               </div>
             {% endif %}
@@ -774,10 +781,26 @@
 
 .aspect-pill {
   background: rgba(255, 255, 255, 0.08);
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 6px;
   margin-left: 4px;
-  color: #fbbf24;
+  margin-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+}
+
+.aspect-pill.friend-planet {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.aspect-pill.enemy-planet {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .empty-house-text {
