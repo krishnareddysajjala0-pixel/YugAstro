@@ -66,21 +66,26 @@ RASHI_ORDER = [
     "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"
 ]
 
-PRIMARY_RASHI_LORDS = {
-    normalize_rashi("మేషం"): ["కుజుడు", "భూమి"],
-    normalize_rashi("వృషభం"): ["శుక్రుడు", "మిత్ర"],
-    normalize_rashi("మిథునం"): ["బుధుడు", "చిత్ర"],
-    normalize_rashi("కర్కాటకం"): ["చంద్రుడు"],
-    normalize_rashi("సింహం"): ["సూర్యుడు"],
-    normalize_rashi("కన్య"): ["బుధుడు"],
-    normalize_rashi("తులా"): ["శుక్రుడు"],
-    normalize_rashi("వృశ్చికం"): ["కుజుడు", "భూమి"],
-    normalize_rashi("ధనుస్సు"): ["గురువు", "కేతువు", "కేతు"],
-    normalize_rashi("ధనస్సు"): ["గురువు", "కేతువు", "కేతు"],
-    normalize_rashi("మకరం"): ["శని", "రాహువు", "రాహు"],
-    normalize_rashi("కుంభం"): ["శని"],
-    normalize_rashi("మీనం"): ["గురువు"]
+# త్రైత సిద్ధాంతం ప్రకారం 12 రాశులకు 12 మంది ప్రత్యేక అధిపతులు (Strict 1-to-1 bijection).
+# ఒక రాశికి / భావానికి ఒకే ఒక అధిపతి; ఒక గ్రహానికి ఒకే ఒక స్వక్షేత్రం / భావాధిపత్యం.
+# పరాశర సిద్ధాంతంలోని ద్వి-రాశ్యాధిపత్యము (కుజుడికి 4, 11 లేదా గురువుకి 3, 12 మొదలైనవి) త్రైత సిద్ధాంతంలో వర్తించదు.
+THRAITHA_RASHI_LORDS = {
+    normalize_rashi("మేషం"): "కుజుడు",
+    normalize_rashi("వృషభం"): "మిత్ర",
+    normalize_rashi("మిథునం"): "చిత్ర",
+    normalize_rashi("కర్కాటకం"): "చంద్రుడు",
+    normalize_rashi("సింహం"): "సూర్యుడు",
+    normalize_rashi("కన్య"): "బుధుడు",
+    normalize_rashi("తులా"): "శుక్రుడు",
+    normalize_rashi("వృశ్చికం"): "భూమి",
+    normalize_rashi("ధనుస్సు"): "కేతువు",
+    normalize_rashi("ధనస్సు"): "కేతువు",
+    normalize_rashi("మకరం"): "రాహువు",
+    normalize_rashi("కుంభం"): "శని",
+    normalize_rashi("మీనం"): "గురువు"
 }
+
+PRIMARY_RASHI_LORDS = {r: [p] for r, p in THRAITHA_RASHI_LORDS.items()}
 
 def find_bhava_conjunction_rule(h1, h2, cur_bhava, is_odd):
     """
@@ -187,17 +192,17 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
     lagna_idx = norm_rashi_order.index(lagna) if lagna in norm_rashi_order else 0
     is_odd_lagna = (lagna_idx % 2 == 0)  # 0 is Mesha (1st, odd), 8 is Dhanu (9th, odd)
     
-    # Map each planet to the Bhavas it rules for this native's Lagna
+    # Map each planet to the Bhava it rules for this native's Lagna (Strict 1-to-1 bijection)
     planet_to_bhavas = {}
     bhava_to_lords = {}
     for i in range(12):
         bhava_num = i + 1
         r_name = norm_rashi_order[(lagna_idx + i) % 12]
-        lords = PRIMARY_RASHI_LORDS.get(r_name, [])
-        bhava_to_lords[bhava_num] = lords
-        for p in lords:
-            p_clean = clean_planet_name(p)
-            planet_to_bhavas.setdefault(p_clean, []).append(bhava_num)
+        lord = THRAITHA_RASHI_LORDS.get(r_name)
+        if lord:
+            bhava_to_lords[bhava_num] = [lord]
+            p_clean = clean_planet_name(lord)
+            planet_to_bhavas[p_clean] = [bhava_num]
             
     # Collect resident and aspecting planets per house
     planet_positions = data.get('planet_positions', [])
@@ -213,7 +218,7 @@ def generate_thraitha_jathaka_report(data, dasha_info=None):
         if h_num:
             h_num = int(h_num)
             p_bhavas = sorted(list(set(planet_to_bhavas.get(p_name, []))))
-            lordships_str = f"{', '.join(str(h) for h in p_bhavas)}వ అధిపతి" if p_bhavas else ""
+            lordships_str = f"{p_bhavas[0]}వ అధిపతి" if p_bhavas else ""
             entry = {
                 "name": p_name,
                 "degree": pp.get('degree', ''),
