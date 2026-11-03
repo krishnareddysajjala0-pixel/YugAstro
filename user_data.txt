@@ -855,3 +855,4 @@
 830. [31-Oct-2026 02:46:36] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-31, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
 831. [03-Nov-2026 12:21:14] Name: CHANDRA NATH CHINTA, Mobile: N/A, DOB: 1999-11-20, TOB: 12:15, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
 832. [03-Nov-2026 12:21:39] Name: CHANDRA NATH CHINTA, Mobile: N/A, DOB: 1999-11-20, TOB: 12:15, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
+833. [03-Nov-2026 12:35:16] Name: MANOJ SAGAR, Mobile: N/A, DOB: 2007-08-15, TOB: 09:45, Place: Nandyala, Nandyal Mandal, Nandyal District, Andhra Pradesh, 518501, India
