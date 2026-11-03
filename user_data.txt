@@ -853,3 +853,4 @@
 828. [31-Oct-2026 02:43:19] Name: GAYATHRI L, Mobile: N/A, DOB: 1981-07-19, TOB: 22:15, Place: Bangalore Urban, Punjab, India
 829. [31-Oct-2026 02:46:26] Name: GAYATHRI L, Mobile: N/A, DOB: 2026-10-31, TOB: 08:16, Place: Bengaluru (Bangalore), Karnataka, India
 830. [31-Oct-2026 02:46:36] Name: జాతకుడు, Mobile: N/A, DOB: 2026-10-31, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
+831. [03-Nov-2026 12:21:14] Name: CHANDRA NATH CHINTA, Mobile: N/A, DOB: 1999-11-20, TOB: 12:15, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
