@@ -860,3 +860,4 @@
 835. [03-Nov-2026 15:00:33] Name: MANOJ SAGAR, Mobile: N/A, DOB: 2007-08-15, TOB: 09:45, Place: Nandyala, Nandyal Mandal, Nandyal District, Andhra Pradesh, 518501, India
 836. [04-Nov-2026 15:27:18] Name: Ahalya (Compare 1), Mobile: N/A, DOB: 1995-08-19, TOB: 00:40, Place: Ongole, Andhra Pradesh, India
 837. [04-Nov-2026 15:27:19] Name: Srikanth Reddy  (Compare 2), Mobile: N/A, DOB: 1994-12-21, TOB: 20:57, Place: Ongole, Andhra Pradesh, India
+838. [05-Nov-2026 02:26:03] Name: జాతకుడు, Mobile: N/A, DOB: 2026-11-05, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
