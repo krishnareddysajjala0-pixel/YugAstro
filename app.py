@@ -1851,7 +1851,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     year_index = (adj_year - 1987) % 60
     telugu_year = TELUGU_YEARS[year_index]
     
-    # 1987 (Prabhava, index 0) = Kaliyuga 5088. Using the exact cycle multiplier ties it perfectly.
+    # 1987 (Prabhava, index 0) = Kaliyogamu 5088. Using the exact cycle multiplier ties it perfectly.
     cycles_since_1987 = (adj_year - 1987) // 60
     kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
     
@@ -1995,6 +1995,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'tithi_remaining': tithi_remaining_str,
         'telugu_year': telugu_year,
         'year_index': year_index,
+        'kaliyoga_year': kaliyuga_year,
         'kaliyuga_year': kaliyuga_year,
         'thraitha_sakamu': thraitha_sakamu,
         'suryodayam': suryodayam,
@@ -5059,6 +5060,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "year_name": telugu_year,
         "year_index": year_index,
         "saka_year": saka_year,
+        "kaliyoga_year": kaliyuga_year,
+        "kaliyoga_year": kaliyuga_year,
         "kaliyuga_year": kaliyuga_year,
         "thraitha_sakamu": thraitha_sakamu,
         "paksha": tithi_paksha,
@@ -5802,7 +5805,7 @@ def calendar_view():
         last_day = py_calendar.monthrange(date_obj.year, date_obj.month)[1]
         end_dt = datetime.date(date_obj.year, date_obj.month, last_day)
     
-    # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
+    # Branding Calculations (Year, Kaliyogamu, Thraitha Sakamu)
     adj_year = date_obj.year
     year_index = (adj_year - 1987) % 60
     year_name = tr(TELUGU_YEARS[year_index])
@@ -5906,6 +5909,7 @@ def calendar_view():
         year=date_obj.year,
         year_name=year_name,
         year_index=year_index + 1,
+        kaliyoga_year=kaliyuga_year,
         kaliyuga_year=kaliyuga_year,
         thraitha_sakamu=thraitha_sakamu,
         telugu_masam=translated_masam_name if view_type == "telugu" else f"{tr(EN_MONTHS_TELUGU[date_obj.month - 1])} ({translated_masam_name})",
