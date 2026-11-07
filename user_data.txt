@@ -873,3 +873,4 @@
 848. [07-Nov-2026 05:32:20] Name: madhu, Mobile: N/A, DOB: 1948-01-30, TOB: 17:17, Place: Bengaluru (Bangalore), Karnataka, India
 849. [07-Nov-2026 12:17:04] Name: జాతకుడు, Mobile: N/A, DOB: 2026-11-07, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
 850. [07-Nov-2026 12:17:39] Name: Bharath, Mobile: N/A, DOB: 2026-10-15, TOB: 20:20, Place: Bengaluru, KA, IN
+851. [07-Nov-2026 12:34:55] Name: gyaneswar, Mobile: N/A, DOB: 1964-01-27, TOB: 02:30, Place: Agra, Telangana, India
