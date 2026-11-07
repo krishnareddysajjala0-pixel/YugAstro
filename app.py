@@ -579,6 +579,11 @@ TELUGU_MASALU = [
     "ఆశ్వయుజ", "కార్తీక", "మార్గశిర", "పుష్య", "మాఘ", "ఫాల్గుణ"
 ]
 
+EN_MONTHS_TELUGU = [
+    "జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", 
+    "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"
+]
+
 ENGLISH_MONTHS = [
     "(March - April)", "(April - May)", "(May - June)", "(June - July)",
     "(July - August)", "(August - September)", "(September - October)",
@@ -1367,7 +1372,109 @@ def api_search_place():
     return jsonify(results)
 
 
-HOMEPAGE_PANCHANGAM_CACHE = {"key": None, "data": None}
+# ---------------- MOKSHA SAMAYAM ENGINE (మోక్ష సమయ నిర్ణయ ఇంజిన్) ----------------
+def get_sun_lon_sidereal(jd_val):
+    return swe.calc_ut(jd_val, swe.SUN, swe.FLG_SWIEPH | swe.FLG_SIDEREAL)[0][0]
+
+def find_solar_crossing(target_deg, start_jd):
+    for d in range(0, 420):
+        j1 = start_jd + d
+        j2 = j1 + 1.0
+        l1 = (get_sun_lon_sidereal(j1) - target_deg) % 360
+        l2 = (get_sun_lon_sidereal(j2) - target_deg) % 360
+        if l1 > 350 and l2 < 10:
+            low, high = j1, j2
+            for _ in range(35):
+                mid = (low + high) / 2.0
+                df = (get_sun_lon_sidereal(mid) - target_deg) % 360
+                if df > 180:
+                    low = mid
+                else:
+                    high = mid
+            return mid
+    return None
+
+def compute_moksha_data(dt_now, lat=17.3850, lon=78.4867, local_tz=None):
+    if local_tz is None:
+        local_tz = pytz.timezone("Asia/Kolkata")
+    
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    utc_dt = dt_now.astimezone(pytz.utc)
+    jd_now = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute/60.0 + utc_dt.second/3600.0)
+    
+    sun_lon = swe.calc_ut(jd_now, swe.SUN, swe.FLG_SWIEPH | swe.FLG_SIDEREAL)[0][0]
+    moon_lon = swe.calc_ut(jd_now, swe.MOON, swe.FLG_SWIEPH | swe.FLG_SIDEREAL)[0][0]
+    
+    # 1. Uttarayanam: Sun in Makara to Mithuna (270 to 90 deg sidereal)
+    is_uttarayana = (sun_lon >= 270 or sun_lon < 90)
+    current_ayanam = "ఉత్తరాయణం" if is_uttarayana else "దక్షిణాయణం"
+    
+    # 2. Shukla Paksham: elongation < 180 deg (tithi 0 to 14)
+    diff = (moon_lon - sun_lon) % 360
+    tithi_index = int(diff / 12)
+    is_shukla = (tithi_index < 15)
+    current_paksham = "శుక్ల పక్షం" if is_shukla else "కృష్ణ పక్షం"
+    
+    # 3. Day time: Between sunrise and sunset for current date & location
+    from astral import LocationInfo
+    from astral.sun import sun
+    loc = LocationInfo("Observer", "India", "Asia/Kolkata", lat, lon)
+    try:
+        s = sun(loc.observer, date=dt_now.date(), tzinfo=local_tz)
+        sr = s["sunrise"].astimezone(local_tz)
+        ss = s["sunset"].astimezone(local_tz)
+        is_daytime = (sr <= dt_now <= ss)
+        sr_str = (tr("ఉ: ") if sr.hour < 12 else tr("సా: ")) + sr.strftime("%I:%M")
+        ss_str = (tr("ఉ: ") if ss.hour < 12 else tr("సా: ")) + ss.strftime("%I:%M")
+    except Exception as e:
+        is_daytime = (6 <= dt_now.hour < 18)
+        sr_str = "ఉ: 06:00"
+        ss_str = "సా: 06:00"
+        
+    current_kalam = "పగటి కాలం" if is_daytime else "రాత్రి కాలం"
+    
+    # All 3 conditions must match simultaneously
+    is_moksha = bool(is_uttarayana and is_shukla and is_daytime)
+    
+    # Next Uttarayanam start (Sun reaches 270) and end (Sun reaches 90)
+    jd_next_start = find_solar_crossing(270.0, jd_now)
+    jd_next_end = find_solar_crossing(90.0, jd_next_start) if jd_next_start else None
+    
+    def format_jd_telugu(jd_v):
+        if not jd_v: return ""
+        y, m, d, h = swe.revjul(jd_v)
+        minute = int((h % 1) * 60)
+        u_dt = pytz.utc.localize(datetime.datetime(int(y), int(m), int(d), int(h), minute))
+        l_dt = u_dt.astimezone(local_tz)
+        month_te = EN_MONTHS_TELUGU[l_dt.month - 1]
+        am_pm = tr("ఉ:") if l_dt.hour < 12 else tr("సా:")
+        return f"{l_dt.day} {month_te} {l_dt.year}, {am_pm} {l_dt.strftime('%I:%M')}"
+        
+    next_uttarayana_start_str = format_jd_telugu(jd_next_start)
+    next_uttarayana_end_str = format_jd_telugu(jd_next_end)
+    
+    current_uttarayana_end_str = ""
+    if is_uttarayana:
+        jd_curr_end = find_solar_crossing(90.0, jd_now)
+        current_uttarayana_end_str = format_jd_telugu(jd_curr_end)
+        
+    return {
+        "is_moksha": is_moksha,
+        "is_uttarayana": is_uttarayana,
+        "is_shukla": is_shukla,
+        "is_daytime": is_daytime,
+        "ayanam": current_ayanam,
+        "paksha": current_paksham,
+        "kalam": current_kalam,
+        "sunrise": sr_str,
+        "sunset": ss_str,
+        "current_time_str": dt_now.strftime("%I:%M %p"),
+        "next_uttarayana_start": next_uttarayana_start_str,
+        "next_uttarayana_end": next_uttarayana_end_str,
+        "current_uttarayana_end": current_uttarayana_end_str
+    }
+
+HOMEPAGE_PANCHANGAM_CACHE = {"key": None, "data": None, "moksha": None}
 
 @app.route("/")
 def index():
@@ -1375,18 +1482,22 @@ def index():
         local_tz = pytz.timezone("Asia/Kolkata")
         today_dt = datetime.datetime.now(local_tz)
         cache_key = (today_dt.year, today_dt.month, today_dt.day, today_dt.hour, today_dt.minute // 5)
-        if HOMEPAGE_PANCHANGAM_CACHE["key"] == cache_key and HOMEPAGE_PANCHANGAM_CACHE["data"]:
+        if HOMEPAGE_PANCHANGAM_CACHE["key"] == cache_key and HOMEPAGE_PANCHANGAM_CACHE["data"] and HOMEPAGE_PANCHANGAM_CACHE.get("moksha"):
             today_panchangam = HOMEPAGE_PANCHANGAM_CACHE["data"]
+            moksha_data = HOMEPAGE_PANCHANGAM_CACHE["moksha"]
         else:
             jd_today = swe.julday(today_dt.year, today_dt.month, today_dt.day, today_dt.hour + today_dt.minute/60.0)
             local_midnight = today_dt.replace(hour=0, minute=0, second=0, microsecond=0)
             today_panchangam = get_daily_panchangam_basic(jd_today, 17.3850, 78.4867, local_tz, local_midnight)
+            moksha_data = compute_moksha_data(today_dt, 17.3850, 78.4867, local_tz)
             HOMEPAGE_PANCHANGAM_CACHE["key"] = cache_key
             HOMEPAGE_PANCHANGAM_CACHE["data"] = today_panchangam
+            HOMEPAGE_PANCHANGAM_CACHE["moksha"] = moksha_data
     except Exception as e:
         print("Error getting today panchangam for homepage:", e)
         today_panchangam = None
-    return render_template("index.html", today_panchangam=today_panchangam)
+        moksha_data = None
+    return render_template("index.html", today_panchangam=today_panchangam, moksha_data=moksha_data)
 
 @app.route("/set_lang/<lang>")
 def set_lang(lang):
