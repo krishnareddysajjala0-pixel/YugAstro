@@ -1638,6 +1638,17 @@ body {
 
 
 
+                {% if panch.festivals %}
+                <!-- Festivals / పండుగలు -->
+                <div class="result-item" style="grid-column: 1 / -1; background: rgba(244, 63, 94, 0.15); border-color: #f43f5e; box-shadow: 0 0 15px rgba(244, 63, 94, 0.2);">
+                    <div class="result-icon"><i class="fas fa-om" style="color: #f43f5e; font-size: 22px;"></i></div>
+                    <div>
+                        <div class="result-label" style="color: #fda4af; font-weight: bold; font-size: 15px;">{{ _('పండుగలు / విశేషాలు (Festivals)') }}</div>
+                        <div class="result-value" style="color: #ffe4e6; font-size: 18px; font-weight: bold; margin-top: 4px;">{{ panch.festivals }}</div>
+                    </div>
+                </div>
+                {% endif %}
+
                 <!-- Lagnam -->
 
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(52, 211, 153, 0.1); border-color: #34d399;">

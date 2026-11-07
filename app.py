@@ -4965,6 +4965,277 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "durmuhurtams": durmuhurtams
     }
 
+# ==============================================================================
+# PANDUGALU (FESTIVALS) DETERMINATION ENGINE WITH KAALA VYAPTI (కాల వ్యాప్తి)
+# Rules based on Dharma Sindhu, Nirnaya Sindhu & Telugu Panchanga Sampradayam
+# ==============================================================================
+
+FESTIVALS_CONFIG = [
+    # 1. ఉగాది: చైత్ర శుక్ల పాడ్యమి (ప్రాతఃకాల / సూర్యోదయ వ్యాప్తి)
+    {"name": "ఉగాది", "masam": "చైత్ర", "paksha": 0, "tithi": "పాడ్యమి", "vyapti": "udaya"},
+    
+    # 2. శ్రీరామ నవమి: చైత్ర శుక్ల నవమి (మధ్యాహ్న కాల వ్యాప్తి - శ్రీరామ జన్మ సమయం)
+    {"name": "శ్రీరామ నవమి", "masam": "చైత్ర", "paksha": 0, "tithi": "నవమి", "vyapti": "madhyahna"},
+    
+    # 3. హనుమజ్జయంతి: చైత్ర శుక్ల పౌర్ణమి (సూర్యోదయ పూర్ణిమ)
+    {"name": "హనుమజ్జయంతి", "masam": "చైత్ర", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "udaya"},
+    
+    # 4. అక్షయ తృతీయ: వైశాఖ శుక్ల తదియ (సూర్యోదయ / పూర్వాహ్ణ వ్యాప్తి)
+    {"name": "అక్షయ తృతీయ", "masam": "వైశాఖ", "paksha": 0, "tithi": "తదియ", "vyapti": "udaya"},
+    
+    # 5. మోహిని ఏకాదశి: వైశాఖ శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "మోహిని ఏకాదశి", "masam": "వైశాఖ", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 6. బుద్ధ పూర్ణిమ: వైశాఖ శుక్ల పౌర్ణమి (ఉదయ తిథి)
+    {"name": "బుద్ధ పూర్ణిమ", "masam": "వైశాఖ", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "udaya"},
+    
+    # 7. నిర్జల ఏకాదశి: జ్యేష్ఠ శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "నిర్జల ఏకాదశి", "masam": "జ్యేష్ఠ", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 8. ఏరువాక పౌర్ణమి (వట సావిత్రి వ్రతం): జ్యేష్ఠ శుక్ల పౌర్ణమి (ఉదయ తిథి)
+    {"name": "ఏరువాక పౌర్ణమి (వట సావిత్రి వ్రతం)", "masam": "జ్యేష్ఠ", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "udaya"},
+    
+    # 9. తొలి ఏకాదశి: ఆషాఢ శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "తొలి ఏకాదశి", "masam": "ఆషాఢ", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 10. గురు పూర్ణిమ (వ్యాస పౌర్ణమి): ఆషాఢ శుక్ల పౌర్ణమి (ఉదయ తిథి)
+    {"name": "గురు పూర్ణిమ (వ్యాస పౌర్ణమి)", "masam": "ఆషాఢ", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "udaya"},
+    
+    # 11. నాగుల చవితి: శ్రావణ శుక్ల చవితి (మధ్యాహ్న వ్యాప్తి)
+    {"name": "నాగుల చవితి", "masam": "శ్రావణ", "paksha": 0, "tithi": "చవితి", "vyapti": "madhyahna"},
+    
+    # 12. నాగుల పంచమి: శ్రావణ శుక్ల పంచమి (మధ్యాహ్న వ్యాప్తి)
+    {"name": "నాగుల పంచమి", "masam": "శ్రావణ", "paksha": 0, "tithi": "పంచమి", "vyapti": "madhyahna"},
+    
+    # 13. పుత్రదా ఏకాదశి: శ్రావణ శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "పుత్రదా ఏకాదశి", "masam": "శ్రావణ", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 14. రాఖీ పౌర్ణమి (జంధ్యాల పౌర్ణమి / ఉపాకర్మ): శ్రావణ శుక్ల పౌర్ణమి (అపరాహ్ణ వ్యాప్తి)
+    {"name": "రాఖీ పౌర్ణమి (జంధ్యాల పౌర్ణమి / ఉపాకర్మ)", "masam": "శ్రావణ", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "aparahna"},
+    
+    # 15. శ్రీ కృష్ణాష్టమి (గోకులాష్టమి): శ్రావణ కృష్ణ అష్టమి (నిశీథ కాల వ్యాప్తి - అర్ధరాత్రి జన్మ సమయం)
+    {"name": "శ్రీ కృష్ణాష్టమి (గోకులాష్టమి)", "masam": "శ్రావణ", "paksha": 1, "tithi": "అష్టమి", "vyapti": "nisitha"},
+    
+    # 16. కామికా ఏకాదశి: శ్రావణ కృష్ణ ఏకాదశి (ఉదయ తిథి)
+    {"name": "కామికా ఏకాదశి", "masam": "శ్రావణ", "paksha": 1, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 17. ఉండ్రాళ్ల తద్ది: భాద్రపద శుక్ల తదియ (ఉదయ తిథి)
+    {"name": "ఉండ్రాళ్ల తద్ది", "masam": "భాద్రపద", "paksha": 0, "tithi": "తదియ", "vyapti": "udaya"},
+    
+    # 18. వినాయక చవితి: భాద్రపద శుక్ల చవితి (మధ్యాహ్న కాల వ్యాప్తి - వినాయక పూజ)
+    {"name": "వినాయక చవితి", "masam": "భాద్రపద", "paksha": 0, "tithi": "చవితి", "vyapti": "madhyahna"},
+    
+    # 19. పరివర్తని ఏకాదశి: భాద్రపద శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "పరివర్తని ఏకాదశి", "masam": "భాద్రపద", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 20. అనంత పద్మనాభ వ్రతం (అనంత చతుర్దశి): భాద్రపద శుక్ల చతుర్దశి (మధ్యాహ్న / పూర్వాహ్ణ వ్యాప్తి)
+    {"name": "అనంత పద్మనాభ వ్రతం (అనంత చతుర్దశి)", "masam": "భాద్రపద", "paksha": 0, "tithi": "చతుర్దశి", "vyapti": "madhyahna"},
+    
+    # 21. దేవీ నవరాత్రుల ప్రారంభం: ఆశ్వయుజ శుక్ల పాడ్యమి (ఉదయ తిథి)
+    {"name": "దేవీ నవరాత్రుల ప్రారంభం", "masam": "ఆశ్వయుజ", "paksha": 0, "tithi": "పాడ్యమి", "vyapti": "udaya"},
+    
+    # 22. దుర్గాష్టమి: ఆశ్వయుజ శుక్ల అష్టమి (మధ్యాహ్న / సంధి పూజ వ్యాప్తి)
+    {"name": "దుర్గాష్టమి", "masam": "ఆశ్వయుజ", "paksha": 0, "tithi": "అష్టమి", "vyapti": "madhyahna"},
+    
+    # 23. మహార్నవమి: ఆశ్వయుజ శుక్ల నవమి (మధ్యాహ్న వ్యాప్తి)
+    {"name": "మహార్నవమి", "masam": "ఆశ్వయుజ", "paksha": 0, "tithi": "నవమి", "vyapti": "madhyahna"},
+    
+    # 24. విజయదశమి (దసరా): ఆశ్వయుజ శుక్ల దశమి (అపరాహ్ణ కాల వ్యాప్తి)
+    {"name": "విజయదశమి (దసరా)", "masam": "ఆశ్వయుజ", "paksha": 0, "tithi": "దశమి", "vyapti": "aparahna"},
+    
+    # 25. నరక చతుర్దశి: ఆశ్వయుజ కృష్ణ చతుర్దశి (అరుణోదయ కాల వ్యాప్తి - తెల్లవారుజామున తైలాభ్యంగ స్నానం)
+    {"name": "నరక చతుర్దశి", "masam": "ఆశ్వయుజ", "paksha": 1, "tithi": "చతుర్దశి", "vyapti": "arunodaya"},
+    
+    # 26. దీపావళి: ఆశ్వయుజ కృష్ణ అమావాస్య (ప్రదోష కాల వ్యాప్తి - సూర్యాస్తమయం తర్వాత లక్ష్మీ పూజ, దీప ప్రజ్వలన)
+    {"name": "దీపావళి", "masam": "ఆశ్వయుజ", "paksha": 1, "tithi": "అమావాస్య", "vyapti": "pradosha"},
+    
+    # 27. భగినీ హస్తభోజనం (యమ ద్వితీయా): కార్తీక శుక్ల విదియ (అపరాహ్ణ కాల వ్యాప్తి)
+    {"name": "భగినీ హస్తభోజనం (యమ ద్వితీయా)", "masam": "కార్తీక", "paksha": 0, "tithi": "విదియ", "vyapti": "aparahna"},
+    
+    # 28. నాగుల చవితి (శరద్వృత్తు): కార్తీక శుక్ల చవితి (మధ్యాహ్న వ్యాప్తి)
+    {"name": "నాగుల చవితి (శరద్వృత్తు)", "masam": "కార్తీక", "paksha": 0, "tithi": "చవితి", "vyapti": "madhyahna"},
+    
+    # 29. ప్రబోధిని ఏకాదశి (ఉత్థాన ఏకాదశి): కార్తీక శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "ప్రబోధిని ఏకాదశి (ఉత్థాన ఏకాదశి)", "masam": "కార్తీక", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 30. చిలుకు ద్వాదశి (క్షీరాబ్ది ద్వాదశి): కార్తీక శుక్ల ద్వాదశి (ప్రదోష కాల వ్యాప్తి - తులసి పూజ)
+    {"name": "చిలుకు ద్వాదశి (క్షీరాబ్ది ద్వాదశి)", "masam": "కార్తీక", "paksha": 0, "tithi": "ద్వాదశి", "vyapti": "pradosha"},
+    
+    # 31. కార్తీక పూర్ణిమ: కార్తీక శుక్ల పౌర్ణమి (ప్రదోష కాల వ్యాప్తి - జ్వాలా తోరణం, దీపోత్సవం)
+    {"name": "కార్తీక పూర్ణిమ", "masam": "కార్తీక", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "pradosha"},
+    
+    # 32. సుబ్రహ్మణ్య షష్ఠి: మార్గశిర శుక్ల షష్ఠి (మధ్యాహ్న / ఉదయ వ్యాప్తి)
+    {"name": "సుబ్రహ్మణ్య షష్ఠి", "masam": "మార్గశిర", "paksha": 0, "tithi": "షష్ఠి", "vyapti": "madhyahna"},
+    
+    # 33. మోక్షదా ఏకాదశి (గీతా జయంతి): మార్గశిర శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "మోక్షదా ఏకాదశి (గీతా జయంతి)", "masam": "మార్గశిర", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 34. దత్తాత్రేయ జయంతి: మార్గశిర శుక్ల పౌర్ణమి (ప్రదోష కాల వ్యాప్తి)
+    {"name": "దత్తాత్రేయ జయంతి", "masam": "మార్గశిర", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "pradosha"},
+    
+    # 35. వైకుంఠ ఏకాదశి (ముక్కోటి ఏకాదశి): పుష్య శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "వైకుంఠ ఏకాదశి (ముక్కోటి ఏకాదశి)", "masam": "పుష్య", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 36. వసంత పంచమి (శ్రీ పంచమి): మాఘ శుక్ల పంచమి (మధ్యాహ్న / పూర్వాహ్ణ వ్యాప్తి)
+    {"name": "వసంత పంచమి (శ్రీ పంచమి)", "masam": "మాఘ", "paksha": 0, "tithi": "పంచమి", "vyapti": "madhyahna"},
+    
+    # 37. రథ సప్తమి: మాఘ శుక్ల సప్తమి (అరుణోదయ కాల వ్యాప్తి - సూర్యోదయ స్నానం)
+    {"name": "రథ సప్తమి", "masam": "మాఘ", "paksha": 0, "tithi": "సప్తమి", "vyapti": "arunodaya"},
+    
+    # 38. భీష్మ ఏకాదశి: మాఘ శుక్ల ఏకాదశి (ఉదయ తిథి)
+    {"name": "భీష్మ ఏకాదశి", "masam": "మాఘ", "paksha": 0, "tithi": "ఏకాదశి", "vyapti": "udaya"},
+    
+    # 39. మహా శివరాత్రి: మాఘ కృష్ణ చతుర్దశి (నిశీథ కాల వ్యాప్తి - అర్ధరాత్రి లింగోద్భవ కాలం)
+    {"name": "మహా శివరాత్రి", "masam": "మాఘ", "paksha": 1, "tithi": "చతుర్దశి", "vyapti": "nisitha"},
+    
+    # 40. కామదహనం / హోలీ: ఫాల్గుణ శుక్ల పౌర్ణమి (ప్రదోష కాల వ్యాప్తి)
+    {"name": "కామదహనం / హోలీ", "masam": "ఫాల్గుణ", "paksha": 0, "tithi": "పౌర్ణమి", "vyapti": "pradosha"}
+]
+
+DATE_FESTS = {
+    (1, 13): "భోగి",
+    (1, 14): "మకర సంక్రాంతి",
+    (1, 15): "కనుమ",
+    (1, 26): "గణతంత్ర దినోత్సవం (Republic Day)",
+    (4, 14): "అంబేద్కర్ జయంతి",
+    (8, 15): "స్వాతంత్ర దినోత్సవం (Independence Day)",
+    (9, 5): "ఉపాధ్యాయుల దినోత్సవం (Teachers' Day)",
+    (10, 2): "గాంధీ జయంతి",
+    (11, 14): "బాలల దినోత్సవం (Children's Day)"
+}
+
+def get_tithi_info_at_dt(dt_aware):
+    utc_dt = dt_aware.astimezone(pytz.utc)
+    jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute/60.0 + utc_dt.second/3600.0)
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    sun_lon = swe.calc_ut(jd, swe.SUN, PLANET_FLAGS)[0][0]
+    moon_lon = swe.calc_ut(jd, swe.MOON, PLANET_FLAGS)[0][0]
+    diff = (moon_lon - sun_lon) % 360
+    t_idx = int(diff / 12)
+    pks = 0 if t_idx < 15 else 1
+    t_name = TITHIS_TELUGU[t_idx] if pks == 0 else TITHIS_KRISHNA_TELUGU[t_idx - 15]
+    
+    def find_prev_amavasya(jd_guess):
+        jd_val = jd_guess
+        for _ in range(10):
+            m = swe.calc_ut(jd_val, swe.MOON)[0][0]
+            s = swe.calc_ut(jd_val, swe.SUN)[0][0]
+            df = (m - s) % 360
+            if df > 180: df -= 360
+            jd_val -= df / 12.190749
+            if abs(df) < 0.0001: break
+        return jd_val
+        
+    days_since = diff / 12.190749
+    jd_start = find_prev_amavasya(jd - days_since)
+    amavasya_trop_sun = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    amavasya_ayan = swe.get_ayanamsa_ut(jd_start)
+    amavasya_sun_lon = (amavasya_trop_sun - amavasya_ayan) % 360
+    lagna_idx = int((amavasya_sun_lon % 360) / 30)
+    masam_index = (lagna_idx + 1) % 12
+    masam_name = TELUGU_MASALU[masam_index]
+    
+    return masam_name, pks, t_name, diff
+
+def compute_range_festivals(start_dt, end_dt, lat=17.3850, lon=78.4867, local_tz=None):
+    if local_tz is None:
+        local_tz = pytz.timezone("Asia/Kolkata")
+    from astral import LocationInfo
+    from astral.sun import sunrise, sunset
+    loc = LocationInfo('Observer', 'India', 'Asia/Kolkata', lat, lon)
+    
+    ext_start = start_dt - datetime.timedelta(days=1)
+    ext_end = end_dt + datetime.timedelta(days=1)
+    total_days = (ext_end - ext_start).days + 1
+    dates = [ext_start + datetime.timedelta(days=i) for i in range(total_days)]
+    
+    day_tithis = {}
+    purnima_dates = set()
+    for d in dates:
+        try:
+            sr = sunrise(loc.observer, date=d, tzinfo=local_tz).astimezone(local_tz)
+        except Exception:
+            sr = local_tz.localize(datetime.datetime.combine(d, datetime.time(6, 0)))
+        try:
+            ss = sunset(loc.observer, date=d, tzinfo=local_tz).astimezone(local_tz)
+        except Exception:
+            ss = local_tz.localize(datetime.datetime.combine(d, datetime.time(18, 0)))
+        day_secs = (ss - sr).total_seconds()
+        
+        try:
+            next_sr = sunrise(loc.observer, date=d + datetime.timedelta(days=1), tzinfo=local_tz).astimezone(local_tz)
+        except Exception:
+            next_sr = local_tz.localize(datetime.datetime.combine(d + datetime.timedelta(days=1), datetime.time(6, 0)))
+        night_secs = (next_sr - ss).total_seconds()
+        
+        check_points = {
+            "udaya": sr,
+            "arunodaya": sr - datetime.timedelta(minutes=48),
+            "madhyahna": sr + datetime.timedelta(seconds=day_secs * 0.5),
+            "aparahna": sr + datetime.timedelta(seconds=day_secs * 0.7),
+            "pradosha": ss + datetime.timedelta(minutes=72),
+            "nisitha": ss + datetime.timedelta(seconds=night_secs * 0.5)
+        }
+        
+        t_info = {}
+        for vy, pt in check_points.items():
+            t_info[vy] = get_tithi_info_at_dt(pt)
+            
+        day_tithis[d] = t_info
+        m_sr, pks_sr, t_sr, _ = t_info["udaya"]
+        if pks_sr == 0 and t_sr == "పౌర్ణమి":
+            purnima_dates.add((m_sr, d))
+
+    fest_candidates = {f["name"]: [] for f in FESTIVALS_CONFIG}
+    for d in dates:
+        for fest in FESTIVALS_CONFIG:
+            vy = fest.get("vyapti", "udaya")
+            m, pks, t_name, diff = day_tithis[d][vy]
+            if m == fest["masam"] and pks == fest["paksha"] and t_name == fest["tithi"]:
+                t_idx = TITHIS_TELUGU.index(t_name) if pks == 0 else (TITHIS_KRISHNA_TELUGU.index(t_name) + 15)
+                center_deg = (t_idx + 0.5) * 12.0
+                dist = abs(diff - center_deg)
+                fest_candidates[fest["name"]].append((d, dist, vy))
+                
+    assigned_festivals = {d: [] for d in dates}
+    for fest in FESTIVALS_CONFIG:
+        cands = fest_candidates[fest["name"]]
+        if not cands:
+            continue
+        clusters = []
+        curr_cl = [cands[0]]
+        for cand in cands[1:]:
+            if (cand[0] - curr_cl[-1][0]).days == 1:
+                curr_cl.append(cand)
+            else:
+                clusters.append(curr_cl)
+                curr_cl = [cand]
+        clusters.append(curr_cl)
+        
+        for cl in clusters:
+            best_day = min(cl, key=lambda x: x[1])[0]
+            if start_dt <= best_day <= end_dt:
+                assigned_festivals[best_day].append(fest["name"])
+                
+    sravana_purnima_dt = None
+    for m_p, p_d in purnima_dates:
+        if m_p == "శ్రావణ":
+            sravana_purnima_dt = p_d
+            break
+            
+    for d in dates:
+        if start_dt <= d <= end_dt:
+            if sravana_purnima_dt and d.weekday() == 4:
+                if 0 <= (sravana_purnima_dt - d).days < 7:
+                    if "వరలక్ష్మీ వ్రతం" not in assigned_festivals[d]:
+                        assigned_festivals[d].append("వరలక్ష్మీ వ్రతం")
+            d_key = (d.month, d.day)
+            if d_key in DATE_FESTS:
+                if DATE_FESTS[d_key] not in assigned_festivals[d]:
+                    assigned_festivals[d].append(DATE_FESTS[d_key])
+                
+    return {d: assigned_festivals[d] for d in dates if start_dt <= d <= end_dt}
+
 @app.route("/daily_panchangam", methods=["GET", "POST"])
 def daily_panchangam():
     today = datetime.datetime.now()
@@ -5234,6 +5505,15 @@ def daily_panchangam():
         panch_data['dvadasha_transits'] = dvadasha_transits_calc
 
     
+    try:
+        cur_d = local_midnight.date()
+        range_fests = compute_range_festivals(cur_d, cur_d, lat, lon, local_tz)
+        day_fests = range_fests.get(cur_d, [])
+        panch_data['festivals'] = ", ".join([tr(f) for f in day_fests]) if day_fests else ""
+    except Exception as e:
+        print("Error computing festivals for daily panchangam:", e)
+        panch_data['festivals'] = ""
+
     return render_template(
         "daily_panchangam.html",
         dob=dob, tob=tob, place=place, lat=lat, lon=lon,
@@ -5451,64 +5731,8 @@ def calendar_view():
     telugu_masam_name = TELUGU_MASALU[masam_index]
     translated_masam_name = tr(telugu_masam_name)
     
-    # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
-    # Paksham: 0 for Shukla, 1 for Krishna
-    FEST_MAP = {
-        ("చైత్ర", 0, "పాడ్యమి"): "ఉగాది",
-        ("చైత్ర", 0, "నవమి"): "శ్రీరామ నవమి",
-        ("చైత్ర", 0, "పౌర్ణమి"): "హనుమజ్జయంతి",
-        ("వైశాఖ", 0, "తదియ"): "అక్షయ తృతీయ",
-        ("వైశాఖ", 0, "ఏకాదశి"): "మోహిని ఏకాదశి",
-        ("వైశాఖ", 0, "పౌర్ణమి"): "బుద్ధ పూర్ణిమ",
-        ("జ్యేష్ఠ", 0, "ఏకాదశి"): "నిర్జల ఏకాదశి",
-        ("జ్యేష్ఠ", 0, "పౌర్ణమి"): "ఏరువాక పౌర్ణమి (వట సావిత్రి వ్రతం)",
-        ("ఆషాఢ", 0, "ఏకాదశి"): "తొలి ఏకాదశి",
-        ("ఆషాఢ", 0, "పౌర్ణమి"): "గురు పూర్ణిమ (వ్యాస పౌర్ణమి)",
-        ("శ్రావణ", 0, "చవితి"): "నాగుల చవితి",
-        ("శ్రావణ", 0, "పంచమి"): "నాగుల పంచమి",
-        ("శ్రావణ", 0, "ఏకాదశి"): "పుత్రదా ఏకాదశి",
-        ("శ్రావణ", 0, "పౌర్ణమి"): "రాఖీ పౌర్ణమి (జంధ్యాల పౌర్ణమి / ఉపాకర్మ)",
-        ("శ్రావణ", 1, "అష్టమి"): "శ్రీ కృష్ణాష్టమి (గోకులాష్టమి)",
-        ("శ్రావణ", 1, "ఏకాదశి"): "కామికా ఏకాదశి",
-        ("భాద్రపద", 0, "తదియ"): "ఉండ్రాళ్ల తద్ది",
-        ("భాద్రపద", 0, "చవితి"): "వినాయక చవితి",
-        ("భాద్రపద", 0, "ఏకాదశి"): "పరివర్తని ఏకాదశి",
-        ("భాద్రపద", 0, "చతుర్దశి"): "అనంత పద్మనాభ వ్రతం (అనంత చతుర్దశి)",
-        ("ఆశ్వయుజ", 0, "పాడ్యమి"): "దేవీ నవరాత్రుల ప్రారంభం",
-        ("ఆశ్వయుజ", 0, "అష్టమి"): "దుర్గాష్టమి",
-        ("ఆశ్వయుజ", 0, "నవమి"): "మహార్నవమి",
-        ("ఆశ్వయుజ", 0, "దశమి"): "విజయదశమి (దసరా)",
-        ("ఆశ్వయుజ", 1, "చతుర్దశి"): "నరక చతుర్దశి",
-        ("ఆశ్వయుజ", 1, "అమావాస్య"): "దీపావళి",
-        ("కార్తీక", 0, "విదియ"): "భగినీ హస్తభోజనం (యమ ద్వితీయా)",
-        ("కార్తీక", 0, "చవితి"): "నాగుల చవితి (శరద్వృత్తు)",
-        ("కార్తీక", 0, "ఏకాదశి"): "ప్రబోధిని ఏకాదశి (ఉత్థాన ఏకాదశి)",
-        ("కార్తీక", 0, "ద్వాదశి"): "చిలుకు ద్వాదశి (క్షీరాబ్ది ద్వాదశి)",
-        ("కార్తీక", 0, "పౌర్ణమి"): "కార్తీక పూర్ణిమ",
-        ("మార్గశిర", 0, "షష్ఠి"): "సుబ్రహ్మణ్య షష్ఠి",
-        ("మార్గశిర", 0, "ఏకాదశి"): "మోక్షదా ఏకాదశి (గీతా జయంతి)",
-        ("మార్గశిర", 0, "పౌర్ణమి"): "దత్తాత్రేయ జయంతి",
-        ("పుష్య", 0, "ఏకాదశి"): "వైకుంఠ ఏకాదశి (ముక్కోటి ఏకాదశి)",
-        ("మాఘ", 0, "పంచమి"): "వసంత పంచమి (శ్రీ పంచమి)",
-        ("మాఘ", 0, "సప్తమి"): "రథ సప్తమి",
-        ("మాఘ", 0, "ఏకాదశి"): "భీష్మ ఏకాదశి",
-        ("మాఘ", 1, "చతుర్దశి"): "మహా శివరాత్రి",
-        ("ఫాల్గుణ", 0, "పౌర్ణమి"): "కామదహనం / హోలీ"
-    }
-    
-    # Date based festivals
-    DATE_FESTS = {
-        (1, 13): "భోగి",
-        (1, 14): "మకర సంక్రాంతి",
-        (1, 15): "కనుమ",
-        (1, 26): "గణతంత్ర دినోత్సవం (Republic Day)",
-        (4, 14): "అంబేద్కర్ జయంతి",
-        (8, 15): "స్వాతంత్ర దినోత్సవం (Independence Day)",
-        (9, 5): "ఉపాధ్యాయుల దినోత్సవం (Teachers' Day)",
-        (10, 2): "గాంధీ జయంతి",
-        (11, 14): "బాలల దినోత్సవం (Children's Day)"
-    }
-
+    # Calculate Month Festivals using Kaala Vyapti engine
+    month_festivals = compute_range_festivals(start_dt, end_dt, lat, lon, local_tz)
     festivals_list = []
     
     total_days = (end_dt - start_dt).days + 1
@@ -5530,34 +5754,17 @@ def calendar_view():
         
         panch = get_daily_panchangam_basic(jd, lat, lon, local_tz, calc_dt, calc_end_times=True)
         
-        # Check for festival
-        f_name = ""
-        pks = 0 if "శుక్ల" in panch["paksha"] else 1
-        # Extract tithi name
-        t_name = panch["tithi_full"]
-        m_name = panch["masam"]
-        
-        # Match from map
-        key = (m_name, pks, t_name)
-        f_name = FEST_MAP.get(key, "")
-        
-        # Special dynamic check for Varalakshmi Vratam (Friday before Sravana Purnima)
-        if not f_name and m_name == "శ్రావణ" and pks == 0 and current_dt.weekday() == 4:
-            if (purnima_dt - current_dt).days >= 0 and (purnima_dt - current_dt).days < 7:
-                f_name = "వరలక్ష్మీ వ్రతం"
-        
-        # Match from date
-        d_key = (current_dt.month, current_dt.day)
-        if not f_name:
-            f_name = DATE_FESTS.get(d_key, "")
-            
-        if f_name:
+        # Retrieve festivals for current day from Kaala Vyapti calculation
+        day_fests = month_festivals.get(current_dt, [])
+        for fn in day_fests:
             festivals_list.append({
                 "day": current_dt.day,
                 "month": EN_MONTHS_TELUGU[current_dt.month - 1],
                 "month_en": current_dt.strftime("%b"),
-                "name": tr(f_name)
+                "name": tr(fn)
             })
+            
+        fest_display = ", ".join([tr(fn) for fn in day_fests]) if day_fests else ""
             
         days_data[wd][week_idx] = {
             "date": current_dt.day,
@@ -5571,8 +5778,8 @@ def calendar_view():
             "calendar_nak_end": panch.get("calendar_nak_end", ""),
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"],
-            "is_festival": bool(f_name),
-            "fest_name": tr(f_name) if f_name else "",
+            "is_festival": bool(day_fests),
+            "fest_name": fest_display,
             "is_shukla": "శుక్ల" in panch["paksha"],
             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
             "is_amavasya": "అమావాస్య" in panch["tithi_full"],
