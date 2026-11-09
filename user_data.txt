@@ -885,3 +885,4 @@
 860. [08-Nov-2026 06:09:45] Name: Ok, Mobile: N/A, DOB: 2026-11-08, TOB: 11:38, Place: Kandukur Mandal, Andhra Pradesh, India
 861. [09-Nov-2026 05:19:13] Name: అనిల్, Mobile: N/A, DOB: 1998-06-29, TOB: 15:00, Place: Dharmavaram, Andhra Pradesh, India
 862. [09-Nov-2026 05:49:21] Name: ధన్విక, Mobile: N/A, DOB: 2024-11-21, TOB: 21:54, Place: Anantapur, Andhra Pradesh, India
+863. [09-Nov-2026 06:22:45] Name: జాతకుడు, Mobile: N/A, DOB: 2026-11-09, TOB: 12:00, Place: హైదరాబాద్, తెలంగాణ, భారతదేశం
