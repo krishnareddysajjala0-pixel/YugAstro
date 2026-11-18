@@ -889,3 +889,4 @@
 864. [15-Nov-2026 15:42:48] Name: Prakash, Mobile: N/A, DOB: 1998-02-28, TOB: 23:30, Place: Chittoor, Andhra Pradesh, India
 865. [17-Nov-2026 01:30:41] Name: YSR DEATH CHART, Mobile: N/A, DOB: 2009-09-02, TOB: 09:35, Place: Begumpet, Ward 149 Begumpet, Greater Hyderabad Municipal Corporation North Zone, Hyderabad, Balanagar mandal, Medchal–Malkajgiri, Telangana, 500133, India
 866. [18-Nov-2026 02:10:44] Name: 1 (Compare 1), Mobile: N/A, DOB: 1995-08-19, TOB: 00:40, Place: Ongole, Andhra Pradesh, India
+867. [18-Nov-2026 02:10:45] Name: 2 (Compare 2), Mobile: N/A, DOB: 1994-12-21, TOB: 20:33, Place: Vallur, Andhra Pradesh, India
