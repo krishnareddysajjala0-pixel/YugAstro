@@ -5795,10 +5795,18 @@ def daily_panchangam():
         print("Error computing festivals for daily panchangam:", e)
         panch_data['festivals'] = ""
 
+    # Compute full Kundali data with all hands and exact styling rules
+    try:
+        kundali_data = get_kundali_data("గోచార జాతకుడు", dob, tob, place, lat, lon)
+    except Exception as e:
+        print("Error computing kundali for daily panchangam:", e)
+        kundali_data = None
+
     return render_template(
         "daily_panchangam.html",
         dob=dob, tob=tob, place=place, lat=lat, lon=lon,
-        panch=panch_data
+        panch=panch_data,
+        kundali=kundali_data
     )
 
 @app.route('/about')
