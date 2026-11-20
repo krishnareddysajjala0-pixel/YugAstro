@@ -2727,6 +2727,72 @@ if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversa
 })();
 </script>
 
+
+<script>
+/* Open Kundali from Daily Panchangam based on current selected date/time/place */
+function openKundaliFromPanchangam() {
+    try {
+        var dobInput = document.getElementById('inp-dob');
+        var tobInput = document.getElementById('inp-tob');
+        var placeInput = document.getElementById('inp-place');
+        var latInput = document.getElementById('inp-lat');
+        var lonInput = document.getElementById('inp-lon');
+
+        var dob = (dobInput && dobInput.value) ? dobInput.value.trim() : '';
+        var tob = (tobInput && tobInput.value) ? tobInput.value.trim() : '';
+        var place = (placeInput && placeInput.value) ? placeInput.value.trim() : 'Hyderabad, Telangana';
+        var lat = (latInput && latInput.value) ? latInput.value.trim() : '17.3850';
+        var lon = (lonInput && lonInput.value) ? lonInput.value.trim() : '78.4867';
+        var name = 'పంచాంగ జాతకుడు';
+
+        if (!dob) {
+            var now = new Date();
+            var yyyy = now.getFullYear();
+            var mm = String(now.getMonth() + 1).padStart(2, '0');
+            var dd = String(now.getDate()).padStart(2, '0');
+            dob = yyyy + '-' + mm + '-' + dd;
+        }
+        if (!tob) {
+            var now2 = new Date();
+            var hh = String(now2.getHours()).padStart(2, '0');
+            var min = String(now2.getMinutes()).padStart(2, '0');
+            tob = hh + ':' + min;
+        }
+
+        var params = new URLSearchParams();
+        params.set('dob', dob);
+        params.set('tob', tob);
+        params.set('place', place);
+        params.set('lat', lat);
+        params.set('lon', lon);
+        params.set('name', name);
+
+        var targetUrl = '/chart?' + params.toString();
+
+        // Try opening in new tab, fall back to same window if blocked
+        var win = window.open(targetUrl, '_blank');
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+            window.location.href = targetUrl;
+        }
+    } catch(err) {
+        console.error('Error opening kundali from panchangam:', err);
+        // Fallback navigation
+        window.location.href = '/chart';
+    }
+}
+window.openKundaliFromPanchangam = openKundaliFromPanchangam;
+
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('btn-panch-kundali');
+    if (btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openKundaliFromPanchangam();
+        });
+    }
+});
+</script>
+
 </body>
 
 </html>

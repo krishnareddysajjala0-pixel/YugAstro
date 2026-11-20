@@ -10724,6 +10724,26 @@ function updatePlanetPillsActive(planetName) {
   });
 }
 
+window.filterKundaliByPlanet = filterKundaliByPlanet;
+window.normalizePlanetName = normalizePlanetName;
+
+// Attach click listeners to pills and select explicitly
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.planet-pill-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var p = btn.getAttribute('data-planet');
+      filterKundaliByPlanet(p);
+    });
+  });
+  var selectEl = document.getElementById('planetFilterSelect');
+  if (selectEl) {
+    selectEl.addEventListener('change', function(e) {
+      filterKundaliByPlanet(this.value);
+    });
+  }
+});
+
 // Allow clicking on any planet entry in the chart to immediately focus on it
 document.addEventListener('click', function(e) {
   const planetEl = e.target.closest('.planet-entry');
