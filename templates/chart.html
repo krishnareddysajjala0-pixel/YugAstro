@@ -6896,6 +6896,174 @@ body {
 }
 
 </style>
+<style>
+    /* ===== PLANET FOCUS & DRISHTI FILTER STYLES ===== */
+    .planet-selector-bar {
+      max-width: 900px;
+      margin: 0 auto 24px auto;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(251, 191, 36, 0.4);
+      border-radius: 18px;
+      padding: 16px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
+      backdrop-filter: blur(12px);
+    }
+    .planet-selector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .planet-selector-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #fbbf24;
+      letter-spacing: 0.2px;
+    }
+    .planet-dropdown-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .planet-dropdown-wrap label {
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .planet-dropdown-wrap select {
+      background: #1e1b4b;
+      border: 1.5px solid #fbbf24;
+      border-radius: 10px;
+      color: #ffffff;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .planet-dropdown-wrap select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+    .planet-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .planet-pill-btn {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .planet-pill-btn:hover {
+      background: rgba(251, 191, 36, 0.2);
+      border-color: #fbbf24;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .planet-pill-btn.active {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+      border-color: #f59e0b !important;
+      color: #000000 !important;
+      box-shadow: 0 3px 12px rgba(245, 158, 11, 0.45) !important;
+      font-weight: 800;
+    }
+    .btn-clear-planet {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+    .btn-clear-planet:hover {
+      background: rgba(239, 68, 68, 0.4);
+      color: #ffffff;
+    }
+    #planet-filter-info {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      font-size: 13.5px;
+      color: #e2e8f0;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .box-direct-focus {
+      border: 2.5px solid #fbbf24 !important;
+      box-shadow: 0 0 22px rgba(251, 191, 36, 0.65) !important;
+      position: relative;
+      z-index: 5;
+    }
+    .box-hand-focus {
+      border: 2.5px solid #34d399 !important;
+      box-shadow: 0 0 22px rgba(52, 211, 153, 0.55) !important;
+      position: relative;
+      z-index: 4;
+    }
+    .box-hand-focus .hand {
+      display: inline !important;
+    }
+    .box-dimmed {
+      opacity: 0.32 !important;
+      transition: opacity 0.3s ease;
+    }
+    .planet-entry {
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .planet-entry:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .planet-selector-bar {
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+      .planet-selector-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .planet-dropdown-wrap {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .planet-dropdown-wrap select {
+        flex: 1;
+      }
+      .planet-pill-btn {
+        padding: 4px 9px;
+        font-size: 11.5px;
+      }
+    }
+</style>
 </head>
 
 
@@ -7333,53 +7501,17 @@ body {
 
 
       {% for line in chart[box_lagna].split('<br>') %}
-
-
-
       {% if _("లగ్నం") in line %}
-
-
-
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
-
-
-
-      <div class="lagna-text" style="color: gold; font-weight: bold; margin-bottom: 5px;">
-
-
-
+      <div class="lagna-text chart-planet-line" style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
-
-
-
       </div>
-
-
-
       {% elif line.strip() %}
-
-
-
       {# Other planets #}
-
-
-
-      <span class="{{ get_color(line, lagna) }}">
-
-
-
+      <span class="chart-planet-line {{ get_color(line, lagna) }}">
         {{ line | safe }}
-
-
-
-      </span><br>
-
-
-
+      </span><br class="chart-planet-br">
       {% endif %}
-
-
-
       {% endfor %}
 
 
@@ -7404,7 +7536,59 @@ body {
 
 
 
-    <!-- Chart Container -->
+        <!-- Planet Focus & Drishti Control Bar (గ్రహ దృష్టి & స్థితి వీక్షణ) -->
+    <div class="planet-selector-bar print-hide" id="planet-selector-container">
+      <div class="planet-selector-header">
+        <div class="planet-selector-title">
+          <i class="fas fa-crosshairs"></i>
+          <span>{{ _('గ్రహ దృష్టి & స్థితి వీక్షణ (Planet Focus):') }}</span>
+        </div>
+        
+        <!-- Dropdown Selector -->
+        <div class="planet-dropdown-wrap">
+          <label for="planetFilterSelect">{{ _('గ్రహాన్ని ఎంచుకోండి:') }}</label>
+          <select id="planetFilterSelect" onchange="filterKundaliByPlanet(this.value)">
+            <option value="all">🌟 {{ _('అన్ని గ్రహాలు (సహజ స్థితి - All Planets)') }}</option>
+            <option value="సూర్యుడు">☀️ {{ _('సూర్యుడు (Sun)') }}</option>
+            <option value="చంద్రుడు">🌙 {{ _('చంద్రుడు (Moon)') }}</option>
+            <option value="కుజుడు">🔴 {{ _('కుజుడు (Mars)') }}</option>
+            <option value="బుధుడు">🟢 {{ _('బుధుడు (Mercury)') }}</option>
+            <option value="గురు">🟡 {{ _('గురుడు (Jupiter)') }}</option>
+            <option value="శుక్రుడు">⚪ {{ _('శుక్రుడు (Venus)') }}</option>
+            <option value="శని">🔵 {{ _('శని (Saturn)') }}</option>
+            <option value="రాహు">🟣 {{ _('రాహు (Rahu)') }}</option>
+            <option value="కేతు">🟤 {{ _('కేతు (Ketu)') }}</option>
+            <option value="లగ్నం">🚩 {{ _('లగ్నం (Lagna)') }}</option>
+            <option value="భూమి">🌍 {{ _('భూమి (Earth)') }}</option>
+            <option value="మిత్ర">✨ {{ _('మిత్ర (Mithra)') }}</option>
+            <option value="చిత్ర">🎨 {{ _('చిత్ర (Chithra)') }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Selection Pills -->
+      <div class="planet-pills-row">
+        <button type="button" class="planet-pill-btn active" data-planet="all" onclick="filterKundaliByPlanet('all')">🌟 {{ _('అన్నీ') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="సూర్యుడు" onclick="filterKundaliByPlanet('సూర్యుడు')">☀️ {{ _('సూర్య') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="చంద్రుడు" onclick="filterKundaliByPlanet('చంద్రుడు')">🌙 {{ _('చంద్ర') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="కుజుడు" onclick="filterKundaliByPlanet('కుజుడు')">🔴 {{ _('కుజ') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="బుధుడు" onclick="filterKundaliByPlanet('బుధుడు')">🟢 {{ _('బుధ') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="గురు" onclick="filterKundaliByPlanet('గురు')">🟡 {{ _('గురు') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="శుక్రుడు" onclick="filterKundaliByPlanet('శుక్రుడు')">⚪ {{ _('శుక్ర') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="శని" onclick="filterKundaliByPlanet('శని')">🔵 {{ _('శని') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="రాహు" onclick="filterKundaliByPlanet('రాహు')">🟣 {{ _('రాహు') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="కేతు" onclick="filterKundaliByPlanet('కేతు')">🟤 {{ _('కేతు') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="లగ్నం" onclick="filterKundaliByPlanet('లగ్నం')">🚩 {{ _('లగ్నం') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="భూమి" onclick="filterKundaliByPlanet('భూమి')">🌍 {{ _('భూమి') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="మిత్ర" onclick="filterKundaliByPlanet('మిత్ర')">✨ {{ _('మిత్ర') }}</button>
+        <button type="button" class="planet-pill-btn" data-planet="చిత్ర" onclick="filterKundaliByPlanet('చిత్ర')">🎨 {{ _('చిత్ర') }}</button>
+      </div>
+
+      <!-- Dynamic Info Banner when Planet Selected -->
+      <div id="planet-filter-info" style="display: none;"></div>
+    </div>
+
+<!-- Chart Container -->
 
 
 
@@ -10361,6 +10545,194 @@ if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversa
 window.CHART_LAGNA = "{{ lagna }}";
 </script>
 <script src="/static/js/astro_interactive_popover.js"></script>
+
+
+<script>
+/* ===== PLANET FOCUS & DRISHTI FILTER ENGINE ===== */
+function normalizePlanetName(str) {
+  if (!str) return '';
+  str = String(str).trim();
+  if (str.includes('సూర్య')) return 'సూర్యుడు';
+  if (str.includes('చంద్ర')) return 'చంద్రుడు';
+  if (str.includes('కుజ')) return 'కుజుడు';
+  if (str.includes('బుధ')) return 'బుధుడు';
+  if (str.includes('గురు')) return 'గురు';
+  if (str.includes('శుక్ర')) return 'శుక్రుడు';
+  if (str.includes('శని')) return 'శని';
+  if (str.includes('రాహు')) return 'రాహు';
+  if (str.includes('కేతు')) return 'కేతు';
+  if (str.includes('లగ్న')) return 'లగ్నం';
+  if (str.includes('భూమి')) return 'భూమి';
+  if (str.includes('మిత్ర')) return 'మిత్ర';
+  if (str.includes('చిత్ర')) return 'చిత్ర';
+  return str;
+}
+
+function filterKundaliByPlanet(planetName) {
+  const allBoxes = document.querySelectorAll('.chart .box');
+  const infoBar = document.getElementById('planet-filter-info');
+  const selectDropdown = document.getElementById('planetFilterSelect');
+  
+  if (selectDropdown && selectDropdown.value !== planetName) {
+    selectDropdown.value = planetName;
+  }
+  updatePlanetPillsActive(planetName);
+
+  if (!planetName || planetName === 'all') {
+    // Reset all boxes and lines
+    allBoxes.forEach(box => {
+      box.classList.remove('box-direct-focus', 'box-hand-focus', 'box-dimmed');
+      box.style.opacity = '';
+      box.querySelectorAll('.chart-planet-line, .chart-planet-br, .lagna-text').forEach(el => {
+        el.style.display = '';
+      });
+    });
+    if (infoBar) {
+      infoBar.style.display = 'none';
+      infoBar.innerHTML = '';
+    }
+    return;
+  }
+
+  const normSelected = normalizePlanetName(planetName);
+
+  // 1. Scan boxes to find directBox and handBoxes
+  let directBox = null;
+  let directRashi = '';
+  let directHouse = '';
+  const handBoxes = [];
+  const handDetails = [];
+
+  allBoxes.forEach(box => {
+    const rashi = box.getAttribute('data-rashi') || '';
+    const hno = box.getAttribute('data-house-no') || '';
+
+    // Direct check
+    const directs = box.querySelectorAll('.direct-planet, .lagna-entry');
+    directs.forEach(dp => {
+      const pName = dp.getAttribute('data-planet') || dp.textContent;
+      if (normalizePlanetName(pName) === normSelected) {
+        directBox = box;
+        directRashi = rashi;
+        directHouse = hno;
+      }
+    });
+
+    // Hand check
+    const hands = box.querySelectorAll('.hand-planet, .hand');
+    hands.forEach(hp => {
+      const pName = hp.getAttribute('data-planet') || hp.textContent;
+      if (normalizePlanetName(pName) === normSelected) {
+        if (!handBoxes.includes(box)) {
+          handBoxes.push(box);
+          handDetails.push(rashi + ' (' + hno + 'వ భావం)');
+        }
+      }
+    });
+  });
+
+  const activeBoxes = [];
+  if (directBox) activeBoxes.push(directBox);
+  handBoxes.forEach(b => {
+    if (!activeBoxes.includes(b)) activeBoxes.push(b);
+  });
+
+  function setAdjacentBrDisplay(el, val) {
+    if (el.nextElementSibling && el.nextElementSibling.classList.contains('chart-planet-br')) {
+      el.nextElementSibling.style.display = val;
+    }
+  }
+
+  // 2. Update display for all 12 boxes
+  allBoxes.forEach(box => {
+    const isActive = activeBoxes.includes(box);
+    const isDirect = (box === directBox);
+    const isHand = handBoxes.includes(box);
+
+    if (isActive) {
+      box.classList.remove('box-dimmed');
+      box.style.opacity = '1';
+
+      if (isDirect) {
+        box.classList.add('box-direct-focus');
+        box.classList.remove('box-hand-focus');
+      } else if (isHand) {
+        box.classList.add('box-hand-focus');
+        box.classList.remove('box-direct-focus');
+      }
+
+      // Filter lines in this active box:
+      // Show direct planets (selected + remaining planets in this box)
+      // For hands: ONLY show the selected planet's hand!
+      box.querySelectorAll('.chart-planet-line').forEach(line => {
+        const handEl = line.querySelector('.hand-planet, .hand');
+        if (handEl) {
+          const pName = handEl.getAttribute('data-planet') || handEl.textContent;
+          if (normalizePlanetName(pName) === normSelected) {
+            line.style.display = '';
+            setAdjacentBrDisplay(line, '');
+          } else {
+            line.style.display = 'none';
+            setAdjacentBrDisplay(line, 'none');
+          }
+        } else {
+          // Direct planet or Lagna: show it! (show remaining planets in that boxes only)
+          line.style.display = '';
+          setAdjacentBrDisplay(line, '');
+        }
+      });
+    } else {
+      // Inactive box: hide all planets and hands, dim box
+      box.classList.add('box-dimmed');
+      box.classList.remove('box-direct-focus', 'box-hand-focus');
+      box.style.opacity = '0.32';
+
+      box.querySelectorAll('.chart-planet-line').forEach(line => {
+        line.style.display = 'none';
+        setAdjacentBrDisplay(line, 'none');
+      });
+    }
+  });
+
+    // 3. Render info text in infoBar
+  if (infoBar) {
+    infoBar.style.display = 'flex';
+    var infoHtml = '<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
+    infoHtml += '<span style="font-weight: 800; color: #fbbf24; font-size: 14px;">' + planetName + ':</span> ';
+    if (directBox) {
+      infoHtml += '<span style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #fbbf24;">🏠 స్థానం: ' + directRashi + ' (' + directHouse + 'వ భావం)</span> ';
+    }
+    if (handBoxes.length > 0) {
+      infoHtml += '<span style="background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #34d399;">👉 చేతులు (దృష్టులు): ' + handDetails.join(', ') + '</span>';
+    } else {
+      infoHtml += '<span style="color: #94a3b8; font-size: 12px;">(చేతులు లేవు)</span>';
+    }
+    infoHtml += '</div>';
+    infoHtml += '<button type="button" onclick="filterKundaliByPlanet(&quot;all&quot;)" class="btn-clear-planet" title="రీసెట్"><i class="fas fa-times"></i> రీసెట్ (అన్నీ)</button>';
+    infoBar.innerHTML = infoHtml;
+  }
+}
+
+function updatePlanetPillsActive(planetName) {
+  document.querySelectorAll('.planet-pill-btn').forEach(btn => {
+    const p = btn.getAttribute('data-planet');
+    if (p === planetName || (planetName === 'all' && p === 'all')) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+// Allow clicking on any planet entry in the chart to immediately focus on it
+document.addEventListener('click', function(e) {
+  const planetEl = e.target.closest('.planet-entry');
+  if (planetEl && planetEl.getAttribute('data-planet')) {
+    const p = planetEl.getAttribute('data-planet');
+    filterKundaliByPlanet(p);
+  }
+});
+</script>
 
 </body>
 

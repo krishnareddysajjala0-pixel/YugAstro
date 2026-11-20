@@ -1549,7 +1549,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         d = int(deg)
         m = int((deg-d)*60)
         short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
-        html_str = f"<b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+        html_str = f"<span class='planet-entry direct-planet' data-planet='{name_p}' data-type='direct'><b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
         chart_data_temp[lagna].append((deg, html_str))
 
     # Ketu
@@ -1562,7 +1562,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     d = int(deg_k)
     m = int((deg_k-d)*60)
     short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
-    html_str = f"<b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+    html_str = f"<span class='planet-entry direct-planet' data-planet='కేతు' data-type='direct'><b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
     chart_data_temp[r].append((deg_k, html_str))
 
     # Derived planets (Dasacharam Logic - Verified)
@@ -1579,7 +1579,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         d = int(deg)
         m = int((deg-d)*60)
         short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-        html_str = f"<b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+        html_str = f"<span class='planet-entry direct-planet' data-planet='{n}' data-type='direct'><b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
         chart_data_temp[r].append((deg, html_str))
 
     # Month mappings linking Telugu to English Gregorian periods
@@ -1612,7 +1612,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
             d = int(deg)
             m = int((deg-d)*60)
             short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
+            html_str = f"<span class='hand planet-entry hand-planet' data-planet='{n}' data-type='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
             chart_data_temp[r].append((deg, html_str))
 
     # Lagna
@@ -1631,7 +1631,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     # Add Lagna to chart data
     short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
     lagna_short_deg = f"{lagna_deg}°"
-    html_str = f"<b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small>"
+    html_str = f"<span class='planet-entry direct-planet lagna-entry' data-planet='లగ్నం' data-type='direct'><b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small></span>"
     chart_data_temp[lagna].append((lagna_lon % 30, html_str))
     
     # Sort elements per house by degree
@@ -2540,15 +2540,27 @@ def chart():
         mobile = f"{country_code} {mobile_num}" if mobile_num else ""
         req_telegram = request.form.get("req_telegram", "no")
     else:
-        form_data = session.get('chart_form', {}) or session.get('birth_info', {})
-        name = form_data.get('name', '')
-        dob = form_data.get('dob', '')
-        tob = form_data.get('tob', '')
-        place = form_data.get('place', '')
-        lat = form_data.get('lat')
-        lon = form_data.get('lon')
-        mobile = form_data.get('mobile', '')
-        req_telegram = form_data.get('req_telegram', 'no')
+        # Check GET query parameters first (e.g. from Panchangam Kundali button)
+        name = request.args.get("name", "").strip()
+        dob = request.args.get("dob", "").strip()
+        tob = request.args.get("tob", "").strip()
+        place = request.args.get("place", "").strip()
+        lat = request.args.get("lat")
+        lon = request.args.get("lon")
+        mobile = request.args.get("mobile", "")
+        req_telegram = request.args.get("req_telegram", "no")
+
+        # If not provided in query params, fall back to session
+        if not dob:
+            form_data = session.get('chart_form', {}) or session.get('birth_info', {})
+            name = form_data.get('name', '')
+            dob = form_data.get('dob', '')
+            tob = form_data.get('tob', '')
+            place = form_data.get('place', '')
+            lat = form_data.get('lat')
+            lon = form_data.get('lon')
+            mobile = form_data.get('mobile', '')
+            req_telegram = form_data.get('req_telegram', 'no')
 
     # Safe defaults so Kundali page NEVER fails to open
     if not name:
