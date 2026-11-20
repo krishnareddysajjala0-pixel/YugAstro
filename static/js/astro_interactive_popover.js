@@ -1014,6 +1014,8 @@
     "earth": "భూమి",
     "chitra": "చిత్ర",
     "mitra": "మిత్ర",
+    "లగ్నం": "లగ్నం",
+    "లగ్న": "లగ్నం",
     "lagna": "లగ్నం",
     "ascendant": "లగ్నం"
   };
@@ -1021,13 +1023,14 @@
   function normalizePlanetName(rawName) {
     if (!rawName) return null;
     var clean = rawName.replace(/[🚩👉*⏱️()0-9°′'’\s\n\r]+/g, '').trim();
+    if (clean === 'లగ్నం' || clean.indexOf('లగ్న') !== -1) return 'లగ్నం';
     if (PLANETS_DATA[clean]) return clean;
     if (ALIASES_MAP[clean]) return ALIASES_MAP[clean];
     for (var k in PLANETS_DATA) {
       if (clean === k || clean.indexOf(k) !== -1 || k.indexOf(clean) !== -1) return k;
     }
     for (var a in ALIASES_MAP) {
-      if (clean === a || clean.indexOf(a) !== -1) return ALIASES_MAP[a];
+      if (clean === a || clean.indexOf(a) !== -1 || a.indexOf(clean) !== -1) return ALIASES_MAP[a];
     }
     return null;
   }
@@ -1297,6 +1300,10 @@
 
     if (hideTimeout) clearTimeout(hideTimeout);
     var pKey = normalizePlanetName(planetKey);
+    if (pKey === 'లగ్నం' || pKey === 'లగ్న') {
+      window.showHouseJyothishyaInfo(1, targetEl, evt, rashiContext || window.CHART_LAGNA || '');
+      return;
+    }
     if (!pKey || !PLANETS_DATA[pKey]) return;
     var p = PLANETS_DATA[pKey];
     createPopover();
@@ -1510,8 +1517,25 @@
 
       el.addEventListener('mouseenter', function(e) {
         e.stopPropagation();
-        var pName = el.getAttribute('data-planet') || el.textContent;
-        var rashiCtx = el.getAttribute('data-rashi-context') || '';
+        var pName = el.getAttribute('data-planet');
+        if (!pName) {
+          var fn = el.querySelector('b.full-name') || el.closest('[data-planet]');
+          if (fn) {
+            pName = fn.getAttribute('data-planet') || fn.textContent;
+          } else {
+            pName = el.textContent;
+          }
+        }
+        var rashiCtx = el.getAttribute('data-rashi-context') || el.getAttribute('data-rashi') || '';
+
+        // If hovering on Lagna text: show House 1 (లగ్నం / తను భావం) Jyothishya details!
+        if (pName && (pName.indexOf('లగ్నం') !== -1 || pName.indexOf('లగ్న') !== -1 || el.classList.contains('lagna-text') || el.closest('.lagna-text'))) {
+          var boxEl = el.closest('.box, .nak-box');
+          var lagnaRashi = (boxEl ? boxEl.getAttribute('data-rashi') : '') || window.CHART_LAGNA || '';
+          window.showHouseJyothishyaInfo(1, el, e, lagnaRashi);
+          return;
+        }
+
         window.showGrahaKarakatwalu(pName, el, e, rashiCtx);
       });
 
@@ -1521,8 +1545,25 @@
 
       el.addEventListener('click', function(e) {
         e.stopPropagation();
-        var pName = el.getAttribute('data-planet') || el.textContent;
-        var rashiCtx = el.getAttribute('data-rashi-context') || '';
+        var pName = el.getAttribute('data-planet');
+        if (!pName) {
+          var fn = el.querySelector('b.full-name') || el.closest('[data-planet]');
+          if (fn) {
+            pName = fn.getAttribute('data-planet') || fn.textContent;
+          } else {
+            pName = el.textContent;
+          }
+        }
+        var rashiCtx = el.getAttribute('data-rashi-context') || el.getAttribute('data-rashi') || '';
+
+        // If clicking on Lagna text: show House 1 (లగ్నం / తను భావం) Jyothishya details!
+        if (pName && (pName.indexOf('లగ్నం') !== -1 || pName.indexOf('లగ్న') !== -1 || el.classList.contains('lagna-text') || el.closest('.lagna-text'))) {
+          var boxEl = el.closest('.box, .nak-box');
+          var lagnaRashi = (boxEl ? boxEl.getAttribute('data-rashi') : '') || window.CHART_LAGNA || '';
+          window.showHouseJyothishyaInfo(1, el, e, lagnaRashi);
+          return;
+        }
+
         window.showGrahaKarakatwalu(pName, el, e, rashiCtx);
       });
     });
