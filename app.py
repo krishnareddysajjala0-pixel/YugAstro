@@ -1095,14 +1095,14 @@ IP_LOCATION_CACHE = {"data": None, "timestamp": 0}
 
 DEFAULT_APP_LOCATION = {
     "available": True,
-    "latitude": 17.3850,
-    "longitude": 78.4867,
-    "lat": 17.3850,
-    "lon": 78.4867,
-    "city": "Hyderabad",
-    "region": "Telangana",
+    "latitude": 14.9100,
+    "longitude": 78.0100,
+    "lat": 14.9100,
+    "lon": 78.0100,
+    "city": "Tadipatri",
+    "region": "Andhra Pradesh",
     "country": "India",
-    "display_name": "Hyderabad, Telangana, India"
+    "display_name": "Tadipatri, Andhra Pradesh, India"
 }
 
 def get_server_ip_location():
@@ -1153,7 +1153,7 @@ def api_device_location():
                 "longitude": float(lon),
                 "lat": float(lat),
                 "lon": float(lon),
-                "display_name": os.environ.get("DEVICE_PLACE", "") or "Hyderabad, Telangana, India"
+                "display_name": os.environ.get("DEVICE_PLACE", "") or "Tadipatri, Andhra Pradesh, India"
             })
         except ValueError:
             pass
@@ -1193,7 +1193,9 @@ def api_device_location():
     return jsonify(DEFAULT_APP_LOCATION)
 
 LOCAL_CITIES = [
-    {"display_name": "Hyderabad, Telangana, India", "lat": 17.3850, "lon": 78.4867},
+    {"display_name": "Tadipatri, Andhra Pradesh, India", "lat": 14.9100, "lon": 78.0100},
+    {"display_name": "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం", "lat": 14.9100, "lon": 78.0100},
+    {"display_name": "Hyderabad, Telangana, India", "lat": 14.9100, "lon": 78.0100},
     {"display_name": "Secunderabad, Telangana, India", "lat": 17.4399, "lon": 78.4983},
     {"display_name": "Vijayawada, Andhra Pradesh, India", "lat": 16.5062, "lon": 80.6480},
     {"display_name": "Visakhapatnam, Andhra Pradesh, India", "lat": 17.6868, "lon": 83.2185},
@@ -1259,13 +1261,13 @@ def api_reverse_geocode():
     lat = request.args.get("lat")
     lon = request.args.get("lon")
     if not lat or not lon:
-        return jsonify({"display_name": "Hyderabad, Telangana, India", "city": "Hyderabad"})
+        return jsonify({"display_name": "Tadipatri, Andhra Pradesh, India", "city": "Tadipatri"})
     
     try:
         lat_f = float(lat)
         lon_f = float(lon)
     except ValueError:
-        return jsonify({"display_name": "Hyderabad, Telangana, India", "city": "Hyderabad"})
+        return jsonify({"display_name": "Tadipatri, Andhra Pradesh, India", "city": "Tadipatri"})
 
     # 1. Fast-path: Check LOCAL_CITIES within 0.25 deg (~25 km) - Instant 0ms!
     best_c = None
@@ -1316,6 +1318,13 @@ def api_search_place():
     results = []
     seen = set()
     search_lower = q.lower()
+
+    # 0. Check LOCAL_CITIES for instant priority matching
+    for c in LOCAL_CITIES:
+        if search_lower in c["display_name"].lower():
+            if c["display_name"] not in seen:
+                seen.add(c["display_name"])
+                results.append({"display_name": c["display_name"], "lat": str(c["lat"]), "lon": str(c["lon"])})
 
     # 1. Query local 565,737 Indian Places SQLite database
     db_path = os.path.join(app.root_path, "india_places.db")
@@ -1394,7 +1403,7 @@ def find_solar_crossing(target_deg, start_jd):
             return mid
     return None
 
-def compute_moksha_data(dt_now, lat=17.3850, lon=78.4867, local_tz=None):
+def compute_moksha_data(dt_now, lat=14.9100, lon=78.0100, local_tz=None):
     if local_tz is None:
         local_tz = pytz.timezone("Asia/Kolkata")
     
@@ -1488,8 +1497,8 @@ def index():
         else:
             jd_today = swe.julday(today_dt.year, today_dt.month, today_dt.day, today_dt.hour + today_dt.minute/60.0)
             local_midnight = today_dt.replace(hour=0, minute=0, second=0, microsecond=0)
-            today_panchangam = get_daily_panchangam_basic(jd_today, 17.3850, 78.4867, local_tz, local_midnight)
-            moksha_data = compute_moksha_data(today_dt, 17.3850, 78.4867, local_tz)
+            today_panchangam = get_daily_panchangam_basic(jd_today, 14.9100, 78.0100, local_tz, local_midnight)
+            moksha_data = compute_moksha_data(today_dt, 14.9100, 78.0100, local_tz)
             HOMEPAGE_PANCHANGAM_CACHE["key"] = cache_key
             HOMEPAGE_PANCHANGAM_CACHE["data"] = today_panchangam
             HOMEPAGE_PANCHANGAM_CACHE["moksha"] = moksha_data
@@ -2685,7 +2694,7 @@ def chart():
     if not tob:
         tob = "12:00"
     if not place:
-        place = "హైదరాబాద్, తెలంగాణ, భారతదేశం"
+        place = "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం"
 
     # Auto-resolve coordinates if missing or empty
     if not lat or not lon:
@@ -2699,15 +2708,15 @@ def chart():
                 found_c = True
                 break
         if not found_c:
-            lat = 17.3850
-            lon = 78.4867
+            lat = 14.9100
+            lon = 78.0100
 
     try:
         lat = float(lat)
         lon = float(lon)
     except (ValueError, TypeError):
-        lat = 17.3850
-        lon = 78.4867
+        lat = 14.9100
+        lon = 78.0100
 
     session['chart_form'] = {
         'name': name, 'dob': dob, 'tob': tob, 'place': place,
@@ -2764,14 +2773,14 @@ def gochara_kundali():
     if not tob:
         tob = datetime.datetime.now().strftime("%H:%M")
     if not place:
-        place = "హైదరాబాద్, తెలంగాణ"
+        place = "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం"
 
     try:
         lat = float(lat)
         lon = float(lon)
     except (ValueError, TypeError):
-        lat = 17.3850
-        lon = 78.4867
+        lat = 14.9100
+        lon = 78.0100
 
     data = get_kundali_data(name, dob, tob, place, lat, lon)
     dasha_data = get_dasha_info(data)
@@ -2913,15 +2922,15 @@ def compute_birth_transit_comparison(birth_info, transit_planet_positions):
         b_tob = birth_info.get('tob') or chart_form.get('tob')
         if b_dob and b_tob:
             b_name = birth_info.get('name') or chart_form.get('name', 'User')
-            b_place = birth_info.get('place') or chart_form.get('place', 'హైదరాబాద్')
+            b_place = birth_info.get('place') or chart_form.get('place', 'తాడిపత్రి')
             try:
-                b_lat = float(birth_info.get('lat') or chart_form.get('lat', 17.3850))
+                b_lat = float(birth_info.get('lat') or chart_form.get('lat', 14.9100))
             except (ValueError, TypeError):
-                b_lat = 17.3850
+                b_lat = 14.9100
             try:
-                b_lon = float(birth_info.get('lon') or chart_form.get('lon', 78.4867))
+                b_lon = float(birth_info.get('lon') or chart_form.get('lon', 78.0100))
             except (ValueError, TypeError):
-                b_lon = 78.4867
+                b_lon = 78.0100
             k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
             birth_planet_positions = k_data.get('planet_positions', [])
             if not birth_lagna:
@@ -3063,9 +3072,9 @@ def nakshatra_transit_chart():
 
     if not lat or not lon:
         birth_info = session.get('birth_info', {})
-        lat = birth_info.get('lat', 17.3850)
-        lon = birth_info.get('lon', 78.4867)
-        place = birth_info.get('place', 'హైదరాబాద్')
+        lat = birth_info.get('lat', 14.9100)
+        lon = birth_info.get('lon', 78.0100)
+        place = birth_info.get('place', 'తాడిపత్రి')
         timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
 
     lat = float(lat)
@@ -3106,15 +3115,15 @@ def nakshatra_transit_chart():
         b_tob = birth_info.get('tob')
         if b_dob and b_tob:
             b_name = birth_info.get('name', 'User')
-            b_place = birth_info.get('place', 'హైదరాబాద్')
+            b_place = birth_info.get('place', 'తాడిపత్రి')
             try:
-                b_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
+                b_lat = float(birth_info.get('lat', 14.9100) or 14.9100)
             except (ValueError, TypeError):
-                b_lat = 17.3850
+                b_lat = 14.9100
             try:
-                b_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+                b_lon = float(birth_info.get('lon', 78.0100) or 78.0100)
             except (ValueError, TypeError):
-                b_lon = 78.4867
+                b_lon = 78.0100
             k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
             birth_info = dict(birth_info)
             birth_info['planet_positions'] = k_data.get('planet_positions', [])
@@ -3142,7 +3151,7 @@ def nakshatra_transit_chart():
 def results_page():
     birth_info = session.get('birth_info', {})
     if not birth_info:
-        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 14.9100, 78.0100)
     
     dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
     thraitha_report = generate_thraitha_jathaka_report(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
@@ -3160,7 +3169,7 @@ def results_page():
 def api_jathaka_results():
     birth_info = session.get('birth_info', {})
     if not birth_info:
-        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 17.3850, 78.4867)
+        birth_info = get_kundali_data("Sample User", "1995-01-01", "12:00", "Hyderabad", 14.9100, 78.0100)
 
     dasha_info = get_dasha_info(birth_info) if isinstance(birth_info, dict) else {}
     report = generate_thraitha_jathaka_report(birth_info, dasha_info if isinstance(dasha_info, dict) else {})
@@ -3329,8 +3338,8 @@ def transit_chart():
     
     if not lat or not lon:
         birth_info = session.get('birth_info', {})
-        lat = birth_info.get('lat', 17.3850)
-        lon = birth_info.get('lon', 78.4867)
+        lat = birth_info.get('lat', 14.9100)
+        lon = birth_info.get('lon', 78.0100)
         timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
 
     lat = float(lat)
@@ -3545,15 +3554,15 @@ def transit_chart():
         b_tob = birth_info.get('tob')
         if b_dob and b_tob:
             b_name = birth_info.get('name', 'User')
-            b_place = birth_info.get('place', 'హైదరాబాద్')
+            b_place = birth_info.get('place', 'తాడిపత్రి')
             try:
-                b_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
+                b_lat = float(birth_info.get('lat', 14.9100) or 14.9100)
             except (ValueError, TypeError):
-                b_lat = 17.3850
+                b_lat = 14.9100
             try:
-                b_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+                b_lon = float(birth_info.get('lon', 78.0100) or 78.0100)
             except (ValueError, TypeError):
-                b_lon = 78.4867
+                b_lon = 78.0100
             k_data = get_kundali_data(b_name, b_dob, b_tob, b_place, b_lat, b_lon)
             birth_info = dict(birth_info)
             birth_info['planet_positions'] = k_data.get('planet_positions', [])
@@ -3613,12 +3622,12 @@ def get_dasha_info(birth_info):
     planet_positions = birth_info.get('planet_positions', [])
     if not planet_positions:
         try:
-            k_lat = float(birth_info.get('lat', 17.3850) or 17.3850)
-            k_lon = float(birth_info.get('lon', 78.4867) or 78.4867)
+            k_lat = float(birth_info.get('lat', 14.9100) or 14.9100)
+            k_lon = float(birth_info.get('lon', 78.0100) or 78.0100)
             k_data = get_kundali_data(
                 name or 'జాతకుడు',
                 dob, tob,
-                place or 'హైదరాబాద్, తెలంగాణ, భారతదేశం',
+                place or 'తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం',
                 k_lat, k_lon
             )
             planet_positions = k_data.get('planet_positions', [])
@@ -3935,10 +3944,10 @@ def chart2():
 
     if not dob:
         today_s = datetime.date.today().strftime("%Y-%m-%d")
-        data = get_kundali_data("జాతకుడు", today_s, "12:00", "హైదరాబాద్, తెలంగాణ, భారతదేశం", 17.3850, 78.4867)
+        data = get_kundali_data("జాతకుడు", today_s, "12:00", "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం", 14.9100, 78.0100)
         birth_info = {
-            'name': 'జాతకుడు', 'dob': today_s, 'tob': '12:00', 'place': 'హైదరాబాద్, తెలంగాణ, భారతదేశం',
-            'lat': 17.3850, 'lon': 78.4867, 'day_name': data.get('day_name', ''),
+            'name': 'జాతకుడు', 'dob': today_s, 'tob': '12:00', 'place': 'తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం',
+            'lat': 14.9100, 'lon': 78.0100, 'day_name': data.get('day_name', ''),
             'nakshatra': data.get('nakshatra', ''), 'padam': data.get('padam', 1),
             'nak_index': data.get('nak_index', 0),
             'elapsed_h': data.get('elapsed_h', 0), 'elapsed_m': data.get('elapsed_m', 0),
@@ -3950,7 +3959,7 @@ def chart2():
         dob = today_s
         tob = '12:00'
         name = 'జాతకుడు'
-        place = 'హైదరాబాద్, తెలంగాణ, భారతదేశం'
+        place = 'తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం'
         day_name = birth_info.get('day_name', '')
         nakshatra = birth_info.get('nakshatra', '')
         padam = birth_info.get('padam', 1)
@@ -4198,7 +4207,7 @@ def dtime():
     birth_info = session.get('birth_info', {})
     if not birth_info or not birth_info.get('dob'):
         today_s = datetime.date.today().strftime("%Y-%m-%d")
-        data = get_kundali_data("జాతకుడు", today_s, "12:00", "హైదరాబాద్, తెలంగాణ, భారతదేశం", 17.3850, 78.4867)
+        data = get_kundali_data("జాతకుడు", today_s, "12:00", "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం", 14.9100, 78.0100)
         session['birth_info'] = data
         birth_info = data
 
@@ -4293,8 +4302,8 @@ def chart3():
                 birth_info.get('dob', ''),
                 birth_info.get('tob', ''),
                 birth_info.get('place', ''),
-                float(birth_info.get('lat', 17.3850)),
-                float(birth_info.get('lon', 78.4867))
+                float(birth_info.get('lat', 14.9100)),
+                float(birth_info.get('lon', 78.0100))
             )
             planet_positions = k_data.get('planet_positions', [])
             if not lagna:
@@ -5153,7 +5162,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     durmuhurtams = []
     
     try:
-        loc = LocationInfo("Local", "Region", local_tz.zone, lat or 17.3850, lon or 78.4867)
+        loc = LocationInfo("Local", "Region", local_tz.zone, lat or 14.9100, lon or 78.0100)
         s = sun(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
         sunrise_dt = s["sunrise"].astimezone(local_tz)
         sunset_dt = s["sunset"].astimezone(local_tz)
@@ -5418,7 +5427,7 @@ def get_tithi_info_at_dt(dt_aware):
     
     return masam_name, pks, t_name, diff
 
-def compute_range_festivals(start_dt, end_dt, lat=17.3850, lon=78.4867, local_tz=None):
+def compute_range_festivals(start_dt, end_dt, lat=14.9100, lon=78.0100, local_tz=None):
     if local_tz is None:
         local_tz = pytz.timezone("Asia/Kolkata")
     from astral import LocationInfo
@@ -5522,9 +5531,9 @@ def daily_panchangam():
     today = datetime.datetime.now()
     dob = today.strftime("%Y-%m-%d")
     tob = today.strftime("%H:%M")
-    place = "Hyderabad, Telangana"
-    lat = 17.3850
-    lon = 78.4867
+    place = "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం"
+    lat = 14.9100
+    lon = 78.0100
 
     if request.method == "POST":
         dob = request.form.get("dob", dob)
@@ -5532,8 +5541,8 @@ def daily_panchangam():
         place = request.form.get("place", place)
         lat_str = request.form.get("lat")
         lon_str = request.form.get("lon")
-        lat = float(lat_str) if lat_str else 17.3850
-        lon = float(lon_str) if lon_str else 78.4867
+        lat = float(lat_str) if lat_str else 14.9100
+        lon = float(lon_str) if lon_str else 78.0100
     else:
         dob = request.args.get("dob", dob)
         tob = request.args.get("tob", tob)
@@ -5935,8 +5944,8 @@ def calendar_view():
     if not input_date:
         input_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
-    lat = 17.3850
-    lon = 78.4867
+    lat = 14.9100
+    lon = 78.0100
     local_tz = pytz.timezone("Asia/Kolkata")
     
     try:

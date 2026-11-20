@@ -3796,10 +3796,10 @@ body {
       const loading = document.getElementById('transit-loading');
       if (loading) loading.style.display = 'block';
 
-      let lat = '{{ lat if lat else "17.3850" }}';
+      let lat = '{{ lat if lat else "14.9100" }}';
       let lon = '{{ lon if lon else "78.4867" }}';
       let timezone = '{{ timezone_str if timezone_str else "Asia/Kolkata" }}';
-      let place = '{{ place if place else "హైదరాబాద్" }}';
+      let place = '{{ place if place else "తాడిపత్రి, ఆంధ్రప్రదేశ్, భారతదేశం" }}';
 
       sendNakshatraTransitRequest(lat, lon, timezone, place, callbackOnSuccess);
     }

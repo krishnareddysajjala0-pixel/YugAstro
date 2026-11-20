@@ -664,7 +664,150 @@
       .full-name, .full-deg { display: none !important; }
       .short-name, .short-deg { display: inline !important; }
     }
-    </style>
+    
+    /* Date, Time & Place Picker Styling */
+    .gochara-datetime-picker {
+      margin: 0 auto 18px auto;
+      max-width: 960px;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.32);
+      border: 1.5px solid rgba(255, 215, 0, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      box-sizing: border-box;
+    }
+    .gochara-picker-form {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .picker-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .picker-label {
+      color: #ffd700;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .picker-input-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .picker-input {
+      background: rgba(15, 23, 42, 0.95);
+      color: #ffffff;
+      border: 1.5px solid rgba(255, 215, 0, 0.4);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 13px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+    .picker-input:focus {
+      outline: none;
+      border-color: #ffd700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    .btn-picker-icon {
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      color: #ffd700;
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-left: 3px;
+      cursor: pointer;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .btn-picker-icon:hover {
+      background: rgba(255, 215, 0, 0.3);
+      transform: scale(1.08);
+      border-color: #ffd700;
+    }
+    .place-search-wrap .place-input {
+      padding-right: 64px;
+    }
+    .btn-clear-icon {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-clear-icon:hover {
+      color: #dc2626;
+      background: none;
+      transform: translateY(-50%) scale(1.15);
+    }
+    .btn-search-icon {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ffd700;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-search-icon:hover {
+      color: #fbbf24;
+      background: none;
+      transform: translateY(-50%) scale(1.15);
+    }
+    .gochara-suggestions-dropdown {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 999999;
+      background: #0f172a;
+      border: 1.5px solid #ffd700;
+      border-radius: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+      padding: 4px 0;
+    }
+    .gochara-suggestion-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+    .gochara-suggestion-item:hover,
+    .gochara-suggestion-item.active {
+      background: rgba(255, 215, 0, 0.2);
+    }
+
+</style>
 <style>
     /* Multi-select filter styles */
     .kundali-filter-panel { width: 100%; max-width: 900px; margin: 0 auto 20px auto; padding: 14px 18px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(255, 215, 0, 0.35); border-radius: 14px; box-sizing: border-box; }
@@ -781,26 +924,58 @@
     </div>
 
     <!-- Quick Date, Time & Place Selection Form -->
-    <div class="gochara-datetime-picker print-hide" style="margin: 0 auto 18px auto; max-width: 900px; padding: 12px 16px; background: rgba(0, 0, 0, 0.28); border: 1.5px solid rgba(255, 215, 0, 0.35); border-radius: 14px;">
-      <form method="GET" action="/gochara_kundali" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ') }}:</label>
-          <input type="date" name="dob" value="{{ dob }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px;" required>
+    <div class="gochara-datetime-picker print-hide">
+      <form method="GET" action="/gochara_kundali" id="gochara-form" class="gochara-picker-form">
+        <!-- Date Picker & Edit -->
+        <div class="picker-group">
+          <label for="gochara-dob" class="picker-label"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ') }}:</label>
+          <div class="picker-input-wrap">
+            <input type="date" id="gochara-dob" name="dob" value="{{ dob }}" required class="picker-input" title="{{ _('తేదీని టైప్ చేయండి లేదా క్యాలెండర్ నుండి ఎంచుకోండి') }}">
+            <button type="button" class="btn-picker-icon" onclick="openDatePicker('gochara-dob')" title="{{ _('క్యాలెండర్ నుండి ఎంచుకోండి (Date Picker)') }}">
+              <i class="fas fa-calendar-check"></i>
+            </button>
+            <button type="button" class="btn-picker-icon" onclick="editDateField('gochara-dob')" title="{{ _('తేదీని సవరించండి (Edit Date)') }}">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-clock"></i> {{ _('సమయం') }}:</label>
-          <input type="time" name="tob" value="{{ tob }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px;" required>
+
+        <!-- Time Picker & Edit -->
+        <div class="picker-group">
+          <label for="gochara-tob" class="picker-label"><i class="fas fa-clock"></i> {{ _('సమయం') }}:</label>
+          <div class="picker-input-wrap">
+            <input type="time" id="gochara-tob" name="tob" value="{{ tob }}" required class="picker-input" title="{{ _('సమయాన్ని టైప్ చేయండి లేదా గడియారం నుండి ఎంచుకోండి') }}">
+            <button type="button" class="btn-picker-icon" onclick="openTimePicker('gochara-tob')" title="{{ _('గడియారం నుండి ఎంచుకోండి (Time Picker)') }}">
+              <i class="fas fa-clock"></i>
+            </button>
+            <button type="button" class="btn-picker-icon" onclick="editDateField('gochara-tob')" title="{{ _('సమయాన్ని సవరించండి (Edit Time)') }}">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం') }}:</label>
-          <input type="text" name="place" value="{{ place }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px; min-width: 150px;">
+
+        <!-- Place with Clear Button & Search by Typing -->
+        <div class="picker-group" style="position: relative;">
+          <label for="gochara-place" class="picker-label"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం') }}:</label>
+          <div class="picker-input-wrap place-search-wrap">
+            <input type="text" id="gochara-place" name="place" value="{{ place }}" placeholder="{{ _('స్థలాన్ని టైప్ చేసి వెతకండి...') }}" autocomplete="off" class="picker-input place-input" style="min-width: 220px;" title="{{ _('స్థలం పేరు టైప్ చేసి వెతకండి') }}">
+            <button type="button" id="btn-clear-place" class="btn-clear-icon" onclick="clearGocharaPlace()" title="{{ _('స్థలం క్లియర్ చేయండి (Clear Place)') }}">
+              <i class="fas fa-times-circle"></i>
+            </button>
+            <button type="button" class="btn-search-icon" onclick="focusPlaceField()" title="{{ _('టైప్ చేసి వెతకండి (Search Place by Typing)') }}">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="gochara-suggestions" class="gochara-suggestions-dropdown" style="display: none;"></div>
+          </div>
+          <input type="hidden" id="gochara-lat" name="lat" value="{{ lat }}">
+          <input type="hidden" id="gochara-lon" name="lon" value="{{ lon }}">
         </div>
-        <input type="hidden" name="lat" value="{{ lat }}">
-        <input type="hidden" name="lon" value="{{ lon }}">
+
+        <!-- Submit & Now Buttons -->
         <button type="submit" style="background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000; font-weight: bold; border: none; border-radius: 20px; padding: 7px 18px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); transition: transform 0.2s;">
           <i class="fas fa-sync-alt"></i> {{ _('కుండలి చూడండి') }}
         </button>
-        <a href="/gochara_kundali" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: bold; border-radius: 20px; padding: 6px 16px; text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px;" title="{{ _('ప్రస్తుత సమయమునకు రీసెట్ చేయండి') }}">
+        <a href="/gochara_kundali" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: bold; border-radius: 20px; padding: 6px 16px; text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px;" title="{{ _('ప్రస్తుత సమయము & స్థానమునకు రీసెట్ చేయండి') }}">
           <i class="fas fa-bolt"></i> {{ _('ఇప్పుడు (Now)') }}
         </a>
       </form>
@@ -982,6 +1157,121 @@
   <div id="planet-transit-tooltip" class="planet-transit-tooltip"></div>
 
   <script>
+    // Date & Time Picker Helpers
+    function openDatePicker(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (typeof el.showPicker === 'function') {
+        try { el.showPicker(); } catch(e) { el.focus(); }
+      } else {
+        el.focus();
+      }
+    }
+    function openTimePicker(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (typeof el.showPicker === 'function') {
+        try { el.showPicker(); } catch(e) { el.focus(); }
+      } else {
+        el.focus();
+      }
+    }
+    function editDateField(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.focus();
+      if (typeof el.select === 'function') {
+        el.select();
+      }
+    }
+    function clearGocharaPlace() {
+      var p = document.getElementById('gochara-place');
+      var lat = document.getElementById('gochara-lat');
+      var lon = document.getElementById('gochara-lon');
+      var sugg = document.getElementById('gochara-suggestions');
+      if (p) {
+        p.value = '';
+        p.focus();
+      }
+      if (lat) lat.value = '14.9100';
+      if (lon) lon.value = '78.0100';
+      if (sugg) {
+        sugg.style.display = 'none';
+        sugg.innerHTML = '';
+      }
+    }
+    function focusPlaceField() {
+      var p = document.getElementById('gochara-place');
+      if (p) {
+        p.focus();
+        if (p.value.trim().length >= 2) {
+          p.dispatchEvent(new Event('input'));
+        }
+      }
+    }
+
+    // Place Autocomplete Search as you type
+    (function initGocharaPlaceSearch() {
+      var placeInput = document.getElementById('gochara-place');
+      var suggestions = document.getElementById('gochara-suggestions');
+      var latInput = document.getElementById('gochara-lat');
+      var lonInput = document.getElementById('gochara-lon');
+      if (!placeInput || !suggestions) return;
+
+      var timer = null;
+      var abortCtrl = null;
+
+      placeInput.addEventListener('input', function() {
+        var q = placeInput.value.trim();
+        if (timer) clearTimeout(timer);
+        if (q.length < 2) {
+          suggestions.style.display = 'none';
+          suggestions.innerHTML = '';
+          return;
+        }
+
+        timer = setTimeout(async function() {
+          if (abortCtrl) abortCtrl.abort();
+          abortCtrl = new AbortController();
+          try {
+            var res = await fetch('/api/search_place?q=' + encodeURIComponent(q), { signal: abortCtrl.signal });
+            var data = await res.json();
+            suggestions.innerHTML = '';
+            if (!data || data.length === 0) {
+              suggestions.innerHTML = '<div style="padding: 8px 12px; color: #94a3b8; font-style: italic; font-size: 12px; text-align: left;">ఫలితాలు లేవు (No results found)</div>';
+            } else {
+              data.forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'gochara-suggestion-item';
+                var parts = item.display_name.split(',');
+                var title = parts[0];
+                var subtitle = parts.slice(1).join(',').trim();
+                div.innerHTML = '<div style="font-weight: 700; color: #ffd700; font-size: 13px;">' + title + '</div>' +
+                                (subtitle ? '<div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">' + subtitle + '</div>' : '');
+                div.addEventListener('click', function() {
+                  placeInput.value = item.display_name;
+                  if (latInput) latInput.value = item.lat;
+                  if (lonInput) lonInput.value = item.lon;
+                  suggestions.style.display = 'none';
+                  suggestions.innerHTML = '';
+                });
+                suggestions.appendChild(div);
+              });
+            }
+            suggestions.style.display = 'block';
+          } catch(e) {
+            if (e.name !== 'AbortError') console.error(e);
+          }
+        }, 200);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!placeInput.contains(e.target) && !suggestions.contains(e.target)) {
+          suggestions.style.display = 'none';
+        }
+      });
+    })();
+
     /* ===== PLANET FOCUS & DRISHTI FILTER ENGINE ===== */
     function normalizePlanetName(str) {
       if (!str) return '';
