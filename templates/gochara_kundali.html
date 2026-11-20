@@ -575,7 +575,15 @@
         flex: 1;
       }
     }
-  </style>
+  
+    .pos, .pos * { color: #22c55e !important; font-weight: 600; }
+    .neg, .neg * { color: #ef4444 !important; font-weight: 600; }
+    .short-name, .short-deg { display: none !important; }
+    @media (max-width: 580px) {
+      .full-name, .full-deg { display: none !important; }
+      .short-name, .short-deg { display: inline !important; }
+    }
+    </style>
 <style>
     /* Multi-select filter styles */
     .kundali-filter-panel { width: 100%; max-width: 900px; margin: 0 auto 20px auto; padding: 14px 18px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(255, 215, 0, 0.35); border-radius: 14px; box-sizing: border-box; }
@@ -603,18 +611,21 @@
 </head>
 <body>
 
-  {% macro get_color(line, lagna) %}
+  {% set positive_lagnas = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"] %}
+  {% set guru_planets_list = ["సూర్యుడు", "సూర్య", "భూమి", "కుజుడు", "కుజ", "గురు", "గురువు", "కేతు", "చంద్రుడు", "చంద్ర"] %}
+
+  {% macro get_color(line, lagna_val) %}
     {% set clean = line | striptags %}
-    {% set ns = namespace(is_green=false) %}
-    {% for p in green_planets %}
+    {% set ns = namespace(is_guru=false) %}
+    {% for p in guru_planets_list %}
       {% if p in clean %}
-        {% set ns.is_green = true %}
+        {% set ns.is_guru = true %}
       {% endif %}
     {% endfor %}
-    {% if lagna in positive_lagnas %}
-      {{ "pos" if ns.is_green else "neg" }}
+    {% if lagna_val in positive_lagnas %}
+      {{ "pos" if ns.is_guru else "neg" }}
     {% else %}
-      {{ "neg" if ns.is_green else "pos" }}
+      {{ "neg" if ns.is_guru else "pos" }}
     {% endif %}
   {% endmacro %}
 
@@ -686,6 +697,32 @@
       <div class="meta-item"><i class="fas fa-map-marker-alt" style="color: #f87171;"></i> {{ _('స్థలం:') }} <strong>{{ place.split(',')[0] if ',' in place else place }}</strong></div>
       <div class="meta-item"><i class="fas fa-compass" style="color: #34d399;"></i> {{ _('లగ్నం:') }} <strong>{{ lagna }} ({{ lagna_deg }})</strong></div>
       <div class="meta-item"><i class="fas fa-certificate" style="color: #a78bfa;"></i> {{ _('వర్గము:') }} <strong>{{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}</strong></div>
+    </div>
+
+    <!-- Quick Date, Time & Place Selection Form -->
+    <div class="gochara-datetime-picker print-hide" style="margin: 0 auto 18px auto; max-width: 900px; padding: 12px 16px; background: rgba(0, 0, 0, 0.28); border: 1.5px solid rgba(255, 215, 0, 0.35); border-radius: 14px;">
+      <form method="GET" action="/gochara_kundali" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ') }}:</label>
+          <input type="date" name="dob" value="{{ dob }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px;" required>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-clock"></i> {{ _('సమయం') }}:</label>
+          <input type="time" name="tob" value="{{ tob }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px;" required>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <label style="color: #ffd700; font-size: 13px; font-weight: bold;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం') }}:</label>
+          <input type="text" name="place" value="{{ place }}" style="background: rgba(15, 23, 42, 0.9); color: #fff; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 8px; padding: 6px 10px; font-size: 13px; min-width: 150px;">
+        </div>
+        <input type="hidden" name="lat" value="{{ lat }}">
+        <input type="hidden" name="lon" value="{{ lon }}">
+        <button type="submit" style="background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000; font-weight: bold; border: none; border-radius: 20px; padding: 7px 18px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); transition: transform 0.2s;">
+          <i class="fas fa-sync-alt"></i> {{ _('కుండలి చూడండి') }}
+        </button>
+        <a href="/gochara_kundali" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: bold; border-radius: 20px; padding: 6px 16px; text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px;" title="{{ _('ప్రస్తుత సమయమునకు రీసెట్ చేయండి') }}">
+          <i class="fas fa-bolt"></i> {{ _('ఇప్పుడు (Now)') }}
+        </a>
+      </form>
     </div>
 
     <!-- Planet Filter Panel (Guru Party & Shani Party buttons, Multi-select, Reset) -->
@@ -960,1037 +997,10 @@
       if (noteEl) {
         noteEl.innerHTML = '<i class="fas fa-check-circle" style="color: #22c55e;"></i> ఎంచుకున్న గ్రహాలు (' + selectedList.length + '): <b>' + selectedList.join(', ') + '</b> | ఇవి మరియు వీటి హస్తాలు ఉన్న రాశి బాక్సులు (' + matchedBoxCount + ') హైలైట్ చేయబడ్డాయి.';
       }
-    }nt_lang else 'te' }}" class="notranslate">
-<head>
-  <meta name="google" content="notranslate">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>{{ _('గోచార లగ్న కుండలి చక్రం') }} | {{ dob }} {{ tob }}</title>
-  <link rel="manifest" href="/static/manifest.json">
-  <meta name="theme-color" content="#1A1A1D">
-  <link rel="icon" type="image/png" href="/static/favicon.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <script>
+    }
+
+    /* ===== PLANET TRANSIT ENTRY/EXIT HOVER TOOLTIP ENGINE ===== */
     (function () {
-      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
-      if (savedTheme !== 'default') {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      }
-    })();
-  </script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      overflow-x: hidden;
-      background-color: #0c0c0c;
-    }
-
-    :root {
-      --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --card-bg: rgba(15, 23, 42, 0.88);
-      --card-border: rgba(251, 191, 36, 0.25);
-      --box-border: rgba(255, 255, 255, 0.18);
-      --box-border-hover: #fbbf24;
-      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
-      --shadow-color: rgba(0, 0, 0, 0.6);
-      --color-pos: #10b981;
-      --color-neg: #ef4444;
-      --house-no-bg: rgba(251, 191, 36, 0.2);
-      --house-no-text: #fbbf24;
-    }
-
-    [data-theme="cosmic"] {
-      --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      --text-main: #ffffff;
-      --text-muted: #c7d2fe;
-      --card-bg: rgba(25, 25, 35, 0.92);
-      --card-border: rgba(255, 255, 255, 0.2);
-    }
-
-    [data-theme="luxury"] {
-      --bg-primary: radial-gradient(ellipse at 30% 20%, #2a1f00 0%, #0a0908 60%, #1a0f00 100%);
-      --text-main: #f5f5f4;
-      --text-muted: #d97706;
-      --card-bg: rgba(28, 25, 23, 0.96);
-      --card-border: rgba(217, 119, 6, 0.45);
-      --header-bg: linear-gradient(45deg, #f5f5f4, #fbbf24, #d97706);
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans Telugu', sans-serif;
-      background: var(--bg-primary);
-      background-attachment: fixed;
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px 12px 60px 12px;
-      line-height: 1.5;
-    }
-
-    .main-wrap {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    /* Top Navigation Bar */
-    .top-nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding: 12px 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px var(--shadow-color);
-    }
-
-    .btn-nav-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(251, 191, 36, 0.15);
-      border: 1.5px solid rgba(251, 191, 36, 0.4);
-      color: #fbbf24;
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    .btn-nav-back:hover {
-      background: rgba(251, 191, 36, 0.3);
-      border-color: #fbbf24;
-      color: #ffffff;
-      transform: translateX(-2px);
-    }
-
-    .page-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .page-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      background: var(--header-bg);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.3px;
-    }
-
-    /* Info Badge Strip */
-    .gochara-meta-strip {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 10px 16px;
-      margin-bottom: 20px;
-      font-size: 13.5px;
-    }
-    .meta-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-    }
-    .meta-item strong {
-      color: #ffffff;
-      font-weight: 700;
-    }
-
-    /* ===== PLANET FOCUS & DRISHTI FILTER STYLES ===== */
-    .planet-selector-bar {
-      margin: 0 auto 20px auto;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1.5px solid rgba(251, 191, 36, 0.4);
-      border-radius: 18px;
-      padding: 16px 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      box-sizing: border-box;
-      backdrop-filter: blur(12px);
-    }
-    .planet-selector-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .planet-selector-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 800;
-      font-size: 15px;
-      color: #fbbf24;
-      letter-spacing: 0.2px;
-    }
-    .planet-dropdown-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .planet-dropdown-wrap label {
-      font-size: 13px;
-      color: #94a3b8;
-      font-weight: 600;
-    }
-    .planet-dropdown-wrap select {
-      background: #1e1b4b;
-      border: 1.5px solid #fbbf24;
-      border-radius: 10px;
-      color: #ffffff;
-      padding: 6px 14px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-    .planet-dropdown-wrap select:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-    }
-    .planet-pills-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-    }
-    .planet-pill-btn {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .planet-pill-btn:hover {
-      background: rgba(251, 191, 36, 0.2);
-      border-color: #fbbf24;
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-    .planet-pill-btn.active {
-      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
-      border-color: #f59e0b !important;
-      color: #000000 !important;
-      box-shadow: 0 3px 12px rgba(245, 158, 11, 0.45) !important;
-      font-weight: 800;
-    }
-    .btn-clear-planet {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid rgba(239, 68, 68, 0.5);
-      color: #f87171;
-      border-radius: 8px;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-      margin-left: auto;
-    }
-    .btn-clear-planet:hover {
-      background: rgba(239, 68, 68, 0.4);
-      color: #ffffff;
-    }
-    #planet-filter-info {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(251, 191, 36, 0.4);
-      font-size: 13.5px;
-      color: #e2e8f0;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* Box Focus Highlight and Dim Styles */
-    .box-direct-focus {
-      border: 2.5px solid #fbbf24 !important;
-      box-shadow: 0 0 24px rgba(251, 191, 36, 0.7) !important;
-      position: relative;
-      z-index: 5;
-    }
-    .box-hand-focus {
-      border: 2.5px solid #34d399 !important;
-      box-shadow: 0 0 24px rgba(52, 211, 153, 0.6) !important;
-      position: relative;
-      z-index: 4;
-    }
-    .box-hand-focus .hand,
-    .box-direct-focus .hand {
-      display: inline !important;
-    }
-    .box-dimmed {
-      opacity: 0.32 !important;
-      transition: opacity 0.3s ease;
-    }
-
-    .planet-entry {
-      cursor: pointer;
-      transition: opacity 0.2s;
-      display: inline-block;
-    }
-    .planet-entry:hover {
-      text-decoration: underline;
-    }
-
-    /* Chart Container & South Indian Grid */
-    .chart-container {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: 0 20px 40px var(--shadow-color);
-      backdrop-filter: blur(12px);
-      margin-bottom: 24px;
-    }
-
-    .chart {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 8px;
-      margin: auto;
-    }
-
-    /* House Boxes */
-    .box {
-      position: relative;
-      border: 2px solid var(--box-border);
-      min-height: 130px;
-      padding: 10px;
-      font-size: 13px;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    .house-green {
-      background: rgba(16, 185, 129, 0.08);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-    .house-red {
-      background: rgba(239, 68, 68, 0.08);
-      border-color: rgba(239, 68, 68, 0.3);
-    }
-    .house-mixed {
-      background: rgba(245, 158, 11, 0.06);
-      border-color: rgba(245, 158, 11, 0.25);
-    }
-
-    .box.lagna {
-      border: 2.5px solid #fbbf24 !important;
-    }
-
-    .house-no {
-      position: absolute;
-      top: 4px;
-      right: 6px;
-      font-weight: 800;
-      font-size: 12px;
-      background: var(--house-no-bg);
-      color: var(--house-no-text);
-      padding: 2px 7px;
-      border-radius: 6px;
-      border: 1px solid rgba(251, 191, 36, 0.3);
-    }
-
-    .karma-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: #94a3b8;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .lagna-name {
-      position: absolute;
-      bottom: 4px;
-      right: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #94a3b8;
-    }
-
-    .pos { color: var(--color-pos); font-weight: 600; }
-    .neg { color: var(--color-neg); font-weight: 600; }
-
-    .full-deg { display: inline; }
-    .short-deg { display: none; }
-    .full-name { display: inline; }
-    .short-name { display: none; }
-
-    .lagna-text {
-      color: #fbbf24;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
-    /* CENTER BOX */
-    .center {
-      grid-column: 2 / span 2;
-      grid-row: 2 / span 2;
-      background: rgba(15, 23, 42, 0.95);
-      border: 2px solid rgba(251, 191, 36, 0.35);
-      border-radius: 14px;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .center-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    .center-table tr {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .center-table tr:last-child {
-      border-bottom: none;
-    }
-    .center-label {
-      padding: 4px 6px;
-      color: #94a3b8;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .center-value {
-      padding: 4px 6px;
-      color: #ffffff;
-      font-weight: 700;
-    }
-
-    /* ===== PLANET TRANSIT ENTRY/EXIT HOVER TOOLTIP ===== */
-    .planet-transit-tooltip {
-      position: fixed;
-      display: none;
-      z-index: 9999999;
-      pointer-events: none;
-      background: rgba(15, 23, 42, 0.97);
-      border: 1.5px solid #fbbf24;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 18px rgba(251, 191, 36, 0.35);
-      border-radius: 12px;
-      padding: 10px 14px;
-      min-width: 250px;
-      max-width: 330px;
-      backdrop-filter: blur(12px);
-      font-family: inherit;
-      transition: opacity 0.15s ease, transform 0.15s ease;
-      transform: translate(-50%, -100%);
-    }
-    .ptt-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-weight: 800;
-      font-size: 13.5px;
-      color: #fbbf24;
-      border-bottom: 1px solid rgba(251, 191, 36, 0.3);
-      padding-bottom: 6px;
-      margin-bottom: 7px;
-    }
-    .ptt-rashi {
-      font-size: 12px;
-      color: #94a3b8;
-      font-weight: 600;
-    }
-    .ptt-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 5px;
-      font-size: 12.5px;
-    }
-    .ptt-row:last-child {
-      margin-bottom: 0;
-    }
-    .ptt-label {
-      color: #cbd5e1;
-      font-weight: 600;
-    }
-    .ptt-val {
-      font-weight: 700;
-      white-space: nowrap;
-    }
-    .ptt-val.entry {
-      color: #34d399; /* Emerald Green */
-    }
-    .ptt-val.exit {
-      color: #f87171; /* Coral Red */
-    }
-
-    /* Bottom Action Bar */
-    .bottom-bar {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    .btn-action {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    .btn-action-primary {
-      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-      color: #000000;
-      border: none;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
-    }
-    .btn-action-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
-    }
-    .btn-action-secondary {
-      background: rgba(30, 41, 59, 0.8);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .btn-action-secondary:hover {
-      background: rgba(51, 65, 85, 0.9);
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 680px) {
-      .box {
-        min-height: 105px;
-        padding: 6px;
-        font-size: 11px;
-      }
-      .full-name { display: none; }
-      .short-name { display: inline; }
-      .full-deg { display: none; }
-      .short-deg { display: inline; }
-      .center {
-        padding: 6px;
-      }
-      .center-table {
-        font-size: 10.5px;
-      }
-      .planet-selector-bar {
-        padding: 12px 14px;
-      }
-      .planet-selector-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .planet-dropdown-wrap {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .planet-dropdown-wrap select {
-        flex: 1;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  {% macro get_color(line, lagna) %}
-    {% set clean = line | striptags %}
-    {% set ns = namespace(is_green=false) %}
-    {% for p in green_planets %}
-      {% if p in clean %}
-        {% set ns.is_green = true %}
-      {% endif %}
-    {% endfor %}
-    {% if lagna in positive_lagnas %}
-      {{ "pos" if ns.is_green else "neg" }}
-    {% else %}
-      {{ "neg" if ns.is_green else "pos" }}
-    {% endif %}
-  {% endmacro %}
-
-  {% macro house_bg_class(hno) %}
-    {% if hno in [1,5,9] %}
-      house-green
-    {% elif hno in [3,7,11] %}
-      house-red
-    {% else %}
-      house-mixed
-    {% endif %}
-  {% endmacro %}
-
-  {# ===== BOX MACRO FOR GOCHARA KUNDALI ===== #}
-  {% macro box(box_lagna) %}
-    {% set hno = houses[box_lagna] %}
-    {% set lines = chart[box_lagna].split('<br>') %}
-    {% set items_count = namespace(count=0) %}
-    {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
-
-    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(box_lagna) }}">
-      <span class="house-no">{{ hno }}</span>
-
-      {% if hno in [1,5,9] %}
-        <div class="karma-label">{{ _('పుణ్యం') }}</div>
-      {% elif hno in [3,7,11] %}
-        <div class="karma-label">{{ _('పాపం') }}</div>
-      {% else %}
-        <div class="karma-label">{{ _('పుణ్యం + పాపం') }}</div>
-      {% endif %}
-
-      {% for line in chart[box_lagna].split('<br>') %}
-        {% if _("లగ్నం") in line %}
-          <div class="lagna-text chart-planet-line">
-            {{ line | safe }}
-          </div>
-        {% elif line.strip() %}
-          <span class="chart-planet-line {{ get_color(line, lagna) }}">
-            {{ line | safe }}
-          </span><br class="chart-planet-br">
-        {% endif %}
-      {% endfor %}
-
-      <span class="lagna-name">{{ _(box_lagna) }}</span>
-    </div>
-  {% endmacro %}
-
-  <div class="main-wrap">
-
-    <!-- Top Navigation Bar -->
-    <div class="top-nav-bar">
-      <a href="/daily_panchangam" class="btn-nav-back">
-        <i class="fas fa-arrow-left"></i> {{ _('పంచాంగానికి తిరిగి వెళ్లండి') }}
-      </a>
-      <div class="page-title-wrap">
-        <h1 class="page-title">✨ {{ _('గోచార లగ్న కుండలి') }}</h1>
-      </div>
-      <div>
-        <button type="button" onclick="window.print()" class="btn-nav-back" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
-          <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Meta Details Strip -->
-    <div class="gochara-meta-strip">
-      <div class="meta-item"><i class="fas fa-calendar-day" style="color: #fbbf24;"></i> {{ _('తేదీ:') }} <strong>{{ dob }} ({{ day_name }})</strong></div>
-      <div class="meta-item"><i class="fas fa-clock" style="color: #38bdf8;"></i> {{ _('సమయం:') }} <strong>{{ tob }}</strong></div>
-      <div class="meta-item"><i class="fas fa-map-marker-alt" style="color: #f87171;"></i> {{ _('స్థలం:') }} <strong>{{ place.split(',')[0] if ',' in place else place }}</strong></div>
-      <div class="meta-item"><i class="fas fa-compass" style="color: #34d399;"></i> {{ _('లగ్నం:') }} <strong>{{ lagna }} ({{ lagna_deg }})</strong></div>
-      <div class="meta-item"><i class="fas fa-certificate" style="color: #a78bfa;"></i> {{ _('వర్గము:') }} <strong>{{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}</strong></div>
-    </div>
-
-    <!-- Planet Filter Panel (Guru Party & Shani Party buttons, Multi-select, Reset) -->
-    <div class="kundali-filter-panel print-hide" id="planet-selector-container">
-      <div class="filter-top-bar">
-        <div class="filter-heading">
-          <i class="fas fa-hand-pointer"></i> <b>{{ _('గ్రహముల ఎంపిక (బహుళ ఎంపిక సాధ్యం):') }}</b>
-        </div>
-        <button type="button" class="btn-planet-reset" id="btn-planet-reset" onclick="resetKundaliPlanetFilter()">
-          <i class="fas fa-undo"></i> {{ _('రీసెట్') }}
-        </button>
-      </div>
-
-      <div class="planet-party-container">
-        <!-- Guru Party Planets Row -->
-        <div class="party-filter-row guru-party-row">
-          <span class="party-row-tag guru-tag">
-            <i class="fas fa-crown"></i> {{ _('గురు పార్టీ గ్రహాలు:') }}
-          </span>
-          <div class="party-btn-list">
-            <button type="button" class="p-btn guru-p-btn" data-planet="సూర్యుడు" onclick="toggleKundaliPlanet('సూర్యుడు', this)">
-              <span class="p-dot"></span> {{ _('సూర్యుడు') }}
-            </button>
-            <button type="button" class="p-btn guru-p-btn" data-planet="చంద్రుడు" onclick="toggleKundaliPlanet('చంద్రుడు', this)">
-              <span class="p-dot"></span> {{ _('చంద్రుడు') }}
-            </button>
-            <button type="button" class="p-btn guru-p-btn" data-planet="కుజుడు" onclick="toggleKundaliPlanet('కుజుడు', this)">
-              <span class="p-dot"></span> {{ _('కుజుడు') }}
-            </button>
-            <button type="button" class="p-btn guru-p-btn" data-planet="గురు" onclick="toggleKundaliPlanet('గురు', this)">
-              <span class="p-dot"></span> {{ _('గురు') }}
-            </button>
-            <button type="button" class="p-btn guru-p-btn" data-planet="కేతు" onclick="toggleKundaliPlanet('కేతు', this)">
-              <span class="p-dot"></span> {{ _('కేతు') }}
-            </button>
-            <button type="button" class="p-btn guru-p-btn" data-planet="భూమి" onclick="toggleKundaliPlanet('భూమి', this)">
-              <span class="p-dot"></span> {{ _('భూమి') }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Shani Party Planets Row -->
-        <div class="party-filter-row shani-party-row">
-          <span class="party-row-tag shani-tag">
-            <i class="fas fa-shield-alt"></i> {{ _('శని పార్టీ గ్రహాలు:') }}
-          </span>
-          <div class="party-btn-list">
-            <button type="button" class="p-btn shani-p-btn" data-planet="శని" onclick="toggleKundaliPlanet('శని', this)">
-              <span class="p-dot"></span> {{ _('శని') }}
-            </button>
-            <button type="button" class="p-btn shani-p-btn" data-planet="బుధుడు" onclick="toggleKundaliPlanet('బుధుడు', this)">
-              <span class="p-dot"></span> {{ _('బుధుడు') }}
-            </button>
-            <button type="button" class="p-btn shani-p-btn" data-planet="శుక్రుడు" onclick="toggleKundaliPlanet('శుక్రుడు', this)">
-              <span class="p-dot"></span> {{ _('శుక్రుడు') }}
-            </button>
-            <button type="button" class="p-btn shani-p-btn" data-planet="రాహు" onclick="toggleKundaliPlanet('రాహు', this)">
-              <span class="p-dot"></span> {{ _('రాహు') }}
-            </button>
-            <button type="button" class="p-btn shani-p-btn" data-planet="మిత్ర" onclick="toggleKundaliPlanet('మిత్ర', this)">
-              <span class="p-dot"></span> {{ _('మిత్ర') }}
-            </button>
-            <button type="button" class="p-btn shani-p-btn" data-planet="చిత్ర" onclick="toggleKundaliPlanet('చిత్ర', this)">
-              <span class="p-dot"></span> {{ _('చిత్ర') }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div id="filter-selection-note" class="filter-selection-note">
-        <i class="fas fa-info-circle"></i> {{ _('గ్రహాలను ఎంచుకోండి. ఎంచుకున్న గ్రహాలు మరియు వాటి దృష్టి హస్తాలు పడిన రాశి బాక్సులు హైలైట్ చేయబడతాయి; ఆ బాక్సులలోని మిగిలిన గ్రహాలు/హస్తాలు కూడా స్పష్టంగా కనిపిస్తాయి.') }}
-      </div>
-    </div>
-    <!-- Chart Container -->
-    <div class="chart-container">
-      <div class="chart">
-        {{ box("మీనం") }}
-        {{ box("మేషం") }}
-        {{ box("వృషభం") }}
-        {{ box("మిథునం") }}
-
-        {{ box("కుంభం") }}
-
-        <!-- CENTER BOX -->
-        <div class="center">
-          <div class="center-content" style="width: 100%;">
-            <table class="center-table">
-              <tr>
-                <td class="center-label">{{ _('వర్గము:') }}</td>
-                <td class="center-value" style="color: #fbbf24;">
-                  {{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}
-                </td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('శీర్షిక:') }}</td>
-                <td class="center-value">{{ name }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('తేదీ:') }}</td>
-                <td class="center-value">{{ dob }} ({{ day_name }})</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('సమయం:') }}</td>
-                <td class="center-value">{{ tob }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('స్థలం:') }}</td>
-                <td class="center-value">{{ place.split(',')[0] if ',' in place else place }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('లగ్నం:') }}</td>
-                <td class="center-value">
-                  {{ lagna }} ({{ lagna_deg }})
-                </td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('తిథి:') }}</td>
-                <td class="center-value">{{ _(tithi_paksha) }} - {{ _(tithi_name) }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('నక్షత్రం:') }}</td>
-                <td class="center-value">
-                  {{ nakshatra }} ({{ padam }} {{ _('పాదం') }})
-                </td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('పూర్తి నక్షత్ర పరిమాణం:') }}</td>
-                <td class="center-value">{{ nak_total }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('నక్షత్ర భుక్తి:') }}</td>
-                <td class="center-value">{{ nak_elapsed }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('నక్షత్ర భోగ్యం:') }}</td>
-                <td class="center-value">{{ nak_remaining }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('జన్మ దశ:') }}</td>
-                <td class="center-value">{{ janma_dasha }}</td>
-              </tr>
-              <tr>
-                <td class="center-label">{{ _('ప్రస్తుత దశ - అంతర్దశ:') }}</td>
-                <td class="center-value" style="color: #38bdf8;">{{ current_dasha }} - {{ current_anthara }}</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-
-        {{ box("కర్కాటకం") }}
-        {{ box("మకరం") }}
-        {{ box("సింహం") }}
-        {{ box("ధనస్సు") }}
-        {{ box("వృశ్చికం") }}
-        {{ box("తులా") }}
-        {{ box("కన్య") }}
-      </div>
-    </div>
-
-    <!-- Bottom Actions -->
-    <div class="bottom-bar print-hide">
-      <a href="/daily_panchangam" class="btn-action btn-action-primary">
-        <i class="fas fa-calendar-alt"></i> {{ _('పంచాంగం పేజీకి వెళ్లండి') }}
-      </a>
-      <a href="/" class="btn-action btn-action-secondary">
-        <i class="fas fa-home"></i> {{ _('హోమ్') }}
-      </a>
-      <button type="button" onclick="window.print()" class="btn-action btn-action-secondary">
-        <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
-      </button>
-    </div>
-
-  </div>
-
-  <!-- Floating Tooltip for Planet Entry & Exit -->
-  <div id="planet-transit-tooltip" class="planet-transit-tooltip"></div>
-
-  <script>
-    /* ===== PLANET FOCUS & DRISHTI FILTER ENGINE ===== */
-    function normalizePlanetName(str) {
-      if (!str) return '';
-      str = String(str).trim();
-      if (str.includes('సూర్య')) return 'సూర్యుడు';
-      if (str.includes('చంద్ర')) return 'చంద్రుడు';
-      if (str.includes('కుజ')) return 'కుజుడు';
-      if (str.includes('బుధ')) return 'బుధుడు';
-      if (str.includes('గురు')) return 'గురు';
-      if (str.includes('శుక్ర')) return 'శుక్రుడు';
-      if (str.includes('శని')) return 'శని';
-      if (str.includes('రాహు')) return 'రాహు';
-      if (str.includes('కేతు')) return 'కేతు';
-      if (str.includes('లగ్న')) return 'లగ్నం';
-      if (str.includes('భూమి')) return 'భూమి';
-      if (str.includes('మిత్ర')) return 'మిత్ర';
-      if (str.includes('చిత్ర')) return 'చిత్ర';
-      return str;
-    }
-
-    function filterKundaliByPlanet(planetName) {
-      const allBoxes = document.querySelectorAll('.chart .box');
-      const infoBar = document.getElementById('planet-filter-info');
-      const selectDropdown = document.getElementById('planetFilterSelect');
-      
-      if (selectDropdown && selectDropdown.value !== planetName) {
-        selectDropdown.value = planetName;
-      }
-      updatePlanetPillsActive(planetName);
-
-      if (!planetName || planetName === 'all') {
-        // Reset all boxes and lines
-        allBoxes.forEach(box => {
-          box.classList.remove('box-direct-focus', 'box-hand-focus', 'box-dimmed');
-          box.style.opacity = '';
-          box.querySelectorAll('.chart-planet-line, .chart-planet-br, .lagna-text').forEach(el => {
-            el.style.display = '';
-          });
-        });
-        if (infoBar) {
-          infoBar.style.display = 'none';
-          infoBar.innerHTML = '';
-        }
-        return;
-      }
-
-      const normSelected = normalizePlanetName(planetName);
-
-      // 1. Scan boxes to find directBox and handBoxes
-      let directBox = null;
-      let directRashi = '';
-      let directHouse = '';
-      const handBoxes = [];
-      const handDetails = [];
-
-      allBoxes.forEach(box => {
-        const rashi = box.getAttribute('data-rashi') || '';
-        const hno = box.getAttribute('data-house-no') || '';
-
-        // Direct check
-        const directs = box.querySelectorAll('.direct-planet, .lagna-entry');
-        directs.forEach(dp => {
-          const pName = dp.getAttribute('data-planet') || dp.textContent;
-          if (normalizePlanetName(pName) === normSelected) {
-            directBox = box;
-            directRashi = rashi;
-            directHouse = hno;
-          }
-        });
-
-        // Hand check
-        const hands = box.querySelectorAll('.hand-planet, .hand');
-        hands.forEach(hp => {
-          const pName = hp.getAttribute('data-planet') || hp.textContent;
-          if (normalizePlanetName(pName) === normSelected) {
-            if (!handBoxes.includes(box)) {
-              handBoxes.push(box);
-              handDetails.push(rashi + ' (' + hno + 'వ భావం)');
-            }
-          }
-        });
-      });
-
-      const activeBoxes = [];
-      if (directBox) activeBoxes.push(directBox);
-      handBoxes.forEach(b => {
-        if (!activeBoxes.includes(b)) activeBoxes.push(b);
-      });
-
-      function setAdjacentBrDisplay(el, val) {
-        if (el.nextElementSibling && el.nextElementSibling.classList.contains('chart-planet-br')) {
-          el.nextElementSibling.style.display = val;
-        }
-      }
-
-      // 2. Update display for all 12 boxes
-      allBoxes.forEach(box => {
-        const isActive = activeBoxes.includes(box);
-        const isDirect = (box === directBox);
-        const isHand = handBoxes.includes(box);
-
-        if (isActive) {
-          box.classList.remove('box-dimmed');
-          box.style.opacity = '1';
-
-          if (isDirect) {
-            box.classList.add('box-direct-focus');
-            box.classList.remove('box-hand-focus');
-          } else if (isHand) {
-            box.classList.add('box-hand-focus');
-            box.classList.remove('box-direct-focus');
-          }
-
-          // In active boxes (where selected planet is or where its hands reach):
-          // Show all direct planets, and if any planets have hands in this box, show them also!
-          box.querySelectorAll('.chart-planet-line').forEach(line => {
-            line.style.display = '';
-            setAdjacentBrDisplay(line, '');
-          });
-        } else {
-          // Inactive box: hide all planets and hands, dim box
-          box.classList.add('box-dimmed');
-          box.classList.remove('box-direct-focus', 'box-hand-focus');
-          box.style.opacity = '0.32';
-
-          box.querySelectorAll('.chart-planet-line').forEach(line => {
-            line.style.display = 'none';
-            setAdjacentBrDisplay(line, 'none');
-          });
-        }
-      });
-
-      // 3. Render info text in infoBar
-      if (infoBar) {
-        infoBar.style.display = 'flex';
-        var infoHtml = '<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
-        infoHtml += '<span style="font-weight: 800; color: #fbbf24; font-size: 14px;">' + planetName + ':</span> ';
-        if (directBox) {
-          infoHtml += '<span style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #fbbf24;">🏠 స్థానం: ' + directRashi + ' (' + directHouse + 'వ భావం)</span> ';
-        }
-        if (handBoxes.length > 0) {
-          infoHtml += '<span style="background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #34d399;">👉 చేతులు (దృష్టులు): ' + handDetails.join(', ') + '</span>';
-        } else {
-          infoHtml += '<span style="color: #94a3b8; font-size: 12px;">(చేతులు లేవు)</span>';
-        }
-        infoHtml += '</div>';
-        infoHtml += '<button type="button" onclick="filterKundaliByPlanet(&quot;all&quot;)" class="btn-clear-planet" title="రీసెట్"><i class="fas fa-times"></i> రీసెట్ (అన్నీ)</button>';
-        infoBar.innerHTML = infoHtml;
-      }
-    }
-
-    function updatePlanetPillsActive(planetName) {
-      document.querySelectorAll('.planet-pill-btn').forEach(btn => {
-        const p = btn.getAttribute('data-planet');
-        if (p === planetName || (planetName === 'all' && p === 'all')) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-    }
-
-    // Attach click listeners to pills and select explicitly
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.planet-pill-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          var p = btn.getAttribute('data-planet');
-          filterKundaliByPlanet(p);
-        });
-      });
-      var selectEl = document.getElementById('planetFilterSelect');
-      if (selectEl) {
-        selectEl.addEventListener('change', function(e) {
-          filterKundaliByPlanet(this.value);
-        });
-      }
-    });
-
-    // Allow clicking on any planet entry in the chart to immediately focus on it
-    document.addEventListener('click', function(e) {
-      const planetEl = e.target.closest('.planet-entry');
-      if (planetEl && planetEl.getAttribute('data-planet')) {
-        const p = planetEl.getAttribute('data-planet');
-        filterKundaliByPlanet(p);
-      }
-    });
-
-    /* ===== FLOATING TOOLTIP FOR PLANET ENTRY & EXIT DATE/TIME ===== */
-    (function() {
       let tooltip = document.getElementById('planet-transit-tooltip');
       if (!tooltip) {
         tooltip = document.createElement('div');
@@ -1998,25 +1008,22 @@
         tooltip.className = 'planet-transit-tooltip';
         document.body.appendChild(tooltip);
       }
+      tooltip.style.position = 'fixed';
+      tooltip.style.zIndex = '9999999';
+      tooltip.style.pointerEvents = 'none';
+
+      let currentHoveredPlanet = null;
 
       function showTooltip(el, e) {
         const entry = el.getAttribute('data-entry');
         const exit = el.getAttribute('data-exit');
         if (!entry && !exit) return;
 
-        const planet = el.getAttribute('data-planet') || '';
-        const rashi = el.getAttribute('data-rashi') || (el.closest('.box') ? el.closest('.box').getAttribute('data-rashi') : '');
+        tooltip.innerHTML = '<div style="font-size: 12px; line-height: 1.6; color: #ffffff; white-space: nowrap; background: rgba(15, 23, 42, 0.96); border: 1.5px solid #ffd700; border-radius: 8px; padding: 7px 11px; box-shadow: 0 8px 24px rgba(0,0,0,0.7); backdrop-filter: blur(6px);">' +
+          '<div><b style="color: #ffd700;">ప్రవేశం:</b> <span style="color: #f8fafc;">' + (entry || 'సమాచారం లేదు') + '</span></div>' +
+          '<div><b style="color: #ffd700;">నిష్క్రమణం:</b> <span style="color: #f8fafc;">' + (exit || 'సమాచారం లేదు') + '</span></div>' +
+          '</div>';
 
-        let html = '<div class="ptt-title">';
-        html += '<span>🪐 ' + planet + '</span>';
-        if (rashi) {
-          html += '<span class="ptt-rashi">(' + rashi + ')</span>';
-        }
-        html += '</div>';
-        html += '<div class="ptt-row"><span class="ptt-label">ప్రవేశం:</span><span class="ptt-val entry">' + (entry || '--') + '</span></div>';
-        html += '<div class="ptt-row"><span class="ptt-label">నిష్క్రమణం:</span><span class="ptt-val exit">' + (exit || '--') + '</span></div>';
-
-        tooltip.innerHTML = html;
         tooltip.style.display = 'block';
         positionTooltip(e);
       }
@@ -2026,56 +1033,48 @@
         const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
         const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 200);
 
-        let left = clientX;
-        let top = clientY - 14;
+        let left = clientX + 14;
+        let top = clientY + 14;
 
-        const ttWidth = 270;
-        if (left - ttWidth / 2 < 12) {
-          left = ttWidth / 2 + 12;
-        } else if (left + ttWidth / 2 > window.innerWidth - 12) {
-          left = window.innerWidth - ttWidth / 2 - 12;
+        const rect = tooltip.getBoundingClientRect();
+        if (left + rect.width > window.innerWidth - 10) {
+          left = clientX - rect.width - 14;
+        }
+        if (top + rect.height > window.innerHeight - 10) {
+          top = clientY - rect.height - 14;
         }
 
-        if (top < 90) {
-          tooltip.style.transform = 'translate(-50%, 20px)';
-        } else {
-          tooltip.style.transform = 'translate(-50%, -100%)';
-        }
-
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
+        tooltip.style.left = Math.max(10, left) + 'px';
+        tooltip.style.top = Math.max(10, top) + 'px';
       }
 
       function hideTooltip() {
         if (tooltip) tooltip.style.display = 'none';
       }
 
-      document.addEventListener('mouseover', function(e) {
-        const el = e.target.closest('.planet-entry');
-        if (el && (el.getAttribute('data-entry') || el.getAttribute('data-exit'))) {
-          showTooltip(el, e);
-        }
-      });
-
+      // Smooth mousemove tracking
       document.addEventListener('mousemove', function(e) {
-        if (tooltip && tooltip.style.display === 'block') {
-          positionTooltip(e);
-        }
-      });
-
-      document.addEventListener('mouseout', function(e) {
         const el = e.target.closest('.planet-entry');
         if (el) {
-          hideTooltip();
+          if (currentHoveredPlanet !== el) {
+            currentHoveredPlanet = el;
+            showTooltip(el, e);
+          } else {
+            positionTooltip(e);
+          }
+        } else {
+          if (currentHoveredPlanet) {
+            currentHoveredPlanet = null;
+            hideTooltip();
+          }
         }
       });
 
       document.addEventListener('touchstart', function(e) {
         const el = e.target.closest('.planet-entry');
-        if (el && (el.getAttribute('data-entry') || el.getAttribute('data-exit'))) {
+        if (el) {
           showTooltip(el, e.touches[0]);
-        } else {
-          hideTooltip();
+          setTimeout(hideTooltip, 4500);
         }
       }, { passive: true });
     })();
