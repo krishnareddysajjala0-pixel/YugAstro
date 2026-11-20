@@ -309,15 +309,16 @@
       text-decoration: underline;
     }
 
-    /* Chart Container & South Indian Grid */
+    /* Chart Container & South Indian Grid - Matches Kundali Page Exactly */
     .chart-container {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      padding: 20px;
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
       border-radius: 20px;
-      padding: 16px;
+      border: 1px solid var(--card-border);
       box-shadow: 0 20px 40px var(--shadow-color);
-      backdrop-filter: blur(12px);
-      margin-bottom: 24px;
     }
 
     .chart {
@@ -328,19 +329,33 @@
       margin: auto;
     }
 
-    /* House Boxes */
+    /* House Boxes - Exact Kundali Page Sizing */
     .box {
       position: relative;
       border: 2px solid var(--box-border);
       min-height: 130px;
-      padding: 10px;
+      padding: 12px;
       font-size: 13px;
       border-radius: 12px;
       transition: all 0.3s ease;
       overflow: hidden;
+    }
+
+    .box:hover {
+      transform: translateY(-3px);
+      border-color: var(--box-border-hover);
+      box-shadow: 0 10px 20px var(--shadow-color);
+    }
+
+    .planets-content {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .planets-content br {
+      display: none !important;
     }
 
     /* ===== HOUSE BORDERS & BACKGROUND COLORS LIKE IN KUNDALI PAGE ===== */
@@ -386,8 +401,8 @@
     /* ===== HANDS IN ROUND CIRCLE / PILL ===== */
     .hand {
       display: inline-block !important;
-      padding: 2.5px 8px !important;
-      margin: 2px 1px !important;
+      padding: 3px 10px !important;
+      margin: 3px 2px !important;
       border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
       border-radius: 14px !important;
       background: rgba(0, 0, 0, 0.3) !important;
@@ -411,33 +426,28 @@
       border-color: #ffd700 !important;
       transform: scale(1.06);
     }
-    @media (max-width: 580px) {
-      .hand {
-        padding: 2px 6px !important;
-        font-size: 9.5px !important;
-        border-radius: 10px !important;
-      }
-    }
 
+    /* ===== HOUSE NUMBER - EXACT KUNDALI PAGE ===== */
     .house-no {
       position: absolute;
       top: 4px;
       right: 6px;
-      font-weight: 800;
       font-size: 11px;
+      font-weight: bold;
       background: var(--house-no-bg, rgba(255, 255, 255, 0.1));
-      color: var(--house-no-text, #ffffff);
       width: 20px;
       height: 20px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--house-no-text, #ffffff);
       border: 1px solid var(--box-border, rgba(255, 255, 255, 0.25));
       line-height: 1;
       padding: 0;
     }
 
+    /* ===== KARMA LABEL - EXACT KUNDALI PAGE ===== */
     .karma-label {
       position: absolute;
       right: 2px;
@@ -445,7 +455,7 @@
       transform: translateY(-50%);
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      font-size: 6.5px;
+      font-size: 6.5px; /* 50% of 13px */
       line-height: 1;
       color: var(--label-text, #ffffff);
       font-weight: 800;
@@ -459,21 +469,22 @@
       pointer-events: none;
     }
 
+    /* ===== LAGNA NAME - EXACT KUNDALI PAGE ===== */
     .lagna-name {
       position: absolute;
-      bottom: 6px;
+      bottom: 8px;
       right: 4px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--label-text, #ffffff);
       background: var(--label-bg, rgba(0, 0, 0, 0.5));
-      padding: 3px 8px;
-      border-radius: 12px;
+      padding: 4px 10px;
+      border-radius: 15px;
       border: 1px solid var(--box-border, rgba(255, 255, 255, 0.2));
     }
 
-    .pos { color: var(--color-pos); font-weight: 600; }
-    .neg { color: var(--color-neg); font-weight: 600; }
+    .pos { color: var(--color-pos, #22c55e); font-weight: 600; }
+    .neg { color: var(--color-neg, #ef4444); font-weight: 600; }
 
     .full-deg { display: inline; }
     .short-deg { display: none; }
@@ -481,46 +492,99 @@
     .short-name { display: none; }
 
     .lagna-text {
-      color: #fbbf24;
+      font-size: 13px;
       font-weight: bold;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      color: gold;
     }
 
-    /* CENTER BOX */
+    /* ===== CENTER BOX & TABLE - EXACT KUNDALI PAGE ===== */
     .center {
-      grid-column: 2 / span 2;
-      grid-row: 2 / span 2;
-      background: rgba(15, 23, 42, 0.95);
-      border: 2px solid rgba(251, 191, 36, 0.35);
-      border-radius: 14px;
-      padding: 14px;
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      border: 2px solid var(--box-border, rgba(255, 255, 255, 0.25));
+      border-radius: 15px;
+      font-size: 15px;
+      background: var(--card-bg, rgba(15, 23, 42, 0.85));
+      padding: 6px 8px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
     }
-
-    .center-table {
+    .center::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.05) 100%);
+    }
+    .center-content {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    .center-table {
+      width: max-content;
+      min-width: 90%;
+      max-width: 98%;
+      margin: auto;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      font-size: 10.5px;
+      line-height: 1.2;
+      text-align: left;
+      border: 1.5px solid var(--box-border, #ffd700) !important;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.3));
+      background: var(--card-bg, rgba(15, 23, 42, 0.7));
+      overflow: hidden;
     }
     .center-table tr {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border: none !important;
     }
-    .center-table tr:last-child {
-      border-bottom: none;
+    .center-table td {
+      border: none !important;
+      padding: 1.5px 8px !important;
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+      box-sizing: border-box !important;
+    }
+    .center-table tr:nth-child(even) {
+      background: rgba(120, 120, 120, 0.04);
     }
     .center-label {
-      padding: 4px 6px;
-      color: #94a3b8;
-      font-weight: 600;
-      white-space: nowrap;
+      width: auto !important;
+      font-weight: 800 !important;
+      color: #fbbf24 !important;
+      white-space: nowrap !important;
+      text-align: left !important;
+      padding-right: 14px !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    .center-label i {
+      display: none !important;
     }
     .center-value {
-      padding: 4px 6px;
-      color: #ffffff;
-      font-weight: 700;
+      width: auto !important;
+      font-weight: 700 !important;
+      color: var(--text-main, #ffffff) !important;
+      background: transparent !important;
+      white-space: nowrap !important;
+      word-break: normal !important;
+      text-align: left !important;
+      border: none !important;
     }
 
     /* ===== PLANET TRANSIT ENTRY/EXIT HOVER TOOLTIP ===== */
@@ -625,21 +689,97 @@
       transform: translateY(-2px);
     }
 
-    @media (max-width: 680px) {
+    /* ===== RESPONSIVE DESIGN - EXACT KUNDALI PAGE (chart.html) BREAKPOINT & SIZES ===== */
+    @media screen and (max-width: 768px) {
+      .chart {
+        gap: 5px !important;
+      }
       .box {
-        min-height: 105px;
-        padding: 6px;
-        font-size: 11px;
+        min-height: 35px !important;
+        padding: 3px !important;
+        font-size: 8.5px !important;
+        line-height: 1 !important;
+        text-align: left !important;
       }
-      .full-name { display: none; }
-      .short-name { display: inline; }
-      .full-deg { display: none; }
-      .short-deg { display: inline; }
+      .house-no {
+        width: 10px !important;
+        height: 10px !important;
+        font-size: 6px !important;
+        top: 4px !important;
+        right: 4px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+      }
+      .full-name, .full-deg {
+        display: none !important;
+      }
+      .short-name, .short-deg {
+        display: inline !important;
+      }
+      .chart-container {
+        padding: 5px !important;
+        margin-bottom: 20px !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      .box span {
+        display: inline-block;
+        max-width: 85%;
+        word-break: break-word;
+      }
+      .box-condensed {
+        font-size: 9px !important;
+      }
+      .box-condensed span {
+        line-height: 1 !important;
+      }
+      .karma-label {
+        font-size: 4.25px !important; /* 50% of 8.5px */
+        margin-bottom: 2px !important;
+        padding: 1px 2px !important;
+      }
+      .lagna-name {
+        font-size: 9.2px !important;
+        padding: 2px 5px !important;
+        bottom: 2px !important;
+        right: 2px !important;
+      }
       .center {
-        padding: 6px;
+        padding: 2px !important;
+        font-size: 8px !important;
       }
+      .center table,
       .center-table {
-        font-size: 10.5px;
+        border-spacing: 0 1px !important;
+        font-size: 8px !important;
+        width: 98% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        margin: auto !important;
+      }
+      .center-table td {
+        padding: 0.5px 2px !important;
+      }
+      .center-label {
+        padding-right: 4px !important;
+        font-size: 8px !important;
+      }
+      .center-value {
+        font-size: 8px !important;
+      }
+      .hand {
+        padding: 2px 5px !important;
+        font-size: 9px !important;
+        margin: 1px 0 !important;
+        white-space: nowrap !important;
+        border-radius: 8px !important;
+      }
+      .box b, .box small {
+        font-size: 9px !important;
       }
       .planet-selector-bar {
         padding: 12px 14px;
@@ -656,11 +796,11 @@
         flex: 1;
       }
     }
-  
+
     .pos, .pos * { color: #22c55e !important; font-weight: 600; }
     .neg, .neg * { color: #ef4444 !important; font-weight: 600; }
     .short-name, .short-deg { display: none !important; }
-    @media (max-width: 580px) {
+    @media (max-width: 768px) {
       .full-name, .full-deg { display: none !important; }
       .short-name, .short-deg { display: inline !important; }
     }
@@ -870,7 +1010,7 @@
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
 
-    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(box_lagna) }}">
+    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}" data-house-no="{{ hno }}" data-rashi="{{ _(box_lagna) }}">
       <span class="house-no">{{ hno }}</span>
 
       {% if hno in [1,5,9] %}
@@ -883,7 +1023,7 @@
 
       {% for line in chart[box_lagna].split('<br>') %}
         {% if _("లగ్నం") in line %}
-          <div class="lagna-text chart-planet-line">
+          <div class="lagna-text chart-planet-line" style="color: gold; font-weight: bold; margin-bottom: 5px;">
             {{ line | safe }}
           </div>
         {% elif line.strip() %}
@@ -919,7 +1059,10 @@
       <div class="meta-item"><i class="fas fa-calendar-day" style="color: #fbbf24;"></i> {{ _('తేదీ:') }} <strong>{{ dob }} ({{ day_name }})</strong></div>
       <div class="meta-item"><i class="fas fa-clock" style="color: #38bdf8;"></i> {{ _('సమయం:') }} <strong>{{ tob }}</strong></div>
       <div class="meta-item"><i class="fas fa-map-marker-alt" style="color: #f87171;"></i> {{ _('స్థలం:') }} <strong>{{ place.split(',')[0] if ',' in place else place }}</strong></div>
-      <div class="meta-item"><i class="fas fa-compass" style="color: #34d399;"></i> {{ _('లగ్నం:') }} <strong>{{ lagna }} ({{ lagna_deg }})</strong></div>
+      <div class="meta-item"><i class="fas fa-compass" style="color: #34d399;"></i> {{ _('లగ్నం:') }} <strong>{{ lagna }}
+                  {% if lagna_deg is defined and lagna_deg %}
+                    (<span class="full-deg">{{ lagna_deg }}</span><span class="short-deg">{{ lagna_deg.split('°')[0] }}°</span>)
+                  {% endif %}</strong></div>
       <div class="meta-item"><i class="fas fa-certificate" style="color: #a78bfa;"></i> {{ _('వర్గము:') }} <strong>{{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}</strong></div>
     </div>
 
@@ -1091,7 +1234,10 @@
               <tr>
                 <td class="center-label">{{ _('లగ్నం:') }}</td>
                 <td class="center-value">
-                  {{ lagna }} ({{ lagna_deg }})
+                  {{ lagna }}
+                  {% if lagna_deg is defined and lagna_deg %}
+                    (<span class="full-deg">{{ lagna_deg }}</span><span class="short-deg">{{ lagna_deg.split('°')[0] }}°</span>)
+                  {% endif %}
                 </td>
               </tr>
               <tr>
