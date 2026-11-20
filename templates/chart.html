@@ -6896,6 +6896,68 @@ body {
 }
 
 </style>
+<style>
+    /* ===== PLANET & LAGNA TRANSIT ENTRY/EXIT HOVER TOOLTIP ===== */
+    .planet-transit-tooltip {
+      position: fixed;
+      display: none;
+      z-index: 9999999;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.97);
+      border: 1.5px solid #fbbf24;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 18px rgba(251, 191, 36, 0.35);
+      border-radius: 12px;
+      padding: 10px 14px;
+      min-width: 250px;
+      max-width: 330px;
+      backdrop-filter: blur(12px);
+      font-family: inherit;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      transform: translate(-50%, -100%);
+    }
+    .ptt-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #fbbf24;
+      border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+      padding-bottom: 6px;
+      margin-bottom: 7px;
+    }
+    .ptt-rashi {
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .ptt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 5px;
+      font-size: 12.5px;
+    }
+    .ptt-row:last-child {
+      margin-bottom: 0;
+    }
+    .ptt-label {
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    .ptt-val {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .ptt-val.entry {
+      color: #34d399; /* Emerald Green */
+    }
+    .ptt-val.exit {
+      color: #f87171; /* Coral Red */
+    }
+</style>
 </head>
 
 
@@ -10361,6 +10423,108 @@ if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversa
 window.CHART_LAGNA = "{{ lagna }}";
 </script>
 <script src="/static/js/astro_interactive_popover.js"></script>
+
+<!-- ===== FLOATING TOOLTIP FOR PLANET & LAGNA TRANSIT ENTRY & EXIT DATE/TIME ===== -->
+<div id="planet-transit-tooltip" class="planet-transit-tooltip"></div>
+<script>
+(function() {
+  let tooltip = document.getElementById('planet-transit-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = 'planet-transit-tooltip';
+    tooltip.className = 'planet-transit-tooltip';
+    document.body.appendChild(tooltip);
+  }
+
+  let currentTargetEl = null;
+
+  function showTooltip(el, e) {
+    const entry = el.getAttribute('data-entry');
+    const exit = el.getAttribute('data-exit');
+    if (!entry && !exit) return;
+
+    const planet = el.getAttribute('data-planet') || '';
+    const rashi = el.getAttribute('data-rashi') || (el.closest('.box') ? el.closest('.box').getAttribute('data-rashi') : '');
+
+    let html = '<div class="ptt-title">';
+    html += '<span>🪐 ' + planet + '</span>';
+    if (rashi) {
+      html += '<span class="ptt-rashi">(' + rashi + ')</span>';
+    }
+    html += '</div>';
+    html += '<div class="ptt-row"><span class="ptt-label">ప్రవేశం:</span><span class="ptt-val entry">' + (entry || '--') + '</span></div>';
+    html += '<div class="ptt-row"><span class="ptt-label">నిష్క్రమణం:</span><span class="ptt-val exit">' + (exit || '--') + '</span></div>';
+
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+    positionTooltip(e);
+  }
+
+  function positionTooltip(e) {
+    if (!tooltip || tooltip.style.display !== 'block') return;
+    const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
+    const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 200);
+
+    let left = clientX;
+    let top = clientY - 14;
+
+    const ttWidth = 270;
+    if (left - ttWidth / 2 < 12) {
+      left = ttWidth / 2 + 12;
+    } else if (left + ttWidth / 2 > window.innerWidth - 12) {
+      left = window.innerWidth - ttWidth / 2 - 12;
+    }
+
+    if (top < 100) {
+      tooltip.style.transform = 'translate(-50%, 20px)';
+    } else {
+      tooltip.style.transform = 'translate(-50%, -100%)';
+    }
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+
+  function hideTooltip() {
+    if (tooltip) tooltip.style.display = 'none';
+  }
+
+  document.addEventListener('mousemove', function(e) {
+    const el = e.target.closest('.planet-entry') || (e.target.closest('.lagna-text') ? e.target.closest('.lagna-text').querySelector('.planet-entry') : null);
+    if (el && (el.getAttribute('data-entry') || el.getAttribute('data-exit'))) {
+      if (currentTargetEl !== el) {
+        currentTargetEl = el;
+        showTooltip(el, e);
+      } else {
+        positionTooltip(e);
+      }
+    } else {
+      if (currentTargetEl) {
+        currentTargetEl = null;
+        hideTooltip();
+      }
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    const el = e.target.closest('.planet-entry') || (e.target.closest('.lagna-text') ? e.target.closest('.lagna-text').querySelector('.planet-entry') : null);
+    if (el) {
+      currentTargetEl = null;
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener('touchstart', function(e) {
+    const el = e.target.closest('.planet-entry') || (e.target.closest('.lagna-text') ? e.target.closest('.lagna-text').querySelector('.planet-entry') : null);
+    if (el && (el.getAttribute('data-entry') || el.getAttribute('data-exit'))) {
+      showTooltip(el, e.touches[0]);
+      setTimeout(hideTooltip, 4500);
+    } else {
+      hideTooltip();
+    }
+  }, { passive: true });
+})();
+</script>
 
 </body>
 

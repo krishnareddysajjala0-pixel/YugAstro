@@ -2347,8 +2347,8 @@ RASHI_DETAILS_MAP = {
         "adhipathi": "మిత్ర",
         "direction": "పైకి",
         "adhipathi_full": "మిత్ర (పైకి)",
-        "gem": "గోమేధికము",
-        "gem_icon": "/static/images/gems/hessonite.svg",
+        "gem": "ఎర్రరాయి",
+        "gem_icon": "/static/images/gems/red_stone.svg",
         "karakatwalu": "అన్న, వృక్షాలకు, గుర్రములు, వస్త్రములు (వారసత్వము)"
     },
     "మిథునం": {
