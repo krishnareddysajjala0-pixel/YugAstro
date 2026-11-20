@@ -1033,7 +1033,63 @@
 
         }
 
-    </style>
+    
+/* Equal Sizing Buttons in Panchangam */
+        .btn-container { 
+            margin-top: 22px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: stretch;
+            gap: 14px; 
+            flex-wrap: wrap; 
+            width: 100%;
+        }
+        .btn-container .btn {
+            flex: 1 1 220px;
+            max-width: 320px;
+            min-height: 52px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-sizing: border-box;
+            text-align: center;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .btn-submit {
+            background: var(--btn-show-bg);
+            color: #111;
+            border: none;
+            box-shadow: 0 4px 14px rgba(234, 179, 8, 0.35);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(234, 179, 8, 0.5);
+        }
+        .btn-gochara-kundali {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #1e1b4b;
+            border: none;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+        .btn-gochara-kundali:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+            color: #000000;
+        }
+        @media (max-width: 580px) {
+            .btn-container .btn {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+</style>
 
 <style>
 
@@ -1593,12 +1649,12 @@ body {
                 <div id="geo-status"></div>
 
                 <div class="btn-container">
-
-                    <button type="submit" class="btn btn-submit"><i class="fas fa-sync"></i> {{ _('పంచాంగం చూడండి') }}</button>
-                    <button type="button" class="btn btn-kundali" id="btn-panch-kundali" onclick="openKundaliFromPanchangam()" title="{{ _('ఈ తేది, సమయమునకు కుండలి చక్రం చూడండి') }}">
-                        <i class="fas fa-dharmachakra"></i> {{ _('కుండలి') }}
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-sync"></i> {{ _('పంచాంగం చూడండి') }}
                     </button>
-
+                    <button type="button" class="btn btn-gochara-kundali" id="btn-panch-kundali" onclick="openKundaliFromPanchangam()" title="{{ _('ఈ తేది, సమయమునకు గోచార కుండలి చక్రం చూడండి') }}">
+                        <i class="fas fa-dharmachakra"></i> {{ _('గోచార కుండలి') }}
+                    </button>
                 </div>
 
             </form>
@@ -2743,7 +2799,7 @@ function openKundaliFromPanchangam() {
         var place = (placeInput && placeInput.value) ? placeInput.value.trim() : 'Hyderabad, Telangana';
         var lat = (latInput && latInput.value) ? latInput.value.trim() : '17.3850';
         var lon = (lonInput && lonInput.value) ? lonInput.value.trim() : '78.4867';
-        var name = 'పంచాంగ జాతకుడు';
+        var name = 'గోచార జాతకుడు';
 
         if (!dob) {
             var now = new Date();
@@ -2767,7 +2823,7 @@ function openKundaliFromPanchangam() {
         params.set('lon', lon);
         params.set('name', name);
 
-        var targetUrl = '/chart?' + params.toString();
+        var targetUrl = '/gochara_kundali?' + params.toString();
 
         // Try opening in new tab, fall back to same window if blocked
         var win = window.open(targetUrl, '_blank');

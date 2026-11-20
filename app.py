@@ -2667,27 +2667,15 @@ def chart():
         mobile = f"{country_code} {mobile_num}" if mobile_num else ""
         req_telegram = request.form.get("req_telegram", "no")
     else:
-        # Check GET query parameters first (e.g. from Panchangam Kundali button)
-        name = request.args.get("name", "").strip()
-        dob = request.args.get("dob", "").strip()
-        tob = request.args.get("tob", "").strip()
-        place = request.args.get("place", "").strip()
-        lat = request.args.get("lat")
-        lon = request.args.get("lon")
-        mobile = request.args.get("mobile", "")
-        req_telegram = request.args.get("req_telegram", "no")
-
-        # If not provided in query params, fall back to session
-        if not dob:
-            form_data = session.get('chart_form', {}) or session.get('birth_info', {})
-            name = form_data.get('name', '')
-            dob = form_data.get('dob', '')
-            tob = form_data.get('tob', '')
-            place = form_data.get('place', '')
-            lat = form_data.get('lat')
-            lon = form_data.get('lon')
-            mobile = form_data.get('mobile', '')
-            req_telegram = form_data.get('req_telegram', 'no')
+        form_data = session.get('chart_form', {}) or session.get('birth_info', {})
+        name = form_data.get('name', '')
+        dob = form_data.get('dob', '')
+        tob = form_data.get('tob', '')
+        place = form_data.get('place', '')
+        lat = form_data.get('lat')
+        lon = form_data.get('lon')
+        mobile = form_data.get('mobile', '')
+        req_telegram = form_data.get('req_telegram', 'no')
 
     # Safe defaults so Kundali page NEVER fails to open
     if not name:
@@ -2751,6 +2739,46 @@ def chart():
     thraitha_report = generate_thraitha_jathaka_report(data, dasha_data if isinstance(dasha_data, dict) else {})
 
     return render_template("chart.html", **data, **dasha_data, jathaka_results=jathaka_results, thraitha_report=thraitha_report)
+
+@app.route("/gochara_kundali", methods=["GET", "POST"])
+def gochara_kundali():
+    if request.method == "POST":
+        name = request.form.get("name", "గోచార జాతకుడు").strip()
+        dob = request.form.get("dob", "").strip()
+        tob = request.form.get("tob", "").strip()
+        place = request.form.get("place", "").strip()
+        lat = request.form.get("lat")
+        lon = request.form.get("lon")
+    else:
+        name = request.args.get("name", "గోచార జాతకుడు").strip()
+        dob = request.args.get("dob", "").strip()
+        tob = request.args.get("tob", "").strip()
+        place = request.args.get("place", "").strip()
+        lat = request.args.get("lat")
+        lon = request.args.get("lon")
+
+    if not name:
+        name = "గోచార జాతకుడు"
+    if not dob:
+        dob = datetime.date.today().strftime("%Y-%m-%d")
+    if not tob:
+        tob = datetime.datetime.now().strftime("%H:%M")
+    if not place:
+        place = "హైదరాబాద్, తెలంగాణ"
+
+    try:
+        lat = float(lat)
+        lon = float(lon)
+    except (ValueError, TypeError):
+        lat = 17.3850
+        lon = 78.4867
+
+    data = get_kundali_data(name, dob, tob, place, lat, lon)
+    dasha_data = get_dasha_info(data)
+
+    return render_template("gochara_kundali.html", **data, **dasha_data)
+
+
 
 
 @app.route("/nakshatra_chart", methods=["GET", "POST"])
