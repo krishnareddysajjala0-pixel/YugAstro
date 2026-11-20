@@ -1507,6 +1507,125 @@ def set_lang(lang):
 
 KUNDALI_CACHE = {}
 
+
+TELUGU_TRANSIT_MONTHS = {
+    1: "జనవరి", 2: "ఫిబ్రవరి", 3: "మార్చి", 4: "ఏప్రిల్",
+    5: "మే", 6: "జూన్", 7: "జూలై", 8: "ఆగస్టు",
+    9: "సెప్టెంబర్", 10: "అక్టోబర్", 11: "నవంబర్", 12: "డిసెంబర్"
+}
+
+def format_telugu_transit_dt(dt):
+    day = dt.day
+    mon = TELUGU_TRANSIT_MONTHS.get(dt.month, str(dt.month))
+    year = dt.year
+    hour_12 = dt.hour % 12
+    if hour_12 == 0:
+        hour_12 = 12
+    minute = dt.minute
+    ampm = "AM" if dt.hour < 12 else "PM"
+    
+    if dt.hour < 6:
+        time_prefix = "రా."
+    elif dt.hour < 12:
+        time_prefix = "ఉ."
+    elif dt.hour < 16:
+        time_prefix = "మ."
+    elif dt.hour < 20:
+        time_prefix = "సా."
+    else:
+        time_prefix = "రా."
+        
+    return f"{day:02d} {mon} {year}, {time_prefix} {hour_12:02d}:{minute:02d} {ampm}"
+
+PLANET_SEARCH_CONFIG = {
+    "సూర్యుడు": (1.0, 45),
+    "చంద్రుడు": (0.1, 4),
+    "కుజుడు": (1.0, 120),
+    "బుధుడు": (0.5, 70),
+    "గురు": (3.0, 450),
+    "శుక్రుడు": (0.5, 70),
+    "శని": (5.0, 1100),
+    "రాహు": (3.0, 750),
+}
+
+def compute_planet_ingress_egress(jd_0, lat, lon, timezone_str="Asia/Kolkata"):
+    tz = pytz.timezone(timezone_str)
+
+    def jd_to_str(jd):
+        y, m, d, h = swe.revjul(jd)
+        hh = int(h)
+        mm = int((h - hh) * 60)
+        utc = pytz.utc.localize(datetime.datetime(y, m, d, hh, mm))
+        local_time = utc.astimezone(tz)
+        return format_telugu_transit_dt(local_time)
+
+    def find_ie(lon_fn, step, max_range):
+        curr_lon = lon_fn(jd_0)
+        curr_rashi = int(curr_lon / 30)
+
+        # 1. Entry (ingress into curr_rashi)
+        jd = jd_0
+        while jd > jd_0 - max_range:
+            jd_prev = jd - step
+            if int(lon_fn(jd_prev) / 30) != curr_rashi:
+                low, high = jd_prev, jd
+                for _ in range(25):
+                    mid = (low + high) / 2.0
+                    if int(lon_fn(mid) / 30) == curr_rashi:
+                        high = mid
+                    else:
+                        low = mid
+                jd_entry = high
+                break
+            jd = jd_prev
+        else:
+            jd_entry = jd_0 - max_range
+
+        # 2. Exit (egress out of curr_rashi)
+        jd = jd_0
+        while jd < jd_0 + max_range:
+            jd_next = jd + step
+            if int(lon_fn(jd_next) / 30) != curr_rashi:
+                low, high = jd, jd_next
+                for _ in range(25):
+                    mid = (low + high) / 2.0
+                    if int(lon_fn(mid) / 30) == curr_rashi:
+                        low = mid
+                    else:
+                        high = mid
+                jd_exit = high
+                break
+            jd = jd_next
+        else:
+            jd_exit = jd_0 + max_range
+
+        return jd_to_str(jd_entry), jd_to_str(jd_exit)
+
+    results = {}
+
+    for p_name, pid in PLANETS.items():
+        step, max_r = PLANET_SEARCH_CONFIG.get(p_name, (1.0, 90))
+        results[p_name] = find_ie(lambda j, p=pid: swe.calc_ut(j, p, swe.FLG_SIDEREAL)[0][0], step, max_r)
+
+    # Ketu is opposite Rahu (enters & exits opposite rashi at exact same time)
+    results["కేతు"] = results.get("రాహు", ("", ""))
+
+    # Lagna
+    def get_lagna(j):
+        h, ascmc = swe.houses(j, lat, lon)
+        return (ascmc[0] - swe.get_ayanamsa_ut(j)) % 360
+    results["లగ్నం"] = find_ie(get_lagna, 0.01, 0.5)
+
+    # Bhoomi is opposite Sun
+    results["భూమి"] = results.get("సూర్యుడు", ("", ""))
+
+    # Chithra & Mithra (tied to Rahu/Ketu nodes)
+    rahu_step, rahu_max = PLANET_SEARCH_CONFIG["రాహు"]
+    results["చిత్ర"] = find_ie(lambda j: (swe.calc_ut(j, swe.TRUE_NODE, swe.FLG_SIDEREAL)[0][0] + 3.3333) % 360, rahu_step, rahu_max)
+    results["మిత్ర"] = find_ie(lambda j: (swe.calc_ut(j, swe.TRUE_NODE, swe.FLG_SIDEREAL)[0][0] + 183.3333) % 360, rahu_step, rahu_max)
+
+    return results
+
 def get_kundali_data(name, dob, tob, place, lat, lon):
     k_cache_key = f"{dob}_{tob}_{lat}_{lon}"
     if k_cache_key in KUNDALI_CACHE:
@@ -1537,6 +1656,9 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600
     )
 
+    # Calculate exact planetary ingress (entry) and egress (exit) for current lagnam/rashi
+    planet_transits = compute_planet_ingress_egress(jd, lat, lon, timezone_str)
+
     chart_data_temp = {r:[] for r in LAGNA_NAMES_TELUGU}
     base_pos = {}
 
@@ -1549,7 +1671,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         d = int(deg)
         m = int((deg-d)*60)
         short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
-        html_str = f"<span class='planet-entry direct-planet' data-planet='{name_p}' data-type='direct'><b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
+        entry_t, exit_t = planet_transits.get(name_p, ('', ''))
+        html_str = f"<span class='planet-entry direct-planet' data-planet='{name_p}' data-type='direct' data-entry='{entry_t}' data-exit='{exit_t}' data-rashi='{lagna}'><b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
         chart_data_temp[lagna].append((deg, html_str))
 
     # Ketu
@@ -1562,7 +1685,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     d = int(deg_k)
     m = int((deg_k-d)*60)
     short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
-    html_str = f"<span class='planet-entry direct-planet' data-planet='కేతు' data-type='direct'><b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
+    entry_k, exit_k = planet_transits.get('కేతు', ('', ''))
+    html_str = f"<span class='planet-entry direct-planet' data-planet='కేతు' data-type='direct' data-entry='{entry_k}' data-exit='{exit_k}' data-rashi='{r}'><b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
     chart_data_temp[r].append((deg_k, html_str))
 
     # Derived planets (Dasacharam Logic - Verified)
@@ -1579,7 +1703,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         d = int(deg)
         m = int((deg-d)*60)
         short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-        html_str = f"<span class='planet-entry direct-planet' data-planet='{n}' data-type='direct'><b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
+        entry_der, exit_der = planet_transits.get(n, ('', ''))
+        html_str = f"<span class='planet-entry direct-planet' data-planet='{n}' data-type='direct' data-entry='{entry_der}' data-exit='{exit_der}' data-rashi='{r}'><b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small></span>"
         chart_data_temp[r].append((deg, html_str))
 
     # Month mappings linking Telugu to English Gregorian periods
@@ -1612,7 +1737,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
             d = int(deg)
             m = int((deg-d)*60)
             short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-            html_str = f"<span class='hand planet-entry hand-planet' data-planet='{n}' data-type='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
+            entry_h, exit_h = planet_transits.get(n, ('', ''))
+            html_str = f"<span class='hand planet-entry hand-planet' data-planet='{n}' data-type='hand' data-entry='{entry_h}' data-exit='{exit_h}' data-rashi='{r}'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
             chart_data_temp[r].append((deg, html_str))
 
     # Lagna
@@ -1631,7 +1757,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     # Add Lagna to chart data
     short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
     lagna_short_deg = f"{lagna_deg}°"
-    html_str = f"<span class='planet-entry direct-planet lagna-entry' data-planet='లగ్నం' data-type='direct'><b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small></span>"
+    entry_l, exit_l = planet_transits.get('లగ్నం', ('', ''))
+    html_str = f"<span class='planet-entry direct-planet lagna-entry' data-planet='లగ్నం' data-type='direct' data-entry='{entry_l}' data-exit='{exit_l}' data-rashi='{lagna}'><b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small></span>"
     chart_data_temp[lagna].append((lagna_lon % 30, html_str))
     
     # Sort elements per house by degree
