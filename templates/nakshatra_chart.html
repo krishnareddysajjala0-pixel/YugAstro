@@ -3605,6 +3605,9 @@ body {
     <button class="float-btn btn-planets" onclick="window.location.href='/chart3'">
       <i class="fas fa-star"></i> <span>{{ _('ద్వాదశ గ్రహములు') }}</span>
     </button>
+    <button class="float-btn btn-3d-chakras" onclick="goTo3dChakras()" title="{{ _('3D చక్రాలు & కర్మ ప్రయోగశాల') }}">
+      <i class="fas fa-cubes"></i> <span>{{ _('3D చక్రాలు') }}</span>
+    </button>
     <button class="float-btn btn-print print-hide" onclick="doSharePDF()">
       <i class="fas fa-print"></i> <span>{{ _('ప్రింట్') }}</span>
     </button>
@@ -3640,6 +3643,21 @@ body {
 
     function goToDashaChart() {
       window.location.href = '/go-to-dasha-chart';
+    }
+
+    function goTo3dChakras() {
+      {% if dob and tob %}
+      var params = new URLSearchParams();
+      params.set('dob', {{ dob|tojson }});
+      params.set('tob', {{ tob|tojson }});
+      {% if name %}params.set('name', {{ name|tojson }});{% endif %}
+      {% if place %}params.set('place', {{ place|tojson }});{% endif %}
+      {% if lat %}params.set('lat', {{ lat|tojson }});{% endif %}
+      {% if lon %}params.set('lon', {{ lon|tojson }});{% endif %}
+      window.location.href = '/thraitha_3d_chakras?' + params.toString();
+      {% else %}
+      window.location.href = '/thraitha_3d_chakras';
+      {% endif %}
     }
 
     // Attach click sound to navigation float-btn buttons (skip print)

@@ -5937,6 +5937,13 @@ def kaala_chakramu_page():
 def karma_chakramu_page():
     return render_template('karma_chakramu.html', page_title='కర్మ చక్రము - త్రైత సిద్ధాంత జ్యోతిష్యం | YUGASTRO', meta_description='త్రైత సిద్ధాంత జ్యోతిష్య శాస్త్రంలో పుణ్య, పాప, మిశ్రమ కర్మల చక్రము మరియు ద్వాదశ భావముల కర్మ ప్రభావం.', canonical_url='https://skrastro.vercel.app/karma_chakramu')
 
+@app.route('/thraitha_3d_chakras')
+@app.route('/3d_chakras')
+@app.route('/thraitha-3d-chakras')
+def thraitha_3d_chakras_page():
+    return render_template('thraitha_3d_chakras.html', page_title='త్రైత సిద్ధాంతం — 3D చక్రాలు • కర్మ ప్రయోగశాల | YUGASTRO', meta_description='త్రైత సిద్ధాంతం సంపూర్ణ ప్రాక్టికల్ 3D చక్రాలు, కర్మ ప్రయోగశాల మరియు టైమ్‌టేబుల్ స్కానర్.', canonical_url='https://skrastro.vercel.app/thraitha_3d_chakras')
+
+
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
     input_date = request.form.get("calendar_date")
