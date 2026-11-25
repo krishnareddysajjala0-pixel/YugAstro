@@ -289,8 +289,49 @@
   .kp-info-table td { padding: 3.5px 4px; border-bottom: 1px solid #f1f5f9; }
   .kp-info-table td:first-child { color: #475569; font-weight: 700; width: 44%; }
   .kp-info-table td:last-child { color: #0f172a; font-weight: 800; }
-  .pada-list { font-size: 9.5px; color: #1e293b; line-height: 1.45; margin-top: 3px; }
-  .pada-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e2e8f0; padding: 1px 0; }
+  .pada-list {
+    width: 100%;
+    font-size: 10px;
+    color: #1e293b;
+    line-height: 1.4;
+    margin: 2px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5px;
+  }
+  .pada-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #e2e8f0;
+    padding: 1.5px 3px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+  .pada-row.has-occupant {
+    background: #fef08a;
+    border: 1px solid #eab308;
+    box-shadow: 0 1px 4px rgba(234, 179, 8, 0.25);
+    font-weight: 800;
+  }
+  .pada-lbl {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+    min-width: 44px;
+  }
+  .pada-val {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 10.5px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    overflow: hidden;
+  }
 
   /* ==================== DARK GLASS CARDS / GUIDE / REPORT ==================== */
   .panel-2d {
@@ -2118,39 +2159,44 @@ function renderKundaliPaper() {
         rows += `<div class="kp-direct lagna-lbl">★ <b>లగ్నం</b> <span class="kp-deg">${fmtDM(nc.lagnaLon % 30)}</span></div>`;
       }
       cell.hands.forEach(x => {
-        rows += `<div class="kp-hand-pill ${x.isMitra ? 'mitra' : 'shatru'}">${x.planet.name} (${x.handNum}వ హస్తం) <span class="kp-deg">${fmtDM(x.degInSign)}</span> <span class="kp-gold-dot"></span></div>`;
+        rows += `<div class="kp-hand-pill ${x.isMitra ? 'mitra' : 'shatru'}">${x.planet.name} <span class="kp-deg">${fmtDM(x.degInSign)}</span> <span class="kp-gold-dot"></span></div>`;
       });
       if (!rows) rows = `<div class="kp-empty-house">తటస్థం / సాధారణం</div>`;
       innerHtml = `<div class="kp-cell-center">${rows}</div>`;
     } else {
       // NAKSHATRA KUNDALI (108 పాదాలు) MODE:
-      // Show full planet names and hands in the CENTER of the box with their exact Nakshatra & Pada
-      let rows = '';
-      cell.direct.forEach(x => {
-        const npInfo = getLonNakshatraPada(x.lon);
-        rows += `<div class="kp-direct ${x.isMitra ? 'mitra' : 'shatru'}">
-          <div>● <b>${x.planet.name}</b> <span class="kp-deg">${fmtDM(x.degInSign)}</span></div>
-          <div class="kp-nak-sub">${npInfo.nakName} (${npInfo.padaNum}వ పాదం)</div>
-        </div>`;
-      });
-      if (isLagna) {
-        const lagNp = getLonNakshatraPada(nc.lagnaLon);
-        rows += `<div class="kp-direct lagna-lbl">
-          <div>★ <b>లగ్నం</b> <span class="kp-deg">${fmtDM(nc.lagnaLon % 30)}</span></div>
-          <div class="kp-nak-sub" style="color:#b45309;">${lagNp.nakName} (${lagNp.padaNum}వ పాదం)</div>
+      // Show ALL 9 Nakshatra Padas in each kundali box as previous,
+      // displaying full names of planets, Lagna, and hands with degrees, centered in the pada row!
+      let padaHtml = '<div class="pada-list">';
+      const startPadaIdx = item * 9;
+      for (let p = 0; p < 9; p++) {
+        const gIdx = startPadaIdx + p;
+        const nName = NAKSHATRAS[Math.floor(gIdx / 4)], pNum = (gIdx % 4) + 1;
+        const pHere = PLANET_META.filter(pm => Math.floor(nc.lons[pm.id] / (360 / 108)) === gIdx);
+        const lagHere = Math.floor(nc.lagnaLon / (360 / 108)) === gIdx;
+        const hHere = cell.hands.filter(x => Math.floor((item * 30 + x.degInSign) / (360 / 108)) === gIdx);
+
+        const occList = [];
+        if (lagHere) {
+          occList.push(`<span class="kp-occ lagna" style="color:#d97706; font-weight:800;">★ లగ్నం ${fmtDM(nc.lagnaLon % 30)}</span>`);
+        }
+        pHere.forEach(pm => {
+          const isM = isMitraVargam(pm.vargam);
+          occList.push(`<span class="kp-occ direct ${isM ? 'mitra' : 'shatru'}" style="color:${isM ? '#15803d' : '#dc2626'}; font-weight:800;">● ${pm.name} ${fmtDM(nc.lons[pm.id] % 30)}</span>`);
+        });
+        hHere.forEach(x => {
+          occList.push(`<span class="kp-occ hand ${x.isMitra ? 'mitra' : 'shatru'}" style="color:${x.isMitra ? '#15803d' : '#b91c1c'}; font-weight:700;">${x.planet.name} ${fmtDM(x.degInSign)} <span class="kp-gold-dot"></span></span>`);
+        });
+
+        const hasOcc = occList.length > 0;
+        const occHtml = hasOcc ? occList.join(' ') : '·';
+        padaHtml += `<div class="pada-row ${hasOcc ? 'has-occupant' : ''}">
+          <span class="pada-lbl">${nName.slice(0, 5)}-${pNum}</span>
+          <span class="pada-val">${occHtml}</span>
         </div>`;
       }
-      cell.hands.forEach(x => {
-        const hLon = item * 30 + x.degInSign;
-        const hNp = getLonNakshatraPada(hLon);
-        rows += `<div class="kp-hand-pill ${x.isMitra ? 'mitra' : 'shatru'}">
-          ${x.planet.name} (${x.handNum}వ హస్తం)
-          <span class="kp-hand-sub">[${hNp.nakName} ${hNp.padaNum}వ పాదం]</span>
-          <span class="kp-gold-dot"></span>
-        </div>`;
-      });
-      if (!rows) rows = `<div class="kp-empty-house">గ్రహాలు లేవు (తటస్థం)</div>`;
-      innerHtml = `<div class="kp-cell-center">${rows}</div>`;
+      padaHtml += '</div>';
+      innerHtml = padaHtml;
     }
 
     return `<div class="kp-cell ${isM?'mitra-cell':'shatru-cell'} ${isLagna?'lagna-cell':''} ${item===state.selectedLagna?'selected-cell':''}" onclick="selectDOBHouse(${item})">
@@ -2181,7 +2227,7 @@ function formatPlanetTags(cell) {
   if (cell.all.length === 0) return '<span style="color:#94a3b8;">ఏ గ్రహమూ / హస్తమూ లేదు (తటస్థం / సాధారణం)</span>';
   let out = '';
   cell.direct.forEach(x => { out += `<span class="planet-tag ${x.isMitra?'tag-mitra':'tag-shatru'}">● ${x.planet.name} ${fmtDM(x.degInSign)}</span>`; });
-  cell.hands.forEach(x => { out += `<span class="planet-tag ${x.isMitra?'tag-hand-mitra':'tag-hand-shatru'}">${x.planet.name} (${x.handNum}వ హస్తం • ${LAGNAS[x.fromLagna].name} నుండి)</span>`; });
+  cell.hands.forEach(x => { out += `<span class="planet-tag ${x.isMitra?'tag-hand-mitra':'tag-hand-shatru'}">${x.planet.name} ${fmtDM(x.degInSign)} (${LAGNAS[x.fromLagna].name} నుండి)</span>`; });
   return out;
 }
 

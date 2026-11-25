@@ -3836,10 +3836,13 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      align-self: start;
+      gap: 6px;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
       box-sizing: border-box;
-      min-height: auto;
+      height: auto !important;
+      min-height: 0 !important;
       overflow: hidden;
       margin-bottom: 4px;
     }
